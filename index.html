@@ -93,5 +93,33 @@
         <p style="color: #ccc; margin-bottom: 10px;">&copy; 2024 Oshan Cart Global. All Rights Reserved.</p>
         <p>USA | China | Sri Lanka | UAE</p>
     </footer>
+<body>
+   <script>
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerHTML = '❤️';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => { heart.remove(); }, 5000);
+}
+setInterval(createHeart, 300);
+</script>
 
+<style>
+.heart {
+    position: fixed;
+    top: -1vh;
+    font-size: 1.5rem;
+    color: #ff4d6d;
+    z-index: 9999;
+    pointer-events: none;
+    animation: fall linear forwards;
+}
+@keyframes fall {
+    to { transform: translateY(105vh); }
+}
+</style>         
+</body>
 
