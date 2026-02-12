@@ -138,3 +138,14 @@ header {
     border-radius: 4px;
     font-size: 16px;
 }
+
+/* Slider Animation */
+@keyframes slide {
+    0% { transform: translateX(0%); }
+    33% { transform: translateX(0%); }
+    38% { transform: translateX(-100%); }
+    66% { transform: translateX(-100%); }
+    71% { transform: translateX(-200%); }
+    95% { transform: translateX(-200%); }
+    100% { transform: translateX(0%); }
+}
