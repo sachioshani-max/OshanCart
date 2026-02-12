@@ -11,7 +11,7 @@ body {
 
 /* Header & Navbar */
 header {
-    background-color: #232f3e;
+    background-color: #c9184a;
     padding: 15px;
     text-align: center;
 }
@@ -149,3 +149,14 @@ header {
     95% { transform: translateX(-200%); }
     100% { transform: translateX(0%); }
 }
+/* Valentine's Special Button Style */
+button, .btn-amazon, .add-to-cart {
+    background-color: #ff4d6d !important; /* ලස්සන රෝස පාට */
+    color: white !important;
+    border: none;
+    transition: 0.3s;
+}
+
+button:hover, .btn-amazon:hover {
+    background-color: #c9184a !important; /* මවුස් එක ගෙනිච්චම තද රතු පාට වෙන්න */
+        }
