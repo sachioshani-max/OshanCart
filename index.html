@@ -122,4 +122,27 @@ setInterval(createHeart, 300);
 }
 </style>         
 </body>
+<div id="promo-popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; justify-content:center; align-items:center;">
+    <div style="background:white; padding:30px; border-radius:15px; text-align:center; max-width:400px; width:90%; position:relative; border: 5px solid #ff4d6d;">
+        <button onclick="closePopup()" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; cursor:pointer;">✖</button>
+        <h2 style="color:#ff4d6d; margin-bottom:10px;">💖 Valentine's Surprise! 💖</h2>
+        <p>Use the code below at checkout to get 20% OFF!</p>
+        <div style="background:#fff0f3; border:2px dashed #ff4d6d; padding:15px; font-size:24px; font-weight:bold; color:#c9184a; margin:20px 0;">
+            LOVE2026
+        </div>
+        <button onclick="closePopup()" style="background:#ff4d6d; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; width:100%; font-weight:bold;">GET IT NOW!</button>
+    </div>
+</div>
 
+<script>
+    // සයිට් එකට ඇවිත් තත්පර 2කින් Pop-up එක පෙන්වන්න
+    window.onload = function() {
+        setTimeout(function() {
+            document.getElementById('promo-popup').style.display = 'flex';
+        }, 2000);
+    };
+
+    function closePopup() {
+        document.getElementById('promo-popup').style.display = 'none';
+    }
+</script>
