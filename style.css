@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f6f6;
+}
+
+/* Header & Navbar */
+header {
+    background-color: #232f3e;
+    padding: 15px;
+    text-align: center;
+}
+
+.navbar {
+    background-color: #37475a;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 13px;
+}
+
+/* Product Container (පේළියට 2ක් පෙන්වීමට) */
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.product-card {
+    background: white;
+    width: 46%; /* Phone එකේදී side-by-side පේන්න */
+    margin-bottom: 10px;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.product-image {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.price-tag {
+    color: #B12704;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Forms (Login/Signup) */
+.auth-container {
+    background: white;
+    margin: 20px auto;
+    padding: 20px;
+    width: 90%;
+    border-radius: 8px;
+}
+
+.auth-container label {
+    display: block; /* මේ පේළිය නිසා තමයි පෙට්ටිය යටට එන්නේ */
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.auth-container input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-amazon {
+    background-color: #ff9900;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+/* Desktop Mode එක සඳහා විශේෂ සැකසුම් (Screen එක 768px වඩා වැඩි නම්) */
+@media only screen and (min-width: 768px) {
+    
+    /* Desktop එකේදී Product Cards පේළියට 4ක් පෙන්වීමට */
+    .product-container {
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 20px;
+        padding: 40px;
+    }
+
+    /* Form එක Computer එකේදී ඕනෑවට වඩා පළල් වීම වැළැක්වීමට */
+    .auth-container {
+        width: 400px;
+        margin: 100px auto;
+    }
+
+    /* Navbar එකේ අකුරු ටිකක් ලොකු කිරීමට */
+    .navbar a {
+        font-size: 16px;
+        margin: 0 25px;
+    }
+
+    /* Header එකේ ලෝගෝ එක විශාල කිරීමට */
+    header h1 {
+        font-size: 30px;
+    }
+}
+
+/* ලේබල් සහ පෙට්ටි එක යට එක එන්න */
+.auth-container label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    text-align: left;
+    font-weight: bold;
+    color: #232f3e;
+}
+
+.auth-container input {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #a6a6a6;
+    border-radius: 4px;
+    font-size: 16px;
+}

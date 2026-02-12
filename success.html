@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success | Oshan Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Success Page Special Styles */
+        .success-wrapper {
+            text-align: center;
+            padding: 50px 20px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-icon {
+            font-size: 80px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        /* Balloon Animation */
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 30px;
+            height: 40px;
+            background: #ff9900;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: fly 4s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes fly {
+            0% { transform: translateY(0) rotate(0deg); left: 10%; }
+            100% { transform: translateY(-120vh) rotate(360deg); left: 90%; }
+        }
+        .btn-continue {
+            display: inline-block;
+            background-color: #f0c14b;
+            border: 1px solid #a88734;
+            color: #111;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body style="overflow: hidden; background-color: #fff;">
+
+    <div class="navbar" style="background-color: #232f3e;">
+        <a href="index.html">Home</a>
+        <a href="wallet.html">Wallet</a>
+    </div>
+
+    <div class="balloon" style="animation-delay: 0s; background: #ff9900;"></div>
+    <div class="balloon" style="animation-delay: 1s; background: #232f3e; left: 30%;"></div>
+    <div class="balloon" style="animation-delay: 2s; background: #f0c14b; left: 50%;"></div>
+    <div class="balloon" style="animation-delay: 1.5s; background: #ff4500; left: 70%;"></div>
+
+    <div class="success-wrapper">
+        <div class="success-icon">✔</div>
+        <h1 style="color: #232f3e;">Order Placed Successfully!</h1>
+        <p style="color: #555; font-size: 18px;">Thank you for shopping with Oshan Cart.</p>
+        <p style="color: #777;">Your order #OC99234 has been confirmed.</p>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; display: inline-block;">
+            <p style="margin: 0; font-weight: bold;">Estimated Delivery:</p>
+      <p style="margin: 0; color: #007600;">2 - 4 Business Days</p>
+        </div>
+
+        <br>
+        <a href="index.html" class="btn-continue">Continue Shopping</a>
+    </div>
+
+    <footer style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: #999; font-size: 12px;">
+        &copy; 2024 Oshan Cart Global Shipping
+    </footer>
+
+</body>
+</html>
