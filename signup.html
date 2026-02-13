@@ -32,3 +32,72 @@
     </div>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup | Oshan Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module">
+        // Firebase වැඩ කරන්න අවශ්‍ය දේවල් ගෙන්වා ගැනීම
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // ඔයාගේ Config එක
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.firebasestorage.app",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Signup Form එක Submit කරද්දී වෙන දේ
+        window.handleSignup = async (event) => {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                // 1. Firebase Auth එකේ User කෙනෙක් හැදීම
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // 2. User ගේ අමතර විස්තර Firestore Database එකේ සේව් කිරීම
+                await setDoc(doc(db, "users", user.uid), {
+                    fullName: name,
+                    email: email,
+                    createdAt: new Date()
+                });
+
+                alert("Account created successfully! 😍");
+                window.location.href = "index.html"; // සාර්ථක වුණාම Home එකට යවනවා
+            } catch (error) {
+                alert("Error: " + error.message);
+            }
+        };
+    </script>
+</head>
+<body style="background: #fff0f3; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
+
+    <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px;">
+        <h2 style="text-align: center; color: #ff4d6d;">Join Oshan Cart 🛍️</h2>
+        <form onsubmit="handleSignup(event)">
+            <input type="text" id="name" placeholder="Full Name" required style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <input type="email" id="email" placeholder="Email Address" required style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <input type="password" id="password" placeholder="Password (Min 6 chars)" required style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <button type="submit" style="width: 100%; background: #ff4d6d; color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px;">SIGN UP</button>
+        </form>
+        <p style="text-align: center; font-size: 13px; margin-top: 15px;">Already have an account? <a href="login.html" style="color: #ff4d6d; text-decoration: none;">Login</a></p>
+    </div>
+
+</body>
+</html>
