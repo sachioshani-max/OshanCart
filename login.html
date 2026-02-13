@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login💹 | Oshan Cart🪙</title>
+    <title>Login💹 |
+        Oshan Cart🪙</title>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -27,7 +28,7 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                alert("Login සාර්ථකයි! Welcome back. ❤️");
+                alert("❤️‍🩹🏆Login සාර්ථකයි! Welcome back. 🪅🥳");
                 window.location.href = "index.html"; 
             } catch (error) {
                 alert("Login Failed: " + error.message);
@@ -38,7 +39,8 @@
 <body style="background: #fff0f3; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
     <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px;">
         <h2 style="color: #ff4d6d; text-align: center; margin-bottom: 20px;">Login to Oshan Cart 🛍️</h2>
-        <h1 style="color: #ff4d6d; text-align: center; margin-bottom: 20px;">Share this💫🧧, the commission you get if you join friends🛗 has been increased🔮💲</h1>
+        
+        <h3 style="color: #ff4d6d; text-align: center; margin-bottom: 20px;">Share this💫🧧, the commission you get if you join friends🛗 has been increased🔮💲</h3>
         
         <form onsubmit="handleLogin(event)">
             <label style="font-size: 14px; color: #555;">Email</label>
