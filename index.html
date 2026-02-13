@@ -242,5 +242,27 @@ setInterval(createHeart, 300);
         document.getElementById('promo-popup').style.display = 'none';
     }
 </script>
+        <script type="module">
+  // Firebase App එක සහ Analytics එකතු කිරීම
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+  // ඔයා එවපු Config එක මෙතන තියෙනවා
+  const firebaseConfig = {
+    apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+    authDomain: "oshancart.firebaseapp.com",
+    projectId: "oshancart",
+    storageBucket: "oshancart.firebasestorage.app",
+    messagingSenderId: "686982543488",
+    appId: "1:686982543488:web:d74a83a3f53dbae3754e65",
+    measurementId: "G-84KYRKQBTJ"
+  };
+
+  // Firebase ආරම්භ කිරීම
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  
+  console.log("Firebase Connected Successfully! ✅");
+        </script>
 </body>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
