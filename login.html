@@ -1,50 +1,9 @@
 <!DOCTYPE html>
-<html lang="si">
-<head>
-    <meta charset="UTF-8">
-    <title>Oshan Cart - Login</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="auth-container">
-        <h2>Login</h2>
-        <form>
-            <label>Email හෝ Phone</label>
-            <input type="text" placeholder="ඔබේ ගිණුම ඇතුළත් කරන්න">
-            
-            <label>Password</label>
-            <input type="password" placeholder="මුරපදය ඇතුළත් කරන්න">
-            
-            <button type="submit" class="btn-primary">Sign In</button>
-        </form>
-        <p class="switch-text">ගිණුමක් නැද්ද? <a href="signup.html">මෙහිදී ලියාපදිංචි වන්න</a></p>
-    </div>
-    <div style="margin: 20px 0; background: #f9f9f9; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
-    
-    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-        <input type="checkbox" id="terms" required style="width: 18px; height: 18px; cursor: pointer;">
-        <label for="terms" style="font-size: 13px; margin-left: 10px; color: #555;">
-            I agree to OshanCart's <a href="#" style="color: #c9184a;">Terms of Service</a> and <a href="#" style="color: #c9184a;">Privacy Policy</a>.
-        </label>
-    </div>
-
-    <div style="display: flex; align-items: center; background: white; border: 1px solid #d3d3d3; padding: 10px; border-radius: 3px; width: fit-content;">
-        <input type="checkbox" id="bot-check" required style="width: 24px; height: 24px; cursor: pointer;">
-        <label for="bot-check" style="font-size: 14px; margin-left: 10px; color: #333; font-family: Roboto, Arial, sans-serif;">
-            I'm not a robot
-        </label>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/RecaptchaLogo.svg" width="30" style="margin-left: 20px;">
-    </div>
-    </div>
-</body>
-</html>
-
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Oshan Cart</title>
+    <title>Login💹 | Oshan Cart🪙</title>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -68,7 +27,7 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                alert("Login Success! ❤️");
+                alert("Login සාර්ථකයි! Welcome back. ❤️");
                 window.location.href = "index.html"; 
             } catch (error) {
                 alert("Login Failed: " + error.message);
@@ -77,15 +36,35 @@
     </script>
 </head>
 <body style="background: #fff0f3; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
-    <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 320px; text-align: center;">
-        <h2 style="color: #ff4d6d;">Login 🛍️</h2>
+    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px;">
+        <h2 style="color: #ff4d6d; text-align: center; margin-bottom: 20px;">Login to Oshan Cart 🛍️</h2>
+        <h1 style="color: #ff4d6d; text-align: center; margin-bottom: 20px;">Share this💫🧧, the commission you get if you join friends🛗 has been increased🔮💲</h1>
+        
         <form onsubmit="handleLogin(event)">
-            <input type="email" id="email" name="email" autocomplete="username" placeholder="Email" required style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <label style="font-size: 14px; color: #555;">Email</label>
+            <input type="email" id="email" name="email" autocomplete="username" placeholder="ඔබේ Email ලිපිනය" required style="width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
             
-            <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Password" required style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <label style="font-size: 14px; color: #555;">Password</label>
+            <input type="password" id="password" name="password" autocomplete="current-password" placeholder="මුරපදය" required style="width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
             
-            <button type="submit" style="width: 100%; background: #ff4d6d; color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer;">LOGIN</button>
+            <div style="margin-bottom: 20px; background: #fafafa; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <input type="checkbox" id="terms" required style="cursor: pointer;">
+                    <label for="terms" style="font-size: 12px; margin-left: 8px; color: #666;">I agree to Terms & Privacy Policy🤝</label>
+                </div>
+                <div style="display: flex; align-items: center; background: white; border: 1px solid #ddd; padding: 8px; border-radius: 4px;">
+                    <input type="checkbox" id="bot-check" required style="cursor: pointer;">
+                    <label for="bot-check" style="font-size: 12px; margin-left: 8px; color: #333;">I'm not a robot👾</label>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/RecaptchaLogo.svg" width="25" style="margin-left: auto;">
+                </div>
+            </div>
+
+            <button type="submit" style="width: 100%; background: #ff4d6d; color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer;">Sign In🪩</button>
         </form>
+
+        <p style="text-align: center; font-size: 13px; margin-top: 15px; color: #666;">
+            ගිණුමක් නැද්ද?🥺 <a href="signup.html" style="color: #ff4d6d; text-decoration: none; font-weight: bold;">ලියාපදිංචි වන්න🖋️🏆</a>
+        </p>
     </div>
 </body>
 </html>
