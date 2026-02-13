@@ -38,3 +38,54 @@
     </div>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Oshan Cart</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.firebasestorage.app",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        window.handleLogin = async (event) => {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                alert("Login Success! ❤️");
+                window.location.href = "index.html"; 
+            } catch (error) {
+                alert("Login Failed: " + error.message);
+            }
+        };
+    </script>
+</head>
+<body style="background: #fff0f3; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
+    <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 320px; text-align: center;">
+        <h2 style="color: #ff4d6d;">Login 🛍️</h2>
+        <form onsubmit="handleLogin(event)">
+            <input type="email" id="email" name="email" autocomplete="username" placeholder="Email" required style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            
+            <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Password" required style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            
+            <button type="submit" style="width: 100%; background: #ff4d6d; color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer;">LOGIN</button>
+        </form>
+    </div>
+</body>
+</html>
