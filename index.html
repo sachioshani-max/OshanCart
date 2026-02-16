@@ -8,10 +8,11 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f4f4; overflow-x: hidden; }
         
+        /* Header & Navigation */
         header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; gap: 15px; }
         .logo { color: #ff9900; font-size: 24px; font-weight: bold; text-decoration: none; white-space: nowrap; }
         
-        /* Search Bar & Voice Search */
+        /* Search Wrapper with Mic */
         .search-wrapper { flex: 1; max-width: 700px; display: flex; position: relative; height: 40px; background: white; border-radius: 6px; align-items: center; }
         
         .category-select-btn { 
@@ -31,24 +32,36 @@
 
         .search-input { flex: 1; border: none; padding: 0 10px; font-size: 15px; outline: none; height: 100%; }
         
-        /* Mic Icon Styling */
+        /* Voice Search Mic Styling */
         .mic-btn { background: transparent; border: none; color: #555; font-size: 18px; cursor: pointer; padding: 0 10px; transition: 0.2s; }
         .mic-btn.listening { color: #ff4d6d; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
         .search-btn { background: #febd69; border: none; width: 50px; height: 100%; cursor: pointer; border-radius: 0 6px 6px 0; display: flex; align-items: center; justify-content: center; }
         
+        /* Account Dropdown Section */
         .header-right { display: flex; align-items: center; gap: 20px; }
-        .user-menu-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .dropdown-menu { position: absolute; top: 45px; right: 0; background: white; color: #333; width: 220px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; flex-direction: column; padding: 10px 0; z-index: 1001; }
-        .dropdown-menu.active { display: flex; }
-        .dropdown-menu a { padding: 12px 20px; text-decoration: none; color: #333; font-size: 14px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
+        .user-menu-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 5px 10px; border-radius: 4px; transition: 0.2s; }
+        .user-menu-container:hover { outline: 1px solid white; }
+        .user-text { font-size: 12px; line-height: 1.2; }
 
+        .dropdown-menu { 
+            position: absolute; top: 50px; right: 0; background: white; color: #333; 
+            width: 240px; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
+            display: none; flex-direction: column; padding: 10px 0; z-index: 1001; 
+        }
+        .dropdown-menu.active { display: flex; }
+        .dropdown-menu a { padding: 12px 20px; text-decoration: none; color: #333; font-size: 14px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .dropdown-menu a:hover { background: #f8f8f8; color: #ff4d6d; }
+        .dropdown-menu i { width: 20px; color: #555; }
+
+        /* General UI */
         .promo-banner { background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; }
         .navbar { background-color: #37475a; display: flex; gap: 15px; padding: 10px 20px; overflow-x: auto; white-space: nowrap; }
-        .navbar a { color: white; text-decoration: none; font-size: 14px; }
-        .navbar a.affiliate-nav { color: #febd69; font-weight: bold; }
+        .navbar a { color: white; text-decoration: none; font-size: 14px; padding: 5px 10px; border-radius: 3px; }
+        .navbar a:hover { outline: 1px solid #febd69; }
 
+        /* Hearts */
         .heart { position: fixed; top: -1vh; font-size: 1.5rem; color: #ff4d6d; z-index: 9999; pointer-events: none; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(105vh); } }
 
@@ -89,23 +102,29 @@
             <div class="user-menu-container" onclick="toggleUserMenu(event)">
                 <div class="user-text">
                     <span>Hello, Sign in</span><br>
-                    <strong>Account <i class="fas fa-caret-down"></i></strong>
+                    <strong>Account & Lists <i class="fas fa-caret-down"></i></strong>
                 </div>
+                
                 <div class="dropdown-menu" id="userDropdown">
                     <a href="login.html" style="background: #ffc800; font-weight: bold; justify-content: center; margin: 5px 10px; border-radius: 5px; border: none;">Sign In</a>
-                    <a href="profile.html"><i class="fas fa-user-edit"></i> Edit Profile</a>
-                    <a href="affiliate.html"><i class="fas fa-handshake"></i> Affiliate Program</a>
-                    <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
+                    
+                    <a href="profile.html"><i class="fas fa-user-circle"></i> Edit Profile</a>
+                    <a href="affiliate.html"><i class="fas fa-handshake" style="color: #ff9900;"></i> Affiliate Program</a>
+                    <a href="orders.html"><i class="fas fa-box-open"></i> My Orders</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <hr style="border: 0.5px solid #eee; margin: 5px 0;">
+                    <a href="#" style="font-size: 12px; color: #777;">Not Oshan? Sign Out</a>
                 </div>
             </div>
-        </div>
+            </div>
     </header>
 
     <div class="navbar">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="sell.html">Sell With Us</a>
-        <a href="affiliate.html" class="affiliate-nav"><i class="fas fa-rocket"></i> Join Affiliate</a>
+        <a href="affiliate.html" style="color: #febd69; font-weight: bold;">Affiliate Program</a>
+        <a href="#">Today's Deals</a>
     </div>
 
     <div style="background: #ff4d6d; color: white; text-align: center; padding: 25px;">
@@ -115,20 +134,14 @@
     <div class="product-grid">
         <div class="product-card">
             <img src="https://via.placeholder.com/250x200" style="width:100%; border-radius:10px;">
-            <h3>Smart Digital Watch</h3>
-            <div class="price">Rs. 4,500.00</div>
-            <button class="buy-btn">Add to Cart</button>
-        </div>
-        <div class="product-card">
-            <img src="https://via.placeholder.com/250x200" style="width:100%; border-radius:10px;">
-            <h3>Wireless Earbuds</h3>
-            <div class="price">Rs. 2,900.00</div>
+            <h3>Oshan Cart Special Box</h3>
+            <div class="price">Rs. 3,500.00</div>
             <button class="buy-btn">Add to Cart</button>
         </div>
     </div>
 
     <script>
-        // Microphone Voice Search Logic
+        // 1. Microphone Voice Search
         function startVoiceSearch() {
             const micBtn = document.getElementById('micBtn');
             const searchInput = document.getElementById('searchInput');
@@ -136,9 +149,7 @@
             if ('webkitSpeechRecognition' in window) {
                 const recognition = new webkitSpeechRecognition();
                 recognition.lang = 'en-US';
-                recognition.interimResults = false;
-                recognition.maxAlternatives = 1;
-
+                
                 recognition.onstart = () => {
                     micBtn.classList.add('listening');
                     searchInput.placeholder = "Listening...";
@@ -153,23 +164,27 @@
 
                 recognition.onerror = () => {
                     micBtn.classList.remove('listening');
-                    alert("Speech recognition error. Please try again.");
+                    alert("Voice search error.");
                 };
 
-                recognition.onend = () => {
-                    micBtn.classList.remove('listening');
-                };
-
+                recognition.onend = () => micBtn.classList.remove('listening');
                 recognition.start();
             } else {
-                alert("Voice search is not supported in this browser.");
+                alert("Voice search not supported in this browser.");
             }
         }
 
-        // Dropdown Logic
+        // 2. Dropdown Functions
         function toggleCategoryMenu(e) {
             e.stopPropagation();
             document.getElementById('catList').classList.toggle('active');
+            document.getElementById('userDropdown').classList.remove('active');
+        }
+
+        function toggleUserMenu(e) {
+            e.stopPropagation();
+            document.getElementById('userDropdown').classList.toggle('active');
+            document.getElementById('catList').classList.remove('active');
         }
 
         function setCategory(name) {
@@ -177,17 +192,13 @@
             document.getElementById('catList').classList.remove('active');
         }
 
-        function toggleUserMenu(e) {
-            e.stopPropagation();
-            document.getElementById('userDropdown').classList.toggle('active');
-        }
-
+        // Close dropdowns when clicking outside
         window.onclick = function() {
             document.getElementById('catList').classList.remove('active');
             document.getElementById('userDropdown').classList.remove('active');
         }
 
-        // Hearts Animation
+        // 3. Heart Animation
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
@@ -195,9 +206,9 @@
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = Math.random() * 2 + 3 + 's';
             document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
+            setTimeout(() => heart.remove(), 5000);
         }
         setInterval(createHeart, 600);
     </script>
 </body>
-</html>
+            </html>
