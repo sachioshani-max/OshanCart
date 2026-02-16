@@ -65,28 +65,31 @@
                 <i class="fas fa-caret-down"></i>
             </div>
 
-            <div style="flex: 1; display: flex; max-width: 700px; margin: 0 20px; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 6px; overflow: hidden; border: 2px solid transparent; transition: 0.3s;" id="searchBox">
+<div style="flex: 1; display: flex; max-width: 700px; margin: 0 15px; background: white; border-radius: 6px; overflow: hidden; border: 2px solid transparent; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" id="searchBox">
     
-    <select style="background: #f3f3f3; border: none; padding: 10px 15px; border-right: 1px solid #ddd; outline: none; cursor: pointer; font-size: 13px; color: #555;">
-        <option>All</option>
-        <option>Electronics</option>
-        <option>Fashion</option>
-        <option>Sri Lankan Crafts</option>
-    </select>
+    <div style="background: #f3f3f3; border-right: 1px solid #ddd; padding: 0 10px; display: flex; align-items: center;">
+        <select style="background: transparent; border: none; outline: none; font-size: 13px; color: #555; cursor: pointer; height: 100%; padding: 5px;">
+            <option value="all">All</option>
+            <option value="electronics">Electronics</option>
+            <option value="fashion">Fashion</option>
+            <option value="crafts">Sri Lankan Crafts</option>
+            <option value="home">Home & Garden</option>
+        </select>
+    </div>
 
-    <div style="flex: 1; display: flex; align-items: center; background: white; position: relative;">
-        <input type="text" placeholder="Search for products, brands and more..." 
+    <div style="flex: 1; display: flex; align-items: center; position: relative; background: white;">
+        <input type="text" placeholder="Search for anything..." 
                style="width: 100%; padding: 12px 15px; border: none; outline: none; font-size: 15px;"
                onfocus="document.getElementById('searchBox').style.borderColor = '#febd69'"
                onblur="document.getElementById('searchBox').style.borderColor = 'transparent'">
         
-        <i class="fas fa-microphone" style="position: absolute; right: 15px; color: #666; cursor: pointer;" title="Search by Voice"></i>
+        <i class="fas fa-microphone" style="position: absolute; right: 15px; color: #888; cursor: pointer;"></i>
     </div>
 
-    <button style="background: #febd69; border: none; padding: 10px 25px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
-        <i class="fas fa-search" style="color: #333; font-size: 20px;"></i>
+    <button style="background: #febd69; border: none; padding: 10px 20px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-search" style="color: #333; font-size: 18px;"></i>
     </button>
-            </div>
+</div>
             
             <div class="user-menu-container" onclick="toggleMenu()">
                 <div class="user-icon"><i class="fas fa-user-circle"></i></div>
