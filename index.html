@@ -9,82 +9,124 @@
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f4f4; overflow-x: hidden; }
         
         /* Navigation Styles */
-        header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; gap: 10px; }
-        .logo { color: #ff9900; font-size: 22px; font-weight: bold; text-decoration: none; white-space: nowrap; }
+        header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; gap: 15px; }
+        .logo { color: #ff9900; font-size: 24px; font-weight: bold; text-decoration: none; white-space: nowrap; }
         
-        /* --- Modern Search Bar with Custom Dropdown --- */
-        .search-wrapper { flex: 1; max-width: 700px; display: flex; position: relative; height: 40px; }
+        /* --- Professional Search Bar & Category Dropdown --- */
+        .search-wrapper { 
+            flex: 1; 
+            max-width: 700px; 
+            display: flex; 
+            position: relative; 
+            height: 40px; 
+            background: white;
+            border-radius: 6px;
+        }
         
-        .custom-select-container { position: relative; background: #f3f3f3; border-radius: 4px 0 0 4px; border-right: 1px solid #ddd; min-width: 60px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #555; font-size: 13px; padding: 0 10px; }
-        
-        /* ලස්සන සුදු පාට Dropdown Menu එක */
+        /* Category Button Area */
+        .category-select-btn { 
+            position: relative; 
+            background: #f3f3f3; 
+            border-radius: 6px 0 0 6px; 
+            border-right: 1px solid #ddd; 
+            min-width: 80px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            color: #555; 
+            font-size: 13px; 
+            padding: 0 12px;
+            user-select: none;
+        }
+
+        /* සුදු පාට පිරිසිදු Dropdown List එක */
         .custom-dropdown-list { 
-            position: absolute; top: 45px; left: 0; background: white; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15); border-radius: 8px; 
-            width: 200px; display: none; flex-direction: column; z-index: 2000; overflow: hidden;
-            border: 1px solid #eee;
+            position: absolute; 
+            top: 45px; 
+            left: 0; 
+            background: white; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); 
+            border-radius: 8px; 
+            width: 220px; 
+            display: none; 
+            flex-direction: column; 
+            z-index: 2000; 
+            overflow: hidden;
+            border: 1px solid #ddd;
         }
         .custom-dropdown-list.active { display: flex; animation: fadeIn 0.2s ease-out; }
         
-        .custom-dropdown-list div { padding: 12px 15px; color: #333; font-size: 14px; transition: 0.2s; border-bottom: 1px solid #f9f9f9; }
+        .custom-dropdown-list div { 
+            padding: 12px 20px; 
+            color: #333; 
+            font-size: 14px; 
+            transition: 0.2s; 
+            border-bottom: 1px solid #f1f1f1; 
+            text-align: left;
+        }
         .custom-dropdown-list div:hover { background: #f0f0f0; color: #ff4d6d; }
         .custom-dropdown-list div:last-child { border: none; }
 
-        .search-input { flex: 1; border: none; padding: 0 15px; font-size: 15px; outline: none; }
-        .search-btn { background: #febd69; border: none; width: 45px; cursor: pointer; border-radius: 0 4px 4px 0; display: flex; align-items: center; justify-content: center; }
+        .search-input { flex: 1; border: none; padding: 0 15px; font-size: 15px; outline: none; border-radius: 0; }
+        .search-btn { background: #febd69; border: none; width: 50px; cursor: pointer; border-radius: 0 6px 6px 0; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .search-btn:hover { background: #f3a847; }
         
         /* Header Right Section */
-        .header-right { display: flex; align-items: center; gap: 15px; }
-        .flag-selector { display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 13px; background: #37475a; padding: 4px 8px; border-radius: 4px; }
-        .flag-selector img { width: 18px; }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+        .flag-selector { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 14px; background: #37475a; padding: 5px 10px; border-radius: 4px; }
+        .flag-selector img { width: 20px; border-radius: 2px; }
 
         /* User Menu */
-        .user-menu-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .user-text { font-size: 11px; line-height: 1.2; text-align: left; }
-        .dropdown-menu { position: absolute; top: 40px; right: 0; background: white; color: #333; width: 200px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; flex-direction: column; padding: 8px 0; z-index: 1001; }
+        .user-menu-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .user-text { font-size: 12px; line-height: 1.2; }
+        .dropdown-menu { position: absolute; top: 45px; right: 0; background: white; color: #333; width: 220px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; flex-direction: column; padding: 10px 0; z-index: 1001; }
         .dropdown-menu.active { display: flex; }
-        .dropdown-menu a { padding: 10px 15px; text-decoration: none; color: #333; font-size: 13px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
+        .dropdown-menu a { padding: 12px 20px; text-decoration: none; color: #333; font-size: 14px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
+        .dropdown-menu a:hover { background: #f0f0f0; color: #ff4747; }
 
-        /* General Styles */
-        .promo-banner { background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 12px; }
-        .navbar { background-color: #37475a; display: flex; gap: 15px; padding: 8px 20px; overflow-x: auto; white-space: nowrap; }
-        .navbar a { color: white; text-decoration: none; font-size: 13px; }
+        /* Banner & Navbar */
+        .promo-banner { background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; }
+        .navbar { background-color: #37475a; display: flex; gap: 15px; padding: 10px 20px; overflow-x: auto; white-space: nowrap; }
+        .navbar a { color: white; text-decoration: none; font-size: 14px; margin-right: 10px; }
 
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .heart { position: fixed; top: -1vh; font-size: 1.2rem; color: #ff4d6d; z-index: 9999; pointer-events: none; animation: fall linear forwards; }
+        /* Hearts Animation */
+        .heart { position: fixed; top: -1vh; font-size: 1.5rem; color: #ff4d6d; z-index: 9999; pointer-events: none; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(105vh); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Product Grid */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; padding: 15px; max-width: 1200px; margin: auto; }
-        .product-card { background: white; border-radius: 12px; padding: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: 0.3s; }
-        .product-card:hover { transform: translateY(-5px); }
-        .product-card img { width: 100%; border-radius: 8px; }
-        .price { color: #ff4d6d; font-weight: bold; font-size: 18px; margin: 10px 0; }
-        .buy-btn { width: 100%; background: #232f3e; color: white; padding: 10px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; padding: 25px; max-width: 1200px; margin: auto; }
+        .product-card { background: white; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .product-card img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+        .price { color: #ff4d6d; font-weight: bold; font-size: 22px; margin: 10px 0; }
+        .buy-btn { width: 100%; background: #232f3e; color: white; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .buy-btn:hover { background: #37475a; }
     </style>
 </head>
 <body>
 
-    <div class="promo-banner">🚀 OSHAN CART GRAND OPENING! - 20% OFF: LOVE2026</div>
+    <div class="promo-banner">🚀 OSHAN CART GRAND OPENING! - Get 20% OFF using code: LOVE2026</div>
 
     <header>
         <a href="index.html" class="logo">OSHAN CART</a>
         
         <div class="search-wrapper" id="searchBox">
-            <div class="custom-select-container" onclick="toggleCategoryMenu(event)">
-                <span id="selectedCategoryName">All</span> <i class="fas fa-caret-down" style="margin-left:5px;"></i>
+            <div class="category-select-btn" onclick="toggleCategoryMenu(event)">
+                <span id="displayCat">All</span> <i class="fas fa-caret-down" style="margin-left:8px;"></i>
                 
                 <div class="custom-dropdown-list" id="catList">
-                    <div onclick="selectCat('All')">All Categories</div>
-                    <div onclick="selectCat('Electronics')">Electronics</div>
-                    <div onclick="selectCat('Fashion')">Fashion</div>
-                    <div onclick="selectCat('Crafts')">Sri Lankan Crafts</div>
-                    <div onclick="selectCat('Home')">Home & Garden</div>
+                    <div onclick="setCategory('All')">All Categories</div>
+                    <div onclick="setCategory('Electronics')">Electronics</div>
+                    <div onclick="setCategory('Fashion')">Fashion</div>
+                    <div onclick="setCategory('Sri Lankan Crafts')">Sri Lankan Crafts</div>
+                    <div onclick="setCategory('Home & Garden')">Home & Garden</div>
                 </div>
             </div>
             
-            <input type="text" placeholder="Search for products, brands and more..." class="search-input" onfocus="document.getElementById('searchBox').style.boxShadow = '0 0 0 2px #febd69'">
+            <input type="text" placeholder="Search Oshan Cart..." class="search-input" 
+                   onfocus="document.getElementById('searchBox').style.boxShadow = '0 0 0 3px #febd69'">
             
             <button class="search-btn"><i class="fas fa-search"></i></button>
         </div>
@@ -101,79 +143,26 @@
                     <strong>Account <i class="fas fa-caret-down"></i></strong>
                 </div>
                 <div class="dropdown-menu" id="userDropdown">
-                    <a href="profile.html"><i class="fas fa-user-edit"></i> Profile</a>
-                    <a href="affiliate.html">🪺 Affiliate Program</a>
-                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="login.html" style="background: #ffc800; font-weight: bold; justify-content: center; margin: 5px 10px; border-radius: 5px; border: none;">Sign In</a>
+                    <a href="profile.html"><i class="fas fa-user-edit"></i> Edit Profile</a>
                     <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="#" style="color: #888; font-size: 11px; border: none;">Not Sachin? Sign Out</a>
                 </div>
             </div>
         </div>
     </header>
 
     <div class="navbar">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Sell With Us</a>
+        <a href="index.html">Home</a>
+        <a href="#">Today's Deals</a>
+        <a href="#">Customer Service</a>
+        <a href="sell.html">Sell With Us</a>
+        <a href="#">Gift Cards</a>
     </div>
 
-    <div style="background: #ff4d6d; color: white; text-align: center; padding: 20px;">
-        <h2 style="margin:0;">💖 Valentine's Featured Products 🔥</h2>
+    <div style="background: #ff4d6d; color: white; text-align: center; padding: 25px;">
+        <h2 style="margin:0; font-size: 24px;">💖 Valentine's Featured Products 🔥</h2>
     </div>
 
     <div class="product-grid">
-        <div class="product-card">
-            <img src="https://via.placeholder.com/150">
-            <h3>Smart Digital Watch</h3>
-            <div class="price">Rs. 4,500.00</div>
-            <button class="buy-btn">Buy Now</button>
-        </div>
-        <div class="product-card">
-            <img src="https://via.placeholder.com/150">
-            <h3>Wireless Earbuds</h3>
-            <div class="price">Rs. 2,900.00</div>
-            <button class="buy-btn">Buy Now</button>
-        </div>
-    </div>
-
-    <script>
-        // Category Menu එක පෙන්වීමට
-        function toggleCategoryMenu(e) {
-            e.stopPropagation();
-            document.getElementById('catList').classList.toggle('active');
-            document.getElementById('userDropdown').classList.remove('active'); // අනිත් ඒවා වහන්න
-        }
-
-        // Category එකක් තේරූ විට
-        function selectCat(name) {
-            document.getElementById('selectedCategoryName').innerText = name;
-            document.getElementById('catList').classList.remove('active');
-        }
-
-        // User Menu එක පෙන්වීමට
-        function toggleUserMenu(e) {
-            e.stopPropagation();
-            document.getElementById('userDropdown').classList.toggle('active');
-            document.getElementById('catList').classList.remove('active');
-        }
-
-        // එළිය ක්ලික් කළ විට ඔක්කොම වහන්න
-        window.onclick = function() {
-            document.getElementById('catList').classList.remove('active');
-            document.getElementById('userDropdown').classList.remove('active');
-        }
-
-        // Hearts Animation
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
-        }
-        setInterval(createHeart, 600);
-    </script>
-</body>
-</html>
