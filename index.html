@@ -131,72 +131,79 @@
         <h2 style="margin:0;">💖 Valentine's Featured Products 🔥</h2>
     </div>
 
-    <div class="product-grid">
-        <div class="product-card">
-            <img src="https://via.placeholder.com/250x200" style="width:100%; border-radius:10px;">
-            <h3>Oshan Cart Special Box</h3>
-            <div class="price">Rs. 3,500.00</div>
-            <button class="buy-btn">Add to Cart</button>
+    <div class="product-grid" id="product-container">
         </div>
-    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.firebasestorage.app",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const productContainer = document.getElementById('product-container');
+        const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+
+        // Real-time Update: Admin panel එකෙන් දාන බඩු refresh නැතුව මෙතනට එනවා
+        onSnapshot(q, (snapshot) => {
+            productContainer.innerHTML = ""; 
+            snapshot.forEach((doc) => {
+                const item = doc.data();
+                const productHtml = `
+                    <div class="product-card">
+                        <img src="${item.image}" style="width:100%; height:200px; object-fit:cover; border-radius:10px;">
+                        <h3>${item.name}</h3>
+                        <p style="font-size:12px; color:#666;">${item.brand} | ${item.condition}</p>
+                        <div class="price">Rs. ${parseFloat(item.price).toLocaleString()}</div>
+                        <p style="font-size:11px; color:#555; margin-bottom:10px;">🚚 ${item.delivery}</p>
+                        <p style="font-size:12px; font-weight:bold; color: ${item.stock > 0 ? '#28a745' : '#dc3545'}">
+                            ${item.stock > 0 ? 'In Stock: ' + item.stock : 'Sold Out'}
+                        </p>
+                        <button class="buy-btn" onclick="window.location.href='checkout.html?id=${doc.id}'" ${item.stock <= 0 ? 'disabled style="background:#ccc;"' : ''}>
+                            ${item.stock > 0 ? 'Buy Now' : 'Out of Stock'}
+                        </button>
+                    </div>
+                `;
+                productContainer.innerHTML += productHtml;
+            });
+        });
+    </script>
 
     <script>
         // 1. Microphone Voice Search
         function startVoiceSearch() {
             const micBtn = document.getElementById('micBtn');
             const searchInput = document.getElementById('searchInput');
-
             if ('webkitSpeechRecognition' in window) {
                 const recognition = new webkitSpeechRecognition();
                 recognition.lang = 'en-US';
-                
-                recognition.onstart = () => {
-                    micBtn.classList.add('listening');
-                    searchInput.placeholder = "Listening...";
-                };
-
+                recognition.onstart = () => { micBtn.classList.add('listening'); searchInput.placeholder = "Listening..."; };
                 recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript;
                     searchInput.value = transcript;
                     micBtn.classList.remove('listening');
                     searchInput.placeholder = "Search Oshan Cart...";
                 };
-
-                recognition.onerror = () => {
-                    micBtn.classList.remove('listening');
-                    alert("Voice search error.");
-                };
-
+                recognition.onerror = () => { micBtn.classList.remove('listening'); alert("Voice search error."); };
                 recognition.onend = () => micBtn.classList.remove('listening');
                 recognition.start();
-            } else {
-                alert("Voice search not supported in this browser.");
-            }
+            } else { alert("Voice search not supported."); }
         }
 
         // 2. Dropdown Functions
-        function toggleCategoryMenu(e) {
-            e.stopPropagation();
-            document.getElementById('catList').classList.toggle('active');
-            document.getElementById('userDropdown').classList.remove('active');
-        }
-
-        function toggleUserMenu(e) {
-            e.stopPropagation();
-            document.getElementById('userDropdown').classList.toggle('active');
-            document.getElementById('catList').classList.remove('active');
-        }
-
-        function setCategory(name) {
-            document.getElementById('displayCat').innerText = name;
-            document.getElementById('catList').classList.remove('active');
-        }
-
-        // Close dropdowns when clicking outside
-        window.onclick = function() {
-            document.getElementById('catList').classList.remove('active');
-            document.getElementById('userDropdown').classList.remove('active');
-        }
+        function toggleCategoryMenu(e) { e.stopPropagation(); document.getElementById('catList').classList.toggle('active'); document.getElementById('userDropdown').classList.remove('active'); }
+        function toggleUserMenu(e) { e.stopPropagation(); document.getElementById('userDropdown').classList.toggle('active'); document.getElementById('catList').classList.remove('active'); }
+        function setCategory(name) { document.getElementById('displayCat').innerText = name; document.getElementById('catList').classList.remove('active'); }
+        window.onclick = function() { document.getElementById('catList').classList.remove('active'); document.getElementById('userDropdown').classList.remove('active'); }
 
         // 3. Heart Animation
         function createHeart() {
@@ -210,5 +217,7 @@
         }
         setInterval(createHeart, 600);
     </script>
+</body>
+</html>
 </body>
             </html>
