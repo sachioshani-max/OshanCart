@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout | OshanCart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f7f8fa; margin: 0; padding: 20px; color: #333; }
+        .checkout-container { max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; }
+        
+        .section-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        h2 { font-size: 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #232f3e; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        
+        /* Input Styles */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #666; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; outline: none; transition: 0.3s; }
+        input:focus { border-color: #febd69; box-shadow: 0 0 5px rgba(254, 189, 105, 0.5); }
+
+        /* Payment Icons */
+        .payment-methods { display: flex; gap: 10px; margin-bottom: 15px; }
+        .payment-methods i { font-size: 30px; color: #555; }
+
+        /* Order Summary */
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+        .total-row { border-top: 2px solid #eee; padding-top: 15px; margin-top: 15px; font-weight: bold; font-size: 18px; color: #ff4d6d; }
+
+        .place-order-btn { width: 100%; background: #ffc800; border: 1px solid #a88734; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; margin-top: 20px; }
+        .place-order-btn:hover { background: #f7ca00; }
+        
+        @media (max-width: 768px) { .checkout-container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #232f3e; margin: 0;">OSHAN CART</h1>
+        <p style="font-size: 13px; color: #00a65a;"><i class="fas fa-lock"></i> Secure SSL Encrypted Checkout</p>
+    </div>
+
+    <div class="checkout-container">
+        
+        <div>
+            <div class="section-card">
+                <h2><i class="fas fa-truck"></i> Shipping Address</h2>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Sachin ...">
+                </div>
+                <div class="form-group">
+                    <label>Street Address</label>
+                    <input type="text" placeholder="House No, Street Name">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" placeholder="Colombo">
+                    </div>
+                    <div class="form-group">
+                        <label>Postal Code</label>
+                        <input type="text" placeholder="10100">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                    <i class="fab fa-cc-apple-pay"></i>
+                </div>
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" placeholder="0000 0000 0000 0000">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Expiry Date</label>
+                        <input type="text" placeholder="MM/YY">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="password" placeholder="***">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="section-card">
+                <h2>Order Summary</h2>
+                <div class="summary-row">
+                    <span>Items (2):</span>
+                    <span>Rs. 7,400.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping & handling:</span>
+                    <span style="color: #00a65a;">FREE</span>
+                </div>
+                <div class="summary-row">
+                    <span>Promotion (LOVE2026):</span>
+                    <span style="color: #ff4d6d;">- Rs. 1,480.00</span>
+                </div>
+                
+                <div class="summary-row total-row">
+                    <span>Order Total:</span>
+                    <span>Rs. 5,920.00</span>
+                </div>
+
+                <button class="place-order-btn" onclick="processOrder()">Place Your Order</button>
+                <p style="font-size: 11px; color: #777; margin-top: 15px; text-align: center;">
+                    By placing your order, you agree to OshanCart's <a href="#">privacy notice</a> and <a href="#">conditions of use</a>.
+                </p>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="index.html" style="text-decoration: none; color: #0066c0; font-size: 14px;">← Back to Shopping</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function processOrder() {
+            const btn = document.querySelector('.place-order-btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                alert("🎉 Success! Your order has been placed. Order ID: #OS-99234");
+                window.location.href = "index.html";
+            }, 3000);
+        }
+    </script>
+</body>
+                  </html>
