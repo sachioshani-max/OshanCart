@@ -8,159 +8,189 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f4f4; overflow-x: hidden; }
         
-        /* Navigation Styles */
-        header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; }
-        .logo { color: #ff9900; font-size: 24px; font-weight: bold; text-decoration: none; }
+        /* Header & Navigation */
+        header { background: #232f3e; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; color: white; position: sticky; top: 0; z-index: 1000; gap: 15px; }
+        .logo { color: #ff9900; font-size: 22px; font-weight: bold; text-decoration: none; white-space: nowrap; }
         
-        /* Header Right Section */
-        .header-right { display: flex; align-items: center; gap: 20px; }
+        /* --- Search Bar Container --- */
+        .search-container {
+            flex: 1;
+            display: flex;
+            max-width: 650px;
+            background: white;
+            border-radius: 4px;
+            height: 40px;
+            overflow: visible; /* Dropdown එක පේන්න මේක ඕනේ */
+            position: relative;
+        }
 
-        /* Country Flag Selector */
-        .flag-selector { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 14px; background: #37475a; padding: 5px 10px; border-radius: 4px; }
-        .flag-selector img { width: 20px; height: 15px; border-radius: 2px; }
+        /* Custom Category Dropdown */
+        .category-box {
+            position: relative;
+            background: #f3f3f3;
+            border-right: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            cursor: pointer;
+            border-radius: 4px 0 0 4px;
+            color: #555;
+            font-size: 13px;
+        }
 
-        /* User Menu Styles */
-        .user-menu-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .user-icon { font-size: 22px; color: white; }
-        .user-text { font-size: 12px; line-height: 1.2; }
+        /* මෙතන තමයි සැබෑ වෙනස තියෙන්නේ - Default Select එක අයින් කරලා Custom එකක් දැම්මා */
+        .category-box select {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; /* මේක පේන්න නැති කළාට වැඩ කරනවා */
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .category-text { display: flex; align-items: center; gap: 5px; pointer-events: none; }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 0 15px;
+            font-size: 15px;
+            outline: none;
+            color: #333;
+        }
+
+        .search-btn {
+            background: #febd69;
+            border: none;
+            width: 45px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .search-btn i { color: #333; font-size: 18px; }
+
+        /* User & Flag Section */
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .flag-selector { display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 13px; background: #37475a; padding: 4px 8px; border-radius: 4px; }
+        .flag-selector img { width: 18px; }
+
+        .user-menu-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .user-text { font-size: 11px; line-height: 1.2; }
         
         .dropdown-menu { 
-            position: absolute; top: 45px; right: 0; background: white; color: #333; 
-            width: 220px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-            display: none; flex-direction: column; padding: 10px 0; z-index: 1001; 
+            position: absolute; top: 40px; right: 0; background: white; color: #333; 
+            width: 200px; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+            display: none; flex-direction: column; padding: 8px 0; z-index: 1001; 
         }
         .dropdown-menu.active { display: flex; }
-        .dropdown-menu a { padding: 12px 20px; text-decoration: none; color: #333; font-size: 14px; transition: 0.2s; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
-        .dropdown-menu a:hover { background: #f0f0f0; color: #ff4747; }
-        .dropdown-menu a:last-child { border: none; }
-        .dropdown-menu i, .dropdown-menu span.emoji { font-size: 16px; width: 20px; text-align: center; }
+        .dropdown-menu a { padding: 10px 15px; text-decoration: none; color: #333; font-size: 13px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
+        .dropdown-menu a:hover { background: #f0f0f0; color: #ff4d6d; }
 
-        /* Banner & Slider */
-        .promo-banner { background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; }
-        .navbar { background-color: #37475a; display: flex; gap: 15px; padding: 10px 20px; overflow-x: auto; }
-        .navbar a { color: white; text-decoration: none; font-size: 14px; }
+        /* Banner & Navbar */
+        .promo-banner { background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 12px; }
+        .navbar { background-color: #37475a; display: flex; gap: 15px; padding: 8px 20px; overflow-x: auto; white-space: nowrap; }
+        .navbar a { color: white; text-decoration: none; font-size: 13px; }
 
-        /* Heart Animation */
-        .heart { position: fixed; top: -1vh; font-size: 1.5rem; color: #ff4d6d; z-index: 9999; pointer-events: none; animation: fall linear forwards; }
+        /* Hearts */
+        .heart { position: fixed; top: -1vh; font-size: 1.2rem; color: #ff4d6d; z-index: 9999; pointer-events: none; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(105vh); } }
 
-        /* Product Grid */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: auto; }
-        .product-card { background: white; border-radius: 12px; padding: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        /* Products */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; padding: 15px; max-width: 1200px; margin: auto; }
+        .product-card { background: white; border-radius: 8px; padding: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .product-card img { width: 100%; border-radius: 5px; }
+        .product-card h3 { font-size: 14px; margin: 10px 0; height: 35px; overflow: hidden; }
+        .price { color: #ff4d6d; font-weight: bold; font-size: 16px; margin-bottom: 10px; }
+        .buy-btn { width: 100%; background: #232f3e; color: white; padding: 8px; border-radius: 4px; border: none; cursor: pointer; font-size: 13px; }
     </style>
 </head>
 <body>
 
-    <div class="promo-banner">
-        🚀 OSHAN CART GRAND OPENING! - Get 20% OFF using code: LOVE2026
-    </div>
+    <div class="promo-banner">🚀 OSHAN CART GRAND OPENING! - Get 20% OFF: LOVE2026</div>
 
     <header>
         <a href="index.html" class="logo">OSHAN CART</a>
         
+        <div class="search-container" id="searchBox">
+            <div class="category-box">
+                <div class="category-text" id="selectedCat">All <i class="fas fa-caret-down"></i></div>
+                <select onchange="updateCategory(this)">
+                    <option value="All">All</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Fashion">Fashion</option>
+                    <option value="Crafts">Crafts</option>
+                </select>
+            </div>
+            <input type="text" placeholder="Search OshanCart..." class="search-input" 
+                   onfocus="document.getElementById('searchBox').style.boxShadow = '0 0 0 2px #febd69'">
+            <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+
         <div class="header-right">
             <div class="flag-selector">
-                <img src="https://flagcdn.com/w20/lk.png" id="currentFlag" alt="Sri Lanka">
-                <span id="countryCode">LKR</span>
-                <i class="fas fa-caret-down"></i>
+                <img src="https://flagcdn.com/w20/lk.png">
+                <span>LKR</span>
             </div>
 
-<div style="flex: 1; display: flex; max-width: 700px; margin: 0 15px; background: white; border-radius: 6px; overflow: hidden; border: 2px solid transparent; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" id="searchBox">
-    
-    <div style="background: #f3f3f3; border-right: 1px solid #ddd; padding: 0 10px; display: flex; align-items: center;">
-        <select style="background: transparent; border: none; outline: none; font-size: 13px; color: #555; cursor: pointer; height: 100%; padding: 5px;">
-            <option value="all">All</option>
-            <option value="electronics">Electronics</option>
-            <option value="fashion">Fashion</option>
-            <option value="crafts">Sri Lankan Crafts</option>
-            <option value="home">Home & Garden</option>
-        </select>
-    </div>
-
-    <div style="flex: 1; display: flex; align-items: center; position: relative; background: white;">
-        <input type="text" placeholder="Search for anything..." 
-               style="width: 100%; padding: 12px 15px; border: none; outline: none; font-size: 15px;"
-               onfocus="document.getElementById('searchBox').style.borderColor = '#febd69'"
-               onblur="document.getElementById('searchBox').style.borderColor = 'transparent'">
-        
-        <i class="fas fa-microphone" style="position: absolute; right: 15px; color: #888; cursor: pointer;"></i>
-    </div>
-
-    <button style="background: #febd69; border: none; padding: 10px 20px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
-        <i class="fas fa-search" style="color: #333; font-size: 18px;"></i>
-    </button>
-</div>
-            
             <div class="user-menu-container" onclick="toggleMenu()">
-                <div class="user-icon"><i class="fas fa-user-circle"></i></div>
                 <div class="user-text">
                     <span>Hello, Sign in</span><br>
-                    <strong>Account & Lists <i class="fas fa-caret-down"></i></strong>
+                    <strong>Account <i class="fas fa-caret-down"></i></strong>
                 </div>
-                
                 <div class="dropdown-menu" id="userDropdown">
-                    <a href="login.html" style="background: #ffc800; font-weight: bold; justify-content: center; margin: 10px; border-radius: 5px; border: none;">Sign In</a>
-                    <a href="profile.html"><i class="fas fa-user-edit"></i> Edit Profile</a>
-                    <a href="verify.html"><i class="fas fa-phone-alt"></i> Add/Verify Phone</a>
-                    <a href="affiliate.html"><span class="emoji">🪺</span> Affiliate Program</a>
+                    <a href="profile.html"><i class="fas fa-user-edit"></i> Profile</a>
+                    <a href="affiliate.html">🪺 Affiliate</a>
                     <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
-                    <a href="wallet.html"><i class="fas fa-wallet"></i> My Wallet</a>
-                    <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
-                    <a href="#" style="color: #666; font-size: 12px;">Not Sachin? Sign Out</a>
+                    <a href="orders.html"><i class="fas fa-box"></i> Orders</a>
                 </div>
             </div>
         </div>
     </header>
 
     <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="services.html">Services</a>
-        <a href="sell.html">Sell With Us</a>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Sell With Us</a>
     </div>
 
-    <div style="background: #ff4d6d; color: white; text-align: center; padding: 20px;">
-        <h2>💖 Valentine's Featured Products 🔥</h2>
+    <div style="background: #ff4d6d; color: white; text-align: center; padding: 15px;">
+        <h2 style="margin: 0; font-size: 18px;">💖 Valentine's Specials 🔥</h2>
     </div>
 
     <div class="product-grid">
         <div class="product-card">
-            <img src="https://via.placeholder.com/200" style="width: 100%; border-radius: 10px;">
+            <img src="https://via.placeholder.com/150">
             <h3>Smart Digital Watch</h3>
-            <p style="color: #ff4d6d; font-weight: bold; font-size: 20px;">Rs. 4,500.00</p>
-            <button style="width: 100%; background: #232f3e; color: white; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Buy Now</button>
+            <div class="price">Rs. 4,500</div>
+            <button class="buy-btn">Buy Now</button>
         </div>
         <div class="product-card">
-            <img src="https://via.placeholder.com/200" style="width: 100%; border-radius: 10px;">
+            <img src="https://via.placeholder.com/150">
             <h3>Wireless Earbuds</h3>
-            <p style="color: #ff4d6d; font-weight: bold; font-size: 20px;">Rs. 2,900.00</p>
-            <button style="width: 100%; background: #232f3e; color: white; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Buy Now</button>
+            <div class="price">Rs. 2,900</div>
+            <button class="buy-btn">Buy Now</button>
         </div>
     </div>
 
-    <footer style="background: #232f3e; color: #ccc; padding: 40px 20px; text-align: center; margin-top: 50px;">
-        <p>&copy; 2026 OshanCart Global. All Rights Reserved.</p>
-        <div style="font-size: 20px; margin-top: 10px;">
-            <i class="fab fa-cc-visa" style="margin: 0 10px;"></i>
-            <i class="fab fa-cc-mastercard" style="margin: 0 10px;"></i>
-            <i class="fab fa-cc-paypal" style="margin: 0 10px;"></i>
-        </div>
-    </footer>
-
     <script>
-        // Toggle User Dropdown
+        // Category එක තෝරනකොට text එක ලස්සනට පේන්න හදපු function එක
+        function updateCategory(select) {
+            document.getElementById('selectedCat').innerHTML = select.value + ' <i class="fas fa-caret-down"></i>';
+        }
+
         function toggleMenu() {
             document.getElementById('userDropdown').classList.toggle('active');
         }
 
-        // Close dropdown when clicking outside
         window.onclick = function(event) {
-            if (!event.target.closest('.user-menu-container') && !event.target.closest('.flag-selector')) {
+            if (!event.target.closest('.user-menu-container')) {
                 document.getElementById('userDropdown').classList.remove('active');
             }
         }
 
-        // Hearts Animation
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
@@ -170,7 +200,7 @@
             document.body.appendChild(heart);
             setTimeout(() => { heart.remove(); }, 5000);
         }
-        setInterval(createHeart, 400);
+        setInterval(createHeart, 600);
     </script>
 </body>
 </html>
