@@ -12,70 +12,35 @@
         header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; gap: 15px; }
         .logo { color: #ff9900; font-size: 24px; font-weight: bold; text-decoration: none; white-space: nowrap; }
         
-        /* --- Professional Search Bar & Category Dropdown --- */
-        .search-wrapper { 
-            flex: 1; 
-            max-width: 700px; 
-            display: flex; 
-            position: relative; 
-            height: 40px; 
-            background: white;
-            border-radius: 6px;
-        }
+        /* Search Bar & Category Dropdown */
+        .search-wrapper { flex: 1; max-width: 700px; display: flex; position: relative; height: 40px; background: white; border-radius: 6px; }
         
-        /* Category Button Area */
         .category-select-btn { 
-            position: relative; 
-            background: #f3f3f3; 
-            border-radius: 6px 0 0 6px; 
-            border-right: 1px solid #ddd; 
-            min-width: 80px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            cursor: pointer; 
-            color: #555; 
-            font-size: 13px; 
-            padding: 0 12px;
-            user-select: none;
+            position: relative; background: #f3f3f3; border-radius: 6px 0 0 6px; border-right: 1px solid #ddd; 
+            min-width: 80px; display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; color: #555; font-size: 13px; padding: 0 12px; user-select: none;
         }
 
-        /* සුදු පාට පිරිසිදු Dropdown List එක */
+        /* සුදු පාට Custom Dropdown List */
         .custom-dropdown-list { 
-            position: absolute; 
-            top: 45px; 
-            left: 0; 
-            background: white; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2); 
-            border-radius: 8px; 
-            width: 220px; 
-            display: none; 
-            flex-direction: column; 
-            z-index: 2000; 
-            overflow: hidden;
-            border: 1px solid #ddd;
+            position: absolute; top: 45px; left: 0; background: white; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); border-radius: 8px; 
+            width: 220px; display: none; flex-direction: column; z-index: 2000; 
+            overflow: hidden; border: 1px solid #ddd;
         }
         .custom-dropdown-list.active { display: flex; animation: fadeIn 0.2s ease-out; }
         
-        .custom-dropdown-list div { 
-            padding: 12px 20px; 
-            color: #333; 
-            font-size: 14px; 
-            transition: 0.2s; 
-            border-bottom: 1px solid #f1f1f1; 
-            text-align: left;
-        }
+        .custom-dropdown-list div { padding: 12px 20px; color: #333; font-size: 14px; transition: 0.2s; border-bottom: 1px solid #f1f1f1; text-align: left; }
         .custom-dropdown-list div:hover { background: #f0f0f0; color: #ff4d6d; }
         .custom-dropdown-list div:last-child { border: none; }
 
-        .search-input { flex: 1; border: none; padding: 0 15px; font-size: 15px; outline: none; border-radius: 0; }
-        .search-btn { background: #febd69; border: none; width: 50px; cursor: pointer; border-radius: 0 6px 6px 0; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .search-btn:hover { background: #f3a847; }
+        .search-input { flex: 1; border: none; padding: 0 15px; font-size: 15px; outline: none; }
+        .search-btn { background: #febd69; border: none; width: 50px; cursor: pointer; border-radius: 0 6px 6px 0; display: flex; align-items: center; justify-content: center; }
         
         /* Header Right Section */
         .header-right { display: flex; align-items: center; gap: 20px; }
         .flag-selector { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 14px; background: #37475a; padding: 5px 10px; border-radius: 4px; }
-        .flag-selector img { width: 20px; border-radius: 2px; }
+        .flag-selector img { width: 20px; }
 
         /* User Menu */
         .user-menu-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 8px; }
@@ -85,10 +50,10 @@
         .dropdown-menu a { padding: 12px 20px; text-decoration: none; color: #333; font-size: 14px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
         .dropdown-menu a:hover { background: #f0f0f0; color: #ff4747; }
 
-        /* Banner & Navbar */
+        /* General Styles */
         .promo-banner { background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; }
         .navbar { background-color: #37475a; display: flex; gap: 15px; padding: 10px 20px; overflow-x: auto; white-space: nowrap; }
-        .navbar a { color: white; text-decoration: none; font-size: 14px; margin-right: 10px; }
+        .navbar a { color: white; text-decoration: none; font-size: 14px; }
 
         /* Hearts Animation */
         .heart { position: fixed; top: -1vh; font-size: 1.5rem; color: #ff4d6d; z-index: 9999; pointer-events: none; animation: fall linear forwards; }
@@ -98,11 +63,9 @@
         /* Product Grid */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; padding: 25px; max-width: 1200px; margin: auto; }
         .product-card { background: white; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: 0.3s; }
-        .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
         .product-card img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
         .price { color: #ff4d6d; font-weight: bold; font-size: 22px; margin: 10px 0; }
-        .buy-btn { width: 100%; background: #232f3e; color: white; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        .buy-btn:hover { background: #37475a; }
+        .buy-btn { width: 100%; background: #232f3e; color: white; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -115,7 +78,6 @@
         <div class="search-wrapper" id="searchBox">
             <div class="category-select-btn" onclick="toggleCategoryMenu(event)">
                 <span id="displayCat">All</span> <i class="fas fa-caret-down" style="margin-left:8px;"></i>
-                
                 <div class="custom-dropdown-list" id="catList">
                     <div onclick="setCategory('All')">All Categories</div>
                     <div onclick="setCategory('Electronics')">Electronics</div>
@@ -124,10 +86,7 @@
                     <div onclick="setCategory('Home & Garden')">Home & Garden</div>
                 </div>
             </div>
-            
-            <input type="text" placeholder="Search Oshan Cart..." class="search-input" 
-                   onfocus="document.getElementById('searchBox').style.boxShadow = '0 0 0 3px #febd69'">
-            
+            <input type="text" placeholder="Search Oshan Cart..." class="search-input" onfocus="document.getElementById('searchBox').style.boxShadow = '0 0 0 3px #febd69'">
             <button class="search-btn"><i class="fas fa-search"></i></button>
         </div>
 
@@ -147,7 +106,6 @@
                     <a href="profile.html"><i class="fas fa-user-edit"></i> Edit Profile</a>
                     <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
                     <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
-                    <a href="#" style="color: #888; font-size: 11px; border: none;">Not Sachin? Sign Out</a>
                 </div>
             </div>
         </div>
@@ -155,14 +113,63 @@
 
     <div class="navbar">
         <a href="index.html">Home</a>
-        <a href="#">Today's Deals</a>
-        <a href="#">Customer Service</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
         <a href="sell.html">Sell With Us</a>
-        <a href="#">Gift Cards</a>
     </div>
 
     <div style="background: #ff4d6d; color: white; text-align: center; padding: 25px;">
-        <h2 style="margin:0; font-size: 24px;">💖 Valentine's Featured Products 🔥</h2>
+        <h2 style="margin:0;">💖 Valentine's Featured Products 🔥</h2>
     </div>
 
     <div class="product-grid">
+        <div class="product-card">
+            <img src="https://via.placeholder.com/250x200">
+            <h3>Smart Digital Watch</h3>
+            <div class="price">Rs. 4,500.00</div>
+            <button class="buy-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <img src="https://via.placeholder.com/250x200">
+            <h3>Wireless Earbuds</h3>
+            <div class="price">Rs. 2,900.00</div>
+            <button class="buy-btn">Add to Cart</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleCategoryMenu(e) {
+            e.stopPropagation();
+            document.getElementById('catList').classList.toggle('active');
+            document.getElementById('userDropdown').classList.remove('active');
+        }
+
+        function setCategory(name) {
+            document.getElementById('displayCat').innerText = name;
+            document.getElementById('catList').classList.remove('active');
+        }
+
+        function toggleUserMenu(e) {
+            e.stopPropagation();
+            document.getElementById('userDropdown').classList.toggle('active');
+            document.getElementById('catList').classList.remove('active');
+        }
+
+        window.onclick = function() {
+            document.getElementById('catList').classList.remove('active');
+            document.getElementById('userDropdown').classList.remove('active');
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 600);
+    </script>
+</body>
+</html>
