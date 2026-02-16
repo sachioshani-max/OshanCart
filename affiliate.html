@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Program | OshanCart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
+        .header { background: #232f3e; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 800px; margin: 30px auto; padding: 20px; }
+        .card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; margin-bottom: 20px; }
+        .icon-circle { width: 80px; height: 80px; background: #fff0f3; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 40px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .stat-box { background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee; }
+        .stat-box h4 { margin: 0; font-size: 14px; color: #666; }
+        .stat-box p { margin: 5px 0 0; font-size: 20px; font-weight: bold; color: #ff4d6d; }
+        .referral-link-box { background: #e9ecef; padding: 15px; border-radius: 8px; display: flex; align-items: center; gap: 10px; margin-top: 20px; }
+        .referral-link-box input { flex: 1; border: none; background: transparent; font-size: 14px; outline: none; }
+        .copy-btn { background: #232f3e; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .copy-btn:hover { background: #1a242f; }
+        .step { text-align: left; margin-bottom: 15px; display: flex; gap: 15px; align-items: flex-start; }
+        .step-num { background: #ff4d6d; color: white; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: bold; font-size: 12px; }
+        .back-home { display: inline-block; margin-top: 20px; color: #232f3e; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🪺 Affiliate Program</h1>
+    <p>Share & Earn Commission on Every Sale</p>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="icon-circle">💰</div>
+        <h2>Your Earnings</h2>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <h4>Total Clicks</h4>
+                <p id="clicks">124</p>
+            </div>
+            <div class="stat-box">
+                <h4>Commission</h4>
+                <p id="earnings">Rs. 1,250.00</p>
+            </div>
+        </div>
+        <button class="copy-btn" style="width: 100%; padding: 12px; font-size: 16px;">Withdraw Funds</button>
+    </div>
+
+    <div class="card">
+        <h3>Your Referral Link</h3>
+        <p style="font-size: 14px; color: #666;">Copy your unique link and share it on WhatsApp, TikTok, or Facebook.</p>
+        <div class="referral-link-box">
+            <input type="text" id="refLink" value="https://oshancart.com/ref?user=sachin001" readonly>
+            <button class="copy-btn" onclick="copyLink()">Copy</button>
+        </div>
+    </div>
+
+    <div class="card" style="text-align: left;">
+        <h3 style="text-align: center;">How It Works</h3>
+        <div class="step">
+            <div class="step-num">1</div>
+            <div><strong>Copy Link:</strong> Get your unique referral link from this page.</div>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div><strong>Share:</strong> Share the link with your friends or on social media.</div>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <div><strong>Earn:</strong> Get 5% commission for every successful purchase they make!</div>
+        </div>
+    </div>
+
+    <center><a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Shopping Hub</a></center>
+</div>
+
+<script>
+    function copyLink() {
+        const link = document.getElementById('refLink');
+        link.select();
+        document.execCommand('copy');
+        alert("Referral link copied to clipboard! 🚀");
+    }
+</script>
+
+</body>
+</html>
