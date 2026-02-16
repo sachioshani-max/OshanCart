@@ -4,289 +4,147 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oshan Cart | Global Shopping Hub</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f4f4; overflow-x: hidden; }
+        
+        /* Navigation Styles */
+        header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; }
+        .logo { color: #ff9900; font-size: 24px; font-weight: bold; text-decoration: none; }
+        
+        /* Header Right Section */
+        .header-right { display: flex; align-items: center; gap: 20px; }
 
-    <body>
-        <div style="background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; position: sticky; top: 0; z-index: 9999; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-    🚀 OSHAN CART GRAND OPENING! - Get 20% OFF using code: <span style="background: white; color: #ff4d6d; padding: 2px 8px; border-radius: 4px; margin-left: 5px;">LOVE2026</span>
-        </div>
-<div style="background: #ff4d6d; color: white; text-align: center; padding: 10px; font-weight: bold; font-family: 'Arial', sans-serif;">
-    💖 Valentine's Day Special Offers! Get 20% OFF for your loved ones 🎁
-</div>
-    <header <div style="width: 100%; background: linear-gradient(to right, #ff758c, #ff7eb3); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold; flex-direction: column;">
-    🌹 VALENTINE'S SURPRISE 🌹
-    <span style="font-size: 14px; font-weight: normal;">Best gifts for your special someone!</span>
+        /* Country Flag Selector */
+        .flag-selector { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 14px; background: #37475a; padding: 5px 10px; border-radius: 4px; }
+        .flag-selector img { width: 20px; height: 15px; border-radius: 2px; }
+
+        /* User Menu Styles */
+        .user-menu-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .user-icon { font-size: 22px; color: white; }
+        .user-text { font-size: 12px; line-height: 1.2; }
+        
+        .dropdown-menu { 
+            position: absolute; top: 45px; right: 0; background: white; color: #333; 
+            width: 220px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+            display: none; flex-direction: column; padding: 10px 0; z-index: 1001; 
+        }
+        .dropdown-menu.active { display: flex; }
+        .dropdown-menu a { padding: 12px 20px; text-decoration: none; color: #333; font-size: 14px; transition: 0.2s; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
+        .dropdown-menu a:hover { background: #f0f0f0; color: #ff4747; }
+        .dropdown-menu a:last-child { border: none; }
+        .dropdown-menu i, .dropdown-menu span.emoji { font-size: 16px; width: 20px; text-align: center; }
+
+        /* Banner & Slider */
+        .promo-banner { background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; }
+        .navbar { background-color: #37475a; display: flex; gap: 15px; padding: 10px 20px; overflow-x: auto; }
+        .navbar a { color: white; text-decoration: none; font-size: 14px; }
+
+        /* Heart Animation */
+        .heart { position: fixed; top: -1vh; font-size: 1.5rem; color: #ff4d6d; z-index: 9999; pointer-events: none; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(105vh); } }
+
+        /* Product Grid */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: auto; }
+        .product-card { background: white; border-radius: 12px; padding: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+    <div class="promo-banner">
+        🚀 OSHAN CART GRAND OPENING! - Get 20% OFF using code: LOVE2026
     </div>
-        <style="background: #232f3e; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; color: white;">
-        <h1 style="color: #ff9900; margin: 0; font-size: 22px; font-weight: bold;">OSHAN CART</h1>
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <select class="currency-select" style="background: #37475a; color: white; border: 1px solid #555; padding: 5px; border-radius: 4px; font-size: 12px;">
-                <option>LKR - රුපියල්</option>
-                <option>USD - Dollars</option>
-            </select>
+
+    <header>
+        <a href="index.html" class="logo">OSHAN CART</a>
+        
+        <div class="header-right">
+            <div class="flag-selector">
+                <img src="https://flagcdn.com/w20/lk.png" id="currentFlag" alt="Sri Lanka">
+                <span id="countryCode">LKR</span>
+                <i class="fas fa-caret-down"></i>
+            </div>
+
+            <div class="user-menu-container" onclick="toggleMenu()">
+                <div class="user-icon"><i class="fas fa-user-circle"></i></div>
+                <div class="user-text">
+                    <span>Hello, Sign in</span><br>
+                    <strong>Account & Lists <i class="fas fa-caret-down"></i></strong>
+                </div>
+                
+                <div class="dropdown-menu" id="userDropdown">
+                    <a href="login.html" style="background: #ffc800; font-weight: bold; justify-content: center; margin: 10px; border-radius: 5px; border: none;">Sign In</a>
+                    <a href="profile.html"><i class="fas fa-user-edit"></i> Edit Profile</a>
+                    <a href="verify.html"><i class="fas fa-phone-alt"></i> Add/Verify Phone</a>
+                    <a href="affiliate.html"><span class="emoji">🪺</span> Affiliate Program</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="wallet.html"><i class="fas fa-wallet"></i> My Wallet</a>
+                    <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
+                    <a href="#" style="color: #666; font-size: 12px;">Not Sachin? Sign Out</a>
+                </div>
+            </div>
         </div>
     </header>
 
-    <div class="navbar" style="background-color: #37475a; overflow-x: auto; white-space: nowrap;">
-        <a href="index.html" style="color: #ff9900;">Home</a>
+    <div class="navbar">
+        <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="services.html">Services</a>
-        <a href="wallet.html">My Wallet</a>
-        <a href="login.html">Login/Register</a>
         <a href="sell.html">Sell With Us</a>
     </div>
-    <div class="slider" style="width: 100%; overflow: hidden; position: relative; height: 250px; background: #ddd;">
-    <div class="slides" style="display: flex; width: 300%; height: 100%; animation: slide 10s infinite;">
-        <div style="width: 100%; background: linear-gradient(to right, #ff9900, #ff4500); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold;">
-            BIG SALE - 50% OFF!
-        </div>
-        <div style="width: 100%; background: linear-gradient(to right, #232f3e, #37475a); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold;">
-            NEW ARRIVALS: SMART WATCHES
-        </div>
-        <div style="width: 100%; background: linear-gradient(to right, #00a65a, #007600); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold;">
-            FREE SHIPPING WORLDWIDE
-        </div>
-    </div>
+
+    <div style="background: #ff4d6d; color: white; text-align: center; padding: 20px;">
+        <h2>💖 Valentine's Featured Products 🔥</h2>
     </div>
 
-    <div style="background: linear-gradient(to right, #ff6a00, #ee0979); padding: 20px; text-align: center; color: white; margin-bottom: 15px;">
-        <h2 style="margin: 0; font-size: 18px;">Global Sourcing Made Easy</h2>
-        <p style="font-size: 12px; opacity: 0.9;">Direct from Manufacturers | Fast Global Shipping</p>
-    </div>
-
-    <div class="product-container">
-            <h2 style="text-align: center; margin-top: 20px; color: #c9184a;">🔥 Valentine's Featured Products 🔥</h2>
-
-<div class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px;">
-    
-    <div class="product-card" style="border: 1px solid #ddd; border-radius: 10px; padding: 15px; text-align: center; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=300&h=300&auto=format&fit=crop" alt="Watch" style="width: 100%; border-radius: 10px;">
-        <h3 style="font-size: 18px; margin: 10px 0;">Premium Smart Watch</h3>
-        <p style="color: #ff4d6d; font-size: 20px; font-weight: bold;">Rs. 4,500.00</p>
-        <button class="add-to-cart" style="background: #ff4d6d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Add to Cart</button>
-    </div>
-
-    <div class="product-card" style="border: 1px solid #ddd; border-radius: 10px; padding: 15px; text-align: center; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=300&h=300&auto=format&fit=crop" alt="Headphones" style="width: 100%; border-radius: 10px;">
-        <h3 style="font-size: 18px; margin: 10px 0;">Wireless Headphones</h3>
-        <p style="color: #ff4d6d; font-size: 20px; font-weight: bold;">Rs. 3,800.00</p>
-        <button class="add-to-cart" style="background: #ff4d6d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Add to Cart</button>
-    </div>
-
-    <div class="product-card" style="border: 1px solid #ddd; border-radius: 10px; padding: 15px; text-align: center; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=300&h=300&auto=format&fit=crop" alt="Sunglasses" style="width: 100%; border-radius: 10px;">
-        <h3 style="font-size: 18px; margin: 10px 0;">Stylish Sunglasses</h3>
-        <p style="color: #ff4d6d; font-size: 20px; font-weight: bold;">Rs. 1,200.00</p>
-        <button class="add-to-cart" style="background: #ff4d6d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Add to Cart</button>
-    </div>
-
-</div>
-        
+    <div class="product-grid">
         <div class="product-card">
-            <div style="position: relative;">
-                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" class="product-image" alt="Product">
-                <span style="position: absolute; top: 5px; left: 5px; background: #ff6a00; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px;">AliExpress Choice</span>
-            </div>
-            <div class="product-info">
-                <div class="product-title">Smart Watch Series 9 - Global Edition NFC GPS</div>
-                <div class="price-tag">Rs. 4,500.00</div>
-                <p style="font-size: 11px; color: #00a65a; font-weight: bold;">Free Shipping</p>
-                <button class="btn-amazon" onclick="window.location.href='success.html'" style="margin-top: 10px; font-size: 13px;">Buy Now</button>
-                <button style="background-color: #f0c14b; border: 1px solid #a88734; width: 100%; padding: 8px; border-radius: 3px; margin-top: 5px; cursor: pointer;" onclick="window.location.href='cart.html'">
-    Add to Cart
-</button>
-
-            </div>
+            <img src="https://via.placeholder.com/200" style="width: 100%; border-radius: 10px;">
+            <h3>Smart Digital Watch</h3>
+            <p style="color: #ff4d6d; font-weight: bold; font-size: 20px;">Rs. 4,500.00</p>
+            <button style="width: 100%; background: #232f3e; color: white; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Buy Now</button>
         </div>
-
         <div class="product-card">
-            <div style="position: relative;">
-                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" class="product-image" alt="Product">
-                <span style="position: absolute; top: 5px; left: 5px; background: #232f3e; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px;">Amazon's Choice</span>
-            </div>
-            <div class="product-info">
-                <div class="product-title">Wireless Bluetooth Earbuds Pro Max Noise Cancel</div>
-                <div class="price-tag">Rs. 2,800.00</div>
-                <p style="font-size: 11px; color: #777;">4.8 ⭐ | 1,200+ Sold</p>
-                <button class="btn-amazon" onclick="window.location.href='success.html'" style="margin-top: 10px; font-size: 13px;">Buy Now</button>
-                <button style="background-color: #f0c14b; border: 1px solid #a88734; width: 100%; padding: 8px; border-radius: 3px; margin-top: 5px; cursor: pointer;" onclick="window.location.href='cart.html'">
-    Add to Cart
-</button>
-
-            </div>
+            <img src="https://via.placeholder.com/200" style="width: 100%; border-radius: 10px;">
+            <h3>Wireless Earbuds</h3>
+            <p style="color: #ff4d6d; font-weight: bold; font-size: 20px;">Rs. 2,900.00</p>
+            <button style="width: 100%; background: #232f3e; color: white; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Buy Now</button>
         </div>
     </div>
 
-            <footer style="background-color: #f8f9fa; color: #6c757d; padding: 20px; text-align: center; border-top: 1px solid #dee2e6;">
-    <p>© 2026 OshanCart - Educational Project</p>
-    <p style="font-size: 10px;">This website is for educational purposes only. No actual payments are processed.</p>
-</footer>
-<footer style="background-color: #f4f4f4; color: #333; padding: 50px 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border-top: 4px solid #ff4747; margin-top: 50px;">
-    
-    <div style="max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; text-align: left;">
-        
-        <div>
-            <h4 style="color: #000; border-left: 3px solid #ff4747; padding-left: 10px;">Help & Guide</h4>
-            <ul style="list-style: none; padding: 0; font-size: 13px; line-height: 2.2; color: #666;">
-                <li><i class="fas fa-question-circle"></i> Help Center</li>
-                <li><i class="fas fa-truck"></i> Track Your Order</li>
-                <li><i class="fas fa-shield-alt"></i> Buyer Protection</li>
-                <li><i class="fas fa-undo"></i> Return Policy</li>
-            </ul>
-        </div>
-
-        <div>
-            <h4 style="color: #000; border-left: 3px solid #ff4747; padding-left: 10px;">OshanCart Global</h4>
-            <p style="font-size: 13px; color: #666; line-height: 1.6;">
-                Providing quality products to: <br>
-                <b>Sri Lanka, UAE, Russia, Brazil, Spain, France, Germany, Italy.</b>
-            </p>
-            <p style="font-size: 12px; color: #999;">Explore our international marketplace.</p>
-        </div>
-
-        <div>
-            <h4 style="color: #000; border-left: 3px solid #ff4747; padding-left: 10px;">Stay Connected</h4>
-            <div style="font-size: 22px; margin: 15px 0;">
-                <a href="#" style="color: #25d366; margin-right: 12px;"><i class="fab fa-whatsapp"></i></a>
-                <a href="#" style="color: #3b5998; margin-right: 12px;"><i class="fab fa-facebook"></i></a>
-                <a href="#" style="color: #ff0000; margin-right: 12px;"><i class="fab fa-youtube"></i></a>
-                <a href="#" style="color: #0088cc; margin-right: 12px;"><i class="fab fa-telegram"></i></a>
-                <a href="#" style="color: #000000; margin-right: 12px;"><i class="fab fa-tiktok"></i></a>
-            </div>
-            <p style="font-size: 12px; color: #666;">Follow us for daily deals!</p>
-        </div>
-
-        <div>
-            <h4 style="color: #000; border-left: 3px solid #ff4747; padding-left: 10px;">Privacy & Legal</h4>
-            <ul style="list-style: none; padding: 0; font-size: 13px; line-height: 2.2;">
-                <li><a href="#" style="text-decoration: none; color: #666;">Privacy Policy</a></li>
-                <li><a href="#" style="text-decoration: none; color: #666;">Terms & Conditions</a></li>
-                <li><a href="sell.html" style="text-decoration: none; color: #ff4747; font-weight: bold;">Sell on OshanCart</a></li>
-            </ul>
-        </div>
-
-    </div>
-
-    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
-        <p style="font-size: 14px; color: #444; margin-bottom: 15px; font-weight: bold;">Secure Payment Methods</p>
-        <div style="font-size: 35px; color: #555;">
+    <footer style="background: #232f3e; color: #ccc; padding: 40px 20px; text-align: center; margin-top: 50px;">
+        <p>&copy; 2026 OshanCart Global. All Rights Reserved.</p>
+        <div style="font-size: 20px; margin-top: 10px;">
             <i class="fab fa-cc-visa" style="margin: 0 10px;"></i>
             <i class="fab fa-cc-mastercard" style="margin: 0 10px;"></i>
             <i class="fab fa-cc-paypal" style="margin: 0 10px;"></i>
-            <i class="fab fa-cc-apple-pay" style="margin: 0 10px;"></i>
-            <i class="fab fa-google-pay" style="margin: 0 10px;"></i>
         </div>
-    </div>
-
-    <div style="text-align: center; margin-top: 30px;">
-        <hr style="border: 0; border-top: 1px solid #ddd; width: 80%; margin: auto;">
-        <p style="font-size: 12px; color: #999; margin-top: 20px;">
-            Intellectual Property Protection - Privacy Policy - Terms of Use - User Information Legal Enquiry Guide <br>
-            <strong style="color: #666;">© 2023 - 2026 OshanCart.com Global. All rights reserved.</strong> <br>
-            <span style="font-size: 11px;">Developed by Oshi&SFshan</span>
-        </p>
-    </div>
-</footer>
-
-    <div style="display: flex; justify-content: space-around; padding: 20px; background: white; 8 <footer style="text-align: center; padding: 30px; color: #999; font-size: 11px; background: #232f3e;">
-        <p style="color: #ccc; margin-bottom: 10px;">&copy; 2024 Oshan Cart Global. All Rights Reserved.</p>
-        <p>USA | China | Sri Lanka | UAE</p>
     </footer>
-<body>
-   <script>
-function createHeart() {
-    const heart = document.createElement('div');
-    heart.classList.add('heart');
-    heart.innerHTML = '❤️';
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-    document.body.appendChild(heart);
-    setTimeout(() => { heart.remove(); }, 5000);
-}
-setInterval(createHeart, 300);
-</script>
 
-<style>
-.heart {
-    position: fixed;
-    top: -1vh;
-    font-size: 1.5rem;
-    color: #ff4d6d;
-    z-index: 9999;
-    pointer-events: none;
-    animation: fall linear forwards;
-}
-@keyframes fall {
-    to { transform: translateY(105vh); }
-}
-</style>
-        <div id="promo-popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; justify-content:center; align-items:center;">
-    <div style="background:white; padding:30px; border-radius:15px; text-align:center; max-width:400px; width:90%; position:relative; border: 5px solid #ff4d6d;">
-        <button onclick="closePopup()" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; cursor:pointer;">✖</button>
-        <h2 style="color:#ff4d6d; margin-bottom:10px;">💖 Valentine's Surprise! 💖</h2>
-        <p>Use the code below at checkout to get 20% OFF!</p>
-        <div style="background:#fff0f3; border:2px dashed #ff4d6d; padding:15px; font-size:24px; font-weight:bold; color:#c9184a; margin:20px 0;">
-            LOVE2026
-        </div>
-        <button onclick="closePopup()" style="background:#ff4d6d; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; width:100%; font-weight:bold;">GET IT NOW!</button>
-    </div>
-</div>
+    <script>
+        // Toggle User Dropdown
+        function toggleMenu() {
+            document.getElementById('userDropdown').classList.toggle('active');
+        }
 
-<script>
-    // සයිට් එකට ඇවිත් තත්පර 2කින් Pop-up එක පෙන්වන්න
-    window.onload = function() {
-        setTimeout(function() {
-            document.getElementById('promo-popup').style.display = 'flex';
-        }, 2000);
-    };
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.closest('.user-menu-container') && !event.target.closest('.flag-selector')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        }
 
-    function closePopup() {
-        document.getElementById('promo-popup').style.display = 'none';
-    }
-</script>
-        <script type="module">
-  // Firebase App එක සහ Analytics එකතු කිරීම
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-
-  // ඔයා එවපු Config එක මෙතන තියෙනවා
-  const firebaseConfig = {
-    apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-    authDomain: "oshancart.firebaseapp.com",
-    projectId: "oshancart",
-    storageBucket: "oshancart.firebasestorage.app",
-    messagingSenderId: "686982543488",
-    appId: "1:686982543488:web:d74a83a3f53dbae3754e65",
-    measurementId: "G-84KYRKQBTJ"
-  };
-
-  // Firebase ආරම්භ කිරීම
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  
-  console.log("Firebase Connected Successfully! ✅");
-        </script>
+        // Hearts Animation
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 400);
+    </script>
 </body>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<section style="padding: 50px 20px; max-width: 1200px; margin: auto; text-align: center;">
-    <h2 style="color: #ff4d6d; margin-bottom: 30px; font-size: 28px;">🔥 Hot Deals for You!</h2>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
-        
-        <div style="background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 15px; transition: 0.3s;">
-            <img src="https://via.placeholder.com/200" alt="Product" style="width: 100%; border-radius: 10px;">
-            <h3 style="font-size: 18px; margin: 15px 0 5px;">Smart Digital Watch</h3>
-            <p style="color: #ff4d6d; font-weight: bold; font-size: 20px;">Rs. 4,500.00</p>
-            <button style="width: 100%; background: #232f3e; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Buy Now 🛒</button>
-        </div>
-
-        <div style="background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 15px; transition: 0.3s;">
-            <img src="https://via.placeholder.com/200" alt="Product" style="width: 100%; border-radius: 10px;">
-            <h3 style="font-size: 18px; margin: 15px 0 5px;">Wireless Earbuds</h3>
-            <p style="color: #ff4d6d; font-weight: bold; font-size: 20px;">Rs. 2,900.00</p>
-            <button style="width: 100%; background: #232f3e; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Buy Now 🛒</button>
-        </div>
-
-    </div>
-</section>
+</html>
