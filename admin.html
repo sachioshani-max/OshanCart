@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Add Products | OshanCart</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.firebasestorage.app",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.addProduct = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerText = "Publishing...";
+            btn.disabled = true;
+
+            const product = {
+                name: document.getElementById('pName').value,
+                price: parseFloat(document.getElementById('pPrice').value),
+                brand: document.getElementById('pBrand').value,
+                category: document.getElementById('pCat').value,
+                condition: document.getElementById('pCond').value,
+                image: document.getElementById('pImg').value,
+                stock: parseInt(document.getElementById('pStock').value),
+                delivery: document.getElementById('pDel').value,
+                description: document.getElementById('pDesc').value,
+                createdAt: new Date()
+            };
+
+            try {
+                await addDoc(collection(db, "products"), product);
+                alert("✅ Item Published Successfully!");
+                e.target.reset();
+            } catch (error) {
+                alert("Error: " + error.message);
+            } finally {
+                btn.innerText = "Publish Item";
+                btn.disabled = false;
+            }
+        };
+    </script>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .form-container { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #ff9900; border: none; color: white; font-weight: bold; cursor: pointer; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2 style="color: #232f3e;">🚀 Add New Item to OshanCart</h2>
+        <form onsubmit="addProduct(event)">
+            <input type="text" id="pName" placeholder="Item Name" required>
+            <input type="number" id="pPrice" placeholder="Price (Rs.)" required>
+            <input type="text" id="pBrand" placeholder="Brand Name (Optional)">
+            <select id="pCat">
+                <option value="Electronics">Electronics</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Home">Home & Kitchen</option>
+                <option value="Health">Health & Beauty</option>
+            </select>
+            <select id="pCond">
+                <option value="Brand New">Brand New</option>
+                <option value="Used">Second Hand</option>
+            </select>
+            <input type="text" id="pImg" placeholder="Image URL (Direct Link)" required>
+            <input type="number" id="pStock" placeholder="Available Stock" required>
+            <input type="text" id="pDel" placeholder="Delivery Charge (or 'Free Delivery')" required>
+            <textarea id="pDesc" placeholder="Item Description" rows="4"></textarea>
+            <button type="submit">Publish Item</button>
+        </form>
+    </div>
+</body>
+</html>
