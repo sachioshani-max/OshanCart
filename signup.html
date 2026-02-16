@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup 🎁|
-        Oshan Cart🗽</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Signup 🎁 | Oshan Cart 🗽</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
             authDomain: "oshancart.firebaseapp.com",
@@ -26,23 +26,36 @@
 
         window.handleSignup = async (event) => {
             event.preventDefault();
-            const name = document.getElementById('name').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
             const email = document.getElementById('email').value;
+            const whatsapp = document.getElementById('number').value;
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Password ගැළපෙනවාදැයි පරීක්ෂා කිරීම
+            if (password !== confirmPassword) {
+                alert("❌ Passwords do not match!");
+                return;
+            }
 
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
+                // Firestore එකේ දත්ත සේව් කිරීම
                 await setDoc(doc(db, "users", user.uid), {
-                    fullName: name,
+                    firstName: firstName,
+                    lastName: lastName,
+                    fullName: firstName + " " + lastName,
                     email: email,
+                    whatsapp: whatsapp,
+                    role: "customer", // Default role
                     createdAt: new Date()
                 });
 
-                alert("❤️‍🩹🪅ගිණුම සාර්ථකව සෑදුවා! Password එක Save කරගන්න. ✈️💰😍");
+                alert("❤️‍🩹🪅 ගිණුම සාර්ථකව සෑදුවා! Password එක Save කරගන්න. ✈️💰😍");
                 
-                // Browser එකට Password එක අල්ලා ගැනීමට තත්පරයක ප්‍රමාවක් ලබා දී Login එකට යවමු
                 setTimeout(() => {
                     window.location.href = "login.html";
                 }, 1000);
@@ -53,38 +66,46 @@
         };
     </script>
 </head>
-<body style="background: #fff0f3; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
+<body style="background: #fff0f3; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; padding: 20px 0;">
 
-    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px;">
-        <h1 style="text-align: center; color: #ff4d6d; margin-bottom: 20px;">Join Oshan Cart 🛍️</h1>
-        
-        <h3 style=text-aling: center; color: #ff8855; margin-bottom: 20px;">Welcome to OshanCart – Sri Lanka’s Emerging Smart Commerce Platform
-            OshanCart – Trusted Digital Marketplace & Income Platform🤑</h3>
+    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 400px;">
+        <h1 style="text-align: center; color: #ff4d6d; margin-bottom: 10px;">Join Oshan Cart 🛍️</h1>
+        <p style="text-align: center; color: #ff8855; font-size: 13px; margin-bottom: 25px; font-weight: bold;">
+            Trusted Digital Marketplace & Income Platform🤑
+        </p>
+
         <form onsubmit="handleSignup(event)">
-            <label style="font-size: 14px; color: #555;">first Name</label>
-            <input type="text" id="name" name="name" placeholder="ඔබේ නමේ මුල" required style="width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
-
-            <label style="font-size: 14px; color: #555;">last Name</label>
-            <input type="text" id="name" name="name" placeholder="මැද නම" required style="width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label style="font-size: 13px; color: #555;">First Name</label>
+                    <input type="text" id="firstName" placeholder="මුල් නම" required style="width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 13px; color: #555;">Last Name</label>
+                    <input type="text" id="lastName" placeholder="අග නම" required style="width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
+                </div>
+            </div>
             
-            <label style="font-size: 14px; color: #555;">Email Address</label>
-            <input type="email" id="email" name="email" autocomplete="username" placeholder="example@mail.com" required style="width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <label style="font-size: 13px; color: #555;">Email Address</label>
+            <input type="email" id="email" autocomplete="username" placeholder="example@mail.com" required style="width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
 
-            <label style="font-size: 14px; color: #555;">Enter the Whatsapp Number</label>
-            <input type="text" id="number" name="Number" placeholder="whatsapp number එක" required style="width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <label style="font-size: 13px; color: #555;">WhatsApp Number</label>
+            <input type="text" id="number" placeholder="07x xxxxxxx" required style="width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
             
-            <label style="font-size: 14px; color: #555;">Password</label>
-            <input type="password" id="password" name="password" autocomplete="new-password" placeholder="Put capital symbols (@, #) in letters minimum 6" required style="width: 100%; padding: 12px; margin: 8px 0 20px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <label style="font-size: 13px; color: #555;">Password</label>
+            <input type="password" id="password" autocomplete="new-password" placeholder="Min 6 characters (@, #, 123)" required style="width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
 
-            <label style="font-size: 14px; color: #555;">Conform Password</label>
-            <input type="password" id="password" name="password" autocomplete="new-password" placeholder="re-enter password" required style="width: 100%; padding: 12px; margin: 8px 0 20px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <label style="font-size: 13px; color: #555;">Confirm Password</label>
+            <input type="password" id="confirmPassword" autocomplete="new-password" placeholder="නැවත ඇතුළත් කරන්න" required style="width: 100%; padding: 10px; margin: 5px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
             
-            <button type="submit" style="width: 100%; background: #ff4d6d; color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;">
-                Agree and Register📇
+            <button type="submit" style="width: 100%; background: #ff4d6d; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px;">
+                Agree and Register 📇
             </button>
         </form>
+
         <p style="text-align: center; font-size: 13px; margin-top: 15px; color: #666;">
-            Already have an account?🤗 <a href="login.html" style="color: #ff4d6d; text-decoration: none; font-weight: bold;">Login ro sing in here🫂</a>
+            Already have an account? 🤗 <br>
+            <a href="login.html" style="color: #ff4d6d; text-decoration: none; font-weight: bold;">Login or Sign in here 🫂</a>
         </p>
     </div>
 
