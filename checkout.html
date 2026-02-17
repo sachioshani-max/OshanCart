@@ -3,6 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | OshanCart</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .checkout-container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 400px; }
+        h2 { color: #232f3e; text-align: center; margin-bottom: 20px; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        .order-btn { width: 100%; padding: 15px; background: #ff4d6d; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .order-btn:hover { background: #ff758c; }
+        .item-info { background: #fff5f6; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; color: #333; border-left: 5px solid #ff4d6d; }
+    </style>
+</head>
+<body>
+
+<div class="checkout-container">
+    <h2>Confirm Your Order 🚚</h2>
+    <div id="product-summary" class="item-info">Loading item details...</div>
+    
+    <form id="checkout-form">
+        <input type="text" id="cust-name" placeholder="ඔබේ නම (Full Name)" required>
+        <input type="text" id="cust-phone" placeholder="WhatsApp අංකය (WhatsApp Number)" required>
+        <textarea id="cust-address" placeholder="බඩු එවිය යුතු ලිපිනය (Delivery Address)" rows="3" required></textarea>
+        
+        <input type="hidden" id="item-name">
+        <input type="hidden" id="item-price">
+
+        <button type="submit" class="order-btn" id="submit-btn">Place Order (Cash on Delivery)</button>
+    </form>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+        authDomain: "oshancart.firebaseapp.com",
+        projectId: "oshancart",
+        storageBucket: "oshancart.firebasestorage.app",
+        messagingSenderId: "686982543488",
+        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // URL එකෙන් Product ID එක ගන්නවා
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    if (productId) {
+        const docRef = doc(db, "products", productId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            document.getElementById('product-summary').innerHTML = `
+                <b>Item:</b> ${data.name}<br>
+                <b>Price:</b> Rs. ${data.price}<br>
+                <b>Delivery:</b> ${data.delivery}
+            `;
+            document.getElementById('item-name').value = data.name;
+            document.getElementById('item-price').value = data.price;
+        }
+    }
+
+    // EmailJS Init (ඔයාගේ Public Key එක පසුව දාන්න පුළුවන්)
+    emailjs.init("YOUR_PUBLIC_KEY"); 
+
+    document.getElementById('checkout-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submit-btn');
+        btn.innerText = "Processing...";
+        btn.disabled = true;
+
+        const templateParams = {
+            from_name: document.getElementById('cust-name').value,
+            phone: document.getElementById('cust-phone').value,
+            address: document.getElementById('cust-address').value,
+            item: document.getElementById('item-name').value,
+            price: document.getElementById('item-price').value
+        };
+
+        // EmailJS හරහා Message එක යැවීම
+        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+            .then(() => {
+                alert("❤️ සාර්ථකයි! ඔබේ ඇණවුම අපට ලැබුණා. ඉක්මනින්ම සම්බන්ධ වන්නම්.");
+                window.location.href = "success.html";
+            }, (err) => {
+                alert("Error: " + JSON.stringify(err));
+                btn.disabled = false;
+                btn.innerText = "Place Order";
+            });
+    });
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Checkout | OshanCart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
