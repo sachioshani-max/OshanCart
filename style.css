@@ -160,3 +160,14 @@ button, .btn-amazon, .add-to-cart {
 button:hover, .btn-amazon:hover {
     background-color: #c9184a !important; /* මවුස් එක ගෙනිච්චම තද රතු පාට වෙන්න */
         }
+.country-dropdown {
+    margin: 20px;
+    padding: 10px;
+}
+
+#asia-countries {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 200px;
+}
