@@ -160,34 +160,41 @@ button, .btn-amazon, .add-to-cart {
 button:hover, .btn-amazon:hover {
     background-color: #c9184a !important; /* මවුස් එක ගෙනිච්චම තද රතු පාට වෙන්න */
         }
-.country-container {
+.country-wrapper {
     position: absolute;
-    top: 12px;
+    top: 10px;
     right: 15px;
-    z-index: 1000;
+    z-index: 10000;
 }
 
-.country-dropdown {
-    background-color: #232f3e; /* Website theme color */
-    color: white;
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid #ffffff;
+.custom-select-container {
+    border: 2px solid #ccff00; /* Neon Yellow Border */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(204, 255, 0, 0.5);
+}
+
+#country-select {
+    background-color: #ffffff; /* White Background */
+    color: #333;
+    padding: 8px 12px;
     font-size: 14px;
+    border: none;
     cursor: pointer;
     outline: none;
-    font-family: inherit;
+    font-weight: bold;
+    width: 100%;
 }
 
-.country-dropdown option {
+#country-select option {
     background-color: #ffffff;
     color: #333;
 }
 
-/* Mobile responsive adjust */
-@media (max-width: 600px) {
-    .country-dropdown {
-        font-size: 12px;
-        padding: 4px 8px;
-    }
+/* Hide Google Translate Toolbar */
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+body {
+    top: 0px !important;
 }
