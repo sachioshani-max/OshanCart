@@ -97,23 +97,44 @@
             </button>
             
             <button class="search-btn"><i class="fas fa-search"></i></button>
-        </div>
-        <div class="country-container">
-    <select class="country-dropdown">
-        <option value="sl">🇱🇰 Sri Lanka (+94)</option>
-        <option value="in">🇮🇳 India (+91)</option>
-        <option value="jp">🇯🇵 Japan (+81)</option>
-        <option value="kr">🇰🇷 South Korea (+82)</option>
-        <option value="us">🇺🇸 USA (+1)</option>
-        <option value="gb">🇬🇧 UK (+44)</option>
-        <option value="au">🇦🇺 Australia (+61)</option>
-        <option value="ae">🇦🇪 UAE (+971)</option>
-        <option value="ca">🇨🇦 Canada (+1)</option>
-        <option value="sg">🇸🇬 Singapore (+65)</option>
-        <option value="my">🇲🇾 Malaysia (+60)</option>
-        <option value="fr">🇫🇷 France (+33)</option>
-    </select>
+<div class="country-wrapper">
+    <div id="google_translate_element" style="display:none;"></div>
+    
+    <div class="custom-select-container">
+        <select id="country-select" onchange="translateLanguage(this.value)">
+            <option value="si">🇱🇰 Sri Lanka (+94)</option>
+            <option value="hi">🇮🇳 India (+91)</option>
+            <option value="ja">🇯🇵 Japan (+81)</option>
+            <option value="ko">🇰🇷 South Korea (+82)</option>
+            <option value="en">🇺🇸 USA (+1)</option>
+            <option value="en">🇬🇧 UK (+44)</option>
+            <option value="en">🇦🇺 Australia (+61)</option>
+            <option value="ar">🇦🇪 UAE (+971)</option>
+            <option value="en">🇨🇦 Canada (+1)</option>
+            <option value="zh-CN">🇸🇬 Singapore (+65)</option>
+            <option value="ms">🇲🇾 Malaysia (+60)</option>
+            <option value="fr">🇫🇷 France (+33)</option>
+        </select>
+    </div>
 </div>
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+    }
+
+    function translateLanguage(lang) {
+        var selectField = document.querySelector("select.goog-te-combo");
+        if (selectField) {
+            selectField.value = lang;
+            selectField.dispatchEvent(new Event('change'));
+        }
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    
+</script>
+
 
         <div class="header-right">
             <div class="user-menu-container" onclick="toggleUserMenu(event)">
