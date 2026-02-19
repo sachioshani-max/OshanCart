@@ -6,80 +6,144 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
             authDomain: "oshancart.firebaseapp.com",
             projectId: "oshancart",
-            storageBucket: "oshancart.firebasestorage.app",
+            storageBucket: "oshancart.appspot.com", // මෙතන .appspot.com දාන්න
             messagingSenderId: "686982543488",
             appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Image Preview පෙන්වීමට
+        window.previewImage = (event) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const output = document.getElementById('imagePreview');
+                output.src = reader.result;
+                output.style.display = 'block';
+                document.querySelector('.upload-box i').style.display = 'none';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
 
         window.addProduct = async (e) => {
             e.preventDefault();
             const btn = e.target.querySelector('button');
-            btn.innerText = "Publishing...";
+            const file = document.getElementById('pImgFile').files[0];
+            
+            if (!file) return alert("Please select an image!");
+
+            btn.innerText = "Uploading Image...";
             btn.disabled = true;
 
-            const product = {
-                name: document.getElementById('pName').value,
-                price: parseFloat(document.getElementById('pPrice').value),
-                brand: document.getElementById('pBrand').value,
-                category: document.getElementById('pCat').value,
-                condition: document.getElementById('pCond').value,
-                image: document.getElementById('pImg').value,
-                stock: parseInt(document.getElementById('pStock').value),
-                delivery: document.getElementById('pDel').value,
-                description: document.getElementById('pDesc').value,
-                createdAt: new Date()
-            };
-
             try {
+                // 1. Image එක Firebase Storage එකට Upload කිරීම
+                const storageRef = ref(storage, 'products/' + Date.now() + "_" + file.name);
+                const snapshot = await uploadBytes(storageRef, file);
+                const downloadURL = await getDownloadURL(snapshot.ref);
+
+                btn.innerText = "Publishing Data...";
+
+                // 2. Data එක Firestore එකට යැවීම
+                const product = {
+                    name: document.getElementById('pName').value,
+                    price: parseFloat(document.getElementById('pPrice').value),
+                    brand: document.getElementById('pBrand').value,
+                    category: document.getElementById('pCat').value,
+                    condition: document.getElementById('pCond').value,
+                    image: downloadURL, // මෙතනට ලැබෙන්නේ Upload කරපු image එකේ ලින්ක් එක
+                    stock: parseInt(document.getElementById('pStock').value),
+                    delivery: document.getElementById('pDel').value,
+                    description: document.getElementById('pDesc').value,
+                    createdAt: new Date()
+                };
+
                 await addDoc(collection(db, "products"), product);
                 alert("✅ Item Published Successfully!");
                 e.target.reset();
+                document.getElementById('imagePreview').style.display = 'none';
+                document.querySelector('.upload-box i').style.display = 'block';
+
             } catch (error) {
                 alert("Error: " + error.message);
+                console.error(error);
             } finally {
                 btn.innerText = "Publish Item";
                 btn.disabled = false;
             }
         };
     </script>
+
     <style>
-        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
-        .form-container { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; background: #ff9900; border: none; color: white; font-weight: bold; cursor: pointer; border-radius: 6px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; }
+        .form-container { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #232f3e; margin-bottom: 20px; }
+        
+        /* Upload Box Style */
+        .upload-box {
+            width: 100%; height: 150px; border: 2px dashed #ccc; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; position: relative; overflow: hidden; margin-bottom: 15px;
+            background: #fafafa;
+        }
+        .upload-box:hover { border-color: #ff9900; background: #fffcf5; }
+        .upload-box i { font-size: 40px; color: #aaa; }
+        .upload-box img { width: 100%; height: 100%; object-fit: contain; display: none; }
+        #pImgFile { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        button { width: 100%; padding: 15px; background: #ff9900; border: none; color: white; font-weight: bold; font-size: 16px; cursor: pointer; border-radius: 8px; margin-top: 10px; transition: 0.3s; }
+        button:hover { background: #e68a00; }
+        button:disabled { background: #ccc; }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+
     <div class="form-container">
-        <h2 style="color: #232f3e;">🚀 Add New Item to OshanCart</h2>
+        <h2>🚀 Post New Product</h2>
         <form onsubmit="addProduct(event)">
+            
+            <div class="upload-box">
+                <i class="fas fa-plus-circle"></i>
+                <img id="imagePreview" src="">
+                <input type="file" id="pImgFile" accept="image/*" onchange="previewImage(event)" required>
+            </div>
+            <p style="text-align: center; font-size: 12px; color: #888;">Click the icon to upload a photo</p>
+
             <input type="text" id="pName" placeholder="Item Name" required>
             <input type="number" id="pPrice" placeholder="Price (Rs.)" required>
-            <input type="text" id="pBrand" placeholder="Brand Name (Optional)">
+            <input type="text" id="pBrand" placeholder="Brand Name">
+            
             <select id="pCat">
                 <option value="Electronics">Electronics</option>
                 <option value="Fashion">Fashion</option>
+                <option value="Curve">Curve (Women)</option>
+                <option value="Kids">Kids</option>
+                <option value="Men">Men</option>
                 <option value="Home">Home & Kitchen</option>
-                <option value="Health">Health & Beauty</option>
+                <option value="Money Box">Money & Banking</option>
             </select>
+
             <select id="pCond">
                 <option value="Brand New">Brand New</option>
-                <option value="Used">Second Hand</option>
+                <option value="Used">Used</option>
             </select>
-            <input type="text" id="pImg" placeholder="Image URL (Direct Link)" required>
-            <input type="number" id="pStock" placeholder="Available Stock" required>
-            <input type="text" id="pDel" placeholder="Delivery Charge (or 'Free Delivery')" required>
-            <textarea id="pDesc" placeholder="Item Description" rows="4"></textarea>
+
+            <input type="number" id="pStock" placeholder="Stock Quantity" required>
+            <input type="text" id="pDel" placeholder="Delivery (e.g. Free or Rs. 300)" required>
+            <textarea id="pDesc" placeholder="Describe your item..." rows="3"></textarea>
+            
             <button type="submit">Publish Item</button>
         </form>
     </div>
+
 </body>
 </html>
