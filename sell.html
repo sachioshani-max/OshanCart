@@ -4,38 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Sign-up | Oshan Cart</title>
+    <!-- EmailJS Library -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .signup-container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(201, 24, 74, 0.15);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
+        body { background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%); font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .signup-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(201, 24, 74, 0.15); width: 100%; max-width: 400px; text-align: center; }
         .logo { color: #c9184a; font-weight: bold; font-size: 24px; margin-bottom: 20px; display: block; text-decoration: none; }
         .input-group { margin-bottom: 20px; position: relative; text-align: left; }
         .input-group label { display: block; font-weight: 600; color: #555; margin-bottom: 8px; }
-        .input-group input {
-            width: 100%; padding: 12px 12px 12px 45px; border: 2px solid #eee;
-            border-radius: 10px; outline: none; box-sizing: border-box; transition: 0.3s;
-        }
-        .input-group i { position: absolute; left: 15px; top: 42px; color: #25d366; font-size: 18px; }
-        .btn {
-            width: 100%; background: #c9184a; color: white; border: none; padding: 15px;
-            border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
+        .input-group input { width: 100%; padding: 12px 12px 12px 45px; border: 2px solid #eee; border-radius: 10px; outline: none; box-sizing: border-box; transition: 0.3s; }
+        .input-group i { position: absolute; left: 15px; top: 42px; color: #c9184a; font-size: 18px; }
+        .btn { width: 100%; background: #c9184a; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn:hover { background: #ff4d6d; }
         #otp-section { display: none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
@@ -44,43 +24,78 @@
 
 <div class="signup-container">
     <a href="index.html" class="logo">OSHAN CART</a>
-    <h2 style="color: #333;">Become a Seller</h2>
-    <p style="color: #777; font-size: 14px;">ඔබේ දුරකථන අංකය ඇතුළත් කර ලියාපදිංචි වන්න.</p>
+    <h2 style="color: #333;">Seller Verification</h2>
+    <p style="color: #777; font-size: 14px;">Email එක ඇතුළත් කර ඇත්තම OTP එකක් ලබාගන්න.</p>
 
     <div id="phone-section">
         <div class="input-group">
+            <label>Email Address</label>
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="email" placeholder="example@mail.com" required>
+        </div>
+        <div class="input-group">
             <label>WhatsApp Number</label>
-            <i class="fab fa-whatsapp"></i>
+            <i class="fab fa-whatsapp" style="color: #25d366;"></i>
             <input type="tel" id="phone" placeholder="07XXXXXXXX" required>
         </div>
-        <button class="btn" onclick="sendOTP()">Send OTP via WhatsApp</button>
+        <button class="btn" id="send-btn" onclick="sendOTP()">Send OTP to Email</button>
     </div>
 
     <div id="otp-section">
         <div class="input-group">
             <label>Enter 6-Digit OTP</label>
             <i class="fas fa-key" style="color: #ffb703;"></i>
-            <input type="text" id="otp" placeholder="XXXXXX" maxlength="6">
+            <input type="text" id="otp_input" placeholder="XXXXXX" maxlength="6">
         </div>
         <button class="btn" onclick="verifyOTP()" style="background: #2d6a4f;">Verify & Continue</button>
     </div>
 </div>
 
 <script>
+    // ඔබේ නිවැරදි Public Key එක
+    emailjs.init("jfgAK0LaZ0w7RKAE8");
+
+    let systemOTP; 
+
     function sendOTP() {
-        const phone = document.getElementById('phone').value;
-        if(phone.length >= 10) {
-            alert("OTP එකක් ඔබේ WhatsApp අංකයට යොමු කළා (Demo)");
-            document.getElementById('phone-section').style.opacity = "0.5";
-            document.getElementById('otp-section').style.display = "block";
+        const email = document.getElementById('email').value;
+        const sendBtn = document.getElementById('send-btn');
+
+        if(email.includes("@")) {
+            // අහඹු අංක 6ක් ජනනය කිරීම
+            systemOTP = Math.floor(100000 + Math.random() * 900000);
+            
+            sendBtn.innerText = "Sending...";
+            sendBtn.disabled = true;
+
+            // EmailJS හරහා දත්ත යැවීම
+            emailjs.send("service_il15c1q", "template_vmc0kvo", {
+                to_email: email,
+                otp_code: systemOTP
+            }).then(() => {
+                alert("Oshan Cart: ඔබගේ Email එකට OTP කේතය එවා ඇත. කරුණාකර පරීක්ෂා කරන්න.");
+                document.getElementById('phone-section').style.opacity = "0.5";
+                document.getElementById('otp-section').style.display = "block";
+                sendBtn.innerText = "Resend OTP";
+                sendBtn.disabled = false;
+            }, (error) => {
+                alert("Error: " + JSON.stringify(error));
+                sendBtn.disabled = false;
+                sendBtn.innerText = "Send OTP to Email";
+            });
         } else {
-            alert("කරුණාකර නිවැරදි අංකයක් ඇතුළත් කරන්න.");
+            alert("කරුණාකර නිවැරදි Email ලිපිනයක් ඇතුළත් කරන්න.");
         }
     }
 
     function verifyOTP() {
-        // මෙතනදී අපි Dashboard එකට යන ලින්ක් එක දෙනවා
-        window.location.href = "dashboard.html"; 
+        const userOTP = document.getElementById('otp_input').value;
+        if(userOTP == systemOTP) {
+            alert("තහවුරු කිරීම සාර්ථකයි! දැන් Dashboard වෙත යොමු කෙරේ.");
+            window.location.href = "dashboard.html";
+        } else {
+            alert("වැරදි OTP අංකයක්. කරුණාකර නැවත පරීක්ෂා කරන්න.");
+        }
     }
 </script>
 
