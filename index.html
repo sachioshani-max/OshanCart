@@ -3,274 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oshan Cart | Smart Global Shopping</title>
+    <title>Oshan Cart | Shop Your Style</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: #f6f6f6; overflow-x: hidden; color: #333; }
-
-        /* Header Layout */
-        header { 
-            background: #232f3e; 
-            padding: 10px 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            color: white; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            gap: 15px;
-        }
-
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .menu-toggle { font-size: 22px; cursor: pointer; color: white; }
-        .logo { color: #ff9900; font-size: 22px; font-weight: bold; text-decoration: none; white-space: nowrap; }
-        .logo span { color: white; font-weight: normal; font-size: 14px; }
-
-        /* Search Bar Customization */
-        .search-wrapper { 
-            flex: 1; 
-            max-width: 600px; 
-            display: flex; 
-            background: white; 
-            border-radius: 6px; 
-            overflow: hidden; 
-            height: 40px; 
-            border: 2px solid transparent;
-        }
-        .search-wrapper:focus-within { border: 2px solid #ff9900; }
-        .category-btn { 
-            background: #f3f3f3; 
-            border: none; 
-            padding: 0 15px; 
-            cursor: pointer; 
-            border-right: 1px solid #ddd;
-            font-size: 13px;
-            color: #555;
-        }
-
-        <div class="search-wrapper" style="display: flex; background: white; border-radius: 4px; flex: 1; margin: 0 15px; position: relative;">
-    <div class="cat-select" onclick="toggleCat()" style="background: #f3f3f3; padding: 0 10px; border-radius: 4px 0 0 4px; border-right: 1px solid #ddd; cursor: pointer; display: flex; align-items: center; font-size: 13px;">
-        <span id="active-cat">All</span> <i class="fas fa-caret-down" style="margin-left: 5px;"></i>
-    </div>
-    
-    <div id="cat-list" style="display: none; position: absolute; top: 40px; left: 0; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 100; width: 150px; border-radius: 4px;">
-        <div style="padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;" onclick="setCat('All')">All</div>
-        <div style="padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;" onclick="setCat('Women')">Women</div>
-        <div style="padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;" onclick="setCat('Curve')">Curve</div>
-        <div style="padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;" onclick="setCat('Kids')">Kids</div>
-        <div style="padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;" onclick="setCat('Men')">Men</div>
-        <div style="padding: 10px; cursor: pointer;" onclick="setCat('Home')">Home</div>
-    </div>
-
-    <input type="text" placeholder="Search for products..." style="border: none; padding: 10px; flex: 1; outline: none;">
-    <button style="background: #febd69; border: none; padding: 0 15px; border-radius: 0 4px 4px 0; cursor: pointer;"><i class="fas fa-search"></i></button>
-</div>
-        .search-input { flex: 1; border: none; padding: 10px; outline: none; font-size: 15px; }
-        .search-btn { background: #febd69; border: none; padding: 0 15px; cursor: pointer; color: #333; font-size: 18px; }
-
-        /* Language Dropdown (USA Flag Default) */
-        .lang-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 5px 8px; border-radius: 3px; border: 1px solid transparent; }
-        .lang-container:hover { border: 1px solid white; }
-        .flag-menu { 
-            position: absolute; top: 45px; right: 0; background: white; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2); border-radius: 4px; 
-            width: 150px; display: none; flex-direction: column; z-index: 2000;
-        }
-        .flag-menu.active { display: flex; }
-        .flag-item { padding: 10px; color: #333; font-size: 13px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; }
-        .flag-item:hover { background: #f0f2f2; }
-        .flag-item img { width: 20px; }
-
-        /* User Account Menu (Amazon Style) */
-        .user-nav { position: relative; cursor: pointer; padding: 5px 8px; border-radius: 3px; border: 1px solid transparent; }
-        .user-nav:hover { border: 1px solid white; }
-        .user-dropdown { 
-            position: absolute; top: 45px; right: 0; background: white; 
-            width: 240px; border-radius: 4px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
-            display: none; flex-direction: column; z-index: 2001; padding: 15px 0;
-        }
-        .user-dropdown.active { display: flex; }
-        .sign-in-btn { 
-            background: linear-gradient(to bottom, #f7dfa5, #f0c14b); 
-            border: 1px solid #a88734; margin: 0 15px 10px 15px; 
-            padding: 8px; text-align: center; border-radius: 3px; 
-            text-decoration: none; color: #111; font-weight: bold; font-size: 13px;
-        }
-        .user-dropdown a { padding: 8px 20px; text-decoration: none; color: #444; font-size: 13px; }
-        .user-dropdown a:hover { color: #ff4d6d; text-decoration: underline; }
-
-        /* Sidebar & Overlay */
-        .sidebar { position: fixed; top: 0; left: -285px; width: 280px; height: 100%; background: white; z-index: 2100; transition: 0.3s; box-shadow: 5px 0 15px rgba(0,0,0,0.2); }
-        .sidebar.active { left: 0; }
-        .sidebar-header { background: #232f3e; color: white; padding: 15px 20px; font-size: 19px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
-        .sidebar a { display: block; padding: 15px 20px; color: #111; text-decoration: none; font-size: 14px; border-bottom: 1px solid #eee; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; z-index: 2050; }
-        .overlay.active { display: block; }
-
-        /* UI Elements */
-        .promo-bar { background: #ff4d6d; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 13px; letter-spacing: 0.5px; }
-        .navbar { background: #37475a; display: flex; gap: 20px; padding: 8px 20px; overflow-x: auto; white-space: nowrap; }
-        .navbar a { color: white; text-decoration: none; font-size: 14px; }
+        :root { --primary: #c9184a; --soft-pink: #ffccd5; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: #f9f9f9; }
         
+        /* Navigation */
+        nav { background: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary); text-decoration: none; }
+        .search-bar { flex: 0.6; display: flex; }
+        .search-bar input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px 0 0 5px; outline: none; }
+        .search-bar button { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 0 5px 5px 0; cursor: pointer; }
+
+        /* Categories Bar */
+        .categories { display: flex; justify-content: center; gap: 15px; padding: 15px; background: white; overflow-x: auto; border-bottom: 1px solid #eee; }
+        .cat-btn { padding: 8px 15px; border: 1px solid var(--primary); border-radius: 20px; cursor: pointer; color: var(--primary); white-space: nowrap; transition: 0.3s; }
+        .cat-btn:hover, .cat-btn.active { background: var(--primary); color: white; }
+
         /* Product Grid */
-        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; max-width: 1200px; margin: auto; }
-        @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 25px; } }
-        .product-card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: left; transition: 0.2s; }
-        .product-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .product-card img { width: 100%; height: 180px; object-fit: contain; margin-bottom: 10px; }
-        .price { color: #B12704; font-weight: bold; font-size: 18px; margin: 5px 0; }
-        .buy-btn { background: #ff4d6d; color: white; border: none; padding: 10px; width: 100%; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-
-        /* Floating AI */
-        .ai-btn { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: #ff4d6d; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 26px; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); z-index: 1500; }
-
-        /* Hide Google Translate UI */
-        .goog-te-banner-frame.skiptranslate, .goog-te-gadget { display: none !important; }
-        body { top: 0px !important; }
+        .container { padding: 30px 5%; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
+        
+        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; position: relative; }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-img { width: 100%; height: 200px; object-fit: cover; }
+        .product-info { padding: 15px; }
+        .product-name { font-weight: 600; font-size: 16px; margin: 0; color: #333; }
+        .product-price { color: var(--primary); font-size: 18px; font-weight: bold; margin: 5px 0; }
+        .delivery-tag { font-size: 12px; color: #27ae60; background: #e8f5e9; display: inline-block; padding: 2px 8px; border-radius: 4px; }
+        
+        .btn-buy { width: 100%; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 5px; margin-top: 10px; cursor: pointer; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <div class="overlay" id="overlay" onclick="closeMenus()"></div>
-
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header"><i class="fas fa-user-circle"></i> Hello, Sign In</div>
-        <a href="index.html"><b>Home</b></a>
-        <a href="trending.html">Trending Products</a>
-        <a href="login.html">Sign In / Register</a>
-        <a href="profile.html">My Account</a>
-        <a href="orders.html">My Orders</a>
-        <a href="javascript:void(0)" onclick="checkAdminPassword()">Admin Panel</a>
-    </div>
-
-    <header>
-        <header>
-    <div class="header-left">
-        <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
-        <a href="index.html" class="logo">OSHAN CART</a>
-    </div>
-
-    <div class="search-wrapper">
-        <div class="category-menu" onclick="toggleMenu('categoryDropdown', event)">
-            <span id="selectedCat">All</span> <i class="fas fa-caret-down"></i>
-            <div id="categoryMenu" class="category-dropdown-content">
-                <a onclick="updateCat('All')">All</a>
-                <a onclick="updateCat('Women')">Women</a>
-                <a onclick="updateCat('Curve')">Curve</a>
-                <a onclick="updateCat('Kids')">Kids</a>
-                <a onclick="updateCat('Men')">Men</a>
-                <a onclick="updateCat('Home')">Home</a>
-                <a onclick="updateCat('Beauty')">Beauty</a>
-                <a onclick="updateCat('electrical item')">electrical item</a>
-                <a onclick="updateCat('Used item')">Used item</a>
-                <a onclick="updateCat('Dry food')">Dry food</a>
-                <a onclick="updateCat('Cakes for weddings and birthdays')">Cakes for weddings and birthdays</a>
-            </div>
+    <nav>
+        <a href="#" class="logo">OSHAN CART</a>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for items, brands...">
+            <button onclick="searchProducts()"><i class="fas fa-search"></i></button>
         </div>
-        <input type="text" class="search-input" placeholder="Search for Just For You items...">
-        <button class="search-btn"><i class="fas fa-search"></i></button>
+        <div>
+            <i class="fas fa-shopping-cart" style="font-size: 20px; color: #333; cursor: pointer;"></i>
+        </div>
+    </nav>
+
+    <div class="categories" id="categoryBar">
+        <button class="cat-btn active" onclick="filterCat('All')">All Items</button>
+        <button class="cat-btn" onclick="filterCat('Home & Kitchen')">Home & Kitchen 🏠</button>
+        <button class="cat-btn" onclick="filterCat('Jewelry')">Jewelry 💍</button>
+        <button class="cat-btn" onclick="filterCat('Phones')">Phones 📱</button>
+        <button class="cat-btn" onclick="filterCat('Furniture')">Furniture 🛋️</button>
+        <button class="cat-btn" onclick="filterCat('Men')">Men 🚹</button>
+        <button class="cat-btn" onclick="filterCat('Women')">Women 🚺</button>
     </div>
 
-    <div class="lang-container" onclick="toggleMenu('flagMenu', event)">
-        <div class="flag-info">
-            <img id="current-flag" src="https://flagcdn.com/w40/us.png" width="22">
-            <span>+1 (USA)</span>
-        </div>
-        <div class="flag-menu" id="flagMenu">
-            <div class="flag-item" onclick="changeLang('en', 'us', '+1')"><img src="https://flagcdn.com/w20/us.png"> USA (+1)</div>
-            <div class="flag-item" onclick="changeLang('si', 'sl', '+94')"><img src="https://flagcdn.com/w20/sl.png"> Sri Lanka (+94)</div>
-            <div class="flag-item" onclick="changeLang('ja', 'jp', '+81')"><img src="https://flagcdn.com/w20/jp.png"> Japan (+81)</div>
+    <div class="container">
+        <div class="product-grid" id="productDisplay">
+            <!-- Products will load here -->
         </div>
     </div>
 
-    <div class="user-nav" onclick="toggleMenu('userDropdown', event)">
-        <div style="font-size: 12px;">Hello, Sign in<br><b>Account <i class="fas fa-caret-down"></i></b></div>
-        <div class="user-dropdown" id="userDropdown">
-            <a href="login.html" class="sign-in-btn">Sign in</a>
-            <a href="profile.html"><i class="fas fa-user-cog"></i> Settings</a>
-            <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
-            <a href="affiliate.html"><i class="fas fa-users"></i> Affiliate Program</a>
-            <a href="admin.html"><i class="fas fa-user-cog"></i> admin panal</a>
-            <a href="help.html">Customer Service</a>
-        </div>
-    </div>
-</header>
-    </header>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    <div class="promo-bar">🚀 VALENTINE'S SPECIAL OFFERS - 20% OFF! USE CODE: LOVE2026</div>
-
-    <div class="navbar">
-        <a href="#"><i class="fas fa-bars"></i> All</a>
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="sell.html">Sell With Us</a>
-        <a href="affiliate.html" style="color: #febd69;">Affiliate Program</a>
-        <a href="#">Customer Service</a>
-    </div>
-
-    <div style="background: #ff4d6d; color: white; text-align: center; padding: 25px;">
-        <h2 style="margin:0;">💖 Valentine's Featured Products 🔥</h2>
-    </div>
-
-    <div class="product-grid" id="product-container">
-        </div>
-
-    <div class="ai-btn" onclick="alert('Oshan AI: How can I help you today?')">
-        <i class="fas fa-robot"></i>
-    </div>
-
-    <div id="google_translate_element" style="display:none;"></div>
-
-    <script>
-        // Toggle Functions
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
-        }
-
-        function toggleMenu(id, e) {
-            e.stopPropagation();
-            closeMenus();
-            document.getElementById(id).classList.add('active');
-        }
-
-        function closeMenus() {
-            document.getElementById('sidebar').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-            document.getElementById('flagMenu').classList.remove('active');
-            document.getElementById('userDropdown').classList.remove('active');
-        }
-
-        window.onclick = closeMenus;
-
-        // Translation Logic
-        function changeLang(langCode, flagCode) {
-            document.getElementById("current-flag").src = `https://flagcdn.com/w40/${flagCode}.png`;
-            var selectField = document.querySelector("select.goog-te-combo");
-            if (selectField) {
-                selectField.value = langCode;
-                selectField.dispatchEvent(new Event('change'));
-            }
-        }
-
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-        }
-
-        // Admin Security
-        function checkAdminPassword() {
-            const pw = prompt("Enter Admin Password:");
-            if (pw === "Lakshan@2001") { window.location.href = "admin.html"; }
-            else if (pw !== null) { alert("Access Denied!"); }
-        }
-
-       <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    // ඔයාගේ Admin Panel එකේ තිබුණ Key ටික මෙතනට දැම්මා
     const firebaseConfig = {
         apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
         authDomain: "oshancart.firebaseapp.com",
@@ -282,85 +80,45 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    let allProducts = [];
 
-    // Database එකෙන් බඩු ටික අරගෙන පෙන්වීම
-    const productContainer = document.getElementById('product-container');
-    const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
-
-    onSnapshot(q, (snapshot) => {
-        productContainer.innerHTML = ""; // පරණ ඒවා අයින් කරන්න
-        
-        snapshot.forEach((doc) => {
-            const item = doc.data();
-            productContainer.innerHTML += `
-                <div class="product-card">
-                    <img src="${item.image}" alt="${item.name}">
-                    <h4 style="font-size: 14px; height: 40px; overflow: hidden;">${item.name}</h4>
-                    <p style="font-size: 11px; color: #888; margin-top: 5px;">${item.brand || 'Oshan Brand'}</p>
-                    <div class="price">Rs. ${item.price.toLocaleString()}</div>
-                    <p style="font-size: 11px; color: green; font-weight: bold;">${item.delivery}</p>
-                    <button class="buy-btn" onclick="window.location.href='view-product.html?id=${doc.id}'">Buy Now</button>
-                </div>
-            `;
-        });
-    });
-</script>
-    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
-        // Category Menu toggle
-function toggleCategory() {
-    document.getElementById("categoryMenu").classList.toggle("show-cat");
-}
-
-function updateCat(name) {
-    document.getElementById("selectedCat").innerText = name;
-}
-
-// Language Change with Flag and Code
-function changeLang(langCode, flagCode, phoneCode) {
-    document.getElementById("current-flag").src = `https://flagcdn.com/w40/${flagCode}.png`;
-    // මෙතනින් Google Translate එකට සිග්නල් එක යවනවා
-    var selectField = document.querySelector("select.goog-te-combo");
-    if (selectField) {
-        selectField.value = langCode;
-        selectField.dispatchEvent(new Event('change'));
+    async function fetchProducts() {
+        const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        allProducts = snapshot.docs.map(doc => doc.data());
+        displayItems(allProducts);
     }
-}
 
-// Sidebar එක හරියටම වැඩ කිරීමට
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
-}
-        function toggleCat() {
-    var list = document.getElementById('cat-list');
-    list.style.display = (list.style.display === 'none') ? 'block' : 'none';
-}
+    function displayItems(items) {
+        const grid = document.getElementById('productDisplay');
+        grid.innerHTML = items.map(item => `
+            <div class="product-card">
+                <img src="${item.image}" class="product-img">
+                <div class="product-info">
+                    <p class="product-name">${item.name}</p>
+                    <p class="product-price">Rs. ${item.price.toLocaleString()}</p>
+                    <span class="delivery-tag"><i class="fas fa-truck"></i> ${item.deliveryInfo || 'Standard Delivery'}</span>
+                    <button class="btn-buy" onclick="alert('Order Feature Coming Soon!')">Add to Cart</button>
+                </div>
+            </div>
+        `).join('');
+    }
 
-function setCat(name) {
-    document.getElementById('active-cat').innerText = name;
-    document.getElementById('cat-list').style.display = 'none';
-}
-    </script>
-    <footer style="background: #131921; color: white; padding: 40px 20px; margin-top: 50px; text-align: center;">
-    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-bottom: 20px; font-size: 14px;">
-        <div>
-            <h4 style="color: #ff9900;">Get to Know Us</h4>
-            <p><a href="about.html" style="color: white; text-decoration: none;">About OshanCart</a></p>
-        </div>
-        <div>
-            <h4 style="color: #ff9900;">Help & Support</h4>
-            <p><a href="help.html" style="color: white; text-decoration: none;">Customer Service</a></p>
-            <p><a href="shipping.html" style="color: white; text-decoration: none;">Shipping Rates</a></p>
-        </div>
-    </div>
-    <hr style="border: 0.1px solid #3a4553;">
-    <p style="font-size: 12px; margin-top: 20px;">
-        <a href="privacy.html" style="color: #ccc; margin-right: 15px;">Privacy Policy</a>
-        <a href="terms.html" style="color: #ccc;">Terms & Conditions</a>
-    </p>
-    <p style="font-size: 12px; color: #888; margin-top: 10px;">© 2026 OshanCart. All rights reserved.</p>
-</footer>
+    // Filter by Category
+    window.filterCat = (cat) => {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        if(cat === 'All') displayItems(allProducts);
+        else displayItems(allProducts.filter(p => p.category === cat));
+    };
+
+    // Search Feature
+    window.searchProducts = () => {
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        displayItems(allProducts.filter(p => p.name.toLowerCase().includes(term)));
+    };
+
+    fetchProducts();
+</script>
 </body>
 </html>
