@@ -160,66 +160,70 @@ button, .btn-amazon, .add-to-cart {
 button:hover, .btn-amazon:hover {
     background-color: #c9184a !important; /* මවුස් එක ගෙනිච්චම තද රතු පාට වෙන්න */
         }
-.custom-dropdown {
+.oshan-flag-dropdown {
     position: relative;
     display: inline-block;
-    font-family: Arial, sans-serif;
+    cursor: pointer;
+    vertical-align: middle;
 }
 
-.dropdown-header {
-    background-color: white;
-    border: 2px solid #ccff00; /* Neon Yellow */
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: bold;
-    color: #333;
+.flag-trigger {
     display: flex;
     align-items: center;
-    min-width: 100px;
-    justify-content: space-between;
+    border: 2px solid #ccff00; /* Neon Yellow */
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(204, 255, 0, 0.3);
+}
+
+.flag-trigger img {
+    width: 25px;
+    height: auto;
+    border-radius: 2px;
 }
 
 .arrow-down {
-    border: solid #333;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 2px;
-    transform: rotate(45deg);
-    margin-left: 8px;
+    font-size: 10px;
+    margin-left: 5px;
+    color: #333;
 }
 
-.dropdown-list {
-    display: none;
+.flag-menu {
+    display: none; /* මුලින් හංගලා තියෙන්නේ */
     position: absolute;
+    top: 40px;
+    right: 0;
     background-color: white;
-    min-width: 160px;
+    min-width: 150px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
     z-index: 10000;
-    border-radius: 4px;
-    top: 35px;
-    right: 0;
-    max-height: 250px;
-    overflow-y: auto;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
-.dropdown-list.show {
-    display: block;
+.flag-menu.show {
+    display: block; /* Click කළාම විතරක් පෙන්වන්න */
 }
 
-.dropdown-item {
+.flag-item {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     color: #333;
-    padding: 8px 12px;
     font-size: 13px;
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
+    transition: 0.2s;
 }
 
-.dropdown-item:hover {
+.flag-item:hover {
     background-color: #f1f1f1;
 }
 
-/* Google Bar Hide */
+.flag-item img {
+    width: 20px;
+}
+
+/* Google Bar සැඟවීමට */
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 body { top: 0px !important; }
