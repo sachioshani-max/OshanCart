@@ -109,3 +109,14 @@ footer {
 #cat-list div:hover {
     background-color: #f3f3f3;
 }
+/* Category Dropdown එක පෙන්වීමට */
+#cat-list {
+    display: none;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    padding: 5px 0;
+}
+#cat-list div:hover {
+    background-color: #f3f3f3;
+}
