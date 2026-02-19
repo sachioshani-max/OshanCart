@@ -1,69 +1,145 @@
-<div class="form-container">
-    <h2 style="color: #c9184a;">Add New Product</h2>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard | Oshan Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin: 0; display: flex; }
+        .sidebar { width: 250px; background: #c9184a; height: 100vh; color: white; padding: 20px; position: fixed; }
+        .main-content { margin-left: 270px; padding: 30px; width: calc(100% - 270px); }
         
-        <div class="input-group">
-            <label>Product Name</label>
-            <input type="text" id="p-name" placeholder="eg: Luxury Sofa Set">
-        </div>
-        <div class="input-group">
-            <label>Price (Rs.)</label>
-            <input type="number" id="p-price" placeholder="55000">
-        </div>
+        .form-container { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; font-size: 14px; }
+        .input-group input, .input-group select, .input-group textarea { 
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline: none;
+        }
+        
+        .upload-box { border: 2px dashed #c9184a; padding: 20px; border-radius: 10px; cursor: pointer; background: #fff5f7; text-align: center; }
+        .upload-box:hover { background: #ffeef2; }
+        
+        .btn-post { background: #c9184a; color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; transition: 0.3s; }
+        .btn-post:hover { background: #a4133c; }
 
-        <div class="input-group">
-            <label>Category</label>
-            <select id="p-cat">
-                <option value="Home & Kitchen">Home & Kitchen 🏠</option>
-                <option value="Jewelry">Jewelry 💍</option>
-                <option value="Phones">Phones 📱</option>
-                <option value="Home & Beauty">Home & Beauty 💄</option>
-                <option value="Money Saving">Money Saving Items 💰</option>
-                <option value="Furniture">Furniture (Sofa/Almari/Mes) 🛋️</option>
-                <option value="Kids">Kids 🧸</option>
-                <option value="Men">Men 🚹</option>
-                <option value="Women">Women 🚺</option>
-            </select>
-        </div>
+        table { width: 100%; background: white; border-radius: 15px; border-collapse: collapse; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #ffccd5; color: #c9184a; }
+        .product-img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
+    </style>
+</head>
+<body>
 
-        <div class="input-group">
-            <label>Stock Quantity</label>
-            <input type="number" id="p-stock" placeholder="eg: 5">
-        </div>
-
-        <div class="input-group">
-            <label>Delivery Option</label>
-            <select id="p-delivery">
-                <option value="Free Delivery">Free Delivery</option>
-                <option value="Standard Delivery (Rs. 350)">Standard Delivery (Rs. 350)</option>
-                <option value="Store Pickup">Store Pickup</option>
-            </select>
-        </div>
-
-        <div class="input-group">
-            <label>Estimated Delivery Time</label>
-            <input type="text" id="p-del-time" placeholder="eg: 3-5 Days">
-        </div>
-
-        <div class="input-group" style="grid-column: span 2;">
-            <label>Product Description (Specs, Sizes, etc.)</label>
-            <textarea id="p-desc" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" placeholder="Describe the item..."></textarea>
-        </div>
-
-        <div class="input-group" style="grid-column: span 2;">
-            <label>Upload Image</label>
-            <div class="upload-box" onclick="document.getElementById('p-file').click()">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <p id="file-status">Select Product Photo</p>
-                <input type="file" id="p-file" accept="image/*" style="display: none;">
-            </div>
-        </div>
+    <div class="sidebar">
+        <h2 style="margin-bottom: 40px;">OSHAN CART</h2>
+        <nav>
+            <p style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 8px;"><i class="fas fa-home"></i> Dashboard</p>
+            <p><i class="fas fa-box"></i> My Products</p>
+            <p><i class="fas fa-sign-out-alt"></i> Logout</p>
+        </nav>
     </div>
-    <button class="btn-post" id="add-btn" onclick="addProduct()">List Product Now</button>
-</div>
+
+    <div class="main-content">
+        <h1 style="color: #333;">Seller Dashboard</h1>
+
+        <div class="form-container">
+            <h2 style="color: #c9184a;"><i class="fas fa-plus-circle"></i> Add New Product</h2>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Product Name</label>
+                    <input type="text" id="p-name" placeholder="eg: Luxury Sofa Set">
+                </div>
+                <div class="input-group">
+                    <label>Price (Rs.)</label>
+                    <input type="number" id="p-price" placeholder="55000">
+                </div>
+                <div class="input-group">
+                    <label>Category</label>
+                    <select id="p-cat">
+                        <option value="Home & Kitchen">Home & Kitchen 🏠</option>
+                        <option value="Jewelry">Jewelry 💍</option>
+                        <option value="Phones">Phones 📱</option>
+                        <option value="Home & Beauty">Home & Beauty 💄</option>
+                        <option value="Money Saving">Money Saving Items 💰</option>
+                        <option value="Furniture">Furniture 🛋️</option>
+                        <option value="Kids">Kids 🧸</option>
+                        <option value="Men">Men 🚹</option>
+                        <option value="Women">Women 🚺</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" id="p-stock" placeholder="eg: 10">
+                </div>
+                <div class="input-group">
+                    <label>Delivery Option</label>
+                    <select id="p-delivery">
+                        <option value="Free Delivery">Free Delivery</option>
+                        <option value="Standard Delivery">Standard Delivery (Rs. 350)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Estimated Delivery Time</label>
+                    <input type="text" id="p-del-time" placeholder="eg: 3-5 Days">
+                </div>
+                <div class="input-group" style="grid-column: span 2;">
+                    <label>Description</label>
+                    <textarea id="p-desc" rows="3" placeholder="Specs, Sizes, and Details..."></textarea>
+                </div>
+                <div class="input-group" style="grid-column: span 2;">
+                    <label>Product Image</label>
+                    <div class="upload-box" onclick="document.getElementById('p-file').click()">
+                        <i class="fas fa-image" style="font-size: 24px; color: #c9184a;"></i>
+                        <p id="file-status">Click to select photo</p>
+                        <input type="file" id="p-file" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+            </div>
+            <button class="btn-post" id="add-btn" onclick="addProduct()">List Product Now</button>
+        </div>
+
+        <h2>My Listed Items</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Stock</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody id="product-list"></tbody>
+        </table>
+    </div>
 
 <script type="module">
-    // ... Firebase Config eka pahala danna ...
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+        authDomain: "oshancart.firebaseapp.com",
+        projectId: "oshancart",
+        storageBucket: "oshancart.appspot.com",
+        messagingSenderId: "686982543488",
+        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const IMGBB_KEY = "2e4966d15a568b4b2b8ab4d2515fb8b8";
+    let selectedFile;
+
+    document.getElementById('p-file').onchange = (e) => {
+        selectedFile = e.target.files[0];
+        document.getElementById('file-status').innerText = "Selected: " + selectedFile.name;
+    };
 
     window.addProduct = async function() {
         const name = document.getElementById('p-name').value;
@@ -78,38 +154,44 @@
         if(name && price && selectedFile && stock) {
             btn.innerText = "Processing...";
             btn.disabled = true;
-
             try {
-                // 1. ImgBB Image Upload
                 let formData = new FormData();
                 formData.append("image", selectedFile);
                 const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
                 const imgData = await imgRes.json();
-                const finalImageUrl = imgData.data.url;
-
-                // 2. Firebase Store (Adding all new fields)
+                
                 await addDoc(collection(db, "products"), {
-                    name: name,
-                    price: parseFloat(price),
-                    category: cat,
-                    stock: parseInt(stock),
-                    description: desc,
-                    deliveryInfo: delivery,
-                    deliveryTime: delTime,
-                    image: finalImageUrl,
-                    brand: "Oshan Brand",
-                    createdAt: serverTimestamp()
+                    name, price: parseFloat(price), category: cat, stock: parseInt(stock),
+                    description: desc, deliveryInfo: delivery, deliveryTime: delTime,
+                    image: imgData.data.url, createdAt: serverTimestamp()
                 });
 
-                alert("Product Successfully Added to OshanCart!");
+                alert("Product Added Successfully!");
                 location.reload();
             } catch (err) {
                 alert("Error: " + err.message);
                 btn.disabled = false;
                 btn.innerText = "List Product Now";
             }
-        } else {
-            alert("Please fill all required fields!");
-        }
+        } else { alert("Please fill all required fields!"); }
     }
+
+    async function loadItems() {
+        const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        const list = document.getElementById('product-list');
+        snapshot.forEach(doc => {
+            const item = doc.data();
+            list.innerHTML += `<tr>
+                <td><img src="${item.image}" class="product-img"></td>
+                <td>${item.name}</td>
+                <td>Rs. ${item.price}</td>
+                <td>${item.category}</td>
+                <td>${item.stock}</td>
+            </tr>`;
+        });
+    }
+    loadItems();
 </script>
+</body>
+</html>
