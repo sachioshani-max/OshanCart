@@ -160,26 +160,66 @@ button, .btn-amazon, .add-to-cart {
 button:hover, .btn-amazon:hover {
     background-color: #c9184a !important; /* මවුස් එක ගෙනිච්චම තද රතු පාට වෙන්න */
         }
-/* Navbar එක ඇතුළේ රටවල් පෙට්ටිය */
-.oshan-country-box {
+.custom-dropdown {
+    position: relative;
     display: inline-block;
-    margin-left: 10px;
-    vertical-align: middle;
+    font-family: Arial, sans-serif;
 }
 
-#country-select {
-    background-color: #ffffff; /* සුදු පාට Background */
-    color: #333;
-    border: 2px solid #ccff00; /* Neon Yellow Border */
-    border-radius: 5px;
-    padding: 5px 8px;
+.dropdown-header {
+    background-color: white;
+    border: 2px solid #ccff00; /* Neon Yellow */
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
     font-size: 13px;
     font-weight: bold;
-    cursor: pointer;
-    outline: none;
-    box-shadow: 0 0 8px rgba(204, 255, 0, 0.6);
+    color: #333;
+    display: flex;
+    align-items: center;
+    min-width: 100px;
+    justify-content: space-between;
 }
 
-/* Google Translate එක නිසා එන අනවශ්‍ය bar එක අයින් කරන්න */
+.arrow-down {
+    border: solid #333;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+    transform: rotate(45deg);
+    margin-left: 8px;
+}
+
+.dropdown-list {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 10000;
+    border-radius: 4px;
+    top: 35px;
+    right: 0;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.dropdown-list.show {
+    display: block;
+}
+
+.dropdown-item {
+    color: #333;
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+/* Google Bar Hide */
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 body { top: 0px !important; }
