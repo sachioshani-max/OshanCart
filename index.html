@@ -260,6 +260,69 @@
         <p>© 2026 OshanCart. All rights reserved.</p>
     </div>
 </footer>
+<div id="ai-chat-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: sans-serif;">
+    <div id="ai-window" style="display: none; width: 320px; height: 450px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; margin-bottom: 15px; border: 1px solid #ddd;">
+        <div style="background: #232f3e; color: #ff9900; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+            <span>🤖 Oshan AI Assistant</span>
+            <button onclick="toggleAIChat()" style="background:none; border:none; color:white; cursor:pointer; font-size:18px;">&times;</button>
+        </div>
+        <div id="ai-messages" style="flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 10px;">
+            <div style="background: #e8e8e8; padding: 10px; border-radius: 10px 10px 10px 0; max-width: 80%; font-size: 14px;">Hi! I'm Oshan AI. How can I help you with your shopping today? 😊</div>
+        </div>
+        <div style="padding: 10px; border-top: 1px solid #eee; display: flex; background: white;">
+            <input type="text" id="ai-msg-input" placeholder="Type your question..." style="flex: 1; border: 1px solid #ddd; padding: 10px; border-radius: 5px; outline: none;">
+            <button onclick="askOshanAI()" style="background: #ff4d6d; border: none; color: white; padding: 0 15px; margin-left: 5px; border-radius: 5px; cursor: pointer;">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+    
+    <button onclick="toggleAIChat()" style="width: 60px; height: 60px; border-radius: 50%; background: #ff4d6d; color: white; border: none; font-size: 24px; cursor: pointer; box-shadow: 0 5px 15px rgba(255,77,109,0.4); display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-robot"></i>
+    </button>
+</div>
+
+<script>
+    function toggleAIChat() {
+        const win = document.getElementById('ai-window');
+        win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
+    }
+
+    function askOshanAI() {
+        const input = document.getElementById('ai-msg-input');
+        const box = document.getElementById('ai-messages');
+        const msg = input.value.trim();
+        
+        if (msg === "") return;
+
+        // User Message
+        box.innerHTML += `<div style="background: #ff4d6d; color: white; padding: 10px; border-radius: 10px 10px 0 10px; align-self: flex-end; max-width: 80%; font-size: 14px;">${msg}</div>`;
+        input.value = "";
+        box.scrollTop = box.scrollHeight;
+
+        // AI Response Logic
+        setTimeout(() => {
+            let response = "That's a great question! Let me check that for you.";
+            const lowMsg = msg.toLowerCase();
+
+            if (lowMsg.includes("delivery")) response = "We deliver island-wide in Sri Lanka within 2-3 business days! 🚚";
+            else if (lowMsg.includes("payment")) response = "Currently, we support Cash on Delivery (COD) and Bank Transfers. 💳";
+            else if (lowMsg.includes("who are you")) response = "I am Oshan AI, the official assistant of OshanCart. Built to help you shop smarter! 🤖";
+            else if (lowMsg.includes("discount")) response = "You can use code **LOVE2026** to get 20% OFF today! 💖";
+            else if (lowMsg.includes("owner")) response = "OshanCart is owned and operated by Oshan Pathirana. 👑";
+
+            box.innerHTML += `<div style="background: #e8e8e8; padding: 10px; border-radius: 10px 10px 10px 0; max-width: 80%; font-size: 14px;">${response}</div>`;
+            box.scrollTop = box.scrollHeight;
+        }, 800);
+    }
+    
+    // Enter key support
+    document.getElementById('ai-msg-input').addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            askOshanAI();
+        }
+    });
+</script>
 <script type="text/javascript">
     function toggleFlagMenu() {
         document.getElementById("flagMenu").classList.toggle("show");
