@@ -3,102 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oshan Cart | Shop Your Style</title>
+    <title>Oshan Cart | Smart Global Shopping</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Flag Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
+    
     <style>
-        :root { --primary: #c9184a; --soft-pink: #ffccd5; }
-        body { font-family: 'Poppins', sans-serif; margin: 0; background: #f9f9f9; }
+        :root { --primary: #c9184a; --amazon-blue: #131921; --soft-pink: #ffccd5; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: #f3f3f3; }
         
-        /* Navigation */
-        nav { background: white; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary); text-decoration: none; margin-right: 20px; }
+        /* Navigation Top Bar */
+        nav { background: var(--amazon-blue); padding: 10px 3%; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; color: white; }
+        .logo { font-size: 22px; font-weight: bold; color: white; text-decoration: none; margin-right: 15px; }
+        .logo span { color: #febd69; }
 
         /* Search & Category Wrapper */
-        .search-wrapper { flex: 0.8; display: flex; align-items: center; position: relative; }
+        .search-container { flex: 1; display: flex; align-items: center; max-width: 700px; margin: 0 15px; }
+        
+        .cat-dropdown { position: relative; }
+        .cat-btn { 
+            background: #f3f3f3; color: #555; padding: 10px 12px; font-size: 13px; border: none;
+            border-radius: 4px 0 0 4px; cursor: pointer; display: flex; align-items: center; gap: 5px; min-width: 120px;
+        }
+        .cat-content { 
+            display: none; position: absolute; background: white; min-width: 180px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); top: 100%; border-radius: 0 0 4px 4px; 
+        }
+        .cat-content a { color: #333; padding: 10px 15px; text-decoration: none; display: block; font-size: 13px; border-bottom: 1px solid #eee; }
+        .cat-content a:hover { background: #f0f0f0; color: var(--primary); }
+        .cat-dropdown:hover .cat-content { display: block; }
 
-        /* Dropdown Menu Style */
-        .category-dropdown { position: relative; display: inline-block; }
-        .dropbtn { 
-            background: #f1f1f1; color: #333; padding: 10px 15px; font-size: 14px; border: 1px solid #ddd; 
-            border-radius: 5px 0 0 5px; cursor: pointer; display: flex; align-items: center; gap: 8px; min-width: 130px;
-        }
-        .dropdown-content {
-            display: none; position: absolute; background-color: white; min-width: 180px; 
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.1); z-index: 1; border-radius: 5px; top: 100%;
-        }
-        .dropdown-content a {
-            color: #333; padding: 10px 15px; text-decoration: none; display: block; 
-            font-size: 13px; /* ඔයා ඉල්ලපු size එක */
-            border-bottom: 1px solid #f9f9f9; transition: 0.2s;
-        }
-        .dropdown-content a:hover { background-color: var(--soft-pink); color: var(--primary); }
-        .category-dropdown:hover .dropdown-content { display: block; }
-
-        /* Search Input */
         .search-bar { flex: 1; display: flex; }
-        .search-bar input { 
-            width: 100%; padding: 10px; border: 1px solid #ddd; border-left: none; 
-            border-right: none; outline: none; font-size: 14px;
+        .search-bar input { width: 100%; border: none; padding: 10px; outline: none; }
+        .search-submit { background: #febd69; border: none; padding: 10px 15px; border-radius: 0 4px 4px 0; cursor: pointer; color: #333; font-size: 16px; }
+
+        /* Right Menu Items */
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        
+        /* Language Dropdown */
+        .lang-dropdown { position: relative; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 14px; }
+        .lang-menu { display: none; position: absolute; background: white; top: 100%; right: 0; min-width: 120px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .lang-menu a { color: #333; padding: 8px 12px; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+        .lang-dropdown:hover .lang-menu { display: block; }
+
+        /* User Menu (Amazon Style) */
+        .user-menu { position: relative; cursor: pointer; text-align: left; }
+        .user-menu span { display: block; font-size: 12px; color: #ccc; }
+        .user-menu b { font-size: 14px; }
+        .user-content { 
+            display: none; position: absolute; background: white; top: 100%; right: 0; min-width: 200px; 
+            border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); padding: 10px 0; z-index: 100;
         }
-        .search-btn { 
-            padding: 10px 20px; background: var(--primary); color: white; border: 1px solid var(--primary); 
-            border-radius: 0 5px 5px 0; cursor: pointer; 
-        }
+        .user-content a { color: #333; padding: 10px 20px; text-decoration: none; display: block; font-size: 13px; transition: 0.2s; }
+        .user-content a:hover { background: #f0f2f2; color: var(--primary); text-decoration: underline; }
+        .user-menu:hover .user-content { display: block; }
+
+        .cart-icon { position: relative; cursor: pointer; text-decoration: none; color: white; display: flex; align-items: center; gap: 5px; }
+        .cart-count { background: #febd69; color: black; font-size: 12px; padding: 2px 6px; border-radius: 50%; position: absolute; top: -10px; left: 12px; font-weight: bold; }
 
         /* Product Grid */
-        .container { padding: 30px 5%; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-        .product-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; }
-        .product-card:hover { transform: translateY(-5px); }
-        .product-img { width: 100%; height: 180px; object-fit: cover; }
-        .product-info { padding: 12px; }
-        .product-name { font-size: 14px; font-weight: 500; margin: 0; height: 40px; overflow: hidden; }
-        .product-price { color: var(--primary); font-size: 16px; font-weight: bold; margin: 5px 0; }
-        .delivery-tag { font-size: 11px; color: #27ae60; }
+        .container { padding: 20px 3%; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .product-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s; padding: 10px; }
+        .product-img { width: 100%; height: 180px; object-fit: contain; }
+        .product-name { font-size: 14px; margin: 10px 0; height: 36px; overflow: hidden; color: #333; }
+        .product-price { font-size: 18px; font-weight: bold; color: #B12704; }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html" class="logo">OSHAN CART</a>
+        <a href="index.html" class="logo">Oshan<span>Cart</span></a>
         
-        <div class="search-wrapper">
-            <!-- Category Dropdown -->
-            <div class="category-dropdown">
-                <button class="dropbtn"><i class="fas fa-bars"></i> Categories</button>
-                <div class="dropdown-content" id="catMenu">
-                    <a href="#" onclick="filterCat('All')">All Items</a>
+        <div class="search-container">
+            <div class="cat-dropdown">
+                <button class="cat-btn">All <i class="fas fa-caret-down"></i></button>
+                <div class="cat-content" id="catMenu">
+                    <a href="#" onclick="filterCat('All')">All Categories</a>
                     <a href="#" onclick="filterCat('Home & Kitchen')">Home & Kitchen 🏠</a>
                     <a href="#" onclick="filterCat('Jewelry')">Jewelry 💍</a>
                     <a href="#" onclick="filterCat('Phones')">Phones 📱</a>
-                    <a href="#" onclick="filterCat('Home & Beauty')">Home & Beauty 💄</a>
-                    <a href="#" onclick="filterCat('Money Saving')">Money Saving Items 💰</a>
                     <a href="#" onclick="filterCat('Furniture')">Furniture 🛋️</a>
-                    <a href="#" onclick="filterCat('Men')">Men 🚹</a>
-                    <a href="#" onclick="filterCat('Women')">Women 🚺</a>
+                    <a href="#" onclick="filterCat('Money Saving')">Money Saving 💰</a>
                 </div>
             </div>
-
-            <!-- Search Bar -->
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search in Oshan Cart...">
-                <button class="search-btn" onclick="searchProducts()"><i class="fas fa-search"></i></button>
+                <input type="text" id="searchInput" placeholder="Search Oshan Cart">
+                <button class="search-submit" onclick="searchProducts()"><i class="fas fa-search"></i></button>
             </div>
         </div>
 
-        <div style="margin-left: 20px;">
-            <i class="fas fa-shopping-cart" style="font-size: 20px; color: #333; cursor: pointer;"></i>
+        <div class="nav-right">
+            <!-- Language Dropdown with Country Codes -->
+            <div class="lang-dropdown">
+                <span class="fi fi-us"></span> EN <i class="fas fa-caret-down" style="font-size: 10px;"></i>
+                <div class="lang-menu">
+                    <a href="#"><span class="fi fi-us"></span> English</a>
+                    <a href="#"><span class="fi fi-lk"></span> Sinhala</a>
+                    <a href="#"><span class="fi fi-in"></span> Hindi</a>
+                </div>
+            </div>
+
+            <!-- User Menu Amazon Style -->
+            <div class="user-menu">
+                <span>Hello, Sign in</span>
+                <b>Account & Lists <i class="fas fa-caret-down" style="font-size: 10px;"></i></b>
+                <div class="user-content">
+                    <a href="#" style="font-weight: bold; color: var(--primary);">Me (Profile)</a>
+                    <a href="#">My Orders</a>
+                    <a href="#">Affiliate Program</a>
+                    <hr style="border: 0; border-top: 1px solid #eee;">
+                    <a href="dashboard.html">Admin Panel</a>
+                    <a href="#">Become a Seller</a>
+                </div>
+            </div>
+
+            <!-- Cart Icon Link -->
+            <a href="cart.html" class="cart-icon">
+                <i class="fas fa-shopping-cart" style="font-size: 22px;"></i>
+                <span class="cart-count">0</span>
+                <b>Cart</b>
+            </a>
         </div>
     </nav>
 
     <div class="container">
         <div class="product-grid" id="productDisplay">
-            <!-- Loading message or Spinner -->
-            <p>Loading products...</p>
+            <!-- Data will load here from Firebase -->
         </div>
     </div>
 
 <script type="module">
+    // --- Firebase Logic (Keep your existing Firebase config here) ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -116,30 +152,20 @@
     let allProducts = [];
 
     async function fetchProducts() {
-        try {
-            const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
-            const snapshot = await getDocs(q);
-            allProducts = snapshot.docs.map(doc => doc.data());
-            displayItems(allProducts);
-        } catch (e) {
-            console.error("Error fetching products: ", e);
-        }
+        const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        allProducts = snapshot.docs.map(doc => doc.data());
+        displayItems(allProducts);
     }
 
     function displayItems(items) {
         const grid = document.getElementById('productDisplay');
-        if(items.length === 0) {
-            grid.innerHTML = "<p>No items found.</p>";
-            return;
-        }
         grid.innerHTML = items.map(item => `
             <div class="product-card">
                 <img src="${item.image}" class="product-img">
-                <div class="product-info">
-                    <p class="product-name">${item.name}</p>
-                    <p class="product-price">Rs. ${item.price.toLocaleString()}</p>
-                    <p class="delivery-tag"><i class="fas fa-truck"></i> ${item.deliveryInfo || 'Standard Delivery'}</p>
-                </div>
+                <p class="product-name">${item.name}</p>
+                <p class="product-price">Rs. ${item.price.toLocaleString()}</p>
+                <p style="font-size: 12px; color: #555;"><i class="fas fa-truck"></i> ${item.deliveryInfo || 'Fast Delivery'}</p>
             </div>
         `).join('');
     }
