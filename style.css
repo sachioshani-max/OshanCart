@@ -1,3 +1,4 @@
+/* General Reset */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,166 +6,148 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     background-color: #f6f6f6;
+    color: #333;
+    overflow-x: hidden;
 }
 
-/* Header & Navbar */
+/* Header & Logo */
 header {
-    background-color: #c9184a;
-    padding: 15px;
-    text-align: center;
+    background-color: #232f3e; /* තද නිල් පාට (Professional look) */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
+.logo {
+    color: #ff9900;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Navbar */
 .navbar {
     background-color: #37475a;
     display: flex;
     justify-content: center;
     padding: 10px;
+    overflow-x: auto;
 }
 
 .navbar a {
     color: white;
     text-decoration: none;
-    margin: 0 10px;
-    font-size: 13px;
+    margin: 0 15px;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
-/* Product Container (පේළියට 2ක් පෙන්වීමට) */
-.product-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 10px;
+.navbar a:hover {
+    color: #febd69;
+}
+
+/* Sidebar Styling (වම් පැත්තේ මෙනු එක) */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: white;
+    z-index: 2000;
+    transition: 0.4s ease;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+}
+
+.sidebar.active { left: 0; }
+
+.sidebar-header {
+    background: #232f3e;
+    color: white;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 20px;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+}
+
+/* Product Grid (Phone එකේදී 2ක්, Desktop එකේදී 4ක්) */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Phone එකේදී පේළියට 2යි */
+    gap: 15px;
+    padding: 15px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+@media (min-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr); /* Computer එකේදී 4යි */
+        padding: 30px;
+    }
 }
 
 .product-card {
     background: white;
-    width: 46%; /* Phone එකේදී side-by-side පේන්න */
-    margin-bottom: 10px;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.product-image {
-    width: 100%;
-    border-radius: 5px;
-}
-
-.price-tag {
-    color: #B12704;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-/* Forms (Login/Signup) */
-.auth-container {
-    background: white;
-    margin: 20px auto;
-    padding: 20px;
-    width: 90%;
-    border-radius: 8px;
-}
-
-.auth-container label {
-    display: block; /* මේ පේළිය නිසා තමයි පෙට්ටිය යටට එන්නේ */
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-.auth-container input {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.btn-amazon {
-    background-color: #ff9900;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    margin-top: 15px;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-}
-/* Desktop Mode එක සඳහා විශේෂ සැකසුම් (Screen එක 768px වඩා වැඩි නම්) */
-@media only screen and (min-width: 768px) {
-    
-    /* Desktop එකේදී Product Cards පේළියට 4ක් පෙන්වීමට */
-    .product-container {
-        grid-template-columns: repeat(4, 1fr); 
-        gap: 20px;
-        padding: 40px;
-    }
-
-    /* Form එක Computer එකේදී ඕනෑවට වඩා පළල් වීම වැළැක්වීමට */
-    .auth-container {
-        width: 400px;
-        margin: 100px auto;
-    }
-
-    /* Navbar එකේ අකුරු ටිකක් ලොකු කිරීමට */
-    .navbar a {
-        font-size: 16px;
-        margin: 0 25px;
-    }
-
-    /* Header එකේ ලෝගෝ එක විශාල කිරීමට */
-    header h1 {
-        font-size: 30px;
-    }
-}
-
-/* ලේබල් සහ පෙට්ටි එක යට එක එන්න */
-.auth-container label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    text-align: left;
-    font-weight: bold;
-    color: #232f3e;
-}
-
-.auth-container input {
-    display: block;
-    width: 100%;
+    border-radius: 10px;
     padding: 12px;
-    border: 1px solid #a6a6a6;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-/* Slider Animation */
-@keyframes slide {
-    0% { transform: translateX(0%); }
-    33% { transform: translateX(0%); }
-    38% { transform: translateX(-100%); }
-    66% { transform: translateX(-100%); }
-    71% { transform: translateX(-200%); }
-    95% { transform: translateX(-200%); }
-    100% { transform: translateX(0%); }
-}
-/* Valentine's Special Button Style */
-button, .btn-amazon, .add-to-cart {
-    background-color: #ff4d6d !important; /* ලස්සන රෝස පාට */
-    color: white !important;
-    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    text-align: center;
     transition: 0.3s;
 }
 
-button:hover, .btn-amazon:hover {
-    background-color: #c9184a !important; /* මවුස් එක ගෙනිච්චම තද රතු පාට වෙන්න */
-        }
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.price-tag {
+    color: #ff4d6d;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+/* Buttons (Valentine Special) */
+.buy-btn, .btn-amazon {
+    background-color: #ff4d6d !important;
+    color: white !important;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.buy-btn:hover {
+    background-color: #c9184a !important;
+}
+
+/* Flag Dropdown */
 .oshan-flag-dropdown {
     position: relative;
-    display: inline-block;
     cursor: pointer;
-    vertical-align: middle;
 }
 
 .flag-trigger {
@@ -174,37 +157,21 @@ button:hover, .btn-amazon:hover {
     padding: 4px 8px;
     border-radius: 6px;
     background: #fff;
-    box-shadow: 0 0 10px rgba(204, 255, 0, 0.3);
-}
-
-.flag-trigger img {
-    width: 25px;
-    height: auto;
-    border-radius: 2px;
-}
-
-.arrow-down {
-    font-size: 10px;
-    margin-left: 5px;
-    color: #333;
 }
 
 .flag-menu {
-    display: none; /* මුලින් හංගලා තියෙන්නේ */
+    display: none;
     position: absolute;
-    top: 40px;
+    top: 45px;
     right: 0;
-    background-color: white;
-    min-width: 150px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    background: white;
+    width: 170px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
     z-index: 10000;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    border-radius: 6px;
 }
 
-.flag-menu.show {
-    display: block; /* Click කළාම විතරක් පෙන්වන්න */
-}
+.flag-menu.show { display: block; }
 
 .flag-item {
     padding: 10px;
@@ -213,69 +180,37 @@ button:hover, .btn-amazon:hover {
     gap: 10px;
     color: #333;
     font-size: 13px;
-    transition: 0.2s;
 }
 
-.flag-item:hover {
-    background-color: #f1f1f1;
+.flag-item:hover { background: #f1f1f1; }
+
+/* AI Agent Floating Button */
+.ai-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: #ff4d6d;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+    cursor: pointer;
+    z-index: 5000;
 }
 
-.flag-item img {
-    width: 20px;
+/* Admin Link */
+.admin-link {
+    color: #ccff00;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
 }
 
-/* Google Bar සැඟවීමට */
+/* Google Bar Hide */
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 body { top: 0px !important; }
- /* General */
-body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f4f4; }
-
-/* Header */
-header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; }
-.logo { color: #ff9900; font-size: 22px; font-weight: bold; text-decoration: none; }
-
-/* Admin Link Styling */
-.admin-link {
-    color: #ccff00; 
-    font-size: 13px;
-    text-decoration: none;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.admin-link:hover { text-shadow: 0 0 10px #ccff00; color: white; }
-
-/* Sidebar */
-.sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: white; z-index: 2000; transition: 0.3s; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
-.sidebar.active { left: 0; }
-.sidebar-header { background: #232f3e; color: white; padding: 20px; font-weight: bold; }
-.sidebar a { display: block; padding: 15px 20px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; }
-.sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1999; }
-.sidebar-overlay.active { display: block; }
-
-/* Flag Menu */
-.flag-menu { position: absolute; top: 50px; right: 20px; background: white; border-radius: 8px; width: 180px; display: none; flex-direction: column; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 3000; }
-.flag-menu.show { display: flex; }
-.flag-item { padding: 10px; color: #333; display: flex; align-items: center; gap: 10px; cursor: pointer; border-bottom: 1px solid #eee; }
-.flag-item img { width: 20px; border-radius: 2px; }
-
-/* AI Chat Bot */
-#ai-chat-container { position: fixed; bottom: 20px; right: 20px; z-index: 5000; }
-#ai-window { width: 300px; height: 400px; background: white; border-radius: 12px; display: none; flex-direction: column; box-shadow: 0 5px 20px rgba(0,0,0,0.2); overflow: hidden; margin-bottom: 10px; }
-.ai-header { background: #232f3e; color: #ff9900; padding: 10px; font-weight: bold; }
-#ai-messages { flex: 1; padding: 10px; overflow-y: auto; font-size: 14px; }
-.ai-input-area { display: flex; padding: 10px; border-top: 1px solid #eee; }
-.ai-input-area input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 5px; }
-.ai-toggle-btn { width: 60px; height: 60px; border-radius: 50%; background: #ff4d6d; color: white; border: none; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-
-/* Products */
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
-.product-card { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-.price { color: #ff4d6d; font-weight: bold; font-size: 18px; margin-bottom: 10px; }
-.buy-btn { background: #232f3e; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; }
-
-/* Search */
-.search-wrapper { flex: 1; max-width: 400px; display: flex; background: white; border-radius: 4px; overflow: hidden; }
-.search-input { flex: 1; border: none; padding: 10px; outline: none; }
-.search-btn { background: #febd69; border: none; padding: 0 15px; cursor: pointer; }
-.mic-btn { background: none; border: none; color: #777; padding: 0 10px; cursor: pointer; }
