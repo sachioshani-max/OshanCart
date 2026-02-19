@@ -227,3 +227,55 @@ button:hover, .btn-amazon:hover {
 /* Google Bar සැඟවීමට */
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 body { top: 0px !important; }
+ /* General */
+body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f4f4; }
+
+/* Header */
+header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; }
+.logo { color: #ff9900; font-size: 22px; font-weight: bold; text-decoration: none; }
+
+/* Admin Link Styling */
+.admin-link {
+    color: #ccff00; 
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.admin-link:hover { text-shadow: 0 0 10px #ccff00; color: white; }
+
+/* Sidebar */
+.sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: white; z-index: 2000; transition: 0.3s; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+.sidebar.active { left: 0; }
+.sidebar-header { background: #232f3e; color: white; padding: 20px; font-weight: bold; }
+.sidebar a { display: block; padding: 15px 20px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; }
+.sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1999; }
+.sidebar-overlay.active { display: block; }
+
+/* Flag Menu */
+.flag-menu { position: absolute; top: 50px; right: 20px; background: white; border-radius: 8px; width: 180px; display: none; flex-direction: column; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 3000; }
+.flag-menu.show { display: flex; }
+.flag-item { padding: 10px; color: #333; display: flex; align-items: center; gap: 10px; cursor: pointer; border-bottom: 1px solid #eee; }
+.flag-item img { width: 20px; border-radius: 2px; }
+
+/* AI Chat Bot */
+#ai-chat-container { position: fixed; bottom: 20px; right: 20px; z-index: 5000; }
+#ai-window { width: 300px; height: 400px; background: white; border-radius: 12px; display: none; flex-direction: column; box-shadow: 0 5px 20px rgba(0,0,0,0.2); overflow: hidden; margin-bottom: 10px; }
+.ai-header { background: #232f3e; color: #ff9900; padding: 10px; font-weight: bold; }
+#ai-messages { flex: 1; padding: 10px; overflow-y: auto; font-size: 14px; }
+.ai-input-area { display: flex; padding: 10px; border-top: 1px solid #eee; }
+.ai-input-area input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 5px; }
+.ai-toggle-btn { width: 60px; height: 60px; border-radius: 50%; background: #ff4d6d; color: white; border: none; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+
+/* Products */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
+.product-card { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.price { color: #ff4d6d; font-weight: bold; font-size: 18px; margin-bottom: 10px; }
+.buy-btn { background: #232f3e; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; }
+
+/* Search */
+.search-wrapper { flex: 1; max-width: 400px; display: flex; background: white; border-radius: 4px; overflow: hidden; }
+.search-input { flex: 1; border: none; padding: 10px; outline: none; }
+.search-btn { background: #febd69; border: none; padding: 0 15px; cursor: pointer; }
+.mic-btn { background: none; border: none; color: #777; padding: 0 10px; cursor: pointer; }
