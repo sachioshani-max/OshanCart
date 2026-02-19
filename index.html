@@ -12,63 +12,72 @@
         header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; gap: 15px; }
         .logo { color: #ff9900; font-size: 24px; font-weight: bold; text-decoration: none; white-space: nowrap; }
         
-        /* Search Wrapper with Mic */
-        .search-wrapper { flex: 1; max-width: 700px; display: flex; position: relative; height: 40px; background: white; border-radius: 6px; align-items: center; }
-        
+        /* Flag Dropdown (Fixed like Category) */
+        .oshan-flag-dropdown { position: relative; cursor: pointer; display: flex; align-items: center; }
+        .flag-trigger { display: flex; align-items: center; gap: 5px; background: #37475a; padding: 5px 10px; border-radius: 4px; }
+        .flag-menu { 
+            position: absolute; top: 45px; left: 0; background: white; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); border-radius: 8px; 
+            width: 160px; display: none; flex-direction: column; z-index: 2000; border: 1px solid #ddd;
+        }
+        .flag-menu.show { display: flex; }
+        .flag-item { padding: 10px 15px; color: #333; font-size: 14px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f1f1f1; }
+        .flag-item:hover { background: #f0f0f0; color: #ff4d6d; }
+        .flag-item img { width: 20px; border-radius: 2px; }
+
+        /* Search Wrapper */
+        .search-wrapper { flex: 1; max-width: 600px; display: flex; position: relative; height: 40px; background: white; border-radius: 6px; align-items: center; }
         .category-select-btn { 
             background: #f3f3f3; border-radius: 6px 0 0 6px; border-right: 1px solid #ddd; 
             min-width: 80px; height: 100%; display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; color: #555; font-size: 13px; padding: 0 12px;
+            cursor: pointer; color: #555; font-size: 13px; padding: 0 12px; position: relative;
         }
+        .search-input { flex: 1; border: none; padding: 0 10px; font-size: 15px; outline: none; height: 100%; }
+        .mic-btn { background: transparent; border: none; color: #555; font-size: 18px; cursor: pointer; padding: 0 10px; }
+        .mic-btn.listening { color: #ff4d6d; animation: pulse 1s infinite; }
+        .search-btn { background: #febd69; border: none; width: 50px; height: 100%; cursor: pointer; border-radius: 0 6px 6px 0; }
 
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* Dropdowns Visibility */
         .custom-dropdown-list { 
             position: absolute; top: 45px; left: 0; background: white; 
             box-shadow: 0 8px 25px rgba(0,0,0,0.2); border-radius: 8px; 
             width: 220px; display: none; flex-direction: column; z-index: 2000; border: 1px solid #ddd;
         }
         .custom-dropdown-list.active { display: flex; }
-        .custom-dropdown-list div { padding: 12px 20px; color: #333; font-size: 14px; border-bottom: 1px solid #f1f1f1; cursor: pointer; }
-        .custom-dropdown-list div:hover { background: #f0f0f0; color: #ff4d6d; }
+        .custom-dropdown-list div { padding: 12px 20px; color: #333; cursor: pointer; border-bottom: 1px solid #eee; }
 
-        .search-input { flex: 1; border: none; padding: 0 10px; font-size: 15px; outline: none; height: 100%; }
-        
-        /* Voice Search Mic Styling */
-        .mic-btn { background: transparent; border: none; color: #555; font-size: 18px; cursor: pointer; padding: 0 10px; transition: 0.2s; }
-        .mic-btn.listening { color: #ff4d6d; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-
-        .search-btn { background: #febd69; border: none; width: 50px; height: 100%; cursor: pointer; border-radius: 0 6px 6px 0; display: flex; align-items: center; justify-content: center; }
-        
-        /* Account Dropdown Section */
-        .header-right { display: flex; align-items: center; gap: 20px; }
-        .user-menu-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 5px 10px; border-radius: 4px; transition: 0.2s; }
-        .user-menu-container:hover { outline: 1px solid white; }
-        .user-text { font-size: 12px; line-height: 1.2; }
-
+        /* Header Right */
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .user-menu-container { position: relative; cursor: pointer; }
         .dropdown-menu { 
             position: absolute; top: 50px; right: 0; background: white; color: #333; 
-            width: 240px; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
-            display: none; flex-direction: column; padding: 10px 0; z-index: 1001; 
+            width: 220px; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
+            display: none; flex-direction: column; z-index: 1001; 
         }
         .dropdown-menu.active { display: flex; }
-        .dropdown-menu a { padding: 12px 20px; text-decoration: none; color: #333; font-size: 14px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
-        .dropdown-menu a:hover { background: #f8f8f8; color: #ff4d6d; }
-        .dropdown-menu i { width: 20px; color: #555; }
+        .dropdown-menu a { padding: 12px 20px; text-decoration: none; color: #333; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; }
 
-        /* General UI */
-        .promo-banner { background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; }
-        .navbar { background-color: #37475a; display: flex; gap: 15px; padding: 10px 20px; overflow-x: auto; white-space: nowrap; }
-        .navbar a { color: white; text-decoration: none; font-size: 14px; padding: 5px 10px; border-radius: 3px; }
-        .navbar a:hover { outline: 1px solid #febd69; }
+        /* Banner & Nav */
+        .promo-banner { background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 13px; }
+        .navbar { background-color: #37475a; display: flex; gap: 15px; padding: 10px 20px; overflow-x: auto; }
+        .navbar a { color: white; text-decoration: none; font-size: 14px; padding: 5px 10px; }
 
-        /* Hearts */
+        /* Product Grid */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 25px; max-width: 1200px; margin: auto; }
+        .product-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-5px); }
+        .price { color: #ff4d6d; font-weight: bold; font-size: 20px; margin: 10px 0; }
+        .buy-btn { width: 100%; background: #232f3e; color: white; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+        
+        /* Hearts Animation */
         .heart { position: fixed; top: -1vh; font-size: 1.5rem; color: #ff4d6d; z-index: 9999; pointer-events: none; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(105vh); } }
 
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; padding: 25px; max-width: 1200px; margin: auto; }
-        .product-card { background: white; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-        .price { color: #ff4d6d; font-weight: bold; font-size: 22px; margin: 10px 0; }
-        .buy-btn { width: 100%; background: #232f3e; color: white; padding: 12px; border-radius: 8px; border: none; cursor: pointer; }
+        /* Google Translate Hidden */
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        body { top: 0px !important; }
     </style>
 </head>
 <body>
@@ -79,90 +88,72 @@
         <a href="index.html" class="logo">OSHAN CART</a>
 
         <div class="oshan-flag-dropdown">
-    <div class="flag-trigger" onclick="toggleFlagMenu()">
-        <img id="current-flag" src="https://flagcdn.com/w40/sl.png" alt="Flag">
-        <span class="arrow-down">▼</span>
-    </div>
+            <div class="flag-trigger" onclick="toggleFlagMenu(event)">
+                <img id="current-flag" src="https://flagcdn.com/w40/sl.png" alt="Flag">
+                <span style="font-size: 10px; margin-left: 5px;">▼</span>
+            </div>
+            <div class="flag-menu" id="flagMenu">
+                <div class="flag-item" onclick="changeLang('si', 'sl')"><img src="https://flagcdn.com/w20/sl.png"> Sinhala</div>
+                <div class="flag-item" onclick="changeLang('en', 'us')"><img src="https://flagcdn.com/w20/us.png"> English</div>
+                <div class="flag-item" onclick="changeLang('hi', 'in')"><img src="https://flagcdn.com/w20/in.png"> Hindi</div>
+                <div class="flag-item" onclick="changeLang('ja', 'jp')"><img src="https://flagcdn.com/w20/jp.png"> Japan</div>
+            </div>
+        </div>
 
-    <div class="flag-menu" id="flagMenu">
-        <div class="flag-item" onclick="changeLang('si', 'sl', '🇱🇰 SL (+94)')">
-            <img src="https://flagcdn.com/w20/sl.png"> Sri Lanka
-        </div>
-        <div class="flag-item" onclick="changeLang('hi', 'in', '🇮🇳 IN (+91)')">
-            <img src="https://flagcdn.com/w20/in.png"> India
-        </div>
-        <div class="flag-item" onclick="changeLang('ja', 'jp', '🇯🇵 JP (+81)')">
-            <img src="https://flagcdn.com/w20/jp.png"> Japan
-        </div>
-        <div class="flag-item" onclick="changeLang('en', 'us', '🇺🇸 US (+1)')">
-            <img src="https://flagcdn.com/w20/us.png"> USA
-        </div>
-        <div class="flag-item" onclick="changeLang('en', 'gb', '🇬🇧 UK (+44)')">
-            <img src="https://flagcdn.com/w20/gb.png"> UK
-        </div>
-        <div class="flag-item" onclick="changeLang('ar', 'ae', '🇦🇪 AE (+971)')">
-            <img src="https://flagcdn.com/w20/ae.png"> UAE
-        </div>
-    </div>
-</div>
+        <div id="google_translate_element" style="display:none;"></div>
 
-<div id="google_translate_element" style="display:none;"></div>
-
-
-        <div class="search-wrapper" id="searchBox">
+        <div class="search-wrapper">
             <div class="category-select-btn" onclick="toggleCategoryMenu(event)">
-                <span id="displayCat">All</span> <i class="fas fa-caret-down" style="margin-left:8px;"></i>
+                <span id="displayCat">All</span> <i class="fas fa-caret-down" style="margin-left:5px;"></i>
                 <div class="custom-dropdown-list" id="catList">
                     <div onclick="setCategory('All')">All Categories</div>
                     <div onclick="setCategory('Electronics')">Electronics</div>
                     <div onclick="setCategory('Fashion')">Fashion</div>
-                    <div onclick="setCategory('Affiliate Items')">Affiliate Items</div>
+                    <div onclick="setCategory('Affiliate')">Affiliate Items</div>
                 </div>
             </div>
             
             <input type="text" id="searchInput" placeholder="Search Oshan Cart..." class="search-input">
             
-            <button class="mic-btn" id="micBtn" title="Search by voice" onclick="startVoiceSearch()">
+            <button class="mic-btn" id="micBtn" onclick="startVoiceSearch()">
                 <i class="fas fa-microphone"></i>
             </button>
             
             <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
 
         <div class="header-right">
             <div class="user-menu-container" onclick="toggleUserMenu(event)">
-                <div class="user-text">
-                    <span>Hello, Sign in</span><br>
-                    <strong>Account & Lists <i class="fas fa-caret-down"></i></strong>
-                </div>
-                
+                <div style="font-size: 12px;">Hello, Sign in<br><strong>Account ▼</strong></div>
                 <div class="dropdown-menu" id="userDropdown">
-                    <a href="login.html" style="background: #ffc800; font-weight: bold; justify-content: center; margin: 5px 10px; border-radius: 5px; border: none;">Sign In</a>
-                    
-                    <a href="profile.html"><i class="fas fa-user-circle"></i> Edit Profile</a>
-                    <a href="affiliate.html"><i class="fas fa-handshake" style="color: #ff9900;"></i> Affiliate Program</a>
-                    <a href="orders.html"><i class="fas fa-box-open"></i> My Orders</a>
-                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
-                    <hr style="border: 0.5px solid #eee; margin: 5px 0;">
-                    <a href="#" style="font-size: 12px; color: #777;">Not Oshan? Sign Out</a>
+                    <a href="login.html" style="background: #ffc800; font-weight: bold; border-radius: 5px;">Sign In</a>
+                    <a href="profile.html">Edit Profile</a>
+                    <a href="affiliate.html">Affiliate Program</a>
+                    <a href="orders.html">My Orders</a>
                 </div>
             </div>
-            </div>
+        </div>
     </header>
 
     <div class="navbar">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="sell.html">Sell With Us</a>
-        <a href="affiliate.html" style="color: #febd69; font-weight: bold;">Affiliate Program</a>
-        <a href="#">Today's Deals</a>
+        <a href="affiliate.html" style="color: #febd69;">Affiliate Program</a>
     </div>
 
-    <div style="background: #ff4d6d; color: white; text-align: center; padding: 25px;">
+    <div style="background: #ff4d6d; color: white; text-align: center; padding: 20px;">
         <h2 style="margin:0;">💖 Valentine's Featured Products 🔥</h2>
     </div>
 
     <div class="product-grid" id="product-container">
         </div>
+
+    <footer style="background: #131921; color: white; padding: 30px; text-align: center; margin-top: 50px;">
+        <h3>OshanCart</h3>
+        <p>Sri Lanka's Emerging Smart Commerce Platform.</p>
+        <p>© 2026 OshanCart. All rights reserved.</p>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -183,60 +174,66 @@
         const productContainer = document.getElementById('product-container');
         const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
 
-        // Real-time Update: Admin panel එකෙන් දාන බඩු refresh නැතුව මෙතනට එනවා
         onSnapshot(q, (snapshot) => {
             productContainer.innerHTML = ""; 
             snapshot.forEach((doc) => {
                 const item = doc.data();
-                const productHtml = `
+                productContainer.innerHTML += `
                     <div class="product-card">
-                        <img src="${item.image}" style="width:100%; height:200px; object-fit:cover; border-radius:10px;">
-                        <h3>${item.name}</h3>
-                        <p style="font-size:12px; color:#666;">${item.brand} | ${item.condition}</p>
+                        <img src="${item.image}" style="width:100%; height:180px; object-fit:cover; border-radius:10px;">
+                        <h4 style="margin:10px 0;">${item.name}</h4>
                         <div class="price">Rs. ${parseFloat(item.price).toLocaleString()}</div>
-                        <p style="font-size:11px; color:#555; margin-bottom:10px;">🚚 ${item.delivery}</p>
-                        <p style="font-size:12px; font-weight:bold; color: ${item.stock > 0 ? '#28a745' : '#dc3545'}">
-                            ${item.stock > 0 ? 'In Stock: ' + item.stock : 'Sold Out'}
-                        </p>
-                        <button class="buy-btn" onclick="window.location.href='checkout.html?id=${doc.id}'" ${item.stock <= 0 ? 'disabled style="background:#ccc;"' : ''}>
-                            ${item.stock > 0 ? 'Buy Now' : 'Out of Stock'}
-                        </button>
+                        <p style="font-size:11px; color:#777;">🚚 ${item.delivery}</p>
+                        <button class="buy-btn" onclick="window.location.href='checkout.html?id=${doc.id}'">Buy Now</button>
                     </div>
                 `;
-                productContainer.innerHTML += productHtml;
             });
         });
     </script>
 
     <script>
-        // 1. Microphone Voice Search
-        function startVoiceSearch() {
-            const micBtn = document.getElementById('micBtn');
-            const searchInput = document.getElementById('searchInput');
-            if ('webkitSpeechRecognition' in window) {
-                const recognition = new webkitSpeechRecognition();
-                recognition.lang = 'en-US';
-                recognition.onstart = () => { micBtn.classList.add('listening'); searchInput.placeholder = "Listening..."; };
-                recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript;
-                    searchInput.value = transcript;
-                    micBtn.classList.remove('listening');
-                    searchInput.placeholder = "Search Oshan Cart...";
-                };
-                recognition.onerror = () => { micBtn.classList.remove('listening'); alert("Voice search error."); };
-                recognition.onend = () => micBtn.classList.remove('listening');
-                recognition.start();
-            } else { alert("Voice search not supported."); }
+        // Dropdowns Logic
+        function toggleFlagMenu(e) { e.stopPropagation(); document.getElementById("flagMenu").classList.toggle("show"); }
+        function toggleCategoryMenu(e) { e.stopPropagation(); document.getElementById('catList').classList.toggle('active'); }
+        function toggleUserMenu(e) { e.stopPropagation(); document.getElementById('userDropdown').classList.toggle('active'); }
+
+        window.onclick = function() {
+            document.getElementById("flagMenu").classList.remove("show");
+            document.getElementById('catList').classList.remove('active');
+            document.getElementById('userDropdown').classList.remove('active');
         }
 
-        // 2. Dropdown Functions
-        function toggleCategoryMenu(e) { e.stopPropagation(); document.getElementById('catList').classList.toggle('active'); document.getElementById('userDropdown').classList.remove('active'); }
-        function toggleUserMenu(e) { e.stopPropagation(); document.getElementById('userDropdown').classList.toggle('active'); document.getElementById('catList').classList.remove('active'); }
-        function setCategory(name) { document.getElementById('displayCat').innerText = name; document.getElementById('catList').classList.remove('active'); }
-        window.onclick = function() { document.getElementById('catList').classList.remove('active'); document.getElementById('userDropdown').classList.remove('active'); }
+        function setCategory(name) { document.getElementById('displayCat').innerText = name; }
 
-        // 3. Heart Animation
-        function createHeart() {
+        // Translation Logic
+        function changeLang(langCode, flagCode) {
+            document.getElementById("current-flag").src = `https://flagcdn.com/w40/${flagCode}.png`;
+            var selectField = document.querySelector("select.goog-te-combo");
+            if (selectField) {
+                selectField.value = langCode;
+                selectField.dispatchEvent(new Event('change'));
+            }
+        }
+
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
+
+        // Voice Search
+        function startVoiceSearch() {
+            const micBtn = document.getElementById('micBtn');
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-US';
+            recognition.onstart = () => micBtn.classList.add('listening');
+            recognition.onresult = (event) => {
+                document.getElementById('searchInput').value = event.results[0][0].transcript;
+                micBtn.classList.remove('listening');
+            };
+            recognition.start();
+        }
+
+        // Hearts
+        setInterval(() => {
             const heart = document.createElement('div');
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
@@ -244,115 +241,8 @@
             heart.style.animationDuration = Math.random() * 2 + 3 + 's';
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 5000);
-        }
-        setInterval(createHeart, 600);
+        }, 600);
     </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
-</body>
-            </html>
-<footer style="background: #131921; color: white; padding: 20px; text-align: center; margin-top: 50px;">
-    <div class="footer-info">
-        <h3>OshanCart</h3>
-        <p>Sri Lanka's Emerging Smart Commerce Platform.</p>
-        <p>Built with: HTML5, CSS3, JavaScript (ES6+), and Firebase.</p>
-        <hr style="width: 50%; border: 0.5px solid #444;">
-        <p>© 2026 OshanCart. All rights reserved.</p>
-    </div>
-</footer>
-<div id="ai-chat-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: sans-serif;">
-    <div id="ai-window" style="display: none; width: 320px; height: 450px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; margin-bottom: 15px; border: 1px solid #ddd;">
-        <div style="background: #232f3e; color: #ff9900; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
-            <span>🤖 Oshan AI Assistant</span>
-            <button onclick="toggleAIChat()" style="background:none; border:none; color:white; cursor:pointer; font-size:18px;">&times;</button>
-        </div>
-        <div id="ai-messages" style="flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 10px;">
-            <div style="background: #e8e8e8; padding: 10px; border-radius: 10px 10px 10px 0; max-width: 80%; font-size: 14px;">Hi! I'm Oshan AI. How can I help you with your shopping today? 😊</div>
-        </div>
-        <div style="padding: 10px; border-top: 1px solid #eee; display: flex; background: white;">
-            <input type="text" id="ai-msg-input" placeholder="Type your question..." style="flex: 1; border: 1px solid #ddd; padding: 10px; border-radius: 5px; outline: none;">
-            <button onclick="askOshanAI()" style="background: #ff4d6d; border: none; color: white; padding: 0 15px; margin-left: 5px; border-radius: 5px; cursor: pointer;">
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-    </div>
-    
-    <button onclick="toggleAIChat()" style="width: 60px; height: 60px; border-radius: 50%; background: #ff4d6d; color: white; border: none; font-size: 24px; cursor: pointer; box-shadow: 0 5px 15px rgba(255,77,109,0.4); display: flex; align-items: center; justify-content: center;">
-        <i class="fas fa-robot"></i>
-    </button>
-</div>
-
-<script>
-    function toggleAIChat() {
-        const win = document.getElementById('ai-window');
-        win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
-    }
-
-    function askOshanAI() {
-        const input = document.getElementById('ai-msg-input');
-        const box = document.getElementById('ai-messages');
-        const msg = input.value.trim();
-        
-        if (msg === "") return;
-
-        // User Message
-        box.innerHTML += `<div style="background: #ff4d6d; color: white; padding: 10px; border-radius: 10px 10px 0 10px; align-self: flex-end; max-width: 80%; font-size: 14px;">${msg}</div>`;
-        input.value = "";
-        box.scrollTop = box.scrollHeight;
-
-        // AI Response Logic
-        setTimeout(() => {
-            let response = "That's a great question! Let me check that for you.";
-            const lowMsg = msg.toLowerCase();
-
-            if (lowMsg.includes("delivery")) response = "We deliver island-wide in Sri Lanka within 2-3 business days! 🚚";
-            else if (lowMsg.includes("payment")) response = "Currently, we support Cash on Delivery (COD) and Bank Transfers. 💳";
-            else if (lowMsg.includes("who are you")) response = "I am Oshan AI, the official assistant of OshanCart. Built to help you shop smarter! 🤖";
-            else if (lowMsg.includes("discount")) response = "You can use code **LOVE2026** to get 20% OFF today! 💖";
-            else if (lowMsg.includes("owner")) response = "OshanCart is owned and operated by Oshan Pathirana. 👑";
-
-            box.innerHTML += `<div style="background: #e8e8e8; padding: 10px; border-radius: 10px 10px 10px 0; max-width: 80%; font-size: 14px;">${response}</div>`;
-            box.scrollTop = box.scrollHeight;
-        }, 800);
-    }
-    
-    // Enter key support
-    document.getElementById('ai-msg-input').addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            askOshanAI();
-        }
-    });
-</script>
-<script type="text/javascript">
-    function toggleFlagMenu() {
-        document.getElementById("flagMenu").classList.toggle("show");
-    }
-
-    function changeLang(langCode, flagCode, text) {
-        // Flag එක මාරු කරන්න
-        document.getElementById("current-flag").src = `https://flagcdn.com/w40/${flagCode}.png`;
-        
-        // Menu එක වහන්න
-        document.getElementById("flagMenu").classList.remove("show");
-        
-        // Translate කරන්න
-        var selectField = document.querySelector("select.goog-te-combo");
-        if (selectField) {
-            selectField.value = langCode;
-            selectField.dispatchEvent(new Event('change'));
-        }
-    }
-
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-    }
-
-    // එළිය click කළොත් වහන්න
-    window.onclick = function(event) {
-        if (!event.target.closest('.oshan-flag-dropdown')) {
-            document.getElementById("flagMenu").classList.remove("show");
-        }
-    }
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
