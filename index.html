@@ -308,6 +308,15 @@ function toggleSidebar() {
     sidebar.classList.toggle('active');
     overlay.classList.toggle('active');
 }
+        function toggleCat() {
+    var list = document.getElementById('cat-list');
+    list.style.display = (list.style.display === 'none') ? 'block' : 'none';
+}
+
+function setCat(name) {
+    document.getElementById('active-cat').innerText = name;
+    document.getElementById('cat-list').style.display = 'none';
+}
     </script>
     <footer style="background: #131921; color: white; padding: 40px 20px; margin-top: 50px; text-align: center;">
     <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-bottom: 20px; font-size: 14px;">
