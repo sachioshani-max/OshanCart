@@ -3,6 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - OshanCart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: sans-serif; background: #f7f7f7; margin: 0; }
+        .settings-header { background: white; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #ddd; }
+        .settings-header i { font-size: 20px; cursor: pointer; }
+        .settings-header h2 { flex: 1; text-align: center; font-size: 18px; margin: 0; }
+        
+        .user-info { background: white; padding: 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .section-title { padding: 10px 15px; font-size: 13px; color: #666; font-weight: bold; }
+        .menu-list { background: white; }
+        .menu-item { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; text-decoration: none; color: black; font-size: 14px; }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item i { color: #ccc; }
+        .val { color: #999; font-size: 12px; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="settings-header">
+        <i class="fas fa-chevron-left" onclick="history.back()"></i>
+        <h2>Settings</h2>
+    </div>
+
+    <div class="user-info">
+        <span><b>sachioshani</b></span>
+        <i class="fas fa-qrcode"></i>
+    </div>
+
+    <div class="section-title">Settings</div>
+    <div class="menu-list">
+        <a href="address.html" class="menu-item"><span>Address Book</span> <i class="fas fa-chevron-right"></i></a>
+        <div class="menu-item"><span>Change Currency</span> <span><span class="val">USD</span><i class="fas fa-chevron-right"></i></span></div>
+        <div class="menu-item"><span>Change Language</span> <span><span class="val">English</span><i class="fas fa-chevron-right"></i></span></div>
+        <a href="payment.html" class="menu-item"><span>My Payment Options</span> <i class="fas fa-chevron-right"></i></a>
+        <a href="account.html" class="menu-item"><span>Manage My Account</span> <i class="fas fa-chevron-right"></i></a>
+        <a href="contact-pref.html" class="menu-item"><span>Contact Preferences</span> <i class="fas fa-chevron-right"></i></a>
+    </div>
+
+    <div class="section-title">Info</div>
+    <div class="menu-list">
+        <a href="shipping-info.html" class="menu-item"><span>Shipping Info</span> <i class="fas fa-chevron-right"></i></a>
+        <a href="return-policy.html" class="menu-item"><span>Return Policy</span> <i class="fas fa-chevron-right"></i></a>
+        <a href="privacy.html" class="menu-item"><span>Privacy Center</span> <i class="fas fa-chevron-right"></i></a>
+        <a href="terms.html" class="menu-item"><span>Terms & Conditions</span> <i class="fas fa-chevron-right"></i></a>
+        <a href="about.html" class="menu-item"><span>About Us</span> <i class="fas fa-chevron-right"></i></a>
+    </div>
+
+    <button onclick="logout()" style="width: 100%; padding: 15px; background: white; border: none; color: #ff4d6d; margin-top: 20px; font-weight: bold; cursor: pointer;">Sign Out</button>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings & Security | OshanCart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
