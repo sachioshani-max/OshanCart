@@ -3,207 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oshan Cart | Global Shopping Hub</title>
+    <title>Oshan Cart | Smart Global Shopping</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f4f4; overflow-x: hidden; }
-        
-        /* Header & Navigation */
-        header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; gap: 15px; }
-        .logo { color: #ff9900; font-size: 24px; font-weight: bold; text-decoration: none; white-space: nowrap; }
-        
-        /* Flag Dropdown (Fixed like Category) */
-        .oshan-flag-dropdown { position: relative; cursor: pointer; display: flex; align-items: center; }
-        .flag-trigger { display: flex; align-items: center; gap: 5px; background: #37475a; padding: 5px 10px; border-radius: 4px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #f6f6f6; overflow-x: hidden; color: #333; }
+
+        /* Header Layout */
+        header { 
+            background: #232f3e; 
+            padding: 10px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: white; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            gap: 15px;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .menu-toggle { font-size: 22px; cursor: pointer; color: white; }
+        .logo { color: #ff9900; font-size: 22px; font-weight: bold; text-decoration: none; white-space: nowrap; }
+        .logo span { color: white; font-weight: normal; font-size: 14px; }
+
+        /* Search Bar Customization */
+        .search-wrapper { 
+            flex: 1; 
+            max-width: 600px; 
+            display: flex; 
+            background: white; 
+            border-radius: 6px; 
+            overflow: hidden; 
+            height: 40px; 
+            border: 2px solid transparent;
+        }
+        .search-wrapper:focus-within { border: 2px solid #ff9900; }
+        .category-btn { 
+            background: #f3f3f3; 
+            border: none; 
+            padding: 0 15px; 
+            cursor: pointer; 
+            border-right: 1px solid #ddd;
+            font-size: 13px;
+            color: #555;
+        }
+        .search-input { flex: 1; border: none; padding: 10px; outline: none; font-size: 15px; }
+        .search-btn { background: #febd69; border: none; padding: 0 15px; cursor: pointer; color: #333; font-size: 18px; }
+
+        /* Language Dropdown (USA Flag Default) */
+        .lang-container { position: relative; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 5px 8px; border-radius: 3px; border: 1px solid transparent; }
+        .lang-container:hover { border: 1px solid white; }
         .flag-menu { 
-            position: absolute; top: 45px; left: 0; background: white; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2); border-radius: 8px; 
-            width: 160px; display: none; flex-direction: column; z-index: 2000; border: 1px solid #ddd;
+            position: absolute; top: 45px; right: 0; background: white; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); border-radius: 4px; 
+            width: 150px; display: none; flex-direction: column; z-index: 2000;
         }
-        .flag-menu.show { display: flex; }
-        .flag-item { padding: 10px 15px; color: #333; font-size: 14px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f1f1f1; }
-        .flag-item:hover { background: #f0f0f0; color: #ff4d6d; }
-        .flag-item img { width: 20px; border-radius: 2px; }
+        .flag-menu.active { display: flex; }
+        .flag-item { padding: 10px; color: #333; font-size: 13px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; }
+        .flag-item:hover { background: #f0f2f2; }
+        .flag-item img { width: 20px; }
 
-        /* Search Wrapper */
-        .search-wrapper { flex: 1; max-width: 600px; display: flex; position: relative; height: 40px; background: white; border-radius: 6px; align-items: center; }
-        .category-select-btn { 
-            background: #f3f3f3; border-radius: 6px 0 0 6px; border-right: 1px solid #ddd; 
-            min-width: 80px; height: 100%; display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; color: #555; font-size: 13px; padding: 0 12px; position: relative;
+        /* User Account Menu (Amazon Style) */
+        .user-nav { position: relative; cursor: pointer; padding: 5px 8px; border-radius: 3px; border: 1px solid transparent; }
+        .user-nav:hover { border: 1px solid white; }
+        .user-dropdown { 
+            position: absolute; top: 45px; right: 0; background: white; 
+            width: 240px; border-radius: 4px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
+            display: none; flex-direction: column; z-index: 2001; padding: 15px 0;
         }
-        .search-input { flex: 1; border: none; padding: 0 10px; font-size: 15px; outline: none; height: 100%; }
-        .mic-btn { background: transparent; border: none; color: #555; font-size: 18px; cursor: pointer; padding: 0 10px; }
-        .mic-btn.listening { color: #ff4d6d; animation: pulse 1s infinite; }
-        .search-btn { background: #febd69; border: none; width: 50px; height: 100%; cursor: pointer; border-radius: 0 6px 6px 0; }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-
-        /* Dropdowns Visibility */
-        .custom-dropdown-list { 
-            position: absolute; top: 45px; left: 0; background: white; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2); border-radius: 8px; 
-            width: 220px; display: none; flex-direction: column; z-index: 2000; border: 1px solid #ddd;
+        .user-dropdown.active { display: flex; }
+        .sign-in-btn { 
+            background: linear-gradient(to bottom, #f7dfa5, #f0c14b); 
+            border: 1px solid #a88734; margin: 0 15px 10px 15px; 
+            padding: 8px; text-align: center; border-radius: 3px; 
+            text-decoration: none; color: #111; font-weight: bold; font-size: 13px;
         }
-        .custom-dropdown-list.active { display: flex; }
-        .custom-dropdown-list div { padding: 12px 20px; color: #333; cursor: pointer; border-bottom: 1px solid #eee; }
+        .user-dropdown a { padding: 8px 20px; text-decoration: none; color: #444; font-size: 13px; }
+        .user-dropdown a:hover { color: #ff4d6d; text-decoration: underline; }
 
-        /* Header Right */
-        .header-right { display: flex; align-items: center; gap: 15px; }
-        .user-menu-container { position: relative; cursor: pointer; }
-        .dropdown-menu { 
-            position: absolute; top: 50px; right: 0; background: white; color: #333; 
-            width: 220px; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
-            display: none; flex-direction: column; z-index: 1001; 
-        }
-        .dropdown-menu.active { display: flex; }
-        .dropdown-menu a { padding: 12px 20px; text-decoration: none; color: #333; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; }
+        /* Sidebar & Overlay */
+        .sidebar { position: fixed; top: 0; left: -285px; width: 280px; height: 100%; background: white; z-index: 2100; transition: 0.3s; box-shadow: 5px 0 15px rgba(0,0,0,0.2); }
+        .sidebar.active { left: 0; }
+        .sidebar-header { background: #232f3e; color: white; padding: 15px 20px; font-size: 19px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .sidebar a { display: block; padding: 15px 20px; color: #111; text-decoration: none; font-size: 14px; border-bottom: 1px solid #eee; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; z-index: 2050; }
+        .overlay.active { display: block; }
 
-        /* Banner & Nav */
-        .promo-banner { background: linear-gradient(90deg, #ff4d6d, #ff758c); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 13px; }
-        .navbar { background-color: #37475a; display: flex; gap: 15px; padding: 10px 20px; overflow-x: auto; }
-        .navbar a { color: white; text-decoration: none; font-size: 14px; padding: 5px 10px; }
-
-        /* Product Grid */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 25px; max-width: 1200px; margin: auto; }
-        .product-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
-        .product-card:hover { transform: translateY(-5px); }
-        .price { color: #ff4d6d; font-weight: bold; font-size: 20px; margin: 10px 0; }
-        .buy-btn { width: 100%; background: #232f3e; color: white; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+        /* UI Elements */
+        .promo-bar { background: #ff4d6d; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 13px; letter-spacing: 0.5px; }
+        .navbar { background: #37475a; display: flex; gap: 20px; padding: 8px 20px; overflow-x: auto; white-space: nowrap; }
+        .navbar a { color: white; text-decoration: none; font-size: 14px; }
         
-        /* Hearts Animation */
-        .heart { position: fixed; top: -1vh; font-size: 1.5rem; color: #ff4d6d; z-index: 9999; pointer-events: none; animation: fall linear forwards; }
-        @keyframes fall { to { transform: translateY(105vh); } }
+        /* Product Grid */
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; max-width: 1200px; margin: auto; }
+        @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 25px; } }
+        .product-card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: left; transition: 0.2s; }
+        .product-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .product-card img { width: 100%; height: 180px; object-fit: contain; margin-bottom: 10px; }
+        .price { color: #B12704; font-weight: bold; font-size: 18px; margin: 5px 0; }
+        .buy-btn { background: #ff4d6d; color: white; border: none; padding: 10px; width: 100%; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; }
 
-        /* Google Translate Hidden */
-        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        /* Floating AI */
+        .ai-btn { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: #ff4d6d; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 26px; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); z-index: 1500; }
+
+        /* Hide Google Translate UI */
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget { display: none !important; }
         body { top: 0px !important; }
     </style>
 </head>
 <body>
 
-    <div class="promo-banner">🚀 OSHAN CART GRAND OPENING! - Get 20% OFF using code: LOVE2026</div>
- 
-    <header>
-        <a href="index.html" class="logo">OSHAN CART</a>
+    <div class="overlay" id="overlay" onclick="closeMenus()"></div>
 
-        <div class="oshan-flag-dropdown">
-            <div class="flag-trigger" onclick="toggleFlagMenu(event)">
-                <img id="current-flag" src="https://flagcdn.com/w40/sl.png" alt="Flag">
-                <span style="font-size: 10px; margin-left: 5px;">▼</span>
-            </div>
-            <div class="flag-menu" id="flagMenu">
-                <div class="flag-item" onclick="changeLang('si', 'sl')"><img src="https://flagcdn.com/w20/sl.png"> Sinhala</div>
-                <div class="flag-item" onclick="changeLang('en', 'us')"><img src="https://flagcdn.com/w20/us.png"> English</div>
-                <div class="flag-item" onclick="changeLang('hi', 'in')"><img src="https://flagcdn.com/w20/in.png"> Hindi</div>
-                <div class="flag-item" onclick="changeLang('ja', 'jp')"><img src="https://flagcdn.com/w20/jp.png"> Japan</div>
-            </div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header"><i class="fas fa-user-circle"></i> Hello, Sign In</div>
+        <a href="index.html"><b>Home</b></a>
+        <a href="trending.html">Trending Products</a>
+        <a href="login.html">Sign In / Register</a>
+        <a href="profile.html">My Account</a>
+        <a href="orders.html">My Orders</a>
+        <a href="javascript:void(0)" onclick="checkAdminPassword()">Admin Panel</a>
+    </div>
+
+    <header>
+        <div class="header-left">
+            <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+            <a href="index.html" class="logo">OSHAN CART<span>.global</span></a>
         </div>
 
-        <div id="google_translate_element" style="display:none;"></div>
-
         <div class="search-wrapper">
-            <div class="category-select-btn" onclick="toggleCategoryMenu(event)">
-                <span id="displayCat">All</span> <i class="fas fa-caret-down" style="margin-left:5px;"></i>
-                <div class="custom-dropdown-list" id="catList">
-                    <div onclick="setCategory('All')">All Categories</div>
-                    <div onclick="setCategory('Electronics')">Electronics</div>
-                    <div onclick="setCategory('Fashion')">Fashion</div>
-                    <div onclick="setCategory('Affiliate')">Affiliate Items</div>
-                </div>
-            </div>
-            
-            <input type="text" id="searchInput" placeholder="Search Oshan Cart..." class="search-input">
-            
-            <button class="mic-btn" id="micBtn" onclick="startVoiceSearch()">
-                <i class="fas fa-microphone"></i>
-            </button>
-            
+            <button class="category-btn">All <i class="fas fa-caret-down"></i></button>
+            <input type="text" class="search-input" placeholder="Search Oshan Cart...">
             <button class="search-btn"><i class="fas fa-search"></i></button>
         </div>
 
-        <div class="header-right">
-            <div class="user-menu-container" onclick="toggleUserMenu(event)">
-                <div style="font-size: 12px;">Hello, Sign in<br><strong>Account ▼</strong></div>
-                <div class="dropdown-menu" id="userDropdown">
-                    <a href="login.html" style="background: #ffc800; font-weight: bold; border-radius: 5px;">Sign In</a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div class="lang-container" onclick="toggleMenu('flagMenu', event)">
+                <img id="current-flag" src="https://flagcdn.com/w40/us.png" width="22">
+                <i class="fas fa-caret-down" style="font-size: 10px; color: #ccc;"></i>
+                <div class="flag-menu" id="flagMenu">
+                    <div class="flag-item" onclick="changeLang('en', 'us')"><img src="https://flagcdn.com/w20/us.png"> English (US)</div>
+                    <div class="flag-item" onclick="changeLang('si', 'sl')"><img src="https://flagcdn.com/w20/sl.png"> Sinhala (SL)</div>
+                    <div class="flag-item" onclick="changeLang('ja', 'jp')"><img src="https://flagcdn.com/w20/jp.png"> Japanese</div>
+                </div>
+            </div>
+
+            <div class="user-nav" onclick="toggleMenu('userDropdown', event)">
+                <div style="font-size: 12px; line-height: 14px;">Hello, Sign in<br><b style="font-size: 14px;">Account & Lists <i class="fas fa-caret-down" style="font-size: 10px;"></i></b></div>
+                <div class="user-dropdown" id="userDropdown">
+                    <a href="login.html" class="sign-in-btn">Sign in</a>
+                    <p style="text-align: center; font-size: 11px;">New customer? <a href="signup.html" style="color: #0066c0; padding: 0;">Start here.</a></p>
+                    <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
                     <a href="profile.html">Edit Profile</a>
-                    <a href="affiliate.html">Affiliate Program</a>
                     <a href="orders.html">My Orders</a>
+                    <a href="affiliate.html">Affiliate Program</a>
+                    <a href="settings.html">Settings</a>
                 </div>
             </div>
         </div>
     </header>
 
+    <div class="promo-bar">🚀 VALENTINE'S SPECIAL OFFERS - 20% OFF! USE CODE: LOVE2026</div>
+
     <div class="navbar">
+        <a href="#"><i class="fas fa-bars"></i> All</a>
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="sell.html">Sell With Us</a>
         <a href="affiliate.html" style="color: #febd69;">Affiliate Program</a>
+        <a href="#">Customer Service</a>
     </div>
 
-    <div style="background: #ff4d6d; color: white; text-align: center; padding: 20px;">
+    <div style="background: #ff4d6d; color: white; text-align: center; padding: 25px;">
         <h2 style="margin:0;">💖 Valentine's Featured Products 🔥</h2>
     </div>
 
     <div class="product-grid" id="product-container">
         </div>
 
-    <footer style="background: #131921; color: white; padding: 30px; text-align: center; margin-top: 50px;">
-        <h3>OshanCart</h3>
-        <p>Sri Lanka's Emerging Smart Commerce Platform.</p>
-        <p>© 2026 OshanCart. All rights reserved.</p>
-    </footer>
+    <div class="ai-btn" onclick="alert('Oshan AI: How can I help you today?')">
+        <i class="fas fa-robot"></i>
+    </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-            authDomain: "oshancart.firebaseapp.com",
-            projectId: "oshancart",
-            storageBucket: "oshancart.firebasestorage.app",
-            messagingSenderId: "686982543488",
-            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        const productContainer = document.getElementById('product-container');
-        const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
-
-        onSnapshot(q, (snapshot) => {
-            productContainer.innerHTML = ""; 
-            snapshot.forEach((doc) => {
-                const item = doc.data();
-                productContainer.innerHTML += `
-                    <div class="product-card">
-                        <img src="${item.image}" style="width:100%; height:180px; object-fit:cover; border-radius:10px;">
-                        <h4 style="margin:10px 0;">${item.name}</h4>
-                        <div class="price">Rs. ${parseFloat(item.price).toLocaleString()}</div>
-                        <p style="font-size:11px; color:#777;">🚚 ${item.delivery}</p>
-                        <button class="buy-btn" onclick="window.location.href='checkout.html?id=${doc.id}'">Buy Now</button>
-                    </div>
-                `;
-            });
-        });
-    </script>
+    <div id="google_translate_element" style="display:none;"></div>
 
     <script>
-        // Dropdowns Logic
-        function toggleFlagMenu(e) { e.stopPropagation(); document.getElementById("flagMenu").classList.toggle("show"); }
-        function toggleCategoryMenu(e) { e.stopPropagation(); document.getElementById('catList').classList.toggle('active'); }
-        function toggleUserMenu(e) { e.stopPropagation(); document.getElementById('userDropdown').classList.toggle('active'); }
+        // Toggle Functions
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
 
-        window.onclick = function() {
-            document.getElementById("flagMenu").classList.remove("show");
-            document.getElementById('catList').classList.remove('active');
+        function toggleMenu(id, e) {
+            e.stopPropagation();
+            closeMenus();
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeMenus() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('flagMenu').classList.remove('active');
             document.getElementById('userDropdown').classList.remove('active');
         }
 
-        function setCategory(name) { document.getElementById('displayCat').innerText = name; }
+        window.onclick = closeMenus;
 
         // Translation Logic
         function changeLang(langCode, flagCode) {
@@ -219,29 +225,26 @@
             new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
         }
 
-        // Voice Search
-        function startVoiceSearch() {
-            const micBtn = document.getElementById('micBtn');
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.lang = 'en-US';
-            recognition.onstart = () => micBtn.classList.add('listening');
-            recognition.onresult = (event) => {
-                document.getElementById('searchInput').value = event.results[0][0].transcript;
-                micBtn.classList.remove('listening');
-            };
-            recognition.start();
+        // Admin Security
+        function checkAdminPassword() {
+            const pw = prompt("Enter Admin Password:");
+            if (pw === "admin123") { window.location.href = "admin.html"; }
+            else if (pw !== null) { alert("Access Denied!"); }
         }
 
-        // Hearts
-        setInterval(() => {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
-        }, 600);
+        // Sample Data Loader
+        const container = document.getElementById('product-container');
+        for(let i=1; i<=4; i++) {
+            container.innerHTML += `
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x180?text=Product+Image" alt="Product">
+                    <h4 style="font-size: 15px;">Global Smart Gadget Model-${i}</h4>
+                    <p style="font-size: 12px; color: #555;">⭐⭐⭐⭐ (120 reviews)</p>
+                    <div class="price">Rs. 4,500.00</div>
+                    <button class="buy-btn">Add to Cart</button>
+                </div>
+            `;
+        }
     </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
