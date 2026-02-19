@@ -1,263 +1,100 @@
-/* General Reset */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* 1. Google Translate සම්පූර්ණයෙන්ම සැඟවීම (Professional Look) */
+.goog-te-banner-frame.skiptranslate, 
+#goog-gt-tt, 
+.goog-te-balloon-frame { 
+    display: none !important; 
+}
+.goog-te-gadget { 
+    display: none !important; 
+}
+body { 
+    top: 0px !important; 
 }
 
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background-color: #f6f6f6;
-    color: #333;
-    overflow-x: hidden;
-}
-
-/* Header & Logo */
-header {
-    background-color: #232f3e; /* තද නිල් පාට (Professional look) */
-    padding: 10px 20px;
+/* 2. Flag & Country Code Styling */
+.flag-trigger {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* එක යට එක පෙනීමට */
     align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    background: #37475a;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ff9900;
 }
-
-.logo {
+.country-code {
+    font-size: 10px;
     color: #ff9900;
-    font-size: 24px;
     font-weight: bold;
-    text-decoration: none;
+    margin-top: 2px;
 }
 
-/* Navbar */
-.navbar {
-    background-color: #37475a;
+/* 3. Category Search Dropdown (Search Bar එක ඇතුළේ) */
+.search-wrapper {
     display: flex;
-    justify-content: center;
-    padding: 10px;
-    overflow-x: auto;
-}
-
-.navbar a {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-.navbar a:hover {
-    color: #febd69;
-}
-
-/* Sidebar Styling (වම් පැත්තේ මෙනු එක) */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: -280px;
-    width: 280px;
-    height: 100%;
+    flex: 1;
+    max-width: 600px;
+    height: 40px;
     background: white;
-    z-index: 2000;
-    transition: 0.4s ease;
-    box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    overflow: visible; /* Category menu පෙනීමට */
+    position: relative;
 }
 
-.sidebar.active { left: 0; }
-
-.sidebar-header {
-    background: #232f3e;
-    color: white;
-    padding: 20px;
-    font-size: 18px;
-    font-weight: bold;
+.category-select-btn {
+    background: #f3f3f3;
+    border-radius: 6px 0 0 6px;
+    padding: 0 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #ddd;
+    font-size: 13px;
+    color: #555;
+    position: relative;
 }
 
-.sidebar a {
-    display: block;
-    padding: 15px 20px;
-    color: #333;
+.cat-menu {
+    position: absolute;
+    top: 42px;
+    left: 0;
+    background: white;
+    width: 150px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 3000;
+    border-radius: 4px;
+}
+
+.cat-menu.active { display: flex; }
+.cat-menu a {
+    padding: 10px;
     text-decoration: none;
+    color: #333;
+    font-size: 14px;
     border-bottom: 1px solid #eee;
 }
+.cat-menu a:hover { background: #f1f1f1; }
 
-/* Product Grid (Phone එකේදී 2ක්, Desktop එකේදී 4ක්) */
-.product-grid {
+/* 4. Footer Styling */
+footer {
+    background: #131921;
+    color: white;
+    padding: 30px 20px;
+    margin-top: 50px;
+}
+.footer-links {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Phone එකේදී පේළියට 2යි */
-    gap: 15px;
-    padding: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
     max-width: 1200px;
     margin: auto;
 }
-
-@media (min-width: 768px) {
-    .product-grid {
-        grid-template-columns: repeat(4, 1fr); /* Computer එකේදී 4යි */
-        padding: 30px;
-    }
-}
-
-.product-card {
-    background: white;
-    border-radius: 10px;
-    padding: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+.footer-bottom {
     text-align: center;
-    transition: 0.3s;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
-.product-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.price-tag {
-    color: #ff4d6d;
-    font-weight: bold;
-    font-size: 18px;
-    margin: 8px 0;
-}
-
-/* Buttons (Valentine Special) */
-.buy-btn, .btn-amazon {
-    background-color: #ff4d6d !important;
-    color: white !important;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.buy-btn:hover {
-    background-color: #c9184a !important;
-}
-
-/* Flag Dropdown */
-.oshan-flag-dropdown {
-    position: relative;
-    cursor: pointer;
-}
-
-.flag-trigger {
-    display: flex;
-    align-items: center;
-    border: 2px solid #ccff00; /* Neon Yellow */
-    padding: 4px 8px;
-    border-radius: 6px;
-    background: #fff;
-}
-
-.flag-menu {
-    display: none;
-    position: absolute;
-    top: 45px;
-    right: 0;
-    background: white;
-    width: 170px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    z-index: 10000;
-    border-radius: 6px;
-}
-
-.flag-menu.show { display: block; }
-
-.flag-item {
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #333;
-    font-size: 13px;
-}
-
-.flag-item:hover { background: #f1f1f1; }
-
-/* AI Agent Floating Button */
-.ai-toggle-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    background: #ff4d6d;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
-    cursor: pointer;
-    z-index: 5000;
-}
-
-/* Admin Link */
-.admin-link {
-    color: #ccff00;
-    font-size: 13px;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-/* Google Bar Hide */
-.goog-te-banner-frame.skiptranslate { display: none !important; }
-body { top: 0px !important; }
-/* වම් පැත්තේ මෙනු එක (Sidebar) */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: -280px; /* මුලින් හංගලා තියෙන්නේ */
-    width: 280px;
-    height: 100%;
-    background: white;
-    z-index: 2000;
-    transition: 0.3s;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-}
-
-.sidebar.active {
-    left: 0; /* Click කළාම එළියට එනවා */
-}
-
-/* Header එකේ Layout එක */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #232f3e;
-    padding: 10px 15px;
-    color: white;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.menu-toggle {
-    font-size: 20px;
-    cursor: pointer;
-    color: white;
-}
-
-/* Product Container එක මැදට ගැනීම */
-#product-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 15px;
     margin-top: 20px;
+    border-top: 1px solid #3a4553;
+    padding-top: 20px;
+    font-size: 12px;
+    color: #888;
 }
