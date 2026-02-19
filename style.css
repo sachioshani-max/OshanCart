@@ -214,3 +214,50 @@ header {
 /* Google Bar Hide */
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 body { top: 0px !important; }
+/* වම් පැත්තේ මෙනු එක (Sidebar) */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px; /* මුලින් හංගලා තියෙන්නේ */
+    width: 280px;
+    height: 100%;
+    background: white;
+    z-index: 2000;
+    transition: 0.3s;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+}
+
+.sidebar.active {
+    left: 0; /* Click කළාම එළියට එනවා */
+}
+
+/* Header එකේ Layout එක */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #232f3e;
+    padding: 10px 15px;
+    color: white;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.menu-toggle {
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+}
+
+/* Product Container එක මැදට ගැනීම */
+#product-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 15px;
+    margin-top: 20px;
+}
