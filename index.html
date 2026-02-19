@@ -262,24 +262,49 @@
         // Admin Security
         function checkAdminPassword() {
             const pw = prompt("Enter Admin Password:");
-            if (pw === "admin123") { window.location.href = "admin.html"; }
+            if (pw === "Lakshan@2001") { window.location.href = "admin.html"; }
             else if (pw !== null) { alert("Access Denied!"); }
         }
 
-        // Sample Data Loader
-        const container = document.getElementById('product-container');
-        for(let i=1; i<=4; i++) {
-            container.innerHTML += `
+       <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // ඔයාගේ Admin Panel එකේ තිබුණ Key ටික මෙතනට දැම්මා
+    const firebaseConfig = {
+        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+        authDomain: "oshancart.firebaseapp.com",
+        projectId: "oshancart",
+        storageBucket: "oshancart.appspot.com",
+        messagingSenderId: "686982543488",
+        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Database එකෙන් බඩු ටික අරගෙන පෙන්වීම
+    const productContainer = document.getElementById('product-container');
+    const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+
+    onSnapshot(q, (snapshot) => {
+        productContainer.innerHTML = ""; // පරණ ඒවා අයින් කරන්න
+        
+        snapshot.forEach((doc) => {
+            const item = doc.data();
+            productContainer.innerHTML += `
                 <div class="product-card">
-                    <img src="https://via.placeholder.com/200x180?text=Product+Image" alt="Product">
-                    <h4 style="font-size: 15px;">Global Smart Gadget Model-${i}</h4>
-                    <p style="font-size: 12px; color: #555;">⭐⭐⭐⭐ (120 reviews)</p>
-                    <div class="price">Rs. 4,500.00</div>
-                    <button class="buy-btn">Add to Cart</button>
+                    <img src="${item.image}" alt="${item.name}">
+                    <h4 style="font-size: 14px; height: 40px; overflow: hidden;">${item.name}</h4>
+                    <p style="font-size: 11px; color: #888; margin-top: 5px;">${item.brand || 'Oshan Brand'}</p>
+                    <div class="price">Rs. ${item.price.toLocaleString()}</div>
+                    <p style="font-size: 11px; color: green; font-weight: bold;">${item.delivery}</p>
+                    <button class="buy-btn" onclick="window.location.href='view-product.html?id=${doc.id}'">Buy Now</button>
                 </div>
             `;
-        }
-    </script>
+        });
+    });
+</script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
         // Category Menu toggle
 function toggleCategory() {
