@@ -160,33 +160,26 @@ button, .btn-amazon, .add-to-cart {
 button:hover, .btn-amazon:hover {
     background-color: #c9184a !important; /* මවුස් එක ගෙනිච්චම තද රතු පාට වෙන්න */
         }
-.country-wrapper {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    z-index: 10000;
-}
-
-.custom-select-container {
-    border: 2px solid #ccff00; /* Neon Yellow */
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(204, 255, 0, 0.7);
-    overflow: hidden;
-    background-color: white;
+/* Navbar එක ඇතුළේ රටවල් පෙට්ටිය */
+.oshan-country-box {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
 }
 
 #country-select {
-    background-color: #ffffff;
+    background-color: #ffffff; /* සුදු පාට Background */
     color: #333;
-    padding: 8px 12px;
-    font-size: 14px;
-    border: none;
+    border: 2px solid #ccff00; /* Neon Yellow Border */
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 13px;
+    font-weight: bold;
     cursor: pointer;
     outline: none;
-    width: 100%;
-    font-weight: bold;
+    box-shadow: 0 0 8px rgba(204, 255, 0, 0.6);
 }
 
-/* Google translate banner එක hide කිරීමට */
+/* Google Translate එක නිසා එන අනවශ්‍ය bar එක අයින් කරන්න */
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 body { top: 0px !important; }
