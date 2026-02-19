@@ -3,177 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oshan Cart | Global Shopping Hub</title>
+    <title>Oshan Cart | Smart Shopping</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> </head>
+    <style>
+        /* CSS කොටස - වෙනම ෆයිල් ඕන වෙන්නේ නැති වෙන්න මෙතනටම දැම්මා */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f6f6f6; overflow-x: hidden; }
+
+        /* Header */
+        header { background: #232f3e; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; }
+        .logo { color: #ff9900; font-size: 22px; font-weight: bold; text-decoration: none; }
+        
+        /* Search Bar */
+        .search-wrapper { flex: 1; max-width: 500px; display: flex; margin: 0 15px; background: white; border-radius: 6px; overflow: hidden; height: 40px; }
+        .search-input { flex: 1; border: none; padding: 10px; outline: none; }
+        .search-btn { background: #febd69; border: none; padding: 0 15px; cursor: pointer; color: #333; }
+
+        /* Sidebar */
+        .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: white; z-index: 2000; transition: 0.3s; box-shadow: 2px 0 15px rgba(0,0,0,0.3); }
+        .sidebar.active { left: 0; }
+        .sidebar-header { background: #232f3e; color: white; padding: 20px; font-size: 18px; font-weight: bold; }
+        .sidebar a { display: block; padding: 15px 20px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; transition: 0.2s; }
+        .sidebar a:hover { background: #f0f0f0; color: #ff4d6d; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1999; }
+        .overlay.active { display: block; }
+
+        /* Products Grid */
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; max-width: 1200px; margin: auto; }
+        @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+        .product-card { background: white; border-radius: 10px; padding: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .product-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; }
+        .price { color: #ff4d6d; font-weight: bold; font-size: 18px; margin: 10px 0; }
+        .buy-btn { background: #ff4d6d; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; }
+
+        /* Admin Link */
+        .admin-link { color: #ccff00; font-size: 12px; text-decoration: none; font-weight: bold; margin-left: 10px; }
+
+        /* Floating AI Button */
+        .ai-btn { position: fixed; bottom: 20px; right: 20px; width: 55px; height: 55px; background: #ff4d6d; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 3000; }
+    </style>
+</head>
 <body>
 
-    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <i class="fas fa-user-circle"></i> Hello, Sign In
-        </div>
+        <div class="sidebar-header">👋 Hello, Sign In</div>
         <a href="index.html"><i class="fas fa-home"></i> Home</a>
-        <a href="login.html"><i class="fas fa-sign-in-alt"></i> Sign In / Register</a>
-        <a href="profile.html"><i class="fas fa-user-edit"></i> Edit Profile</a>
-        <a href="affiliate.html"><i class="fas fa-handshake"></i> Affiliate Program</a>
+        <a href="login.html"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
         <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
-        <hr>
-        <div class="admin-access" style="padding: 10px 20px;">
-            <a href="javascript:void(0)" onclick="checkAdminPassword()" class="admin-link">🔑 Admin Panel</a>
-        </div>
+        <a href="javascript:void(0)" onclick="checkAdminPassword()"><i class="fas fa-lock"></i> Admin Panel</a>
     </div>
 
-    <div class="promo-banner">🚀 OSHAN CART GRAND OPENING! - Get 20% OFF using code: LOVE2026</div>
- 
     <header>
-        <header>
-    <div class="header-left">
-        <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
-        <a href="index.html" class="logo">OSHAN CART</a>
-    </div>
-
-    <div class="search-wrapper">
-        <input type="text" id="searchInput" placeholder="Search products..." class="search-input">
-        <button class="search-btn"><i class="fas fa-search"></i></button>
-    </div>
-
-    <div class="oshan-flag-dropdown">
-        <div class="flag-trigger" onclick="toggleFlagMenu(event)">
-            <img id="current-flag" src="https://flagcdn.com/w40/sl.png" width="25">
-            <span class="arrow-down">▼</span>
-        </div>
-        <div class="flag-menu" id="flagMenu">
-            <div class="flag-item" onclick="changeLang('si', 'sl')"><img src="https://flagcdn.com/w20/sl.png"> 🇱🇰 SL (+94)</div>
-            <div class="flag-item" onclick="changeLang('en', 'us')"><img src="https://flagcdn.com/w20/us.png"> 🇺🇸 US (+1)</div>
-        </div>
-    </div>
-        </header>
-        
         <div style="display: flex; align-items: center;">
-            <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+            <i class="fas fa-bars" style="font-size: 20px; cursor: pointer; margin-right: 15px;" onclick="toggleSidebar()"></i>
             <a href="index.html" class="logo">OSHAN CART</a>
         </div>
 
         <div class="search-wrapper">
-            <input type="text" id="searchInput" placeholder="Search products..." class="search-input">
-            <button class="mic-btn" id="micBtn" onclick="startVoiceSearch()"><i class="fas fa-microphone"></i></button>
+            <input type="text" class="search-input" placeholder="Search Oshan Cart...">
             <button class="search-btn"><i class="fas fa-search"></i></button>
         </div>
 
-        <div class="oshan-flag-dropdown">
-            <div class="flag-trigger" onclick="toggleFlagMenu(event)">
-                <img id="current-flag" src="https://flagcdn.com/w40/sl.png" width="25">
-                <span style="font-size: 10px; margin-left: 5px;">▼</span>
-            </div>
-            <div class="flag-menu" id="flagMenu">
-                <div class="flag-item" onclick="changeLang('si', 'sl')"><img src="https://flagcdn.com/w20/sl.png"> 🇱🇰 SL (+94)</div>
-                <div class="flag-item" onclick="changeLang('hi', 'in')"><img src="https://flagcdn.com/w20/in.png"> 🇮🇳 IN (+91)</div>
-                <div class="flag-item" onclick="changeLang('ja', 'jp')"><img src="https://flagcdn.com/w20/jp.png"> 🇯🇵 JP (+81)</div>
-                <div class="flag-item" onclick="changeLang('ko', 'kr')"><img src="https://flagcdn.com/w20/kr.png"> 🇰🇷 KR (+82)</div>
-                <div class="flag-item" onclick="changeLang('en', 'us')"><img src="https://flagcdn.com/w20/us.png"> 🇺🇸 US (+1)</div>
-                <div class="flag-item" onclick="changeLang('en', 'gb')"><img src="https://flagcdn.com/w20/gb.png"> 🇬🇧 UK (+44)</div>
-                <div class="flag-item" onclick="changeLang('ar', 'ae')"><img src="https://flagcdn.com/w20/ae.png"> 🇦🇪 AE (+971)</div>
-                <div class="flag-item" onclick="changeLang('fr', 'fr')"><img src="https://flagcdn.com/w20/fr.png"> 🇫🇷 FR (+33)</div>
-            </div>
+        <div style="font-size: 12px; text-align: right; cursor: pointer;">
+            Sign In<br><strong>Account ▼</strong>
         </div>
-
-        <div id="google_translate_element" style="display:none;"></div>
     </header>
 
-    <div class="product-grid" id="product-container"></div>
-
-    <div id="ai-chat-container">
-        <div id="ai-window">
-            <div class="ai-header">🤖 Oshan AI Assistant</div>
-            <div id="ai-messages"></div>
-            <div class="ai-input-area">
-                <input type="text" id="ai-msg-input" placeholder="Ask me anything...">
-                <button onclick="askOshanAI()"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
-        <button class="ai-toggle-btn" onclick="toggleAIChat()"><i class="fas fa-robot"></i></button>
+    <div style="background: #ff4d6d; color: white; text-align: center; padding: 15px; font-weight: bold;">
+        🚀 VALENTINE'S SPECIAL OFFERS - 20% OFF!
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <div class="product-grid" id="product-container">
+        </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-            authDomain: "oshancart.firebaseapp.com",
-            projectId: "oshancart",
-            storageBucket: "oshancart.firebasestorage.app",
-            messagingSenderId: "686982543488",
-            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        const container = document.getElementById('product-container');
-        onSnapshot(query(collection(db, "products"), orderBy("createdAt", "desc")), (snap) => {
-            container.innerHTML = "";
-            snap.forEach(doc => {
-                const item = doc.data();
-                container.innerHTML += `
-                    <div class="product-card">
-                        <img src="${item.image}" style="width:100%; height:180px; object-fit:cover; border-radius:8px;">
-                        <h4>${item.name}</h4>
-                        <div class="price">Rs. ${parseFloat(item.price).toLocaleString()}</div>
-                        <button class="buy-btn" onclick="window.location.href='checkout.html?id=${doc.id}'">Buy Now</button>
-                    </div>`;
-            });
-        });
-    </script>
+    <div class="ai-btn" onclick="alert('Oshan AI: How can I help you today?')">
+        <i class="fas fa-robot"></i>
+    </div>
 
     <script>
-        function checkAdminPassword() {
-            const pw = prompt("Enter Admin Password:");
-            if (pw === "admin123") {
-                window.location.href = "admin.html";
-            } else if (pw !== null) {
-                alert("Wrong password!");
-            }
-        }
-
+        // Sidebar Toggle
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('active');
             document.getElementById('overlay').classList.toggle('active');
         }
 
-        function toggleFlagMenu(e) {
-            e.stopPropagation();
-            document.getElementById("flagMenu").classList.toggle("show");
+        // Admin Password Check
+        function checkAdminPassword() {
+            const pw = prompt("Enter Admin Password:");
+            if (pw === "admin123") {
+                window.location.href = "admin.html";
+            } else if (pw !== null) {
+                alert("Wrong Password!");
+            }
         }
 
-        function changeLang(lang, flag) {
-            document.getElementById("current-flag").src = `https://flagcdn.com/w40/${flag}.png`;
-            let select = document.querySelector("select.goog-te-combo");
-            if (select) { select.value = lang; select.dispatchEvent(new Event('change')); }
-        }
-
-        function toggleAIChat() {
-            const win = document.getElementById('ai-window');
-            win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
-        }
-
-        function askOshanAI() {
-            const input = document.getElementById('ai-msg-input');
-            const box = document.getElementById('ai-messages');
-            if (!input.value.trim()) return;
-            box.innerHTML += `<div style="text-align:right; margin:5px; color:#ff4d6d;"><b>You:</b> ${input.value}</div>`;
-            setTimeout(() => {
-                box.innerHTML += `<div style="text-align:left; margin:5px; color:#232f3e;"><b>AI:</b> Processing your request...</div>`;
-                box.scrollTop = box.scrollHeight;
-            }, 500);
-            input.value = "";
-        }
-
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        // Fake Data (Firebase එකෙන් එනකම් පෙන්වන්න)
+        const container = document.getElementById('product-container');
+        for(let i=1; i<=4; i++) {
+            container.innerHTML += `
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200" alt="Product">
+                    <h4 style="margin: 10px 0;">Sample Product ${i}</h4>
+                    <div class="price">Rs. 2,500</div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+            `;
         }
     </script>
-    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
