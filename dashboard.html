@@ -1,1 +1,70 @@
+<!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+  // --- ඔබේ Firebase Config එක මෙතනට පේස්ට් කරන්න ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+    authDomain: "oshancart.firebaseapp.com",
+    projectId: "oshancart",
+    storageBucket: "oshancart.appspot.com",
+    messagingSenderId: "686982543488",
+    appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 1. Firebase එකට භාණ්ඩයක් ඇතුළත් කිරීම
+  window.addProduct = async function() {
+    const name = document.getElementById('p-name').value;
+    const price = document.getElementById('p-price').value;
+    const cat = document.getElementById('p-cat').value;
+    const img = document.getElementById('p-img').value;
+
+    if(name && price && img) {
+      try {
+        const docRef = await addDoc(collection(db, "products"), {
+          itemName: name,
+          itemPrice: price,
+          category: cat,
+          image: img,
+          timestamp: new Date()
+        });
+        alert("භාණ්ඩය සාර්ථකව Firebase වෙත ඇතුළත් කළා!");
+        location.reload(); // දත්ත පෙන්වීමට පිටුව අලුත් කරයි
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    } else {
+      alert("කරුණාකර විස්තර සම්පූර්ණ කරන්න.");
+    }
+  }
+
+  // 2. Firebase එකේ තියෙන භාණ්ඩ Table එකට ගෙන්වා ගැනීම
+  async function loadProducts() {
+    const querySnapshot = await getDocs(collection(db, "products"));
+    const table = document.getElementById('product-list');
+    let count = 0;
+    
+    table.innerHTML = ""; // කලින් තිබූ දත්ත මකන්න
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const row = `<tr>
+          <td><img src="${data.image}" class="product-img"></td>
+          <td>${data.itemName}</td>
+          <td>${data.category}</td>
+          <td>Rs. ${data.itemPrice}</td>
+          <td><button style="color:red; border:none; background:none;"><i class="fas fa-trash"></i></button></td>
+      </tr>`;
+      table.innerHTML += row;
+      count++;
+    });
+    document.getElementById('prod-count').innerText = count;
+  }
+
+  // පිටුව Load වන විට භාණ්ඩ පෙන්වන්න
+  loadProducts();
+
+</script>
