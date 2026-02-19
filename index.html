@@ -97,28 +97,40 @@
             </button>
             
             <button class="search-btn"><i class="fas fa-search"></i></button>
-<div class="oshan-country-box">
-    <div id="google_translate_element" style="display:none;"></div>
-    <select id="country-select" onchange="translateLanguage(this.value)">
-        <option value="si">🇱🇰 Sri Lanka (+94)</option>
-        <option value="hi">🇮🇳 India (+91)</option>
-        <option value="ja">🇯🇵 Japan (+81)</option>
-        <option value="ko">🇰🇷 South Korea (+82)</option>
-        <option value="en">🇺🇸 USA (+1)</option>
-        <option value="en">🇬🇧 UK (+44)</option>
-        <option value="en">🇦🇺 Australia (+61)</option>
-        <option value="ar">🇦🇪 UAE (+971)</option>
-        <option value="en">🇨🇦 Canada (+1)</option>
-        <option value="zh-CN">🇸🇬 Singapore (+65)</option>
-        <option value="ms">🇲🇾 Malaysia (+60)</option>
-        <option value="fr">🇫🇷 France (+33)</option>
-    </select>
+<div class="custom-dropdown" id="countryDropdown">
+    <div class="dropdown-header" onclick="toggleDropdown()">
+        <span id="selected-country">🇱🇰 SL (+94)</span>
+        <i class="arrow-down"></i>
+    </div>
+    <div class="dropdown-list" id="countryList">
+        <div class="dropdown-item" onclick="selectCountry('si', '🇱🇰 SL (+94)')">🇱🇰 Sri Lanka (+94)</div>
+        <div class="dropdown-item" onclick="selectCountry('hi', '🇮🇳 IN (+91)')">🇮🇳 India (+91)</div>
+        <div class="dropdown-item" onclick="selectCountry('ja', '🇯🇵 JP (+81)')">🇯🇵 Japan (+81)</div>
+        <div class="dropdown-item" onclick="selectCountry('ko', '🇰🇷 KR (+82)')">🇰🇷 South Korea (+82)</div>
+        <div class="dropdown-item" onclick="selectCountry('en', '🇺🇸 US (+1)')">🇺🇸 USA (+1)</div>
+        <div class="dropdown-item" onclick="selectCountry('en', '🇬🇧 UK (+44)')">🇬🇧 UK (+44)</div>
+        <div class="dropdown-item" onclick="selectCountry('ar', '🇦🇪 AE (+971)')">🇦🇪 UAE (+971)</div>
+        <div class="dropdown-item" onclick="selectCountry('zh-CN', '🇸🇬 SG (+65)')">🇸🇬 Singapore (+65)</div>
+    </div>
 </div>
 
+<div id="google_translate_element" style="display:none;"></div>
+
 <script type="text/javascript">
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'si,hi,ja,ko,en,ar,zh-CN,ms,fr'}, 'google_translate_element');
+    function toggleDropdown() {
+        document.getElementById("countryList").classList.toggle("show");
     }
+
+    function selectCountry(lang, text) {
+        document.getElementById("selected-country").innerText = text;
+        document.getElementById("countryList").classList.remove("show");
+        translateLanguage(lang);
+    }
+
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+
     function translateLanguage(lang) {
         var selectField = document.querySelector("select.goog-te-combo");
         if (selectField) {
@@ -126,9 +138,15 @@
             selectField.dispatchEvent(new Event('change'));
         }
     }
+
+    // Dropdown එකෙන් එළිය click කළොත් වහන්න
+    window.onclick = function(event) {
+        if (!event.target.closest('.custom-dropdown')) {
+            document.getElementById("countryList").classList.remove("show");
+        }
+    }
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 
 
         <div class="header-right">
