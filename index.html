@@ -28,6 +28,29 @@
     <div class="promo-banner">🚀 OSHAN CART GRAND OPENING! - Get 20% OFF using code: LOVE2026</div>
  
     <header>
+        <header>
+    <div class="header-left">
+        <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+        <a href="index.html" class="logo">OSHAN CART</a>
+    </div>
+
+    <div class="search-wrapper">
+        <input type="text" id="searchInput" placeholder="Search products..." class="search-input">
+        <button class="search-btn"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="oshan-flag-dropdown">
+        <div class="flag-trigger" onclick="toggleFlagMenu(event)">
+            <img id="current-flag" src="https://flagcdn.com/w40/sl.png" width="25">
+            <span class="arrow-down">▼</span>
+        </div>
+        <div class="flag-menu" id="flagMenu">
+            <div class="flag-item" onclick="changeLang('si', 'sl')"><img src="https://flagcdn.com/w20/sl.png"> 🇱🇰 SL (+94)</div>
+            <div class="flag-item" onclick="changeLang('en', 'us')"><img src="https://flagcdn.com/w20/us.png"> 🇺🇸 US (+1)</div>
+        </div>
+    </div>
+        </header>
+        
         <div style="display: flex; align-items: center;">
             <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
             <a href="index.html" class="logo">OSHAN CART</a>
