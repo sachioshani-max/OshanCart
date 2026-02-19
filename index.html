@@ -128,41 +128,53 @@
     </div>
 
     <header>
-        <div class="header-left">
-            <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
-            <a href="index.html" class="logo">OSHAN CART<span>.global</span></a>
-        </div>
+        <header>
+    <div class="header-left">
+        <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+        <a href="index.html" class="logo">OSHAN CART</a>
+    </div>
 
-        <div class="search-wrapper">
-            <button class="category-btn">All <i class="fas fa-caret-down"></i></button>
-            <input type="text" class="search-input" placeholder="Search Oshan Cart...">
-            <button class="search-btn"><i class="fas fa-search"></i></button>
-        </div>
-
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <div class="lang-container" onclick="toggleMenu('flagMenu', event)">
-                <img id="current-flag" src="https://flagcdn.com/w40/us.png" width="22">
-                <i class="fas fa-caret-down" style="font-size: 10px; color: #ccc;"></i>
-                <div class="flag-menu" id="flagMenu">
-                    <div class="flag-item" onclick="changeLang('en', 'us')"><img src="https://flagcdn.com/w20/us.png"> English (US)</div>
-                    <div class="flag-item" onclick="changeLang('si', 'sl')"><img src="https://flagcdn.com/w20/sl.png"> Sinhala (SL)</div>
-                    <div class="flag-item" onclick="changeLang('ja', 'jp')"><img src="https://flagcdn.com/w20/jp.png"> Japanese</div>
-                </div>
-            </div>
-
-            <div class="user-nav" onclick="toggleMenu('userDropdown', event)">
-                <div style="font-size: 12px; line-height: 14px;">Hello, Sign in<br><b style="font-size: 14px;">Account & Lists <i class="fas fa-caret-down" style="font-size: 10px;"></i></b></div>
-                <div class="user-dropdown" id="userDropdown">
-                    <a href="login.html" class="sign-in-btn">Sign in</a>
-                    <p style="text-align: center; font-size: 11px;">New customer? <a href="signup.html" style="color: #0066c0; padding: 0;">Start here.</a></p>
-                    <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
-                    <a href="profile.html">Edit Profile</a>
-                    <a href="orders.html">My Orders</a>
-                    <a href="affiliate.html">Affiliate Program</a>
-                    <a href="settings.html">Settings</a>
-                </div>
+    <div class="search-wrapper">
+        <div class="category-btn" onclick="toggleCategory()">
+            <span id="selectedCat">All</span> <i class="fas fa-caret-down"></i>
+            <div id="categoryMenu" class="category-dropdown-content">
+                <a onclick="updateCat('All')">All</a>
+                <a onclick="updateCat('Women')">Women</a>
+                <a onclick="updateCat('Curve')">Curve</a>
+                <a onclick="updateCat('Kids')">Kids</a>
+                <a onclick="updateCat('Men')">Men</a>
+                <a onclick="updateCat('Home')">Home</a>
+                <a onclick="updateCat('Beauty')">Beauty</a>
             </div>
         </div>
+        <input type="text" class="search-input" placeholder="Search for Just For You items...">
+        <button class="search-btn"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="lang-container" onclick="toggleMenu('flagMenu', event)">
+        <div class="flag-info">
+            <img id="current-flag" src="https://flagcdn.com/w40/us.png" width="22">
+            <span>+1 (USA)</span>
+        </div>
+        <div class="flag-menu" id="flagMenu">
+            <div class="flag-item" onclick="changeLang('en', 'us', '+1')"><img src="https://flagcdn.com/w20/us.png"> USA (+1)</div>
+            <div class="flag-item" onclick="changeLang('si', 'sl', '+94')"><img src="https://flagcdn.com/w20/sl.png"> Sri Lanka (+94)</div>
+            <div class="flag-item" onclick="changeLang('ja', 'jp', '+81')"><img src="https://flagcdn.com/w20/jp.png"> Japan (+81)</div>
+        </div>
+    </div>
+
+    <div class="user-nav" onclick="toggleMenu('userDropdown', event)">
+        <div style="font-size: 12px;">Hello, Sign in<br><b>Account <i class="fas fa-caret-down"></i></b></div>
+        <div class="user-dropdown" id="userDropdown">
+            <a href="login.html" class="sign-in-btn">Sign in</a>
+            <a href="profile.html"><i class="fas fa-user-cog"></i> Settings</a>
+            <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
+            <a href="affiliate.html"><i class="fas fa-users"></i> Affiliate Program</a>
+            <a href="admin.html"><i class="fas fa-user-cog"></i> admin panal</a>
+            <a href="help.html">Customer Service</a>
+        </div>
+    </div>
+</header>
     </header>
 
     <div class="promo-bar">🚀 VALENTINE'S SPECIAL OFFERS - 20% OFF! USE CODE: LOVE2026</div>
