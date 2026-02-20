@@ -108,27 +108,26 @@
                 <input type="number" id="pPrice" placeholder="Price (Rs.)">
                 <input type="number" id="pStock" placeholder="Stock Quantity">
                 
-                <!-- NEW DRAG & DROP AREA -->
                 <div class="upload-box" id="drop-zone" onclick="document.getElementById('p-file').click()">
                     <i class="fas fa-cloud-upload-alt" style="font-size: 30px; color: #c9184a;"></i>
-                    <p id="upload-status">Drag & Drop or Click to Upload Image</p>
+                    <p id="upload-status">Drag & Drop or Click to Upload Multiple Images (7+)</p>
                     <img id="preview-img">
-                    <input type="file" id="p-file" accept="image/*" style="display: none;">
+                    <input type="file" id="p-file" accept="image/*" multiple style="display: none;">
                 </div>
 
                 <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">Select Category</label>
-<select id="pCategory">
-    <option value="Home & Kitchen">Home & Kitchen 🏠</option>
-    <option value="Jewelry">Jewelry 💍</option>
-    <option value="Phones">Phones 📱</option>
-    <option value="Furniture">Furniture 🛋️</option>
-    <option value="Money Saving">Money Saving 💰</option>
-    <option value="Kids">Kids 🧸</option>
-    <option value="Dried Food">Dried Food 🍲</option>
-    <option value="Cakes">Cakes (Wedding & Birthday) 🎂</option>
-    <option value="Ceylon Items">Ceylon Items 🇱🇰</option>
-    <option value="Vehicles">Vehicles (Electric & Petrol) 🚗</option>
-</select>
+                <select id="pCategory">
+                    <option value="Home & Kitchen">Home & Kitchen 🏠</option>
+                    <option value="Jewelry">Jewelry 💍</option>
+                    <option value="Phones">Phones 📱</option>
+                    <option value="Furniture">Furniture 🛋️</option>
+                    <option value="Money Saving">Money Saving 💰</option>
+                    <option value="Kids">Kids 🧸</option>
+                    <option value="Dried Food">Dried Food 🍲</option>
+                    <option value="Cakes">Cakes (Wedding & Birthday) 🎂</option>
+                    <option value="Ceylon Items">Ceylon Items 🇱🇰</option>
+                    <option value="Vehicles">Vehicles (Electric & Petrol) 🚗</option>
+                </select>
                 <button id="listBtn" style="background: #27ae60;" onclick="uploadProduct()">List Product Now</button>
             </div>
         </div>
@@ -161,11 +160,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ImgBB API Key
         const IMGBB_KEY = "2e4966d15a568b4b2b8ab4d2515fb8b8";
-        let selectedFile;
+        let selectedFiles = [];
 
-        // --- Drag & Drop logic ---
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('p-file');
         const statusText = document.getElementById('upload-status');
@@ -176,25 +173,24 @@
         });
 
         dropZone.addEventListener('drop', (e) => {
-            selectedFile = e.dataTransfer.files[0];
-            handlePreview(selectedFile);
+            selectedFiles = Array.from(e.dataTransfer.files);
+            handlePreview(selectedFiles);
         });
 
         fileInput.onchange = (e) => {
-            selectedFile = e.target.files[0];
-            handlePreview(selectedFile);
+            selectedFiles = Array.from(e.target.files);
+            handlePreview(selectedFiles);
         };
 
-        function handlePreview(file) {
-            if (file) {
-                statusText.innerText = "Selected: " + file.name;
+        function handlePreview(files) {
+            if (files.length > 0) {
+                statusText.innerText = files.length + " images selected";
                 const reader = new FileReader();
                 reader.onload = (e) => { previewImg.src = e.target.result; previewImg.style.display = 'block'; };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(files[0]);
             }
         }
 
-        // --- Real-time Stats ---
         onSnapshot(collection(db, "users"), (snapshot) => {
             let ref = 0, pas = 0, aff = 0, count = 0, refs = 0;
             snapshot.forEach(doc => {
@@ -210,7 +206,6 @@
             document.getElementById('affIncome').innerText = "Rs. " + aff.toLocaleString();
         });
 
-        // --- Product Listing (ImgBB + Firebase) ---
         window.uploadProduct = async function() {
             const name = document.getElementById('pName').value;
             const price = parseFloat(document.getElementById('pPrice').value);
@@ -219,27 +214,31 @@
             const cat = document.getElementById('pCategory').value;
             const btn = document.getElementById('listBtn');
 
-            if(name && price && stock && selectedFile) {
-                btn.innerText = "Uploading... Please wait";
+            if(name && price && stock && selectedFiles.length > 0) {
+                btn.innerText = "Uploading " + selectedFiles.length + " Images...";
                 btn.disabled = true;
                 try {
-                    // Upload to ImgBB
-                    let formData = new FormData();
-                    formData.append("image", selectedFile);
-                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
-                    const imgData = await res.json();
+                    let imageUrls = [];
+                    for (let file of selectedFiles) {
+                        let formData = new FormData();
+                        formData.append("image", file);
+                        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
+                        const imgData = await res.json();
+                        imageUrls.push(imgData.data.url);
+                    }
 
-                    // Save to Firebase
                     await addDoc(collection(db, "products"), {
-                        name, price, stock, image: imgData.data.url, description: desc, category: cat, sold: 0, timestamp: serverTimestamp()
+                        name, price, stock, 
+                        image: imageUrls[0], 
+                        images: imageUrls, 
+                        description: desc, category: cat, sold: 0, timestamp: serverTimestamp()
                     });
-                    alert("Product Listed Successfully! 🛍️");
+                    alert("Product Listed Successfully with " + imageUrls.length + " images! 🛍️");
                     location.reload();
                 } catch(e) { alert("Upload failed!"); btn.disabled = false; btn.innerText = "List Product Now"; }
-            } else { alert("Please fill all fields and select an image!"); }
+            } else { alert("Please fill all fields and select images!"); }
         };
 
-        // --- Withdrawal ---
         window.submitWithdraw = async function() {
             const amt = parseFloat(document.getElementById('wAmount').value);
             const bank = document.getElementById('wBank').value;
@@ -251,7 +250,6 @@
             } else { alert("Check details!"); }
         };
 
-        // --- Stock Sync ---
         onSnapshot(collection(db, "products"), (snapshot) => {
             const tbody = document.querySelector("#stockTable tbody");
             tbody.innerHTML = "";
