@@ -116,46 +116,73 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-            authDomain: "oshancart.firebaseapp.com",
-            projectId: "oshancart",
-            storageBucket: "oshancart.appspot.com",
-            messagingSenderId: "686982543488",
-            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+        authDomain: "oshancart.firebaseapp.com",
+        projectId: "oshancart",
+        storageBucket: "oshancart.appspot.com",
+        messagingSenderId: "686982543488",
+        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        // Firebase Data
-        onSnapshot(collection(db, "users"), (snapshot) => {
-            let earnings = 0, invites = 0, count = 0;
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                earnings += (data.referralEarnings || 0);
-                invites += (data.referralCount || 0);
-                count++;
-            });
-            document.getElementById('totalUsersCount').innerText = count;
-            document.getElementById('totalReferralPayout').innerText = "Rs. " + earnings;
-            document.getElementById('refSubTotal').innerText = "Rs. " + earnings;
-            document.getElementById('refCountTotal').innerText = invites;
+    // 1. User Stats (Referral & Count) ලබා ගැනීම
+    onSnapshot(collection(db, "users"), (snapshot) => {
+        let earnings = 0, invites = 0, count = 0;
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            earnings += (data.referralEarnings || 0);
+            invites += (data.referralCount || 0);
+            count++;
         });
+        document.getElementById('totalUsersCount').innerText = count;
+        document.getElementById('totalReferralPayout').innerText = "Rs. " + earnings;
+        document.getElementById('refSubTotal').innerText = "Rs. " + earnings;
+        document.getElementById('refCountTotal').innerText = invites;
+    });
 
-        // Tab Switching function - මේක වැදගත්
-        window.showTab = function(tabId, element) {
-            // ඔක්කොම හංගන්න
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    // 2. Stock Data (Products) ලබා ගැනීම
+    function loadStockData() {
+        const stockTable = document.querySelector("#stock tbody");
+        
+        onSnapshot(collection(db, "products"), (snapshot) => {
+            stockTable.innerHTML = ""; // පරණ දත්ත මකනවා
             
-            // ඉල්ලපු එක පෙන්නන්න
-            document.getElementById(tabId).classList.add('active');
-            element.classList.add('active');
-        }
-    </script>
+            snapshot.forEach((doc) => {
+                const item = doc.data();
+                // Stock එක 0 නම් 'Sold Out' ලෙස පෙන්වීමට
+                const statusClass = (item.stock > 0) ? "in-stock" : "out-of-stock";
+                const statusText = (item.stock > 0) ? "Available" : "Sold Out";
+
+                const row = `
+                    <tr>
+                        <td>${item.itemName}</td>
+                        <td>${item.stock || '10'}</td> <!-- දැනට stock අගයක් නැති නිසා 10 ක් පෙන්වයි -->
+                        <td>${item.sold || '0'}</td>
+                        <td><span class="badge ${statusClass}">${statusText}</span></td>
+                    </tr>
+                `;
+                stockTable.innerHTML += row;
+            });
+        });
+    }
+
+    // Sidebar Tab Switching
+    window.showTab = function(tabId, element) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        element.classList.add('active');
+    };
+
+    // පිටුව Load වෙද්දීම Stock Data ගෙන්වා ගන්න
+    loadStockData();
+
+</script>
 </body>
 </html>
