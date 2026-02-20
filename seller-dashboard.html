@@ -117,6 +117,8 @@
         </table>
     </div>
 
+<!-- කලින් තිබූ CSS සහ HTML කොටස් එලෙසම පවතී -->
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -133,14 +135,43 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const IMGBB_KEY = "2e4966d15a568b4b2b8ab4d2515fb8b8";
+    // LINE 103: ImgBB API Key එක මෙතන තියෙන්නේ
+    const IMGBB_KEY = "2e4966d15a568b4b2b8ab4d2515fb8b8"; 
     let selectedFile;
 
-    document.getElementById('p-file').onchange = (e) => {
+    const uploadBox = document.querySelector('.upload-box');
+    const fileInput = document.getElementById('p-file');
+    const fileStatus = document.getElementById('file-status');
+
+    // 1. Drag & Drop Support
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadBox.addEventListener(eventName, e => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    });
+
+    uploadBox.addEventListener('drop', e => {
+        const dt = e.dataTransfer;
+        selectedFile = dt.files[0];
+        handleFileSelect(selectedFile);
+    });
+
+    // 2. Click to Select (Phone Gallery)
+    fileInput.onchange = (e) => {
         selectedFile = e.target.files[0];
-        document.getElementById('file-status').innerText = "Selected: " + selectedFile.name;
+        handleFileSelect(selectedFile);
     };
 
+    function handleFileSelect(file) {
+        if (file) {
+            fileStatus.innerHTML = `<span style="color: #27ae60;">Selected: ${file.name} ✅</span>`;
+            uploadBox.style.borderColor = "#27ae60";
+            uploadBox.style.background = "#e8f5e9";
+        }
+    }
+
+    // 3. Upload and Add Product
     window.addProduct = async function() {
         const name = document.getElementById('p-name').value;
         const price = document.getElementById('p-price').value;
@@ -152,34 +183,56 @@
         const btn = document.getElementById('add-btn');
 
         if(name && price && selectedFile && stock) {
-            btn.innerText = "Processing...";
+            btn.innerText = "Uploading Image... ⏳";
             btn.disabled = true;
+            
             try {
+                // ImgBB Upload Process
                 let formData = new FormData();
                 formData.append("image", selectedFile);
-                const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
+                
+                const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { 
+                    method: "POST", 
+                    body: formData 
+                });
+                
                 const imgData = await imgRes.json();
                 
+                if(!imgData.success) throw new Error("Image upload failed");
+
+                btn.innerText = "Saving to Database... 📂";
+
+                // Firebase Save
                 await addDoc(collection(db, "products"), {
-                    name, price: parseFloat(price), category: cat, stock: parseInt(stock),
-                    description: desc, deliveryInfo: delivery, deliveryTime: delTime,
-                    image: imgData.data.url, createdAt: serverTimestamp()
+                    name, 
+                    price: parseFloat(price), 
+                    category: cat, 
+                    stock: parseInt(stock),
+                    description: desc, 
+                    deliveryInfo: delivery, 
+                    deliveryTime: delTime,
+                    image: imgData.data.url, 
+                    createdAt: serverTimestamp()
                 });
 
-                alert("Product Added Successfully!");
+                alert("Product Added Successfully! 🎉");
                 location.reload();
             } catch (err) {
                 alert("Error: " + err.message);
                 btn.disabled = false;
                 btn.innerText = "List Product Now";
             }
-        } else { alert("Please fill all required fields!"); }
+        } else { 
+            alert("Please fill all fields and select an image!"); 
+        }
     }
 
+    // 4. Load Items for Table
     async function loadItems() {
         const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
         const snapshot = await getDocs(q);
         const list = document.getElementById('product-list');
+        list.innerHTML = ""; // Clear list before loading
         snapshot.forEach(doc => {
             const item = doc.data();
             list.innerHTML += `<tr>
@@ -188,6 +241,7 @@
                 <td>Rs. ${item.price}</td>
                 <td>${item.category}</td>
                 <td>${item.stock}</td>
+                <td><small>${item.description.substring(0, 30)}...</small></td>
             </tr>`;
         });
     }
