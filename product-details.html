@@ -180,7 +180,23 @@
         if(qty >= 1) qtyEl.innerText = qty;
     };
 
-    window.addToCart = (id) => { alert("Added to Cart!"); };
+   // මේ function එක script එක ඇතුළේ ඕනෑම තැනක දාන්න
+function showToast() {
+    var x = document.getElementById("toast");
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+// ඔයාගේ addToCart function එක ඇතුළේ alert වෙනුවට මේක පාවිච්චි කරන්න
+window.addToCart = async (id) => {
+    // ... කලින් තිබ්බ කෝඩ් ටික ...
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    
+    // Alert එක වෙනුවට මේක දාන්න
+    showToast(); 
+};
     window.buyNow = () => { alert("Redirecting to Checkout..."); };
 
     loadProduct();
