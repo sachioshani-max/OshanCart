@@ -7,39 +7,55 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { font-family: 'Poppins', sans-serif; margin: 0; background: #f4f4f4; }
-        .nav { background: #131921; padding: 15px; color: white; text-align: center; }
+        .nav { background: #131921; padding: 15px; color: white; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; }
+        .cart-icon { position: relative; font-size: 22px; color: white; text-decoration: none; }
+        #cart-count { position: absolute; top: -10px; right: -12px; background: #ffa41c; color: #131921; font-size: 12px; padding: 2px 6px; border-radius: 50%; font-weight: bold; }
+        
         .container { max-width: 1000px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; display: flex; flex-wrap: wrap; gap: 30px; }
         .left { flex: 1; min-width: 300px; }
         .right { flex: 1.2; min-width: 300px; }
         .main-img { width: 100%; border-radius: 8px; border: 1px solid #ddd; }
         .title { font-size: 24px; font-weight: bold; color: #333; }
         .price { font-size: 28px; color: #B12704; margin: 10px 0; }
-        .desc { font-size: 16px; color: #555; line-height: 1.6; border-top: 1px solid #eee; padding-top: 15px; margin-top: 20px; }
-        .btn-buy { background: #ffa41c; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
-        .btn-cart { background: #ffd814; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 20px; }
-        .back-link { display: inline-block; margin-bottom: 15px; text-decoration: none; color: #007185; font-size: 14px; }
         
-        /* Quantity & Delivery Styles */
         .qty-container { display: flex; align-items: center; gap: 10px; margin: 20px 0; }
         .qty-btn { background: #eee; border: 1px solid #ddd; padding: 5px 12px; cursor: pointer; font-size: 18px; font-weight: bold; border-radius: 4px; }
         #qty-val { font-weight: bold; font-size: 18px; width: 30px; text-align: center; }
+
+        .btn-buy { background: #ffa41c; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-cart { background: #ffd814; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 20px; }
+        
         .delivery-box { background: #fafafa; border: 1px solid #eee; padding: 15px; margin-top: 20px; border-radius: 5px; font-size: 13px; }
         .delivery-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: #333; }
         .delivery-item i { color: #555; width: 20px; }
+
+        /* Toast Popup Style */
+        #toast { visibility: hidden; min-width: 250px; background-color: #232f3e; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; right: 30px; top: 30px; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border-left: 5px solid #ffa41c; }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {top: 0; opacity: 0;} to {top: 30px; opacity: 1;} }
+        @keyframes fadeout { from {top: 30px; opacity: 1;} to {top: 0; opacity: 0;} }
     </style>
 </head>
 <body>
 
 <div class="nav">
-    <h2>Oshan<span>Cart</span></h2>
+    <div class="nav-container">
+        <a href="index.html" style="color:white; text-decoration:none;"><h2>Oshan<span>Cart</span></h2></a>
+        <a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </a>
+    </div>
 </div>
+
+<div id="toast"><i class="fas fa-check-circle" style="color: #ffa41c; margin-right: 10px;"></i> Added to Cart!</div>
 
 <div class="container" id="productDetail">
     <p style="padding: 20px;">Loading product details...</p>
 </div>
 
 <script type="module">
-    // 1. Firebase Imports (අලුතින් addDoc, collection, query වගේ දේවල් ඇතුළත් කරලා තියෙන්නේ)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, doc, getDoc, collection, addDoc, query, where, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -54,7 +70,6 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
 
@@ -69,8 +84,8 @@
                 const data = docSnap.data();
                 document.getElementById('productDetail').innerHTML = `
                     <div class="left">
-                        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to results</a>
-                        <img src="${data.image}" class="main-img">
+                        <a href="index.html" style="text-decoration:none; color:#007185; font-size:14px;"><i class="fas fa-arrow-left"></i> Back to results</a>
+                        <img src="${data.image}" class="main-img" style="margin-top:15px;">
                     </div>
                     <div class="right">
                         <h1 class="title">${data.name}</h1>
@@ -84,125 +99,130 @@
                             <button class="qty-btn" onclick="updateQty(1)">+</button>
                         </div>
 
-                        <button class="btn-cart" onclick="addToCart('${productId}')">Add to Cart</button>
-                        <button class="btn-buy" onclick="buyNow()">Buy Now</button>
+                        <button class="btn-cart" id="addToCartBtn">Add to Cart</button>
+                        <button class="btn-buy">Buy Now</button>
 
                         <div class="delivery-box">
                             <div class="delivery-item"><i class="fas fa-map-marker-alt"></i> Delivery: Island-wide within 3 days</div>
                             <div class="delivery-item"><i class="fas fa-undo"></i> 7 Days Returns available</div>
-                            <div class="delivery-item"><i class="fas fa-shield-alt"></i> 1 Year Warranty (If applicable)</div>
+                            <div class="delivery-item"><i class="fas fa-shield-alt"></i> 1 Year Warranty</div>
                         </div>
 
-                        <div class="desc">
+                        <div style="margin-top:30px; border-top:1px solid #eee; padding-top:20px;">
+                            <h3 style="font-size: 20px;">Ratings & Reviews</h3>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <span style="font-size: 48px; font-weight: bold; color: #333;">4.6<span style="font-size: 20px; color: #777;">/5</span></span>
+                                <div>
+                                    <div style="color: #ffb400; font-size: 18px;">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <p style="margin: 0; color: #777; font-size: 13px;">152 Ratings</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:20px; border-bottom:1px solid #eee; padding-bottom:15px;">
+                            <div style="color: #ffb400; font-size: 12px;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            <p style="font-size: 14px; font-weight: bold; margin: 5px 0;">Highly Recommended!</p>
+                            <p style="font-size: 13px; color: #555;">The product quality is amazing. Thank you Oshan Cart!</p>
+                            <p style="font-size: 12px; color: #999;">By Sachi Oshan - 20 Feb 2026</p>
+                        </div>
+
+                        <div style="margin-top:20px;">
                             <h3>Product Description</h3>
-                            <p>${data.description || 'No description available.'}</p>
+                            <p style="color:#555; line-height:1.6;">${data.description || 'No description available.'}</p>
                         </div>
 
-                        <!-- Review Form -->
                         <div style="margin-top: 40px; border-top: 2px solid #eee; padding-top: 20px;">
                             <h3>Write a Review</h3>
-                            <div id="reviewForm" style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
                                 <input type="text" id="revName" placeholder="Your Name" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
-                                <label>Rating:</label>
                                 <select id="revRating" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
-                                    <option value="5">⭐⭐⭐⭐🌟🌟 </option>
-                                    <option value="4">⭐⭐⭐🌟</option>
-                                    <option value="3">🌟🌟🌟</option>
-                                    <option value="2">🌟🌟</option>
-                                    <option value="1">🌟</option>
+                                    <option value="5">⭐⭐⭐⭐⭐</option>
+                                    <option value="4">⭐⭐⭐⭐</option>
+                                    <option value="3">⭐⭐⭐</option>
+                                    <option value="2">⭐⭐</option>
+                                    <option value="1">⭐</option>
                                 </select>
-                                <textarea id="revText" placeholder="Your experience..." rows="4" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
-                                <button onclick="submitReview()" style="background: #131921; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit Review</button>
+                                <textarea id="revText" placeholder="Your experience..." rows="3" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                                <button id="submitReviewBtn" style="background: #131921; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit Review</button>
                             </div>
                         </div>
 
                         <div style="margin-top: 30px;">
                             <h3>Customer Reviews</h3>
-                            <div id="reviewsList">Loading reviews...</div>
+                            <div id="reviewsList">Loading...</div>
                         </div>
                     </div>
                 `;
-                // Product එක Load වුණාට පස්සේ Reviews load කරනවා
+
+                // Event Listeners attach කරනවා
+                document.getElementById('addToCartBtn').onclick = () => addToCart(productId, data);
+                document.getElementById('submitReviewBtn').onclick = submitReview;
                 loadReviews();
             }
-        } catch (error) {
-            console.error("Error:", error);
-        }
+        } catch (e) { console.error(e); }
     }
 
-    // --- Review Functions ---
-
-    // Review එකක් Database එකට දාන එක
-    window.submitReview = async () => {
-        const name = document.getElementById('revName').value;
-        const rating = document.getElementById('revRating').value;
-        const text = document.getElementById('revText').value;
-
-        if(!name || !text) { alert("Please fill all fields!"); return; }
-
-        try {
-            await addDoc(collection(db, "reviews"), {
-                productId: productId,
-                name: name,
-                rating: parseInt(rating),
-                text: text,
-                timestamp: serverTimestamp()
-            });
-            alert("Review Added!");
-            document.getElementById('revName').value = "";
-            document.getElementById('revText').value = "";
-        } catch (e) { console.error("Error adding review:", e); }
-    };
-
-    // Database එකෙන් Reviews අරන් පෙන්වන එක
-    function loadReviews() {
-        const q = query(collection(db, "reviews"), where("productId", "==", productId));
-        onSnapshot(q, (snapshot) => {
-            const list = document.getElementById('reviewsList');
-            if (snapshot.empty) {
-                list.innerHTML = "<p>No reviews yet.</p>";
-                return;
-            }
-            list.innerHTML = snapshot.docs.map(doc => {
-                const r = doc.data();
-                return `<div style="border-bottom: 1px solid #eee; padding: 10px 0;">
-                    <div style="color: #ffb400;">${"⭐".repeat(r.rating)}</div>
-                    <p><strong>${r.name}</strong>: ${r.text}</p>
-                </div>`;
-            }).join('');
-        });
-    }
-
-    // --- Other Global Functions ---
+    // --- Quantity Control ---
     window.updateQty = (val) => {
         let qtyEl = document.getElementById('qty-val');
         let qty = parseInt(qtyEl.innerText) + val;
         if(qty >= 1) qtyEl.innerText = qty;
     };
 
-   // මේ function එක script එක ඇතුළේ ඕනෑම තැනක දාන්න
-function showToast() {
-    var x = document.getElementById("toast");
-    x.className = "show";
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
+    // --- Toast Function ---
+    function showToast() {
+        const x = document.getElementById("toast");
+        x.className = "show";
+        setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
+    }
 
-// ඔයාගේ addToCart function එක ඇතුළේ alert වෙනුවට මේක පාවිච්චි කරන්න
-window.addToCart = async (id) => {
-    // ... කලින් තිබ්බ කෝඩ් ටික ...
-    
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-    
-    // Alert එක වෙනුවට මේක දාන්න
-    showToast(); 
-};
-    window.buyNow = () => { alert("Redirecting to Checkout..."); };
+    // --- Cart Logic ---
+    function addToCart(id, data) {
+        const qty = parseInt(document.getElementById('qty-val').innerText);
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const index = cart.findIndex(item => item.id === id);
+        if (index > -1) { cart[index].qty += qty; } 
+        else { cart.push({ id, name: data.name, price: data.price, image: data.image, qty }); }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        showToast();
+    }
+
+    // --- Review Logic ---
+    async function submitReview() {
+        const name = document.getElementById('revName').value;
+        const rating = document.getElementById('revRating').value;
+        const text = document.getElementById('revText').value;
+        if(!name || !text) { alert("Please fill all fields!"); return; }
+        await addDoc(collection(db, "reviews"), { productId, name, rating: parseInt(rating), text, timestamp: serverTimestamp() });
+        document.getElementById('revName').value = ""; document.getElementById('revText').value = "";
+    }
+
+    function loadReviews() {
+        const q = query(collection(db, "reviews"), where("productId", "==", productId));
+        onSnapshot(q, (snapshot) => {
+            const list = document.getElementById('reviewsList');
+            if (snapshot.empty) { list.innerHTML = "<p>No customer reviews yet.</p>"; return; }
+            list.innerHTML = snapshot.docs.map(doc => {
+                const r = doc.data();
+                return `<div style="border-bottom: 1px solid #eee; padding: 10px 0;">
+                    <div style="color: #ffb400;">${"⭐".repeat(r.rating)}</div>
+                    <p style="margin:5px 0;"><strong>${r.name}</strong></p>
+                    <p style="font-size:14px; color:#555;">${r.text}</p>
+                </div>`;
+            }).join('');
+        });
+    }
+
+    function updateCartCount() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+    }
 
     loadProduct();
+    updateCartCount();
 </script>
-<div id="toast" style="visibility: hidden; min-width: 250px; background-color: #232f3e; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; right: 30px; top: 30px; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border-left: 5px solid #ffa41c;">
-    <i class="fas fa-check-circle" style="color: #ffa41c; margin-right: 10px;"></i> Added to Cart!
-</div>
 </body>
 </html>
