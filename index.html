@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oshan Cart | Smart Global Shopping</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Flag Icons CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
     
     <style>
@@ -27,7 +26,7 @@
         }
         .cat-content { 
             display: none; position: absolute; background: white; min-width: 180px; 
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2); top: 100%; border-radius: 0 0 4px 4px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); top: 100%; border-radius: 0 0 4px 4px; z-index: 999;
         }
         .cat-content a { color: #333; padding: 10px 15px; text-decoration: none; display: block; font-size: 13px; border-bottom: 1px solid #eee; }
         .cat-content a:hover { background: #f0f0f0; color: var(--primary); }
@@ -64,10 +63,15 @@
         /* Product Grid */
         .container { padding: 20px 3%; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .product-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s; padding: 10px; }
+        .product-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s; padding: 10px; display: flex; flex-direction: column; }
         .product-img { width: 100%; height: 180px; object-fit: contain; }
         .product-name { font-size: 14px; margin: 10px 0; height: 36px; overflow: hidden; color: #333; }
         .product-price { font-size: 18px; font-weight: bold; color: #B12704; }
+        
+        .buy-btn { 
+            background: #febd69; border: none; padding: 8px; border-radius: 4px; 
+            margin-top: 10px; cursor: pointer; font-weight: bold; width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -76,21 +80,23 @@
         <a href="index.html" class="logo">Oshan<span>Cart</span></a>
         
         <div class="search-container">
-            <div class="cat-content" id="catMenu">
-    <a href="#" onclick="filterCat('All')">All Categories</a>
-    <a href="#" onclick="filterCat('Womens')">Womens Fashion 👗</a>
-    <a href="#" onclick="filterCat('Mens')">Mens Fashion 👕</a>
-    <a href="#" onclick="filterCat('Home & Kitchen')">Home & Kitchen 🏠</a>
-    <a href="#" onclick="filterCat('Jewelry')">Jewelry 💍</a>
-    <a href="#" onclick="filterCat('Phones')">Phones 📱</a>
-    <a href="#" onclick="filterCat('Furniture')">Furniture 🛋️</a>
-    <a href="#" onclick="filterCat('Money Saving')">Money Saving 💰</a>
-    <a href="#" onclick="filterCat('Kids')">Kids 🧸</a>
-    <a href="#" onclick="filterCat('Dried Food')">Dried Food 🍲</a>
-    <a href="#" onclick="filterCat('Cakes')">Cakes (Wedding & Birthday) 🎂</a>
-    <a href="#" onclick="filterCat('Ceylon Items')">Ceylon Items 🇱🇰</a>
-    <a href="#" onclick="filterCat('Vehicles')">Vehicles (Electric & Petrol) 🚗</a>
-</div>
+            <div class="cat-dropdown">
+                <button class="cat-btn">All Categories <i class="fas fa-caret-down" style="margin-left:5px;"></i></button>
+                <div class="cat-content" id="catMenu">
+                    <a href="#" onclick="filterCat('All')">All Categories</a>
+                    <a href="#" onclick="filterCat('Womens')">Womens Fashion 👗</a>
+                    <a href="#" onclick="filterCat('Mens')">Mens Fashion 👕</a>
+                    <a href="#" onclick="filterCat('Home & Kitchen')">Home & Kitchen 🏠</a>
+                    <a href="#" onclick="filterCat('Jewelry')">Jewelry 💍</a>
+                    <a href="#" onclick="filterCat('Phones')">Phones 📱</a>
+                    <a href="#" onclick="filterCat('Furniture')">Furniture 🛋️</a>
+                    <a href="#" onclick="filterCat('Money Saving')">Money Saving 💰</a>
+                    <a href="#" onclick="filterCat('Kids')">Kids 🧸</a>
+                    <a href="#" onclick="filterCat('Dried Food')">Dried Food 🍲</a>
+                    <a href="#" onclick="filterCat('Cakes')">Cakes (Wedding & Birthday) 🎂</a>
+                    <a href="#" onclick="filterCat('Ceylon Items')">Ceylon Items 🇱🇰</a>
+                    <a href="#" onclick="filterCat('Vehicles')">Vehicles (Electric & Petrol) 🚗</a>
+                </div>
             </div>
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="Search Oshan Cart">
@@ -99,57 +105,34 @@
         </div>
 
         <div class="nav-right">
-            <!-- Language Dropdown with Country Codes -->
             <div class="lang-dropdown">
                 <span class="fi fi-us"></span> EN 🌏<i class="fas fa-caret-down" style="font-size: 10px;"></i>
                 <div class="lang-menu">
                     <a href="#"><span class="fi fi-us"></span> English</a>
                     <a href="#"><span class="fi fi-lk"></span> Sinhala</a>
                     <a href="#"><span class="fi fi-in"></span> Hindi</a>
-                    <a href="#"><span class="fi fi-in"></span> Korean</a>
-                    <a href="#"><span class="fi fi-in"></span> Tamil</a>
-                    <a href="#"><span class="fi fi-in"></span> Japan</a>
-                    <a href="#"><span class="fi fi-in"></span> Canada</a>
-                    <a href="#"><span class="fi fi-in"></span> Australia 🌏</a>
+                    <a href="#"><span class="fi fi-jp"></span> Japan</a>
+                    <a href="#"><span class="fi fi-ca"></span> Canada</a>
+                    <a href="#"><span class="fi fi-au"></span> Australia 🌏</a>
                 </div>
             </div>
 
             <div class="user-menu">
-    <span>Hello, Sign in</span>
-    <b>Account & Lists <i class="fas fa-caret-down" style="font-size: 10px;"></i></b>
-    <div class="user-content">
-        <a href="profile.html" style="font-weight: bold; color: var(--primary);">✍️ Me (Profile)</a>
-        <a href="orders.html">🎁 My Orders</a>
-        <a href="referral.html">🤝 My Referral</a>
-        <a href="affiliate.html">👥 Affiliate Program</a>
-        <hr style="border: 0; border-top: 1px solid #eee;">
-        <!-- Admin Panel එකට Password එකක් දාලා යන්න function එකක් ලින්ක් කළා -->
-        <a href="#" onclick="accessAdminPanel()">👤 Admin Panel</a>
-        <a href="become-seller-signup.html">👩🏻‍🌾 Become a Seller</a>
-        <a href="seller-dashboard.html">📊 Seller Dashboard</a>
-        <a href="#" onclick="openCustomerService()">🤖 Customer Services</a>
-    </div>
-</div>
+                <span>Hello, Sign in</span>
+                <b>Account & Lists <i class="fas fa-caret-down" style="font-size: 10px;"></i></b>
+                <div class="user-content">
+                    <a href="profile.html" style="font-weight: bold; color: var(--primary);">✍️ Me (Profile)</a>
+                    <a href="orders.html">🎁 My Orders</a>
+                    <a href="referral.html">🤝 My Referral</a>
+                    <a href="affiliate.html">👥 Affiliate Program</a>
+                    <hr style="border: 0; border-top: 1px solid #eee;">
+                    <a href="#" onclick="accessAdminPanel()">👤 Admin Panel</a>
+                    <a href="become-seller-signup.html">👩🏻‍🌾 Become a Seller</a>
+                    <a href="seller-dashboard.html">📊 Seller Dashboard</a>
+                    <a href="#" onclick="openCustomerService()">🤖 Customer Services</a>
+                </div>
+            </div>
 
-<script>
-// Admin Panel Password Protection
-function accessAdminPanel() {
-    let pw = prompt("Enter Admin Password to access Admin Panel:");
-    if(pw === "Lakshan@2001") { // ඔයාට කැමති password එකක් මෙතනට දාන්න
-        window.location.href = "admin-dashboard.html";
-    } else {
-        alert("Access Denied! Wrong Password.");
-    }
-}
-
-// Daraz Style Customer Service Popup
-function openCustomerService() {
-    alert("Oshan AI Support is opening...");
-    window.open("https://wa.me/94727600501", "_blank"); // මෙතනට ඔයාගේ WhatsApp link එක දෙන්න
-}
-</script>
-
-            <!-- Cart Icon Link -->
             <a href="cart.html" class="cart-icon">
                 <i class="fas fa-shopping-cart" style="font-size: 22px;"></i>
                 <span class="cart-count">0</span>
@@ -160,8 +143,7 @@ function openCustomerService() {
 
     <div class="container">
         <div class="product-grid" id="productDisplay">
-            <!-- Data will load here from Firebase -->
-        </div>
+            </div>
     </div>
 
 <script type="module">
@@ -189,7 +171,6 @@ function openCustomerService() {
                 ...doc.data()
             }));
 
-            // JavaScript වලින් සෝට් කරමු (අලුත් ඒවා උඩට)
             allProducts.sort((a, b) => {
                 const timeA = a.timestamp?.seconds || 0;
                 const timeB = b.timestamp?.seconds || 0;
@@ -202,31 +183,69 @@ function openCustomerService() {
         }
     }
 
-    function displayItems(items) {
+    // Function to display items in the grid
+    window.displayItems = (items) => {
         const grid = document.getElementById('productDisplay');
         if (!grid) return;
 
         grid.innerHTML = items.map(item => `
-            <!-- මෙතන onclick එකක් ඇඩ් කළා පේජ් එක මාරු වෙන්න -->
-            <div class="product-card" onclick="viewProduct('${item.id}')" style="cursor: pointer;">
-                <img src="${item.image}" class="product-img">
-                <p class="product-name">${item.name}</p>
-                <p class="product-price">Rs. ${item.price ? item.price.toLocaleString() : '0'}</p>
-                <p style="font-size: 12px; color: #555;"><i class="fas fa-truck"></i> Fast Delivery</p>
+            <div class="product-card">
+                <div onclick="viewProduct('${item.id}')" style="cursor: pointer;">
+                    <img src="${item.image}" class="product-img">
+                    <p class="product-name">${item.name}</p>
+                    <p class="product-price">Rs. ${item.price ? item.price.toLocaleString() : '0'}</p>
+                    <p style="font-size: 12px; color: #555;"><i class="fas fa-truck"></i> Fast Delivery</p>
+                </div>
+                <button onclick="buyNow('${item.id}')" class="buy-btn">Buy Now</button>
             </div>
         `).join('');
-    }
+    };
 
-    // බඩුව ක්ලික් කළාම ID එකත් අරන් අලුත් පේජ් එකට යන විදිහ
+    // View product details
     window.viewProduct = (id) => {
         if(id) {
             window.location.href = `product-details.html?id=${id}`;
-        } else {
-            console.error("Product ID not found!");
         }
     };
 
-    // පේජ් එක ලෝඩ් වෙද්දීම රන් වෙන්න
+    // Buy Now redirection
+    window.buyNow = (id) => {
+        window.location.href = `checkout.html?id=${id}`;
+    };
+
+    // Category filter
+    window.filterCat = (category) => {
+        if (category === 'All') {
+            displayItems(allProducts);
+        } else {
+            const filtered = allProducts.filter(p => p.category === category);
+            displayItems(filtered);
+        }
+    };
+
+    // Search function
+    window.searchProducts = () => {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query));
+        displayItems(filtered);
+    };
+
+    // Admin Panel access
+    window.accessAdminPanel = () => {
+        let pw = prompt("Enter Admin Password to access Admin Panel:");
+        if(pw === "Lakshan@2001") {
+            window.location.href = "admin-dashboard.html";
+        } else {
+            alert("Access Denied! Wrong Password.");
+        }
+    };
+
+    // Customer Service
+    window.openCustomerService = () => {
+        alert("Oshan AI Support is opening...");
+        window.open("https://wa.me/94727600501", "_blank");
+    };
+
     fetchProducts();
 </script>
 </body>
