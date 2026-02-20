@@ -148,27 +148,30 @@
 
     // 2. Stock Data (Products) ලබා ගැනීම
     function loadStockData() {
-        const stockTable = document.querySelector("#stock tbody");
+        // Table එක ඇතුළේ තියෙන tbody එක කෙලින්ම අල්ලගන්නවා
+        const stockTable = document.querySelector("#stock table tbody");
         
         onSnapshot(collection(db, "products"), (snapshot) => {
-            stockTable.innerHTML = ""; // පරණ දත්ත මකනවා
-            
-            snapshot.forEach((doc) => {
-                const item = doc.data();
-                // Stock එක 0 නම් 'Sold Out' ලෙස පෙන්වීමට
-                const statusClass = (item.stock > 0) ? "in-stock" : "out-of-stock";
-                const statusText = (item.stock > 0) ? "Available" : "Sold Out";
+            if (stockTableBody) {
+                stockTableBody.innerHTML = ""; // පරණ placeholder දත්ත මකනවා
+                
+                snapshot.forEach((doc) => {
+                    const item = doc.data();
+                    const stockVal = item.stock || 0; 
+                    const statusClass = (stockVal > 0) ? "in-stock" : "out-of-stock";
+                    const statusText = (stockVal > 0) ? "Available" : "Sold Out";
 
-                const row = `
-                    <tr>
-                        <td>${item.itemName}</td>
-                        <td>${item.stock || '10'}</td> <!-- දැනට stock අගයක් නැති නිසා 10 ක් පෙන්වයි -->
-                        <td>${item.sold || '0'}</td>
-                        <td><span class="badge ${statusClass}">${statusText}</span></td>
-                    </tr>
-                `;
-                stockTable.innerHTML += row;
-            });
+                    const row = `
+                        <tr>
+                            <td>${item.itemName}</td>
+                            <td>${stockVal}</td>
+                            <td>${item.sold || '0'}</td>
+                            <td><span class="badge ${statusClass}">${statusText}</span></td>
+                        </tr>
+                    `;
+                    stockTableBody.innerHTML += row;
+                });
+            }
         });
     }
 
