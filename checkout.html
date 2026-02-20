@@ -7,113 +7,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        :root { --amazon-orange: #febd69; --amazon-blue: #232f3e; --success-green: #00a65a; --error-red: #ff4d6d; }
-        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #f1f2f2; margin: 0; padding: 10px; color: #333; }
-        
-        /* Header */
-        .header { text-align: center; padding: 20px 0; background: white; border-bottom: 1px solid #ddd; margin-bottom: 30px; border-radius: 8px; }
-        .header img { width: 50px; vertical-align: middle; }
-        .header h1 { display: inline-block; font-size: 26px; margin: 0; color: var(--amazon-blue); font-weight: 800; }
-        
-        .checkout-container { max-width: 1100px; margin: auto; display: grid; grid-template-columns: 1.6fr 1fr; gap: 25px; }
-
-        .section-card { background: white; border-radius: 8px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; border: 1px solid #ddd; }
-        h2 { font-size: 20px; margin-bottom: 15px; display: flex; align-items: center; gap: 12px; color: var(--amazon-blue); border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #444; }
-        input, textarea { width: 100%; padding: 12px; border: 1px solid #a6a6a6; border-radius: 4px; box-sizing: border-box; font-size: 15px; transition: 0.2s; }
-        input:focus, textarea:focus { border-color: #e77600; box-shadow: 0 0 3px 2px rgba(228,121,17,0.5); outline: none; }
-
-        /* Order Summary Styling */
-        .item-preview { display: flex; gap: 15px; padding: 15px; background: #fafafa; border-radius: 8px; border: 1px solid #eee; margin-bottom: 20px; }
-        .item-preview img { width: 90px; height: 90px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
-        .item-details h4 { margin: 0; font-size: 16px; color: #333; }
-        .item-details .price { font-size: 18px; font-weight: bold; color: #B12704; margin-top: 8px; }
-
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; color: #555; }
-        .total-row { border-top: 1px solid #ddd; padding-top: 15px; margin-top: 15px; font-weight: 800; font-size: 20px; color: #B12704; }
-
-        .place-order-btn { width: 100%; background: linear-gradient(to bottom, #f7dfa5, #f0c14b); border: 1px solid #a88734; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.2s; box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset; }
-        .place-order-btn:hover { background: linear-gradient(to bottom, #f5d78e, #eeb933); }
-        
-        /* Loading Overlay */
-        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
-        
-        @media (max-width: 850px) { .checkout-container { grid-template-columns: 1fr; } }
+        :root { --amazon-orange: #febd69; --amazon-blue: #232f3e; --success-green: #00a65a; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f1f2f2; margin: 0; padding: 10px; }
+        .header { text-align: center; padding: 20px; background: white; border-bottom: 1px solid #ddd; margin-bottom: 20px; border-radius: 8px; }
+        .checkout-container { max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
+        .section-card { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; border: 1px solid #ddd; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #a6a6a6; border-radius: 4px; box-sizing: border-box; }
+        .item-preview { display: flex; gap: 15px; background: #fafafa; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
+        .item-preview img { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; }
+        .place-order-btn { width: 100%; background: #f0c14b; border: 1px solid #a88734; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.85); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
+        @media (max-width: 768px) { .checkout-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <div class="loading-overlay" id="loader">
         <i class="fas fa-circle-notch fa-spin fa-3x" style="color: #e77600;"></i>
-        <p style="margin-top: 15px; font-weight: bold;">Placing your order...</p>
+        <p>Placing your order...</p>
     </div>
 
     <div class="header">
-        <img src="https://img.icons8.com/fluency/48/shopping-cart-promotion.png" alt="Logo">
         <h1>OSHAN CART</h1>
-        <p style="color: var(--success-green); font-size: 14px; font-weight: bold; margin: 5px 0;">
-            <i class="fas fa-shield-alt"></i> Secure SSL Checkout
-        </p>
+        <p><i class="fas fa-lock"></i> Secure Checkout</p>
     </div>
 
     <div class="checkout-container">
         <div>
             <div class="section-card">
-                <h2><i class="fas fa-map-marker-alt" style="color: #e77600;"></i> 1. Shipping Address</h2>
+                <h2>1. Shipping Details</h2>
                 <form id="checkout-form">
-                    <div class="form-group">
-                        <label>Receiver's Full Name (ලබන්නාගේ නම)</label>
-                        <input type="text" id="cust-name" placeholder="ඔබේ නම ඇතුළත් කරන්න" required>
-                    </div>
-                    <div class="form-group">
-                        <label>WhatsApp Number (දුරකථන අංකය)</label>
-                        <input type="tel" id="cust-phone" placeholder="07XXXXXXXX" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Delivery Address (සම්පූර්ණ ලිපිනය)</label>
-                        <textarea id="cust-address" rows="4" placeholder="බඩු එවිය යුතු ලිපිනය..." required></textarea>
-                    </div>
+                    <input type="text" id="cust-name" placeholder="Full Name (ඔබේ නම)" required>
+                    <input type="tel" id="cust-phone" placeholder="WhatsApp Number (07XXXXXXXX)" required>
+                    <textarea id="cust-address" rows="3" placeholder="Full Address (ලිපිනය)" required></textarea>
                 </form>
             </div>
-
             <div class="section-card">
-                <h2><i class="fas fa-wallet" style="color: #e77600;"></i> 2. Payment Method</h2>
-                <div style="display: flex; align-items: center; gap: 15px; background: #fcf5ee; padding: 15px; border: 1px solid #fbd8b4; border-radius: 4px;">
-                    <img src="https://img.icons8.com/color/48/000000/delivery--v1.png" width="40"/>
-                    <div>
-                        <strong>Cash on Delivery (COD)</strong>
-                        <p style="margin: 3px 0 0; font-size: 13px; color: #555;">භාණ්ඩය ලැබුණු පසු මුදල් ගෙවන්න.</p>
-                    </div>
-                </div>
+                <h2>2. Payment Method</h2>
+                <p><strong><i class="fas fa-truck"></i> Cash on Delivery</strong> (බඩු ලැබුණු පසු මුදල් ගෙවන්න)</p>
             </div>
         </div>
 
         <div>
             <div class="section-card">
                 <h2>Order Summary</h2>
-                <div id="item-preview-box">
-                    <p>Loading product details...</p>
-                </div>
-
-                <div class="summary-row">
-                    <span>Items Subtotal:</span>
-                    <span id="subtotal">Rs. 0.00</span>
-                </div>
-                <div class="summary-row">
-                    <span>Shipping:</span>
-                    <span style="color: var(--success-green); font-weight: bold;">FREE</span>
-                </div>
-                <div class="summary-row total-row">
-                    <span>Order Total:</span>
+                <div id="item-preview-box">Loading product...</div>
+                <hr>
+                <div style="display:flex; justify-content: space-between; font-weight: bold; font-size: 18px; color: #B12704; margin: 15px 0;">
+                    <span>Total:</span>
                     <span id="final-total">Rs. 0.00</span>
                 </div>
-
                 <button type="submit" form="checkout-form" class="place-order-btn" id="submit-btn">Confirm Order</button>
-            </div>
-            <div style="text-align: center;">
-                <a href="index.html" style="color: #0066c0; font-size: 14px; text-decoration: none;">← Back to Shopping</a>
             </div>
         </div>
     </div>
@@ -133,245 +77,71 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
-        // EmailJS Initialization with your Public Key
-        emailjs.init("jfgAK0LaZ0w7RKAE8"); 
+        emailjs.init("jfgAK0LaZ0w7RKAE8");
 
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id');
         let currentProduct = null;
 
         async function loadProduct() {
-            if (!productId) {
-                document.getElementById('item-preview-box').innerHTML = "<p style='color:red;'>No product selected!</p>";
-                return;
-            }
+            if (!productId) return;
             const docRef = doc(db, "products", productId);
             const docSnap = await getDoc(docRef);
             
             if (docSnap.exists()) {
-                currentProduct = docSnap.data();
+                const data = docSnap.data();
+                // හදිසියේ හෝ Database එකේ itemName/name ලෙස මාරු වී තිබුණහොත් දෙකම පරීක්ෂා කරයි
+                currentProduct = {
+                    name: data.name || data.itemName || "Product",
+                    price: data.price || data.itemPrice || 0,
+                    image: data.image || ""
+                };
+
                 document.getElementById('item-preview-box').innerHTML = `
                     <div class="item-preview">
-                        <img src="${currentProduct.image}" alt="item">
-                        <div class="item-details">
-                            <h4>${currentProduct.itemName}</h4>
-                            <div class="price">Rs. ${parseFloat(currentProduct.itemPrice).toLocaleString()}</div>
+                        <img src="${currentProduct.image}">
+                        <div>
+                            <h4>${currentProduct.name}</h4>
+                            <p>Price: Rs. ${parseFloat(currentProduct.price).toLocaleString()}</p>
                         </div>
                     </div>`;
-                document.getElementById('subtotal').innerText = "Rs. " + currentProduct.itemPrice;
-                document.getElementById('final-total').innerText = "Rs. " + currentProduct.itemPrice;
+                document.getElementById('final-total').innerText = "Rs. " + currentProduct.price;
             }
         }
         loadProduct();
 
-        document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+        document.getElementById('checkout-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const loader = document.getElementById('loader');
-            const btn = document.getElementById('submit-btn');
+            document.getElementById('loader').style.display = 'flex';
             
-            loader.style.display = 'flex';
-            btn.disabled = true;
-
             const orderID = "OS-" + Math.floor(100000 + Math.random() * 900000);
-            const customerName = document.getElementById('cust-name').value;
 
             try {
-                // 1. Firebase එකට Order එක දානවා
                 await addDoc(collection(db, "orders"), {
                     orderID: orderID,
-                    customer: customerName,
+                    customer: document.getElementById('cust-name').value,
                     phone: document.getElementById('cust-phone').value,
                     address: document.getElementById('cust-address').value,
-                    itemName: currentProduct.itemName,
-                    itemPrice: currentProduct.itemPrice,
+                    productName: currentProduct.name,
+                    productPrice: currentProduct.price,
                     status: "Pending",
                     timestamp: serverTimestamp()
                 });
 
-                // 2. EmailJS හරහා Admin ට Email එකක් යවනවා
-                const templateParams = {
+                await emailjs.send('service_il15c1q', 'template_vmc0kvo', {
                     order_id: orderID,
-                    cust_name: customerName,
-                    cust_phone: document.getElementById('cust-phone').value,
-                    cust_address: document.getElementById('cust-address').value,
-                    product_name: currentProduct.itemName,
-                    product_price: currentProduct.itemPrice
-                };
+                    cust_name: document.getElementById('cust-name').value,
+                    product_name: currentProduct.name,
+                    product_price: currentProduct.price
+                });
 
-                await emailjs.send('service_il15c1q', 'template_vmc0kvo', templateParams);
-
-                loader.style.display = 'none';
-                alert("✅ ඔබේ ඇණවුම සාර්ථකව ලැබුණා! ඇණවුම් අංකය: " + orderID);
+                alert("Order Successful! ID: " + orderID);
                 window.location.href = "index.html";
-
-            } catch (error) {
-                loader.style.display = 'none';
-                btn.disabled = false;
-                alert("Error: " + error.message);
+            } catch (err) {
+                alert("Error: " + err.message);
+                document.getElementById('loader').style.display = 'none';
             }
         });
     </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout | Oshan Cart</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { font-family: 'Poppins', sans-serif; background: #f3f3f3; margin: 0; padding: 20px; }
-        .checkout-container { max-width: 900px; margin: auto; display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
-        .section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        h2 { font-size: 18px; color: #333; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .product-summary img { width: 80px; height: 80px; object-fit: contain; border-radius: 5px; }
-        .summary-item { display: flex; gap: 15px; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .price-details { font-size: 14px; }
-        .confirm-btn { width: 100%; background: #febd69; border: 1px solid #a88734; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 5px; font-size: 16px; }
-        .confirm-btn:hover { background: #f3a847; }
-        .total-price { color: #B12704; font-size: 20px; font-weight: bold; }
-    </style>
-</head>
-<body>
-
-<div class="checkout-container">
-    <div class="left-col">
-        <div class="section">
-            <h2><i class="fas fa-map-marker-alt"></i> 1. Shipping Address</h2>
-            <label>Receiver's Full Name (පාරිභෝගිකයාගේ නම)</label>
-            <input type="text" id="custName" placeholder="Enter full name">
-            
-            <label>WhatsApp Number (දුරකථන අංකය)</label>
-            <input type="text" id="custPhone" placeholder="07XXXXXXXX">
-            
-            <label>Delivery Address (සම්පූර්ණ ලිපිනය)</label>
-            <textarea id="custAddress" rows="3" placeholder="Street, City, District"></textarea>
-        </div>
-
-        <div class="section">
-            <h2><i class="fas fa-credit-card"></i> 2. Payment Method</h2>
-            <div style="padding: 10px; background: #fff9e6; border: 1px solid #ffe8a1; border-radius: 5px;">
-                <input type="radio" checked> <b>Cash on Delivery (COD)</b><br>
-                <small style="margin-left: 25px;">භාණ්ඩය ලැබුණු පසු මුදල් ගෙවන්න.</small>
-            </div>
-        </div>
-    </div>
-
-    <div class="right-col">
-        <div class="section">
-            <h2>Order Summary</h2>
-            <div id="productDetails">
-                <p>Loading product details...</p>
-            </div>
-            <hr>
-            <div class="price-details">
-                <p>Items Subtotal: <span id="subTotal">Rs. 0</span></p>
-                <p>Shipping Fee: <span style="color: green;">FREE</span></p>
-                <p class="total-price">Order Total: <span id="orderTotal">Rs. 0</span></p>
-            </div>
-            <button class="confirm-btn" id="confirmBtn">Confirm Order</button>
-            <p style="text-align: center; font-size: 12px; margin-top: 10px;"><a href="index.html">← Back to Shopping</a></p>
-        </div>
-    </div>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-        authDomain: "oshancart.firebaseapp.com",
-        projectId: "oshancart",
-        storageBucket: "oshancart.appspot.com",
-        messagingSenderId: "686982543488",
-        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // 1. Get Product ID from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
-    let currentProduct = null;
-
-    // 2. Fetch Product Details from Firebase
-    async function loadProduct() {
-        if (!productId) {
-            alert("No product selected!");
-            window.location.href = "index.html";
-            return;
-        }
-
-        try {
-            const docRef = doc(db, "products", productId);
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                currentProduct = docSnap.data();
-                document.getElementById('productDetails').innerHTML = `
-                    <div class="summary-item">
-                        <img src="${currentProduct.image}" alt="product">
-                        <div>
-                            <p style="margin:0; font-weight:bold;">${currentProduct.name}</p>
-                            <p style="margin:0; color:#B12704;">Rs. ${Number(currentProduct.price).toLocaleString()}</p>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('subTotal').innerText = `Rs. ${Number(currentProduct.price).toLocaleString()}`;
-                document.getElementById('orderTotal').innerText = `Rs. ${Number(currentProduct.price).toLocaleString()}`;
-            } else {
-                alert("Product not found!");
-            }
-        } catch (error) {
-            console.error("Error loading product:", error);
-        }
-    }
-
-    // 3. Handle Order Confirmation
-    document.getElementById('confirmBtn').onclick = async () => {
-        const name = document.getElementById('custName').value.trim();
-        const phone = document.getElementById('custPhone').value.trim();
-        const address = document.getElementById('custAddress').value.trim();
-
-        if (!name || !phone || !address) {
-            alert("කරුණාකර ඔබගේ විස්තර නිවැරදිව ඇතුළත් කරන්න!");
-            return;
-        }
-
-        if (!currentProduct) {
-            alert("Product data is missing. Please try again.");
-            return;
-        }
-
-        try {
-            // "orders" collection එකට දත්ත යැවීම
-            await addDoc(collection(db, "orders"), {
-                customerName: name,
-                customerPhone: phone,
-                customerAddress: address,
-                productId: productId,
-                itemName: currentProduct.name,
-                itemPrice: currentProduct.price,
-                status: "Pending", // අලුත් ඇණවුමක් නිසා
-                orderDate: serverTimestamp()
-            });
-
-            alert("ඇණවුම සාර්ථකයි! ස්තූතියි.");
-            window.location.href = "index.html"; // සාර්ථක වූ පසු මුල් පිටුවට
-
-        } catch (error) {
-            console.error("Order Error:", error);
-            alert("Order failed: " + error.message);
-        }
-    };
-
-    loadProduct();
-</script>
-
 </body>
 </html>
