@@ -183,26 +183,32 @@ function openCustomerService() {
     let allProducts = [];
 
     async function fetchProducts() {
-    try {
-        // මෙතන orderBy කරද්දී "timestamp" කියන නම පාවිච්චි කරන්න 
-        // මොකද Admin එකෙන් Save වෙන්නේ ඒ නමින්
-        const q = query(collection(db, "products"), orderBy("timestamp", "desc"));
-        const snapshot = await getDocs(q);
-        
-        allProducts = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
-        
-        displayItems(allProducts);
-    } catch (error) {
-        console.error("Error fetching products: ", error);
-        // එක පාරක් error එකක් ආවොත්, orderBy නැතුව සාමාන්‍ය විදිහට Load කරන්න බලමු
-        const snapshot = await getDocs(collection(db, "products"));
-        allProducts = snapshot.docs.map(doc => doc.data());
-        displayItems(allProducts);
-    }
-    }
+        try {
+            // මුලින්ම ඔක්කොම ඩේටා ටික ලෝඩ් කරගන්නවා
+            const snapshot = await getDocs(collection(db, "products"));
+            
+            // ඩේටා ටික ලිස්ට් එකකට දාගන්නවා
+            allProducts = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            // අලුතින්ම දාපු අයිටම් එක මුලට එන්න මෙතනින් සෝට් කරනවා
+            allProducts.sort((a, b) => {
+                const timeA = a.timestamp?.seconds || 0;
+                const timeB = b.timestamp?.seconds || 0;
+                return timeB - timeA;
+            });
+
+            // දැන් පේජ් එකේ පෙන්වනවා
+            displayItems(allProducts);
+            
+        } catch (error) {
+            console.error("Error loading products: ", error);
+            alert("Something went wrong while loading products!");
+        }
+}
+
     window.filterCat = (cat) => {
         if(cat === 'All') displayItems(allProducts);
         else displayItems(allProducts.filter(p => p.category === cat));
