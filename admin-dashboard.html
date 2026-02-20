@@ -30,14 +30,6 @@
         .stat-card h3 { font-size: 14px; color: #7f8c8d; margin: 0; }
         .stat-card p { font-size: 24px; font-weight: bold; margin: 10px 0; color: #2c3e50; }
 
-        /* Table Style for Stock */
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: #f8f9fa; color: #333; }
-        .badge { padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-        .out-of-stock { background: #ffebee; color: #c62828; }
-        .in-stock { background: #e8f5e9; color: #2e7d32; }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
@@ -47,11 +39,8 @@
     <div class="sidebar">
         <h2>OSHAN ADMIN</h2>
         <div class="nav-link active" onclick="showTab('overview')"><i class="fas fa-home"></i> Overview Page</div>
-        <div class="nav-link" onclick="showTab('referral')"><i class="fas fa-money-bill-wave"></i> Referral Income</div>
-        <div class="nav-link" onclick="showTab('passive')"><i class="fas fa-chart-line"></i> Passive Income</div>
-        <div class="nav-link" onclick="showTab('affiliate')"><i class="fas fa-users"></i> Affiliate Program</div>
+        <div class="nav-link" onclick="showTab('referral')"><i class="fas fa-money-bill-wave"></i> Referral Data</div>
         <div class="nav-link" onclick="location.href='dashboard.html'"><i class="fas fa-box"></i> Product Listing</div>
-        <div class="nav-link" onclick="showTab('stock')"><i class="fas fa-database"></i> Stock & Inventory</div>
     </div>
 
     <!-- Main Content Area -->
@@ -61,88 +50,84 @@
         <div id="overview" class="tab-content active">
             <h1>Admin Overview</h1>
             <div class="stats-grid">
-                <div class="stat-card"><h3>Total Revenue</h3><p>Rs. 125,400</p></div>
-                <div class="stat-card"><h3>Active Sellers</h3><p>12</p></div>
-                <div class="stat-card"><h3>Total Orders</h3><p>85</p></div>
-                <div class="stat-card"><h3>Pending Payments</h3><p>Rs. 4,200</p></div>
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <p id="totalUsersCount">Loading...</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Referral Payout</h3>
+                    <p id="totalReferralPayout" style="color: #c9184a;">Rs. 0</p>
+                </div>
             </div>
         </div>
 
         <!-- Referral Income Tab -->
         <div id="referral" class="tab-content">
-            <h1>My Referral Income</h1>
-            <div class="stat-card" style="max-width: 400px;">
-                <h3>Total Earned from Referrals</h3>
-                <p style="color: #27ae60;">Rs. 15,800.00</p>
-                <small>Total Referrals: 45 users</small>
-            </div>
-        </div>
-
-        <!-- Passive Income Tab -->
-        <div id="passive" class="tab-content">
-            <h1>Passive Income Page</h1>
-            <p>Earnings from system automations and secondary streams.</p>
+            <h1>Referral System Analysis</h1>
             <div class="stats-grid">
-                <div class="stat-card"><h3>Monthly Passive</h3><p>Rs. 22,000</p></div>
-                <div class="stat-card"><h3>Ad Revenue</h3><p>Rs. 5,400</p></div>
+                <div class="stat-card">
+                    <h3>Total System Invites</h3>
+                    <p id="refCountTotal">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Distributed Commission</h3>
+                    <p id="refSubTotal" style="color: #27ae60;">Rs. 0</p>
+                </div>
             </div>
-        </div>
-
-        <!-- Affiliate Income Tab -->
-        <div id="affiliate" class="tab-content">
-            <h1>Affiliate Program Income</h1>
-            <div class="stat-card">
-                <p>Commission earned from affiliate product sales.</p>
-                <h2 style="color: #c9184a;">Rs. 9,450.00</h2>
-            </div>
-        </div>
-
-        <!-- Stock & Inventory Tab -->
-        <div id="stock" class="tab-content">
-            <h1>Stock & Sold Out Status</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Available Stock</th>
-                        <th>Sold Items</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>5PCS Coffee Set</td>
-                        <td>08</td>
-                        <td>12</td>
-                        <td><span class="badge in-stock">Available</span></td>
-                    </tr>
-                    <tr>
-                        <td>Hand Bag - Pink</td>
-                        <td>00</td>
-                        <td>25</td>
-                        <td><span class="badge out-of-stock">Sold Out</span></td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
 
     </div>
 
-    <script>
-        function showTab(tabId) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
+    <!-- Firebase v10 Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // ඔයාගේ Firebase Config එක
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Firebase එකෙන් දත්ත ගණනය කිරීම
+        function loadRealtimeStats() {
+            onSnapshot(collection(db, "users"), (querySnapshot) => {
+                let totalEarnings = 0;
+                let totalInvites = 0;
+                let userCount = 0;
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    totalEarnings += (data.referralEarnings || 0);
+                    totalInvites += (data.referralCount || 0);
+                    userCount++;
+                });
+
+                // UI එකට දත්ත යැවීම
+                document.getElementById('totalUsersCount').innerText = userCount;
+                document.getElementById('totalReferralPayout').innerText = "Rs. " + totalEarnings;
+                document.getElementById('refSubTotal').innerText = "Rs. " + totalEarnings;
+                document.getElementById('refCountTotal').innerText = totalInvites;
             });
-            // Remove active class from links
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            // Show selected tab
-            document.getElementById(tabId).classList.add('active');
-            // Add active class to clicked link
-            event.currentTarget.classList.add('active');
         }
+
+        // Tab Switching Logic
+        window.showTab = function(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        };
+
+        // ආරම්භයේදීම දත්ත Load කිරීම
+        loadRealtimeStats();
     </script>
 </body>
 </html>
