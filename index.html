@@ -183,30 +183,27 @@ function openCustomerService() {
     let allProducts = [];
 
     async function fetchProducts() {
-        try {
-            // මුලින්ම ඔක්කොම ඩේටා ටික ලෝඩ් කරගන්නවා
-            const snapshot = await getDocs(collection(db, "products"));
-            
-            // ඩේටා ටික ලිස්ට් එකකට දාගන්නවා
-            allProducts = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
+    try {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        allProducts = [];
+        
+        querySnapshot.forEach((doc) => {
+            allProducts.push({ id: doc.id, ...doc.data() });
+        });
 
-            // අලුතින්ම දාපු අයිටම් එක මුලට එන්න මෙතනින් සෝට් කරනවා
-            allProducts.sort((a, b) => {
-                const timeA = a.timestamp?.seconds || 0;
-                const timeB = b.timestamp?.seconds || 0;
-                return timeB - timeA;
-            });
+        // කාලය අනුව අලුත් ඒවා උඩට එන විදිහට සෝට් කරනවා
+        allProducts.sort((a, b) => {
+            const dateA = a.timestamp ? a.timestamp.toMillis() : 0;
+            const dateB = b.timestamp ? b.timestamp.toMillis() : 0;
+            return dateB - dateA;
+        });
 
-            // දැන් පේජ් එකේ පෙන්වනවා
-            displayItems(allProducts);
-            
-        } catch (error) {
-            console.error("Error loading products: ", error);
-            alert("Something went wrong while loading products!");
-        }
+        displayItems(allProducts);
+    } catch (e) {
+        console.error("Error: ", e);
+        // මෙතන ඇලර්ට් එක අයින් කළා කරදරයක් නැති වෙන්න
+    }
+    }
 }
 
     window.filterCat = (cat) => {
