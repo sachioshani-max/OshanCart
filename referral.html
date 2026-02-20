@@ -1,1 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Referral | Oshan Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 500px; margin: 40px auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        h1 { color: #c9184a; font-size: 26px; margin-bottom: 10px; }
+        p { color: #555; font-size: 14px; line-height: 1.6; }
+        
+        .referral-box { background: #fff0f3; border: 2px dashed #c9184a; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .referral-box p { font-weight: bold; color: #333; margin-bottom: 10px; }
+        
+        input#referralLink { 
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; 
+            outline: none; background: #fff; font-size: 13px; text-align: center; 
+            box-sizing: border-box; color: #c9184a; font-weight: 500;
+        }
+        
+        .copy-btn { 
+            background: #c9184a; color: white; border: none; padding: 14px; 
+            border-radius: 8px; cursor: pointer; margin-top: 15px; font-weight: bold; 
+            width: 100%; transition: 0.3s; font-size: 15px;
+        }
+        .copy-btn:hover { background: #a0123a; transform: translateY(-2px); }
 
+        .stats { display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+        .stat-item { flex: 1; }
+        .stat-item b { font-size: 24px; color: #2c3e50; display: block; }
+        .stat-item span { color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .back-link { display: block; margin-top: 30px; color: #888; text-decoration: none; font-size: 13px; transition: 0.3s; }
+        .back-link:hover { color: #c9184a; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <i class="fas fa-gift" style="font-size: 60px; color: #febd69;"></i>
+        <h1>Refer & Earn</h1>
+        <p>ඔබේ මිතුරන්ට Oshan Cart හඳුන්වා දී සෑම සාර්ථක සම්බන්ධ වීමක් සඳහාම <b>Rs. 100.00</b> බැගින් උපයන්න.</p>
+
+        <div class="referral-box">
+            <p>ඔබේ සුවිශේෂී Referral Link එක:</p>
+            <input type="text" id="referralLink" value="Loading your link..." readonly>
+            <button class="copy-btn" onclick="copyLink()">
+                <i class="fas fa-copy"></i> Copy Link
+            </button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <b id="totalRef">0</b>
+                <span>Invited</span>
+            </div>
+            <div class="stat-item">
+                <b id="totalEarn">Rs. 0</b>
+                <span>Earnings</span>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+
+    <!-- Firebase v10 Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // ඔයා ලබා දුන් Firebase Config එක
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // පරිශීලකයා ලොග් වී ඇත්දැයි බැලීම
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User ID එකෙන් ලින්ක් එකක් සකස් කිරීම
+                // මෙතන signup.html එකටයි referral එක යවන්නේ
+                const refCode = user.uid.substring(0, 8).toUpperCase();
+                const myRefLink = window.location.origin + "/signup.html?ref=" + refCode;
+                document.getElementById('referralLink').value = myRefLink;
+
+                // Firebase එකේ 'users' collection එකෙන් දත්ත කියවීම
+                const userDocRef = doc(db, "users", user.uid);
+                onSnapshot(userDocRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        document.getElementById('totalRef').innerText = data.referralCount || 0;
+                        document.getElementById('totalEarn').innerText = "Rs. " + (data.referralEarnings || 0);
+                    }
+                });
+            } else {
+                document.getElementById('referralLink').value = "Please Login to get link";
+            }
+        });
+
+        // ලින්ක් එක කොපි කිරීමේ function එක
+        window.copyLink = function() {
+            const linkField = document.getElementById('referralLink');
+            linkField.select();
+            linkField.setSelectionRange(0, 99999); 
+            navigator.clipboard.writeText(linkField.value);
+            
+            // ලස්සන Alert එකක්
+            alert("Referral Link එක කොපි වුණා! දැන් ඕනෑම තැනක share කරන්න.");
+        }
+    </script>
+</body>
+</html>
