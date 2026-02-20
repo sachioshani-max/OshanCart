@@ -14,15 +14,18 @@
         .main-img { width: 100%; border-radius: 8px; border: 1px solid #ddd; }
         .title { font-size: 24px; font-weight: bold; color: #333; }
         .price { font-size: 28px; color: #B12704; margin: 10px 0; }
-        .desc { font-size: 16px; color: #555; line-height: 1.6; border-top: 1px solid #eee; padding-top: 15px; }
-        .btn-buy { background: #ffa41c; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 20px; }
-        .btn-cart { background: #ffd814; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .desc { font-size: 16px; color: #555; line-height: 1.6; border-top: 1px solid #eee; padding-top: 15px; margin-top: 20px; }
+        .btn-buy { background: #ffa41c; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-cart { background: #ffd814; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 20px; }
         .back-link { display: inline-block; margin-bottom: 15px; text-decoration: none; color: #007185; font-size: 14px; }
+        
+        /* Quantity & Delivery Styles */
         .qty-container { display: flex; align-items: center; gap: 10px; margin: 20px 0; }
-        .qty-btn { background: #eee; border: 1px solid #ddd; padding: 5px 12px; cursor: pointer; font-size: 18px; font-weight: bold; }
+        .qty-btn { background: #eee; border: 1px solid #ddd; padding: 5px 12px; cursor: pointer; font-size: 18px; font-weight: bold; border-radius: 4px; }
         #qty-val { font-weight: bold; font-size: 18px; width: 30px; text-align: center; }
-       .delivery-box { background: #fafafa; border: 1px solid #eee; padding: 15px; margin-top: 20px; border-radius: 5px; font-size: 13px; }
-       .delivery-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .delivery-box { background: #fafafa; border: 1px solid #eee; padding: 15px; margin-top: 20px; border-radius: 5px; font-size: 13px; }
+        .delivery-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: #333; }
+        .delivery-item i { color: #555; width: 20px; }
     </style>
 </head>
 <body>
@@ -32,7 +35,7 @@
 </div>
 
 <div class="container" id="productDetail">
-    <p>Loading details...</p>
+    <p style="padding: 20px;">Loading product details...</p>
 </div>
 
 <script type="module">
@@ -51,48 +54,78 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // URL එකෙන් ID එක ගන්නවා
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
 
     async function loadProduct() {
         if (!productId) return;
         
-        const docRef = doc(db, "products", productId);
-        const docSnap = await getDoc(docRef);
+        try {
+            const docRef = doc(db, "products", productId);
+            const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            document.getElementById('productDetail').innerHTML = `
-                // ... ඇතුළත ඇති HTML එක මේ විදිහට වෙනස් කරන්න
-<div class="qty-container">
-    <span>Quantity:</span>
-    <button class="qty-btn" onclick="updateQty(-1)">-</button>
-    <span id="qty-val">1</span>
-    <button class="qty-btn" onclick="updateQty(1)">+</button>
-</div>
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById('productDetail').innerHTML = `
+                    <div class="left">
+                        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to results</a>
+                        <img src="${data.image}" class="main-img">
+                    </div>
+                    <div class="right">
+                        <h1 class="title">${data.name}</h1>
+                        <p class="price">Rs. ${data.price.toLocaleString()}</p>
+                        <p style="color: green; font-weight: bold;">In Stock</p>
 
-<button class="btn-cart" onclick="addToCart('${productId}')">Add to Cart</button>
-<button class="btn-buy" onclick="buyNow()">Buy Now</button>
+                        <div class="qty-container">
+                            <span>Quantity:</span>
+                            <button class="qty-btn" onclick="updateQty(-1)">-</button>
+                            <span id="qty-val">1</span>
+                            <button class="qty-btn" onclick="updateQty(1)">+</button>
+                        </div>
 
-<div class="delivery-box">
-    <div class="delivery-item"><i class="fas fa-map-marker-alt"></i> Delivery: Island-wide within 3 days</div>
-    <div class="delivery-item"><i class="fas fa-undo"></i> 7 Days Returns available</div>
-    <div class="delivery-item"><i class="fas fa-shield-alt"></i> 1 Year Warranty (If applicable)</div>
-</div>
-            `;
-        } else {
-            document.getElementById('productDetail').innerHTML = "<h3>Product not found!</h3>";
+                        <button class="btn-cart" onclick="addToCart('${productId}')">Add to Cart</button>
+                        <button class="btn-buy" onclick="buyNow()">Buy Now</button>
+
+                        <div class="delivery-box">
+                            <div class="delivery-item"><i class="fas fa-map-marker-alt"></i> Delivery: Island-wide within 3 days</div>
+                            <div class="delivery-item"><i class="fas fa-undo"></i> 7 Days Returns available</div>
+                            <div class="delivery-item"><i class="fas fa-shield-alt"></i> 1 Year Warranty (If applicable)</div>
+                        </div>
+
+                        <div class="desc">
+                            <h3>Product Description</h3>
+                            <p>${data.description || 'No description available for this product.'}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('productDetail').innerHTML = "<h3>Product not found!</h3>";
+            }
+        } catch (error) {
+            console.error("Error loading product:", error);
+            document.getElementById('productDetail').innerHTML = "<h3>Error loading details.</h3>";
         }
     }
 
     loadProduct();
+
+    // Global functions
     window.updateQty = (val) => {
-    let qty = parseInt(document.getElementById('qty-val').innerText);
-    qty += val;
-    if(qty < 1) qty = 1;
-    document.getElementById('qty-val').innerText = qty;
-};
+        let qtyEl = document.getElementById('qty-val');
+        let qty = parseInt(qtyEl.innerText);
+        qty += val;
+        if(qty < 1) qty = 1;
+        qtyEl.innerText = qty;
+    };
+
+    window.addToCart = (id) => {
+        alert("Added to Cart! (We will build the cart system next)");
+    };
+
+    window.buyNow = () => {
+        alert("Redirecting to Checkout...");
+    };
+
 </script>
 
 </body>
