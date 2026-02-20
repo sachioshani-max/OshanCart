@@ -3,191 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout | OshanCart</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .checkout-container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 400px; }
-        h2 { color: #232f3e; text-align: center; margin-bottom: 20px; }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-        .order-btn { width: 100%; padding: 15px; background: #ff4d6d; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .order-btn:hover { background: #ff758c; }
-        .item-info { background: #fff5f6; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; color: #333; border-left: 5px solid #ff4d6d; }
-    </style>
-</head>
-<body>
-
-<div class="checkout-container">
-    <h2>Confirm Your Order 🚚</h2>
-    <div id="product-summary" class="item-info">Loading item details...</div>
-    
-    <form id="checkout-form">
-        <input type="text" id="cust-name" placeholder="ඔබේ නම (Full Name)" required>
-        <input type="text" id="cust-phone" placeholder="WhatsApp අංකය (WhatsApp Number)" required>
-        <textarea id="cust-address" placeholder="බඩු එවිය යුතු ලිපිනය (Delivery Address)" rows="3" required></textarea>
-        
-        <input type="hidden" id="item-name">
-        <input type="hidden" id="item-price">
-
-        <button type="submit" class="order-btn" id="submit-btn">Place Order (Cash on Delivery)</button>
-    </form>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-        authDomain: "oshancart.firebaseapp.com",
-        projectId: "oshancart",
-        storageBucket: "oshancart.firebasestorage.app",
-        messagingSenderId: "686982543488",
-        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // URL එකෙන් Product ID එක ගන්නවා
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
-
-    if (productId) {
-        const docRef = doc(db, "products", productId);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            document.getElementById('product-summary').innerHTML = `
-                <b>Item:</b> ${data.name}<br>
-                <b>Price:</b> Rs. ${data.price}<br>
-                <b>Delivery:</b> ${data.delivery}
-            `;
-            document.getElementById('item-name').value = data.name;
-            document.getElementById('item-price').value = data.price;
-        }
-    }
-
-    // EmailJS Init (ඔයාගේ Public Key එක පසුව දාන්න පුළුවන්)
-    emailjs.init("YOUR_PUBLIC_KEY"); 
-
-    document.getElementById('checkout-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const btn = document.getElementById('submit-btn');
-        btn.innerText = "Processing...";
-        btn.disabled = true;
-
-        const templateParams = {
-            from_name: document.getElementById('cust-name').value,
-            phone: document.getElementById('cust-phone').value,
-            address: document.getElementById('cust-address').value,
-            item: document.getElementById('item-name').value,
-            price: document.getElementById('item-price').value
-        };
-
-        // EmailJS හරහා Message එක යැවීම
-        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
-            .then(() => {
-                alert("❤️ සාර්ථකයි! ඔබේ ඇණවුම අපට ලැබුණා. ඉක්මනින්ම සම්බන්ධ වන්නම්.");
-                window.location.href = "success.html";
-            }, (err) => {
-                alert("Error: " + JSON.stringify(err));
-                btn.disabled = false;
-                btn.innerText = "Place Order";
-            });
-    });
-</script>
-
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Checkout | OshanCart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f7f8fa; margin: 0; padding: 20px; color: #333; }
-        .checkout-container { max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; }
+        :root { --amazon-orange: #febd69; --amazon-blue: #232f3e; --success-green: #00a65a; --error-red: #ff4d6d; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #f1f2f2; margin: 0; padding: 10px; color: #333; }
         
-        .section-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        h2 { font-size: 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #232f3e; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        /* Header */
+        .header { text-align: center; padding: 20px 0; background: white; border-bottom: 1px solid #ddd; margin-bottom: 30px; border-radius: 8px; }
+        .header img { width: 50px; vertical-align: middle; }
+        .header h1 { display: inline-block; font-size: 26px; margin: 0; color: var(--amazon-blue); font-weight: 800; }
         
-        /* Input Styles */
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #666; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; outline: none; transition: 0.3s; }
-        input:focus { border-color: #febd69; box-shadow: 0 0 5px rgba(254, 189, 105, 0.5); }
+        .checkout-container { max-width: 1100px; margin: auto; display: grid; grid-template-columns: 1.6fr 1fr; gap: 25px; }
 
-        /* Payment Icons */
-        .payment-methods { display: flex; gap: 10px; margin-bottom: 15px; }
-        .payment-methods i { font-size: 30px; color: #555; }
-
-        /* Order Summary */
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
-        .total-row { border-top: 2px solid #eee; padding-top: 15px; margin-top: 15px; font-weight: bold; font-size: 18px; color: #ff4d6d; }
-
-        .place-order-btn { width: 100%; background: #ffc800; border: 1px solid #a88734; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; margin-top: 20px; }
-        .place-order-btn:hover { background: #f7ca00; }
+        .section-card { background: white; border-radius: 8px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; border: 1px solid #ddd; }
+        h2 { font-size: 20px; margin-bottom: 15px; display: flex; align-items: center; gap: 12px; color: var(--amazon-blue); border-bottom: 1px solid #eee; padding-bottom: 10px; }
         
-        @media (max-width: 768px) { .checkout-container { grid-template-columns: 1fr; } }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #444; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #a6a6a6; border-radius: 4px; box-sizing: border-box; font-size: 15px; transition: 0.2s; }
+        input:focus, textarea:focus { border-color: #e77600; box-shadow: 0 0 3px 2px rgba(228,121,17,0.5); outline: none; }
+
+        /* Order Summary Styling */
+        .item-preview { display: flex; gap: 15px; padding: 15px; background: #fafafa; border-radius: 8px; border: 1px solid #eee; margin-bottom: 20px; }
+        .item-preview img { width: 90px; height: 90px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
+        .item-details h4 { margin: 0; font-size: 16px; color: #333; }
+        .item-details .price { font-size: 18px; font-weight: bold; color: #B12704; margin-top: 8px; }
+
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; color: #555; }
+        .total-row { border-top: 1px solid #ddd; padding-top: 15px; margin-top: 15px; font-weight: 800; font-size: 20px; color: #B12704; }
+
+        .place-order-btn { width: 100%; background: linear-gradient(to bottom, #f7dfa5, #f0c14b); border: 1px solid #a88734; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.2s; box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset; }
+        .place-order-btn:hover { background: linear-gradient(to bottom, #f5d78e, #eeb933); }
+        
+        /* Loading Overlay */
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
+        
+        @media (max-width: 850px) { .checkout-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #232f3e; margin: 0;">OSHAN CART</h1>
-        <p style="font-size: 13px; color: #00a65a;"><i class="fas fa-lock"></i> Secure SSL Encrypted Checkout</p>
+    <div class="loading-overlay" id="loader">
+        <i class="fas fa-circle-notch fa-spin fa-3x" style="color: #e77600;"></i>
+        <p style="margin-top: 15px; font-weight: bold;">Placing your order...</p>
+    </div>
+
+    <div class="header">
+        <img src="https://img.icons8.com/fluency/48/shopping-cart-promotion.png" alt="Logo">
+        <h1>OSHAN CART</h1>
+        <p style="color: var(--success-green); font-size: 14px; font-weight: bold; margin: 5px 0;">
+            <i class="fas fa-shield-alt"></i> Secure SSL Checkout
+        </p>
     </div>
 
     <div class="checkout-container">
-        
         <div>
             <div class="section-card">
-                <h2><i class="fas fa-truck"></i> Shipping Address</h2>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" placeholder="Sachin ...">
-                </div>
-                <div class="form-group">
-                    <label>Street Address</label>
-                    <input type="text" placeholder="House No, Street Name">
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <h2><i class="fas fa-map-marker-alt" style="color: #e77600;"></i> 1. Shipping Address</h2>
+                <form id="checkout-form">
                     <div class="form-group">
-                        <label>City</label>
-                        <input type="text" placeholder="Colombo">
+                        <label>Receiver's Full Name (ලබන්නාගේ නම)</label>
+                        <input type="text" id="cust-name" placeholder="ඔබේ නම ඇතුළත් කරන්න" required>
                     </div>
                     <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="text" placeholder="10100">
+                        <label>WhatsApp Number (දුරකථන අංකය)</label>
+                        <input type="tel" id="cust-phone" placeholder="07XXXXXXXX" required>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label>Delivery Address (සම්පූර්ණ ලිපිනය)</label>
+                        <textarea id="cust-address" rows="4" placeholder="බඩු එවිය යුතු ලිපිනය..." required></textarea>
+                    </div>
+                </form>
             </div>
 
             <div class="section-card">
-                <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
-                <div class="payment-methods">
-                    <i class="fab fa-cc-visa"></i>
-                    <i class="fab fa-cc-mastercard"></i>
-                    <i class="fab fa-cc-paypal"></i>
-                    <i class="fab fa-cc-apple-pay"></i>
-                </div>
-                <div class="form-group">
-                    <label>Card Number</label>
-                    <input type="text" placeholder="0000 0000 0000 0000">
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div class="form-group">
-                        <label>Expiry Date</label>
-                        <input type="text" placeholder="MM/YY">
-                    </div>
-                    <div class="form-group">
-                        <label>CVV</label>
-                        <input type="password" placeholder="***">
+                <h2><i class="fas fa-wallet" style="color: #e77600;"></i> 2. Payment Method</h2>
+                <div style="display: flex; align-items: center; gap: 15px; background: #fcf5ee; padding: 15px; border: 1px solid #fbd8b4; border-radius: 4px;">
+                    <img src="https://img.icons8.com/color/48/000000/delivery--v1.png" width="40"/>
+                    <div>
+                        <strong>Cash on Delivery (COD)</strong>
+                        <p style="margin: 3px 0 0; font-size: 13px; color: #555;">භාණ්ඩය ලැබුණු පසු මුදල් ගෙවන්න.</p>
                     </div>
                 </div>
             </div>
@@ -196,49 +93,124 @@
         <div>
             <div class="section-card">
                 <h2>Order Summary</h2>
+                <div id="item-preview-box">
+                    <p>Loading product details...</p>
+                </div>
+
                 <div class="summary-row">
-                    <span>Items (2):</span>
-                    <span>Rs. 7,400.00</span>
+                    <span>Items Subtotal:</span>
+                    <span id="subtotal">Rs. 0.00</span>
                 </div>
                 <div class="summary-row">
-                    <span>Shipping & handling:</span>
-                    <span style="color: #00a65a;">FREE</span>
+                    <span>Shipping:</span>
+                    <span style="color: var(--success-green); font-weight: bold;">FREE</span>
                 </div>
-                <div class="summary-row">
-                    <span>Promotion (LOVE2026):</span>
-                    <span style="color: #ff4d6d;">- Rs. 1,480.00</span>
-                </div>
-                
                 <div class="summary-row total-row">
                     <span>Order Total:</span>
-                    <span>Rs. 5,920.00</span>
+                    <span id="final-total">Rs. 0.00</span>
                 </div>
 
-                <button class="place-order-btn" onclick="processOrder()">Place Your Order</button>
-                <p style="font-size: 11px; color: #777; margin-top: 15px; text-align: center;">
-                    By placing your order, you agree to OshanCart's <a href="#">privacy notice</a> and <a href="#">conditions of use</a>.
-                </p>
+                <button type="submit" form="checkout-form" class="place-order-btn" id="submit-btn">Confirm Order</button>
             </div>
-            
             <div style="text-align: center;">
-                <a href="index.html" style="text-decoration: none; color: #0066c0; font-size: 14px;">← Back to Shopping</a>
+                <a href="index.html" style="color: #0066c0; font-size: 14px; text-decoration: none;">← Back to Shopping</a>
             </div>
         </div>
-
     </div>
 
-    <script>
-        function processOrder() {
-            const btn = document.querySelector('.place-order-btn');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-            btn.style.opacity = '0.7';
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.firebasestorage.app",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // EmailJS Initialization with your Public Key
+        emailjs.init("jfgAK0LaZ0w7RKAE8"); 
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        let currentProduct = null;
+
+        async function loadProduct() {
+            if (!productId) {
+                document.getElementById('item-preview-box').innerHTML = "<p style='color:red;'>No product selected!</p>";
+                return;
+            }
+            const docRef = doc(db, "products", productId);
+            const docSnap = await getDoc(docRef);
+            
+            if (docSnap.exists()) {
+                currentProduct = docSnap.data();
+                document.getElementById('item-preview-box').innerHTML = `
+                    <div class="item-preview">
+                        <img src="${currentProduct.image}" alt="item">
+                        <div class="item-details">
+                            <h4>${currentProduct.itemName}</h4>
+                            <div class="price">Rs. ${parseFloat(currentProduct.itemPrice).toLocaleString()}</div>
+                        </div>
+                    </div>`;
+                document.getElementById('subtotal').innerText = "Rs. " + currentProduct.itemPrice;
+                document.getElementById('final-total').innerText = "Rs. " + currentProduct.itemPrice;
+            }
+        }
+        loadProduct();
+
+        document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const loader = document.getElementById('loader');
+            const btn = document.getElementById('submit-btn');
+            
+            loader.style.display = 'flex';
             btn.disabled = true;
 
-            setTimeout(() => {
-                alert("🎉 Success! Your order has been placed. Order ID: #OS-99234");
+            const orderID = "OS-" + Math.floor(100000 + Math.random() * 900000);
+            const customerName = document.getElementById('cust-name').value;
+
+            try {
+                // 1. Firebase එකට Order එක දානවා
+                await addDoc(collection(db, "orders"), {
+                    orderID: orderID,
+                    customer: customerName,
+                    phone: document.getElementById('cust-phone').value,
+                    address: document.getElementById('cust-address').value,
+                    itemName: currentProduct.itemName,
+                    itemPrice: currentProduct.itemPrice,
+                    status: "Pending",
+                    timestamp: serverTimestamp()
+                });
+
+                // 2. EmailJS හරහා Admin ට Email එකක් යවනවා
+                const templateParams = {
+                    order_id: orderID,
+                    cust_name: customerName,
+                    cust_phone: document.getElementById('cust-phone').value,
+                    cust_address: document.getElementById('cust-address').value,
+                    product_name: currentProduct.itemName,
+                    product_price: currentProduct.itemPrice
+                };
+
+                await emailjs.send('service_il15c1q', 'template_vmc0kvo', templateParams);
+
+                loader.style.display = 'none';
+                alert("✅ ඔබේ ඇණවුම සාර්ථකව ලැබුණා! ඇණවුම් අංකය: " + orderID);
                 window.location.href = "index.html";
-            }, 3000);
-        }
+
+            } catch (error) {
+                loader.style.display = 'none';
+                btn.disabled = false;
+                alert("Error: " + error.message);
+            }
+        });
     </script>
 </body>
-                  </html>
+</html>
