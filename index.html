@@ -114,22 +114,40 @@
                 </div>
             </div>
 
-            <!-- User Menu Amazon Style -->
             <div class="user-menu">
-                <span>Hello, Sign in</span>
-                <b>Account & Lists <i class="fas fa-caret-down" style="font-size: 10px;"></i></b>
-                <div class="user-content">
-                    <a href="#" style="font-weight: bold; color: var(--primary);">✍️Me (Profile)</a>
-                    <a href="#">🎁My Orders</a>
-                    <a href="#">🤝my referral</a>
-                    <a href="#">👥Affiliate Program</a>
-                    <hr style="border: 0; border-top: 1px solid #eee;">
-                    <a href="dashboard.html">👤Admin Panel</a>
-                    <a href="#">👩🏻‍🌾Become a Seller</a>
-                    <a href="#">📊Dashboard</a>
-                    <a href="#">🤖costumer services</a>
-                     </div>
-            </div>
+    <span>Hello, Sign in</span>
+    <b>Account & Lists <i class="fas fa-caret-down" style="font-size: 10px;"></i></b>
+    <div class="user-content">
+        <a href="profile.html" style="font-weight: bold; color: var(--primary);">✍️ Me (Profile)</a>
+        <a href="orders.html">🎁 My Orders</a>
+        <a href="referral.html">🤝 My Referral</a>
+        <a href="affiliate.html">👥 Affiliate Program</a>
+        <hr style="border: 0; border-top: 1px solid #eee;">
+        <!-- Admin Panel එකට Password එකක් දාලා යන්න function එකක් ලින්ක් කළා -->
+        <a href="#" onclick="accessAdminPanel()">👤 Admin Panel</a>
+        <a href="become-seller-signup.html">👩🏻‍🌾 Become a Seller</a>
+        <a href="seller-dashboard.html">📊 Seller Dashboard</a>
+        <a href="#" onclick="openCustomerService()">🤖 Customer Services</a>
+    </div>
+</div>
+
+<script>
+// Admin Panel Password Protection
+function accessAdminPanel() {
+    let pw = prompt("Enter Admin Password to access Admin Panel:");
+    if(pw === "Lakshan@2001") { // ඔයාට කැමති password එකක් මෙතනට දාන්න
+        window.location.href = "admin-dashboard.html";
+    } else {
+        alert("Access Denied! Wrong Password.");
+    }
+}
+
+// Daraz Style Customer Service Popup
+function openCustomerService() {
+    alert("Oshan AI Support is opening...");
+    window.open("https://wa.me/94700000000", "_blank"); // මෙතනට ඔයාගේ WhatsApp link එක දෙන්න
+}
+</script>
 
             <!-- Cart Icon Link -->
             <a href="cart.html" class="cart-icon">
