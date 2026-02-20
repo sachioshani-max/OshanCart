@@ -10,7 +10,7 @@
         
         body { font-family: 'Poppins', sans-serif; margin: 0; display: flex; background: #f0f2f5; height: 100vh; overflow: hidden; }
 
-        /* Sidebar Style - මේක වෙනස් වෙන්නේ නැහැ */
+        /* Sidebar Style */
         .sidebar { width: 260px; background: var(--sidebar-bg); height: 100vh; color: white; position: fixed; padding-top: 20px; flex-shrink: 0; }
         .sidebar h2 { text-align: center; font-size: 20px; color: var(--active-color); margin-bottom: 30px; letter-spacing: 1px; }
         
@@ -21,10 +21,10 @@
         .nav-link i { margin-right: 15px; width: 20px; font-size: 18px; }
         .nav-link:hover, .nav-link.active { background: #252545; border-left: 4px solid var(--active-color); color: white; }
 
-        /* Main Content - මේක තමයි Sidebar එකෙන් පස්සේ තියෙන කොටස */
+        /* Main Content */
         .main-content { margin-left: 260px; width: calc(100% - 260px); padding: 30px; height: 100vh; overflow-y: auto; box-sizing: border-box; }
         
-        /* Tab System - මේකෙන් තමයි අනවශ්‍ය පිටු හංගන්නේ */
+        /* Tab System */
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.4s; }
 
@@ -33,6 +33,12 @@
         .stat-card { background: var(--card-bg); padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; }
         .stat-card h3 { font-size: 14px; color: #7f8c8d; margin: 0; text-transform: uppercase; }
         .stat-card p { font-size: 26px; font-weight: bold; margin: 10px 0; color: #2c3e50; }
+
+        /* Withdrawal Form Style */
+        .withdraw-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        .withdraw-box input, .withdraw-box select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .withdraw-btn { width: 100%; padding: 15px; background: var(--active-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .withdraw-btn:hover { background: #a5133d; }
 
         /* Table Style */
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 20px; }
@@ -47,10 +53,10 @@
 </head>
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
         <h2>OSHAN ADMIN</h2>
         <div class="nav-link active" onclick="showTab('overview', this)"><i class="fas fa-home"></i> Overview Page</div>
+        <div class="nav-link" onclick="showTab('wallet', this)"><i class="fas fa-wallet" style="color: #ff9900;"></i> Withdrawal Wallet</div>
         <div class="nav-link" onclick="showTab('referral', this)"><i class="fas fa-money-bill-wave"></i> Referral Data</div>
         <div class="nav-link" onclick="showTab('passive', this)"><i class="fas fa-chart-line"></i> Passive Income</div>
         <div class="nav-link" onclick="showTab('affiliate', this)"><i class="fas fa-users"></i> Affiliate Program</div>
@@ -58,66 +64,73 @@
         <div class="nav-link" onclick="showTab('stock', this)"><i class="fas fa-database"></i> Stock & Inventory</div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         
-        <!-- Tab 1: Overview -->
         <div id="overview" class="tab-content active">
             <h1>Admin Overview</h1>
             <div class="stats-grid">
                 <div class="stat-card"><h3>Total Users</h3><p id="totalUsersCount">0</p></div>
-                <div class="stat-card"><h3>Total Revenue</h3><p>Rs. 125,400</p></div>
-                <div class="stat-card"><h3>System Payout</h3><p id="totalReferralPayout" style="color: #c9184a;">Rs. 0</p></div>
+                <div class="stat-card"><h3>Main Balance</h3><p id="mainBalanceDisplay" style="color: #27ae60;">Rs. 0</p></div>
+                <div class="stat-card"><h3>Total Payouts</h3><p id="totalReferralPayout" style="color: #c9184a;">Rs. 0</p></div>
                 <div class="stat-card"><h3>Active Sellers</h3><p>12</p></div>
             </div>
         </div>
 
-        <!-- Tab 2: Referral -->
-        <div id="referral" class="tab-content">
-            <h1>Referral Analytics</h1>
+        <div id="wallet" class="tab-content">
+            <h1>My System Wallet</h1>
             <div class="stats-grid">
-                <div class="stat-card"><h3>Total System Invites</h3><p id="refCountTotal">0</p></div>
-                <div class="stat-card"><h3>Commission Distributed</h3><p id="refSubTotal" style="color: #27ae60;">Rs. 0</p></div>
+                <div class="stat-card"><h3>Available for Withdrawal</h3><p id="withdrawableBalance" style="color: #27ae60;">Rs. 0</p></div>
+            </div>
+
+            <div class="withdraw-box">
+                <h3 style="text-align: center;">Request Bank Withdrawal</h3>
+                <p style="font-size: 12px; color: #666; text-align: center;">Referral + Passive + Affiliate Income included.</p>
+                <input type="number" id="withdrawAmount" placeholder="Enter Amount (Rs.)">
+                <input type="text" id="bankName" placeholder="Bank Name">
+                <input type="text" id="accNumber" placeholder="Account Number">
+                <input type="text" id="accHolder" placeholder="Account Holder Name">
+                <button class="withdraw-btn" onclick="requestWithdrawal()">Withdraw to Bank Account</button>
             </div>
         </div>
 
-        <!-- Tab 3: Passive -->
+        <div id="referral" class="tab-content">
+            <h1>Referral Analytics</h1>
+            <div class="stats-grid">
+                <div class="stat-card"><h3>Total Invites</h3><p id="refCountTotal">0</p></div>
+                <div class="stat-card"><h3>Referral Income</h3><p id="refSubTotal" style="color: #27ae60;">Rs. 0</p></div>
+            </div>
+        </div>
+
         <div id="passive" class="tab-content">
             <h1>Passive Income</h1>
             <div class="stats-grid">
-                <div class="stat-card"><h3>Monthly Passive</h3><p>Rs. 22,000</p></div>
+                <div class="stat-card"><h3>Monthly Passive</h3><p id="passiveIncomeDisplay">Rs. 0</p></div>
                 <div class="stat-card"><h3>Ad Revenue</h3><p>Rs. 5,400</p></div>
             </div>
         </div>
 
-        <!-- Tab 4: Affiliate -->
         <div id="affiliate" class="tab-content">
             <h1>Affiliate Program</h1>
             <div class="stat-card" style="max-width: 400px;">
                 <h3>Affiliate Earnings</h3>
-                <p style="color: #c9184a;">Rs. 9,450.00</p>
+                <p id="affiliateIncomeDisplay" style="color: #c9184a;">Rs. 0</p>
             </div>
         </div>
 
-        <!-- Tab 5: Stock -->
         <div id="stock" class="tab-content">
             <h1>Stock & Sold Out Status</h1>
-            <table>
+            <table id="stockTable">
                 <thead>
                     <tr><th>Product Name</th><th>Stock</th><th>Sold</th><th>Status</th></tr>
                 </thead>
-                <tbody>
-                    <tr><td>5PCS Coffee Set</td><td>08</td><td>12</td><td><span class="badge in-stock">Available</span></td></tr>
-                    <tr><td>Hand Bag - Pink</td><td>00</td><td>25</td><td><span class="badge out-of-stock">Sold Out</span></td></tr>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
-
     </div>
 
-<script type="module">
+    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
@@ -131,51 +144,86 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // 1. User Stats (Referral & Count) ලබා ගැනීම
+        let globalTotalBalance = 0;
+
+        // 1. All Earnings Sync (Referral, Passive, Affiliate)
         onSnapshot(collection(db, "users"), (snapshot) => {
-            let earnings = 0, invites = 0, count = 0;
+            let referralE = 0, invites = 0, count = 0, passiveE = 0, affiliateE = 0;
+            
             snapshot.forEach(doc => {
                 const data = doc.data();
-                earnings += (data.referralEarnings || 0);
+                referralE += (data.referralEarnings || 0);
                 invites += (data.referralCount || 0);
+                passiveE += (data.passiveIncome || 0);
+                affiliateE += (data.affiliateEarnings || 0);
                 count++;
             });
+
+            globalTotalBalance = referralE + passiveE + affiliateE;
+
+            // පේජ් එකේ තැන් වලට ඩේටා යැවීම
             document.getElementById('totalUsersCount').innerText = count;
-            document.getElementById('totalReferralPayout').innerText = "Rs. " + earnings;
-            document.getElementById('refSubTotal').innerText = "Rs. " + earnings;
+            document.getElementById('mainBalanceDisplay').innerText = "Rs. " + globalTotalBalance;
+            document.getElementById('withdrawableBalance').innerText = "Rs. " + globalTotalBalance;
+            
+            document.getElementById('refSubTotal').innerText = "Rs. " + referralE;
             document.getElementById('refCountTotal').innerText = invites;
+            document.getElementById('passiveIncomeDisplay').innerText = "Rs. " + passiveE;
+            document.getElementById('affiliateIncomeDisplay').innerText = "Rs. " + affiliateE;
+            document.getElementById('totalReferralPayout').innerText = "Rs. " + referralE;
         });
 
-        // 2. Stock Data (Products) ලබා ගැනීම - 100% නිවැරදි කරන ලදී
-    function loadStockData() {
-        const stockTableBody = document.querySelector("#stock table tbody");
-        
-        onSnapshot(collection(db, "products"), (snapshot) => {
-            if (stockTableBody) {
-                stockTableBody.innerHTML = ""; 
-                
-                snapshot.forEach((doc) => {
-                    const item = doc.data();
-                    
-                    // වැදගත්: dashboard.html එකේ Save වෙන්නේ "name" කියන නමින්
-                    const productTitle = item.name || "Unknown Item"; 
-                    const stockVal = item.stock || 0; 
-                    const statusClass = (stockVal > 0) ? "in-stock" : "out-of-stock";
-                    const statusText = (stockVal > 0) ? "Available" : "Sold Out";
+        // 2. Withdrawal Request Logic
+        window.requestWithdrawal = async function() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const bank = document.getElementById('bankName').value;
+            const acc = document.getElementById('accNumber').value;
+            const name = document.getElementById('accHolder').value;
 
-                    const row = `
-                        <tr>
-                            <td>${productTitle}</td>
-                            <td>${stockVal}</td>
-                            <td>${item.sold || '0'}</td>
-                            <td><span class="badge ${statusClass}">${statusText}</span></td>
-                        </tr>
-                    `;
-                    stockTableBody.innerHTML += row;
-                });
+            if(!amount || amount <= 0 || !bank || !acc || !name) {
+                alert("Please fill all bank details correctly!");
+                return;
             }
+
+            if(amount > globalTotalBalance) {
+                alert("Insufficient Balance!");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "withdrawals"), {
+                    amount: amount,
+                    bank: bank,
+                    accountNumber: acc,
+                    accountName: name,
+                    status: "Pending",
+                    requestedAt: serverTimestamp()
+                });
+                alert("✅ Withdrawal Request Sent Successfully!");
+                document.getElementById('withdrawAmount').value = "";
+            } catch (e) {
+                alert("Error: " + e.message);
+            }
+        };
+
+        // 3. Stock Data Sync
+        onSnapshot(collection(db, "products"), (snapshot) => {
+            const tbody = document.querySelector("#stockTable tbody");
+            tbody.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const item = doc.data();
+                const stockVal = item.stock || 0;
+                const statusClass = (stockVal > 0) ? "in-stock" : "out-of-stock";
+                const statusText = (stockVal > 0) ? "Available" : "Sold Out";
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.name || 'Unknown'}</td>
+                        <td>${stockVal}</td>
+                        <td>${item.sold || '0'}</td>
+                        <td><span class="badge ${statusClass}">${statusText}</span></td>
+                    </tr>`;
+            });
         });
-    }
 
         // Sidebar Tab Switching
         window.showTab = function(tabId, element) {
@@ -184,9 +232,6 @@
             document.getElementById(tabId).classList.add('active');
             element.classList.add('active');
         };
-
-        // පේජ් එක ලෝඩ් වෙද්දී ඩේටා ගේන්න කියනවා
-        loadStockData();
 
     </script>
 </body>
