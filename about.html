@@ -5,38 +5,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | Oshan Cart Global</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff9900; /* Amazon Style Orange */
+            --navy-blue: #232f3e;
+            --light-bg: #f4f7f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: var(--navy-blue);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover { color: var(--primary-color); }
+
+        /* Hero Section */
+        .about-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .about-hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+
+        .content-area {
+            max-width: 1000px;
+            margin: -50px auto 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            margin-top: 30px;
+            color: var(--navy-blue);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: #fff8f3;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .stat-item:hover { transform: translateY(-5px); }
+        .stat-item i { font-size: 2rem; color: var(--primary-color); margin-bottom: 10px; }
+        .stat-item h4 { margin: 5px 0; font-size: 1.2rem; }
+
+        .independence-note {
+            background: #eef2f7;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .independence-note i { font-size: 24px; color: #2ecc71; }
+
+        footer {
+            background: var(--navy-blue);
+            color: #ccc;
+            padding: 30px;
+            margin-top: 50px;
+        }
+        
+        .social-links a { color: white; margin: 0 10px; font-size: 18px; }
+    </style>
 </head>
 <body>
+
     <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="login.html">Login</a>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="services.html"><i class="fas fa-concierge-bell"></i> Services</a>
+        <a href="login.html"><i class="fas fa-user"></i> Login</a>
+    </div>
+
+    <div class="about-hero">
+        <h1>About Oshan Cart</h1>
+        <p>"Connecting Quality with Convenience Globally"</p>
     </div>
 
     <div class="content-area">
-        <h2 style="color: var(--primary-color); text-align: center;">Welcome to Oshan Cart</h2>
-        <p style="text-align: center; font-style: italic;">"Connecting Quality with Convenience Globally"</p>
-        
-        <hr style="border: 0.5px solid #eee;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <img src="https://img.icons8.com/fluency/96/shopping-cart-promotion.png" alt="Logo">
+            <h2 style="color: var(--navy-blue);">Global Excellence in E-Commerce</h2>
+        </div>
 
-        <h3 style="color: #333;">Who We Are</h3>
-        <p>Oshan Cart is a leading global e-commerce platform dedicated to bringing you the latest products directly from manufacturers. Inspired by the efficiency of global giants like AliExpress and Temu, we ensure that our customers get the best deals without compromising quality.</p>
+        <h3 class="section-title">Who We Are</h3>
+        <p>
+            <strong>Oshan Cart</strong> is a leading global e-commerce platform dedicated to bringing you the latest products directly from manufacturers. 
+            Inspired by the efficiency of global giants like <strong>AliExpress</strong> and <strong>Temu</strong>, we bridge the gap between wholesale production and retail convenience. 
+            We ensure that every customer gets premium products at the most competitive prices in the market.
+        </p>
 
-        <h3 style="color: #333;">Why Choose Us?</h3>
-        <ul>
-            <li><strong>Global Reach:</strong> We ship to Sri Lanka and many other countries worldwide.</li>
-            <li><strong>Secured Wallet:</strong> Our built-in wallet system allows you to manage your balance safely.</li>
-            <li><strong>Direct Sourcing:</strong> By cutting out the middleman, we provide wholesale prices for retail buyers.</li>
-        </ul>
+        <h3 class="section-title">Why Choose Oshan Cart?</h3>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <i class="fas fa-globe-americas"></i>
+                <h4>Global Reach</h4>
+                <p>Reliable shipping to Sri Lanka and 50+ countries.</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-wallet"></i>
+                <h4>Secured Wallet</h4>
+                <p>Advanced firebase-backed secure payment system.</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-tags"></i>
+                <h4>Direct Sourcing</h4>
+                <p>Wholesale prices by removing the middlemen.</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Buyer Protection</h4>
+                <p>100% money-back guarantee on valid claims.</p>
+            </div>
+        </div>
 
-        <div style="background: #fff8f3; padding: 15px; border-left: 5px solid var(--primary-color); margin-top: 20px;">
-            <p><strong>Note:</strong> All our operations are 100% independent. Oshan Cart is a unique brand committed to international trade standards.</p>
+        <h3 class="section-title">Our Vision</h3>
+        <p>To empower every individual with the ability to source high-quality international goods with just a click, making global trade accessible to everyone, everywhere.</p>
+
+        <div class="independence-note">
+            <i class="fas fa-check-circle"></i>
+            <p><strong>Official Certification:</strong> All our operations are 100% independent. Oshan Cart is a unique brand committed to international trade standards and quality assurance.</p>
         </div>
     </div>
 
-    <footer style="text-align: center; padding: 20px; color: #777; font-size: 12px;">
-        &copy; 2024 Oshan Cart. Global Excellence.
+    <footer style="text-align: center;">
+        <div class="social-links" style="margin-bottom: 15px;">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>&copy; 2026 Oshan Cart Global. All Rights Reserved.</p>
+        <p style="font-size: 11px; opacity: 0.6;">Powered by Oshan Cart Technology Department.</p>
     </footer>
+
 </body>
 </html>
-
