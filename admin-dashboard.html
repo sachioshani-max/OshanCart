@@ -31,6 +31,11 @@
         input, textarea, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         button { width: 100%; padding: 15px; background: #c9184a; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
 
+        /* Drop Area Styling */
+        .upload-box { border: 2px dashed #c9184a; padding: 20px; border-radius: 10px; cursor: pointer; background: #fff5f7; text-align: center; margin-bottom: 15px; transition: 0.3s; }
+        .upload-box:hover { background: #ffeef2; }
+        #preview-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; display: none; margin: 10px auto; }
+
         /* Tables */
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
@@ -55,7 +60,6 @@
 
     <div class="main-content">
         
-        <!-- 1. OVERVIEW -->
         <div id="overview" class="tab-content active">
             <h1>Dashboard Overview</h1>
             <div class="stats-grid">
@@ -65,7 +69,6 @@
             </div>
         </div>
 
-        <!-- 2. WITHDRAWAL WALLET -->
         <div id="wallet" class="tab-content">
             <h1>My System Wallet</h1>
             <div class="wallet-banner">
@@ -82,25 +85,21 @@
             </div>
         </div>
 
-        <!-- 3. REFERRAL DATA -->
         <div id="referral" class="tab-content">
             <h1>Referral Analytics</h1>
             <div class="stat-card"><h3>Total Referrals Made</h3><p id="totalRefs">0</p></div>
         </div>
 
-        <!-- 4. PASSIVE INCOME -->
         <div id="passive" class="tab-content">
             <h1>Passive Income</h1>
             <div class="stat-card"><h3>Total Earned</h3><p id="pasIncome">Rs. 0</p></div>
         </div>
 
-        <!-- 5. AFFILIATE PROGRAM -->
         <div id="affiliate" class="tab-content">
             <h1>Affiliate Earnings</h1>
             <div class="stat-card"><h3>Commission Earned</h3><p id="affIncome">Rs. 0</p></div>
         </div>
 
-        <!-- 6. PRODUCT LISTING (NEW - FULLY WORKING) -->
         <div id="product-listing" class="tab-content">
             <h1>Add New Product</h1>
             <div class="form-container">
@@ -108,17 +107,24 @@
                 <textarea id="pDesc" placeholder="Product Description" rows="3"></textarea>
                 <input type="number" id="pPrice" placeholder="Price (Rs.)">
                 <input type="number" id="pStock" placeholder="Stock Quantity">
-                <input type="text" id="pImg" placeholder="Image URL (Direct Link)">
+                
+                <!-- NEW DRAG & DROP AREA -->
+                <div class="upload-box" id="drop-zone" onclick="document.getElementById('p-file').click()">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 30px; color: #c9184a;"></i>
+                    <p id="upload-status">Drag & Drop or Click to Upload Image</p>
+                    <img id="preview-img">
+                    <input type="file" id="p-file" accept="image/*" style="display: none;">
+                </div>
+
                 <select id="pCategory">
                     <option value="Electronics">Electronics</option>
                     <option value="Fashion">Fashion</option>
                     <option value="Grocery">Grocery</option>
                 </select>
-                <button style="background: #27ae60;" onclick="uploadProduct()">List Product Now</button>
+                <button id="listBtn" style="background: #27ae60;" onclick="uploadProduct()">List Product Now</button>
             </div>
         </div>
 
-        <!-- 7. STOCK & INVENTORY -->
         <div id="stock" class="tab-content">
             <h1>Stock Management</h1>
             <table id="stockTable">
@@ -147,82 +153,106 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let systemBalance = 0;
+        // ImgBB API Key
+        const IMGBB_KEY = "2e4966d15a568b4b2b8ab4d2515fb8b8";
+        let selectedFile;
 
-        // --- 1. Real-time Totals (All Pages) ---
+        // --- Drag & Drop logic ---
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('p-file');
+        const statusText = document.getElementById('upload-status');
+        const previewImg = document.getElementById('preview-img');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+            dropZone.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            selectedFile = e.dataTransfer.files[0];
+            handlePreview(selectedFile);
+        });
+
+        fileInput.onchange = (e) => {
+            selectedFile = e.target.files[0];
+            handlePreview(selectedFile);
+        };
+
+        function handlePreview(file) {
+            if (file) {
+                statusText.innerText = "Selected: " + file.name;
+                const reader = new FileReader();
+                reader.onload = (e) => { previewImg.src = e.target.result; previewImg.style.display = 'block'; };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // --- Real-time Stats ---
         onSnapshot(collection(db, "users"), (snapshot) => {
             let ref = 0, pas = 0, aff = 0, count = 0, refs = 0;
             snapshot.forEach(doc => {
                 const d = doc.data();
-                ref += (d.referralEarnings || 0);
-                pas += (d.passiveIncome || 0);
-                aff += (d.affiliateEarnings || 0);
-                refs += (d.referralCount || 0);
-                count++;
+                ref += (d.referralEarnings || 0); pas += (d.passiveIncome || 0); aff += (d.affiliateEarnings || 0);
+                refs += (d.referralCount || 0); count++;
             });
-            systemBalance = ref + pas + aff;
             document.getElementById('totalUsers').innerText = count;
-            document.getElementById('totalRev').innerText = "Rs. " + systemBalance.toLocaleString();
-            document.getElementById('mainWalletBalance').innerText = "Rs. " + systemBalance.toLocaleString();
+            document.getElementById('totalRev').innerText = "Rs. " + (ref+pas+aff).toLocaleString();
+            document.getElementById('mainWalletBalance').innerText = "Rs. " + (ref+pas+aff).toLocaleString();
             document.getElementById('totalRefs').innerText = refs;
             document.getElementById('pasIncome').innerText = "Rs. " + pas.toLocaleString();
             document.getElementById('affIncome').innerText = "Rs. " + aff.toLocaleString();
         });
 
-        // --- 2. Withdrawal Request ---
+        // --- Product Listing (ImgBB + Firebase) ---
+        window.uploadProduct = async function() {
+            const name = document.getElementById('pName').value;
+            const price = parseFloat(document.getElementById('pPrice').value);
+            const stock = parseInt(document.getElementById('pStock').value);
+            const desc = document.getElementById('pDesc').value;
+            const cat = document.getElementById('pCategory').value;
+            const btn = document.getElementById('listBtn');
+
+            if(name && price && stock && selectedFile) {
+                btn.innerText = "Uploading... Please wait";
+                btn.disabled = true;
+                try {
+                    // Upload to ImgBB
+                    let formData = new FormData();
+                    formData.append("image", selectedFile);
+                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
+                    const imgData = await res.json();
+
+                    // Save to Firebase
+                    await addDoc(collection(db, "products"), {
+                        name, price, stock, image: imgData.data.url, description: desc, category: cat, sold: 0, timestamp: serverTimestamp()
+                    });
+                    alert("Product Listed Successfully! 🛍️");
+                    location.reload();
+                } catch(e) { alert("Upload failed!"); btn.disabled = false; btn.innerText = "List Product Now"; }
+            } else { alert("Please fill all fields and select an image!"); }
+        };
+
+        // --- Withdrawal ---
         window.submitWithdraw = async function() {
             const amt = parseFloat(document.getElementById('wAmount').value);
             const bank = document.getElementById('wBank').value;
             const acc = document.getElementById('wAccNum').value;
             const name = document.getElementById('wAccName').value;
-
-            if(amt > 0 && amt <= systemBalance && bank && acc && name) {
-                await addDoc(collection(db, "withdrawals"), {
-                    amount: amt, bank: bank, account: acc, accountHolder: name, status: "Pending", timestamp: serverTimestamp()
-                });
+            if(amt > 0 && bank && acc && name) {
+                await addDoc(collection(db, "withdrawals"), { amount: amt, bank: bank, account: acc, accountHolder: name, status: "Pending", timestamp: serverTimestamp() });
                 alert("Withdrawal Success! ✅");
-            } else { alert("Check your details and balance!"); }
+            } else { alert("Check details!"); }
         };
 
-        // --- 3. Product Listing (Working) ---
-        window.uploadProduct = async function() {
-            const name = document.getElementById('pName').value;
-            const price = parseFloat(document.getElementById('pPrice').value);
-            const stock = parseInt(document.getElementById('pStock').value);
-            const img = document.getElementById('pImg').value;
-            const desc = document.getElementById('pDesc').value;
-            const cat = document.getElementById('pCategory').value;
-
-            if(name && price && stock && img) {
-                try {
-                    await addDoc(collection(db, "products"), {
-                        name, price, stock, image: img, description: desc, category: cat, sold: 0, timestamp: serverTimestamp()
-                    });
-                    alert("Product Listed Successfully! 🛍️");
-                    // Clear inputs
-                    document.getElementById('pName').value = "";
-                    document.getElementById('pPrice').value = "";
-                } catch(e) { alert("Error uploading product!"); }
-            } else { alert("All fields are required!"); }
-        };
-
-        // --- 4. Stock Table Sync ---
+        // --- Stock Sync ---
         onSnapshot(collection(db, "products"), (snapshot) => {
             const tbody = document.querySelector("#stockTable tbody");
             tbody.innerHTML = "";
             snapshot.forEach(doc => {
                 const p = doc.data();
-                tbody.innerHTML += `<tr>
-                    <td><img src="${p.image}" class="prod-img"></td>
-                    <td>${p.name}</td>
-                    <td>Rs. ${p.price}</td>
-                    <td>${p.stock}</td>
-                    <td>${p.sold || 0}</td>
-                </tr>`;
+                tbody.innerHTML += `<tr><td><img src="${p.image}" class="prod-img"></td><td>${p.name}</td><td>Rs. ${p.price}</td><td>${p.stock}</td><td>${p.sold || 0}</td></tr>`;
             });
         });
 
-        // --- Tab Control ---
         window.showTab = (id, el) => {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
