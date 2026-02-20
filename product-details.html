@@ -39,8 +39,9 @@
 </div>
 
 <script type="module">
+    // 1. Firebase Imports (අලුතින් addDoc, collection, query වගේ දේවල් ඇතුළත් කරලා තියෙන්නේ)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, addDoc, query, where, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
@@ -50,7 +51,6 @@
         messagingSenderId: "686982543488",
         appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
     };
-    
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
@@ -92,97 +92,98 @@
                             <div class="delivery-item"><i class="fas fa-undo"></i> 7 Days Returns available</div>
                             <div class="delivery-item"><i class="fas fa-shield-alt"></i> 1 Year Warranty (If applicable)</div>
                         </div>
-                    
-                     <!-- Ratings Summary -->
-                     
-                   <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
-                      <h3 style="font-size: 20px;">Ratings & Reviews</h3>
-                 <div style="display: flex; align-items: center; gap: 15px;">
-              <span style="font-size: 48px; font-weight: bold; color: #333;">4.6<span style="font-size: 20px; color: #777;">/5</span></span>
-              <div>
-            <div style="color: #ffb400; font-size: 18px;">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-            </div>
-            <p style="margin: 0; color: #777; font-size: 13px;">152 Ratings</p>
-        </div>
-    </div>
-</div>
 
-<!-- Sample Review -->
-        
-<div style="margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-    <div style="color: #ffb400; font-size: 12px;">
-        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-    </div>
-    <p style="font-size: 14px; font-weight: bold; margin: 5px 0;">Highly Recommended!</p>
-    <p style="font-size: 13px; color: #555;">The product quality is amazing and delivery was very fast. Thank you Oshan Cart!</p>
-    <p style="font-size: 12px; color: #999;">By Sachi Oshan - 20 Feb 2026</p>
-</div>
                         <div class="desc">
                             <h3>Product Description</h3>
-                            <p>${data.description || 'No description available for this product.'}</p>
+                            <p>${data.description || 'No description available.'}</p>
                         </div>
-                       
-                        <!-- Review Form Section -->
-                        
-                   <div style="margin-top: 40px; border-top: 2px solid #eee; padding-top: 20px;">
-                  <h3>Write a Review</h3>
-                  <div id="reviewForm" style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                  <input type="text" id="revName" placeholder="Your Name" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
-        
-                    <label>Rating:</label>
-                     <select id="revRating" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
-                     <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
-                     <option value="4">⭐⭐⭐⭐ (Good)</option>
-                     <option value="3">⭐⭐⭐ (Average)</option>
-                     <option value="2">⭐⭐ (Poor)</option>
-                     <option value="1">⭐ (Very Bad)</option>
-               </select>
-        
-                  <textarea id="revText" placeholder="Share your experience with this product..." rows="4" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
-        
-                <button onclick="submitReview()" style="background: #131921; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit Review</button>
-          </div>
-       </div>
 
-          <!-- Display Reviews Section -->
-          
-                  <div style="margin-top: 30px;">
-                   <h3>Customer Reviews</h3>
-                   <div id="reviewsList">
-                      <p style="color: #777;">No reviews yet. Be the first to review!</p>
-                      </div>
-                     </div>
+                        <!-- Review Form -->
+                        <div style="margin-top: 40px; border-top: 2px solid #eee; padding-top: 20px;">
+                            <h3>Write a Review</h3>
+                            <div id="reviewForm" style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                                <input type="text" id="revName" placeholder="Your Name" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <label>Rating:</label>
+                                <select id="revRating" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option value="5">⭐⭐⭐⭐🌟🌟 </option>
+                                    <option value="4">⭐⭐⭐🌟</option>
+                                    <option value="3">🌟🌟🌟</option>
+                                    <option value="2">🌟🌟</option>
+                                    <option value="1">🌟</option>
+                                </select>
+                                <textarea id="revText" placeholder="Your experience..." rows="4" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                                <button onclick="submitReview()" style="background: #131921; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit Review</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h3>Customer Reviews</h3>
+                            <div id="reviewsList">Loading reviews...</div>
+                        </div>
                     </div>
                 `;
-            } else {
-                document.getElementById('productDetail').innerHTML = "<h3>Product not found!</h3>";
+                // Product එක Load වුණාට පස්සේ Reviews load කරනවා
+                loadReviews();
             }
         } catch (error) {
-            console.error("Error loading product:", error);
-            document.getElementById('productDetail').innerHTML = "<h3>Error loading details.</h3>";
+            console.error("Error:", error);
         }
     }
 
-    loadProduct();
+    // --- Review Functions ---
 
-    // Global functions
+    // Review එකක් Database එකට දාන එක
+    window.submitReview = async () => {
+        const name = document.getElementById('revName').value;
+        const rating = document.getElementById('revRating').value;
+        const text = document.getElementById('revText').value;
+
+        if(!name || !text) { alert("Please fill all fields!"); return; }
+
+        try {
+            await addDoc(collection(db, "reviews"), {
+                productId: productId,
+                name: name,
+                rating: parseInt(rating),
+                text: text,
+                timestamp: serverTimestamp()
+            });
+            alert("Review Added!");
+            document.getElementById('revName').value = "";
+            document.getElementById('revText').value = "";
+        } catch (e) { console.error("Error adding review:", e); }
+    };
+
+    // Database එකෙන් Reviews අරන් පෙන්වන එක
+    function loadReviews() {
+        const q = query(collection(db, "reviews"), where("productId", "==", productId));
+        onSnapshot(q, (snapshot) => {
+            const list = document.getElementById('reviewsList');
+            if (snapshot.empty) {
+                list.innerHTML = "<p>No reviews yet.</p>";
+                return;
+            }
+            list.innerHTML = snapshot.docs.map(doc => {
+                const r = doc.data();
+                return `<div style="border-bottom: 1px solid #eee; padding: 10px 0;">
+                    <div style="color: #ffb400;">${"⭐".repeat(r.rating)}</div>
+                    <p><strong>${r.name}</strong>: ${r.text}</p>
+                </div>`;
+            }).join('');
+        });
+    }
+
+    // --- Other Global Functions ---
     window.updateQty = (val) => {
         let qtyEl = document.getElementById('qty-val');
-        let qty = parseInt(qtyEl.innerText);
-        qty += val;
-        if(qty < 1) qty = 1;
-        qtyEl.innerText = qty;
+        let qty = parseInt(qtyEl.innerText) + val;
+        if(qty >= 1) qtyEl.innerText = qty;
     };
 
-    window.addToCart = (id) => {
-        alert("Added to Cart! (We will build the cart system next)");
-    };
+    window.addToCart = (id) => { alert("Added to Cart!"); };
+    window.buyNow = () => { alert("Redirecting to Checkout..."); };
 
-    window.buyNow = () => {
-        alert("Redirecting to Checkout...");
-    };
-
+    loadProduct();
 </script>
 
 </body>
