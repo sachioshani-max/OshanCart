@@ -146,33 +146,36 @@
             document.getElementById('refCountTotal').innerText = invites;
         });
 
-        // 2. Stock Data (Products) ලබා ගැනීම - මෙන්න මෙතන මම හරිගැස්සුවා
-        function loadStockData() {
-            const stockTableBody = document.querySelector("#stock table tbody");
-            
-            onSnapshot(collection(db, "products"), (snapshot) => {
-                if (stockTableBody) {
-                    stockTableBody.innerHTML = ""; 
+        // 2. Stock Data (Products) ලබා ගැනීම - 100% නිවැරදි කරන ලදී
+    function loadStockData() {
+        const stockTableBody = document.querySelector("#stock table tbody");
+        
+        onSnapshot(collection(db, "products"), (snapshot) => {
+            if (stockTableBody) {
+                stockTableBody.innerHTML = ""; 
+                
+                snapshot.forEach((doc) => {
+                    const item = doc.data();
                     
-                    snapshot.forEach((doc) => {
-                        const item = doc.data();
-                        const stockVal = item.stock || 0; 
-                        const statusClass = (stockVal > 0) ? "in-stock" : "out-of-stock";
-                        const statusText = (stockVal > 0) ? "Available" : "Sold Out";
+                    // වැදගත්: dashboard.html එකේ Save වෙන්නේ "name" කියන නමින්
+                    const productTitle = item.name || "Unknown Item"; 
+                    const stockVal = item.stock || 0; 
+                    const statusClass = (stockVal > 0) ? "in-stock" : "out-of-stock";
+                    const statusText = (stockVal > 0) ? "Available" : "Sold Out";
 
-                        const row = `
-                            <tr>
-                                <td>${item.itemName || 'No Name'}</td>
-                                <td>${stockVal}</td>
-                                <td>${item.sold || '0'}</td>
-                                <td><span class="badge ${statusClass}">${statusText}</span></td>
-                            </tr>
-                        `;
-                        stockTableBody.innerHTML += row;
-                    });
-                }
-            });
-        }
+                    const row = `
+                        <tr>
+                            <td>${productTitle}</td>
+                            <td>${stockVal}</td>
+                            <td>${item.sold || '0'}</td>
+                            <td><span class="badge ${statusClass}">${statusText}</span></td>
+                        </tr>
+                    `;
+                    stockTableBody.innerHTML += row;
+                });
+            }
+        });
+    }
 
         // Sidebar Tab Switching
         window.showTab = function(tabId, element) {
