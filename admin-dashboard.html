@@ -115,77 +115,76 @@
 
     </div>
 
-    <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-        authDomain: "oshancart.firebaseapp.com",
-        projectId: "oshancart",
-        storageBucket: "oshancart.appspot.com",
-        messagingSenderId: "686982543488",
-        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    // 1. User Stats (Referral & Count) ලබා ගැනීම
-    onSnapshot(collection(db, "users"), (snapshot) => {
-        let earnings = 0, invites = 0, count = 0;
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            earnings += (data.referralEarnings || 0);
-            invites += (data.referralCount || 0);
-            count++;
+        // 1. User Stats (Referral & Count) ලබා ගැනීම
+        onSnapshot(collection(db, "users"), (snapshot) => {
+            let earnings = 0, invites = 0, count = 0;
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                earnings += (data.referralEarnings || 0);
+                invites += (data.referralCount || 0);
+                count++;
+            });
+            document.getElementById('totalUsersCount').innerText = count;
+            document.getElementById('totalReferralPayout').innerText = "Rs. " + earnings;
+            document.getElementById('refSubTotal').innerText = "Rs. " + earnings;
+            document.getElementById('refCountTotal').innerText = invites;
         });
-        document.getElementById('totalUsersCount').innerText = count;
-        document.getElementById('totalReferralPayout').innerText = "Rs. " + earnings;
-        document.getElementById('refSubTotal').innerText = "Rs. " + earnings;
-        document.getElementById('refCountTotal').innerText = invites;
-    });
 
-    // 2. Stock Data (Products) ලබා ගැනීම
-    function loadStockData() {
-        // Table එක ඇතුළේ තියෙන tbody එක කෙලින්ම අල්ලගන්නවා
-        const stockTable = document.querySelector("#stock table tbody");
-        
-        onSnapshot(collection(db, "products"), (snapshot) => {
-            if (stockTableBody) {
-                stockTableBody.innerHTML = ""; // පරණ placeholder දත්ත මකනවා
-                
-                snapshot.forEach((doc) => {
-                    const item = doc.data();
-                    const stockVal = item.stock || 0; 
-                    const statusClass = (stockVal > 0) ? "in-stock" : "out-of-stock";
-                    const statusText = (stockVal > 0) ? "Available" : "Sold Out";
+        // 2. Stock Data (Products) ලබා ගැනීම - මෙන්න මෙතන මම හරිගැස්සුවා
+        function loadStockData() {
+            const stockTableBody = document.querySelector("#stock table tbody");
+            
+            onSnapshot(collection(db, "products"), (snapshot) => {
+                if (stockTableBody) {
+                    stockTableBody.innerHTML = ""; 
+                    
+                    snapshot.forEach((doc) => {
+                        const item = doc.data();
+                        const stockVal = item.stock || 0; 
+                        const statusClass = (stockVal > 0) ? "in-stock" : "out-of-stock";
+                        const statusText = (stockVal > 0) ? "Available" : "Sold Out";
 
-                    const row = `
-                        <tr>
-                            <td>${item.itemName}</td>
-                            <td>${stockVal}</td>
-                            <td>${item.sold || '0'}</td>
-                            <td><span class="badge ${statusClass}">${statusText}</span></td>
-                        </tr>
-                    `;
-                    stockTableBody.innerHTML += row;
-                });
-            }
-        });
-    }
+                        const row = `
+                            <tr>
+                                <td>${item.itemName || 'No Name'}</td>
+                                <td>${stockVal}</td>
+                                <td>${item.sold || '0'}</td>
+                                <td><span class="badge ${statusClass}">${statusText}</span></td>
+                            </tr>
+                        `;
+                        stockTableBody.innerHTML += row;
+                    });
+                }
+            });
+        }
 
-    // Sidebar Tab Switching
-    window.showTab = function(tabId, element) {
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        element.classList.add('active');
-    };
+        // Sidebar Tab Switching
+        window.showTab = function(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+        };
 
-    // පිටුව Load වෙද්දීම Stock Data ගෙන්වා ගන්න
-    loadStockData();
+        // පේජ් එක ලෝඩ් වෙද්දී ඩේටා ගේන්න කියනවා
+        loadStockData();
 
-</script>
+    </script>
 </body>
 </html>
