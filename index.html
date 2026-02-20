@@ -206,14 +206,10 @@ function openCustomerService() {
         const grid = document.getElementById('productDisplay');
         if (!grid) return;
 
-        if (items.length === 0) {
-            grid.innerHTML = "<p style='text-align:center; width:100%;'>No products found.</p>";
-            return;
-        }
-
         grid.innerHTML = items.map(item => `
-            <div class="product-card">
-                <img src="${item.image || 'https://via.placeholder.com/150'}" class="product-img">
+            <!-- මෙතන onclick එකක් ඇඩ් කළා පේජ් එක මාරු වෙන්න -->
+            <div class="product-card" onclick="viewProduct('${item.id}')" style="cursor: pointer;">
+                <img src="${item.image}" class="product-img">
                 <p class="product-name">${item.name}</p>
                 <p class="product-price">Rs. ${item.price ? item.price.toLocaleString() : '0'}</p>
                 <p style="font-size: 12px; color: #555;"><i class="fas fa-truck"></i> Fast Delivery</p>
@@ -221,14 +217,13 @@ function openCustomerService() {
         `).join('');
     }
 
-    window.filterCat = (cat) => {
-        if(cat === 'All') displayItems(allProducts);
-        else displayItems(allProducts.filter(p => p.category === cat));
-    };
-
-    window.searchProducts = () => {
-        const term = document.getElementById('searchInput').value.toLowerCase();
-        displayItems(allProducts.filter(p => p.name.toLowerCase().includes(term)));
+    // බඩුව ක්ලික් කළාම ID එකත් අරන් අලුත් පේජ් එකට යන විදිහ
+    window.viewProduct = (id) => {
+        if(id) {
+            window.location.href = `product-details.html?id=${id}`;
+        } else {
+            console.error("Product ID not found!");
+        }
     };
 
     // පේජ් එක ලෝඩ් වෙද්දීම රන් වෙන්න
