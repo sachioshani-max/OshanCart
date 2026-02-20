@@ -13,12 +13,18 @@
         #cart-count { position: absolute; top: -10px; right: -12px; background: #ffa41c; color: #131921; font-size: 12px; padding: 2px 6px; border-radius: 50%; font-weight: bold; }
         
         .container { max-width: 1000px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; display: flex; flex-wrap: wrap; gap: 30px; }
-        .left { flex: 1; min-width: 300px; }
+        .left { flex: 1; min-width: 300px; display: flex; gap: 15px; }
         .right { flex: 1.2; min-width: 300px; }
+        
+        /* Gallery Styles */
+        .thumb-col { display: flex; flex-direction: column; gap: 10px; }
+        .thumb-img { width: 60px; height: 60px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; object-fit: cover; }
+        .thumb-img:hover, .thumb-img.active { border: 2px solid #e77600; box-shadow: 0 0 3px #e77600; }
+        .main-img-container { flex-grow: 1; }
         .main-img { width: 100%; border-radius: 8px; border: 1px solid #ddd; }
+
         .title { font-size: 24px; font-weight: bold; color: #333; }
         .price { font-size: 28px; color: #B12704; margin: 10px 0; }
-        
         .qty-container { display: flex; align-items: center; gap: 10px; margin: 20px 0; }
         .qty-btn { background: #eee; border: 1px solid #ddd; padding: 5px 12px; cursor: pointer; font-size: 18px; font-weight: bold; border-radius: 4px; }
         #qty-val { font-weight: bold; font-size: 18px; width: 30px; text-align: center; }
@@ -28,9 +34,7 @@
         
         .delivery-box { background: #fafafa; border: 1px solid #eee; padding: 15px; margin-top: 20px; border-radius: 5px; font-size: 13px; }
         .delivery-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: #333; }
-        .delivery-item i { color: #555; width: 20px; }
 
-        /* Toast Popup Style */
         #toast { visibility: hidden; min-width: 250px; background-color: #232f3e; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; right: 30px; top: 30px; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border-left: 5px solid #ffa41c; }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
         @keyframes fadein { from {top: 0; opacity: 0;} to {top: 30px; opacity: 1;} }
@@ -82,10 +86,21 @@
 
             if (docSnap.exists()) {
                 const data = docSnap.data();
+                
+                // පින්තූර කිහිපයක් තිබේදැයි බලනවා, නැතිනම් තනි පින්තූරය Array එකකට දානවා
+                const imgList = data.images || [data.image];
+
                 document.getElementById('productDetail').innerHTML = `
                     <div class="left">
-                        <a href="index.html" style="text-decoration:none; color:#007185; font-size:14px;"><i class="fas fa-arrow-left"></i> Back to results</a>
-                        <img src="${data.image}" class="main-img" style="margin-top:15px;">
+                        <div class="thumb-col">
+                            ${imgList.map((img, index) => `
+                                <img src="${img}" class="thumb-img ${index === 0 ? 'active' : ''}" onclick="changeMainImg('${img}', this)">
+                            `).join('')}
+                        </div>
+                        <div class="main-img-container">
+                            <a href="index.html" style="text-decoration:none; color:#007185; font-size:14px;"><i class="fas fa-arrow-left"></i> Back to results</a>
+                            <img src="${imgList[0]}" id="main-product-img" class="main-img" style="margin-top:15px;">
+                        </div>
                     </div>
                     <div class="right">
                         <h1 class="title">${data.name}</h1>
@@ -121,13 +136,6 @@
                             </div>
                         </div>
 
-                        <div style="margin-top:20px; border-bottom:1px solid #eee; padding-bottom:15px;">
-                            <div style="color: #ffb400; font-size: 12px;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p style="font-size: 14px; font-weight: bold; margin: 5px 0;">Highly Recommended!</p>
-                            <p style="font-size: 13px; color: #555;">The product quality is amazing. Thank you Oshan Cart!</p>
-                            <p style="font-size: 12px; color: #999;">By Sachi Oshan - 20 Feb 2026</p>
-                        </div>
-
                         <div style="margin-top:20px;">
                             <h3>Product Description</h3>
                             <p style="color:#555; line-height:1.6;">${data.description || 'No description available.'}</p>
@@ -156,7 +164,6 @@
                     </div>
                 `;
 
-                // Event Listeners attach කරනවා
                 document.getElementById('addToCartBtn').onclick = () => addToCart(productId, data);
                 document.getElementById('submitReviewBtn').onclick = submitReview;
                 loadReviews();
@@ -164,21 +171,25 @@
         } catch (e) { console.error(e); }
     }
 
-    // --- Quantity Control ---
+    // --- Image Gallery Logic ---
+    window.changeMainImg = (src, el) => {
+        document.getElementById('main-product-img').src = src;
+        document.querySelectorAll('.thumb-img').forEach(img => img.classList.remove('active'));
+        el.classList.add('active');
+    };
+
     window.updateQty = (val) => {
         let qtyEl = document.getElementById('qty-val');
         let qty = parseInt(qtyEl.innerText) + val;
         if(qty >= 1) qtyEl.innerText = qty;
     };
 
-    // --- Toast Function ---
     function showToast() {
         const x = document.getElementById("toast");
         x.className = "show";
         setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
     }
 
-    // --- Cart Logic ---
     function addToCart(id, data) {
         const qty = parseInt(document.getElementById('qty-val').innerText);
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -190,7 +201,6 @@
         showToast();
     }
 
-    // --- Review Logic ---
     async function submitReview() {
         const name = document.getElementById('revName').value;
         const rating = document.getElementById('revRating').value;
@@ -218,7 +228,9 @@
 
     function updateCartCount() {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        document.getElementById('cart-count').innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+        const count = cart.reduce((sum, item) => sum + item.qty, 0);
+        const countEl = document.getElementById('cart-count');
+        if(countEl) countEl.innerText = count;
     }
 
     loadProduct();
