@@ -121,6 +121,37 @@
                             <h3>Product Description</h3>
                             <p>${data.description || 'No description available for this product.'}</p>
                         </div>
+                       
+                        <!-- Review Form Section -->
+                        
+                   <div style="margin-top: 40px; border-top: 2px solid #eee; padding-top: 20px;">
+                  <h3>Write a Review</h3>
+                  <div id="reviewForm" style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                  <input type="text" id="revName" placeholder="Your Name" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+        
+                    <label>Rating:</label>
+                     <select id="revRating" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                     <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+                     <option value="4">⭐⭐⭐⭐ (Good)</option>
+                     <option value="3">⭐⭐⭐ (Average)</option>
+                     <option value="2">⭐⭐ (Poor)</option>
+                     <option value="1">⭐ (Very Bad)</option>
+               </select>
+        
+                  <textarea id="revText" placeholder="Share your experience with this product..." rows="4" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+        
+                <button onclick="submitReview()" style="background: #131921; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit Review</button>
+          </div>
+       </div>
+
+          <!-- Display Reviews Section -->
+          
+                  <div style="margin-top: 30px;">
+                   <h3>Customer Reviews</h3>
+                   <div id="reviewsList">
+                      <p style="color: #777;">No reviews yet. Be the first to review!</p>
+                      </div>
+                     </div>
                     </div>
                 `;
             } else {
