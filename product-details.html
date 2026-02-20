@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Oshan Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: #f4f4f4; }
+        .nav { background: #131921; padding: 15px; color: white; text-align: center; }
+        .container { max-width: 1000px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; display: flex; flex-wrap: wrap; gap: 30px; }
+        .left { flex: 1; min-width: 300px; }
+        .right { flex: 1.2; min-width: 300px; }
+        .main-img { width: 100%; border-radius: 8px; border: 1px solid #ddd; }
+        .title { font-size: 24px; font-weight: bold; color: #333; }
+        .price { font-size: 28px; color: #B12704; margin: 10px 0; }
+        .desc { font-size: 16px; color: #555; line-height: 1.6; border-top: 1px solid #eee; padding-top: 15px; }
+        .btn-buy { background: #ffa41c; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 20px; }
+        .btn-cart { background: #ffd814; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .back-link { display: inline-block; margin-bottom: 15px; text-decoration: none; color: #007185; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="nav">
+    <h2>Oshan<span>Cart</span></h2>
+</div>
+
+<div class="container" id="productDetail">
+    <p>Loading details...</p>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+        authDomain: "oshancart.firebaseapp.com",
+        projectId: "oshancart",
+        storageBucket: "oshancart.appspot.com",
+        messagingSenderId: "686982543488",
+        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // URL එකෙන් ID එක ගන්නවා
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    async function loadProduct() {
+        if (!productId) return;
+        
+        const docRef = doc(db, "products", productId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            document.getElementById('productDetail').innerHTML = `
+                <div class="left">
+                    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to results</a>
+                    <img src="${data.image}" class="main-img">
+                </div>
+                <div class="right">
+                    <h1 class="title">${data.name}</h1>
+                    <p class="price">Rs. ${data.price.toLocaleString()}</p>
+                    <p style="color: green; font-weight: bold;">In Stock</p>
+                    <div class="desc">
+                        <h3>Product Details</h3>
+                        <p>${data.description || 'No description available for this product.'}</p>
+                    </div>
+                    <button class="btn-cart">Add to Cart</button>
+                    <button class="btn-buy">Buy Now</button>
+                </div>
+            `;
+        } else {
+            document.getElementById('productDetail').innerHTML = "<h3>Product not found!</h3>";
+        }
+    }
+
+    loadProduct();
+</script>
+
+</body>
+</html>
