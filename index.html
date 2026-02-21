@@ -2,219 +2,439 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Oshan Cart | Smart Global Shopping</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oshan Cart | Premium Global Shopping</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #c9184a;
+            --primary-orange: #ff4747; /* Alibaba style */
+            --daraz-orange: #f85606;
             --amazon-blue: #131921;
-            --nav-bg: #232f3e;
-            --orange: #febd69;
+            --light-bg: #f4f4f4;
             --white: #ffffff;
-            --light-grey: #f3f3f3;
         }
 
-        body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--light-grey); overflow-x: hidden; }
-
-        /* ==========================================
-           DESKTOP & MOBILE RESPONSIVE NAVIGATION
-        ========================================== */
-        nav { background: var(--amazon-blue); padding: 10px 3%; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 2000; color: white; }
-        
-        .logo { font-size: 24px; font-weight: bold; color: white; text-decoration: none; }
-        .logo span { color: var(--orange); }
-
-        .search-container { flex: 1; display: flex; align-items: center; max-width: 700px; margin: 0 20px; background: white; border-radius: 4px; overflow: hidden; height: 40px; }
-        .cat-btn { background: #eee; border: none; padding: 0 15px; height: 100%; cursor: pointer; font-size: 13px; border-right: 1px solid #ddd; }
-        .search-bar { flex: 1; border: none; padding: 10px; outline: none; }
-        .search-submit { background: var(--orange); border: none; padding: 10px 20px; cursor: pointer; color: #333; }
-
-        .nav-right { display: flex; align-items: center; gap: 20px; }
-
-        /* Flag & Lang Dropdown */
-        .dropdown { position: relative; cursor: pointer; padding: 5px 10px; border-radius: 3px; border: 1px solid transparent; }
-        .dropdown:hover { border: 1px solid white; }
-        .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background: white; min-width: 180px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); border-radius: 4px; z-index: 3000; }
-        .dropdown:hover .dropdown-menu { display: block; }
-        .dropdown-menu a { color: #333; padding: 12px 16px; text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 13px; }
-        .dropdown-menu a:hover { background: #f1f1f1; color: var(--primary); }
-
-        /* ==========================================
-           SIDEBAR & MOBILE BOTTOM BAR
-        ========================================== */
-        .sidebar { position: fixed; left: -100%; top: 0; width: 280px; height: 100%; background: white; z-index: 4000; transition: 0.3s; overflow-y: auto; box-shadow: 5px 0 15px rgba(0,0,0,0.2); }
-        .sidebar.active { left: 0; }
-        .sidebar-header { background: var(--amazon-blue); color: white; padding: 20px; font-size: 18px; display: flex; align-items: center; gap: 10px; }
-        .sidebar-list a { display: block; padding: 15px 20px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; font-size: 14px; }
-        .sidebar-overlay { position: fixed; display: none; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3500; }
-
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: none; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 2500; }
-        .bottom-nav a { text-align: center; color: #555; text-decoration: none; font-size: 12px; }
-        .bottom-nav i { font-size: 20px; display: block; }
-
-        @media screen and (max-width: 768px) {
-            .desktop-only { display: none !important; }
-            .bottom-nav { display: flex; }
-            .search-container { display: none; } /* Mobile has different search icon */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            overflow-x: hidden;
         }
 
-        /* ==========================================
-           OSHAN AI CHATBOX
-        ========================================== */
-        .ai-fab { position: fixed; bottom: 80px; right: 20px; width: 55px; height: 55px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 3000; }
-        .ai-window { position: fixed; bottom: 145px; right: 20px; width: 300px; height: 400px; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 3001; }
-        .ai-head { background: var(--primary); color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; }
-        #ai-body { flex: 1; padding: 15px; overflow-y: auto; font-size: 13px; background: #f9f9f9; }
-        .ai-foot { display: flex; padding: 10px; border-top: 1px solid #eee; }
-        .ai-foot input { flex: 1; border: 1px solid #ddd; padding: 8px; border-radius: 4px; outline: none; }
+        /* --- DESKTOP HEADER (Daraz Style) --- */
+        .desktop-nav {
+            display: block;
+            background: var(--white);
+        }
+
+        .top-bar {
+            background: #f7f7f7;
+            padding: 5px 5%;
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            font-size: 12px;
+        }
+
+        .main-nav {
+            background: var(--white);
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo-section img {
+            height: 45px;
+        }
+
+        .search-box {
+            flex: 1;
+            margin: 0 40px;
+            display: flex;
+            background: #eff0f5;
+            border-radius: 4px;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 12px;
+            outline: none;
+        }
+
+        .search-btn {
+            background: var(--daraz-orange);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* --- MOBILE HEADER (Alibaba App Style) --- */
+        .mobile-nav {
+            display: none;
+            background: linear-gradient(90deg, #ff5000, #ff8400);
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+        }
+
+        .mobile-search-bar {
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            margin-top: 10px;
+        }
+
+        /* --- CATEGORY SIDEDAR (Desktop) --- */
+        .home-hero {
+            display: flex;
+            padding: 10px 5%;
+            gap: 20px;
+        }
+
+        .category-sidebar {
+            width: 240px;
+            background: white;
+            padding: 10px 0;
+            border-radius: 4px;
+        }
+
+        .cat-item {
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .cat-item:hover {
+            background: #f0f0f0;
+            color: var(--daraz-orange);
+        }
+
+        /* --- MOBILE BOTTOM NAV (Alibaba Style) --- */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 2000;
+        }
+
+        .nav-link {
+            text-align: center;
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .nav-link i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .nav-link.active {
+            color: var(--daraz-orange);
+        }
+
+        /* --- PRODUCT GRID (AliExpress Style) --- */
+        .product-container {
+            padding: 20px 5%;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--daraz-orange);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 10px;
+        }
+
+        .p-name {
+            font-size: 13px;
+            height: 34px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .p-price {
+            color: var(--daraz-orange);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* --- AI CHATBOX --- */
+        #ai-chat-widget {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 3000;
+        }
+
+        .chat-bubble {
+            background: var(--daraz-orange);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .chat-window {
+            display: none;
+            width: 350px;
+            height: 450px;
+            background: white;
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            flex-direction: column;
+        }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 768px) {
+            .desktop-nav, .category-sidebar { display: none !important; }
+            .mobile-nav, .bottom-nav { display: flex !important; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+            .product-container { padding: 10px; }
+            body { padding-bottom: 70px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <i class="fas fa-user-circle"></i> Hello, Sign In
-        </div>
-        <div class="sidebar-list">
-            <b style="padding:15px 20px; display:block; background:#f6f6f6;">Shop By Category</b>
-            <a href="#" onclick="filterCat('Womens')"><i class="fas fa-female"></i> Womens Fashion</a>
-            <a href="#" onclick="filterCat('Mens')"><i class="fas fa-male"></i> Mens Fashion</a>
-            <a href="#" onclick="filterCat('Phones')"><i class="fas fa-mobile-alt"></i> Phones & Accessories</a>
-            <a href="#" onclick="filterCat('Electronics')"><i class="fas fa-laptop"></i> Electronics</a>
-            <a href="#" onclick="filterCat('Home & Kitchen')"><i class="fas fa-home"></i> Home & Kitchen</a>
-            <a href="#" onclick="filterCat('Vehicles')"><i class="fas fa-car"></i> Vehicles (Electric & Petrol)</a>
-            <a href="#" onclick="filterCat('Ceylon Items')"><i class="fas fa-leaf"></i> Ceylon Items</a>
-            
-            <b style="padding:15px 20px; display:block; background:#f6f6f6;">Help & Settings</b>
-            <a href="profile.html">My Account</a>
-            <a href="orders.html">My Orders</a>
-            <a href="#" onclick="accessAdminPanel()">Admin Panel</a>
-            <a href="https://wa.me/94727600501">Customer Service (WhatsApp)</a>
-        </div>
-    </div>
-
-    <nav>
-        <div style="display:flex; align-items:center; gap:15px;">
-            <i class="fas fa-bars" style="font-size:22px; cursor:pointer;" onclick="toggleSidebar()"></i>
-            <a href="index.html" class="logo">Oshan<span>Cart</span></a>
-        </div>
-
-        <div class="search-container desktop-only">
-            <button class="cat-btn">All <i class="fas fa-caret-down"></i></button>
-            <input type="text" id="searchInput" class="search-bar" placeholder="Search Oshan Cart...">
-            <button class="search-submit" onclick="searchProducts()"><i class="fas fa-search"></i></button>
-        </div>
-
-        <div class="nav-right">
-            <div class="dropdown">
-                <span id="current-lang"><span class="fi fi-us"></span> EN</span>
-                <div class="dropdown-menu">
-                    <a href="#" onclick="setLang('en','us')"><span class="fi fi-us"></span> English</a>
-                    <a href="#" onclick="setLang('si','lk')"><span class="fi fi-lk"></span> Sinhala</a>
-                    <a href="#" onclick="setLang('ja','jp')"><span class="fi fi-jp"></span> Japan</a>
-                    <a href="#" onclick="setLang('ta','in')"><span class="fi fi-in"></span> Tamil</a>
+    <header class="desktop-nav">
+        <div class="top-bar">
+            <div class="lang-selector" onclick="toggleLang()">
+                <span id="current-flag" class="fi fi-lk"></span> <span id="current-lang">Sinhala</span> <i class="fas fa-caret-down"></i>
+                <div id="lang-menu" style="display:none; position:absolute; background:white; box-shadow:0 2px 10px rgba(0,0,0,0.1); z-index:100;">
+                    <p onclick="changeLang('us', 'English')"><span class="fi fi-us"></span> English</p>
+                    <p onclick="changeLang('lk', 'Sinhala')"><span class="fi fi-lk"></span> Sinhala</p>
                 </div>
             </div>
-
-            <div class="dropdown desktop-only">
-                <span>Account & Lists</span>
-                <div class="dropdown-menu" style="min-width: 220px;">
-                    <a href="profile.html"><b>✍️ My Profile</b></a>
-                    <a href="orders.html">🎁 My Orders</a>
-                    <a href="referral.html">🤝 My Referral</a>
-                    <a href="affiliate.html">👥 Affiliate Program</a>
-                    <hr>
-                    <a href="#" onclick="accessAdminPanel()">👤 Admin Dashboard</a>
-                    <a href="become-seller.html">👩‍🌾 Become a Seller</a>
+            <span>Become a Seller</span>
+            <span>Help Center</span>
+            <span onclick="accessAdmin()">Admin Login</span>
+        </div>
+        <div class="main-nav">
+            <div class="logo-section">
+                <h2 style="color:var(--daraz-orange); margin:0;">Oshan<span>Cart</span></h2>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Search in Oshan Cart...">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="user-actions" style="display:flex; gap:25px; align-items:center;">
+                <div class="user-menu-btn" style="cursor:pointer;">
+                    <i class="far fa-user"></i> Login / Signup
+                </div>
+                <div class="cart-btn" style="position:relative;">
+                    <i class="fas fa-shopping-cart" style="font-size:20px;"></i>
+                    <span style="position:absolute; top:-10px; right:-10px; background:var(--daraz-orange); color:white; border-radius:50%; padding:2px 6px; font-size:10px;">0</span>
                 </div>
             </div>
-
-            <a href="cart.html" style="color:white; text-decoration:none; display:flex; align-items:center; gap:5px;">
-                <i class="fas fa-shopping-cart" style="font-size:20px;"></i>
-                <span class="desktop-only">Cart</span>
-            </a>
         </div>
+    </header>
+
+    <header class="mobile-nav">
+        <div style="display:flex; justify-content:space-between; width:100%; align-items:center; color:white;">
+            <i class="fas fa-bars" onclick="openMobileMenu()"></i>
+            <h3 style="margin:0;">OshanCart</h3>
+            <i class="fas fa-comment-dots"></i>
+        </div>
+        <div class="mobile-search-bar">
+            <i class="fas fa-search" style="color:#999; margin-right:10px;"></i>
+            <input type="text" placeholder="I'm shopping for..." style="border:none; outline:none; width:100%;">
+            <i class="fas fa-camera" style="color:#666;"></i>
+        </div>
+    </header>
+
+    <main class="home-hero">
+        <aside class="category-sidebar">
+            <div class="cat-item">Women's Fashion <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Men's Fashion <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Electronics <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Home & Garden <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Ceylon Special <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Vehicles <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Cakes & Sweets <i class="fas fa-chevron-right"></i></div>
+        </aside>
+
+        <div style="flex:1; background:#ddd; border-radius:8px; height:350px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+            <img src="https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+    </main>
+
+    <section class="product-container">
+        <div class="section-title">Just For You</div>
+        <div class="product-grid" id="mainProductGrid">
+            </div>
+    </section>
+
+    <nav class="bottom-nav">
+        <a href="#" class="nav-link active"><i class="fas fa-home"></i>Home</a>
+        <a href="#" class="nav-link" onclick="openCategories()"><i class="fas fa-list"></i>Category</a>
+        <a href="#" class="nav-link"><i class="fas fa-bolt"></i>Deals</a>
+        <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i>Cart</a>
+        <a href="#" class="nav-link" onclick="openAccount()"><i class="fas fa-user"></i>Account</a>
     </nav>
 
-    <div class="bottom-nav">
-        <a href="index.html"><i class="fas fa-home"></i>Home</a>
-        <a href="#" onclick="toggleSidebar()"><i class="fas fa-th-large"></i>Category</a>
-        <a href="cart.html"><i class="fas fa-shopping-cart"></i>Cart</a>
-        <a href="profile.html"><i class="fas fa-user"></i>Account</a>
+    <div id="ai-chat-widget">
+        <div class="chat-window" id="chatWin">
+            <div style="background:var(--daraz-orange); color:white; padding:15px; border-top-left-radius:12px; border-top-right-radius:12px; display:flex; justify-content:space-between;">
+                <span>Oshan AI Assistant</span>
+                <i class="fas fa-times" onclick="toggleChat()"></i>
+            </div>
+            <div id="chatBody" style="flex:1; padding:10px; overflow-y:auto; font-size:14px;">
+                <p style="background:#f0f0f0; padding:8px; border-radius:8px; width:fit-content;">Hello! I am Oshan AI. How can I help you today?</p>
+            </div>
+            <div style="padding:10px; border-top:1px solid #eee; display:flex;">
+                <input type="text" id="aiInput" placeholder="Ask anything..." style="flex:1; border:none; outline:none;">
+                <button onclick="askAI()" style="border:none; background:none; color:var(--daraz-orange);"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <div class="chat-bubble" onclick="toggleChat()">
+            <i class="fas fa-robot"></i>
+        </div>
     </div>
-
-    <div class="ai-fab" onclick="toggleAI()"><i class="fas fa-robot"></i></div>
-    <div class="ai-window" id="aiWindow">
-        <div class="ai-head">Oshan AI Assistant <i class="fas fa-times" onclick="toggleAI()" style="cursor:pointer;"></i></div>
-        <div id="ai-body">
-            <div style="background:#eee; padding:10px; border-radius:8px; margin-bottom:10px;">Hello! I am Oshan AI. How can I help you with your shopping today?</div>
-        </div>
-        <div class="ai-foot">
-            <input type="text" id="aiInput" placeholder="Ask me anything...">
-            <button onclick="askAI()" style="background:var(--primary); color:white; border:none; padding:8px 15px; border-radius:4px; margin-left:5px;"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-
-    <div style="padding: 20px 3%;" id="productDisplay">
-        </div>
 
     <script>
-        // SIDEBAR CONTROL
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            let overlay = document.getElementById('overlay');
-            overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+        // 1. Language Toggle Logic
+        function toggleLang() {
+            const menu = document.getElementById('lang-menu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
         }
 
-        // LANGUAGE SWITCHER
-        function setLang(lang, flag) {
-            document.getElementById('current-lang').innerHTML = `<span class="fi fi-${flag}"></span> ${lang.toUpperCase()}`;
-            alert("Language changed to " + lang.toUpperCase());
+        function changeLang(flag, name) {
+            document.getElementById('current-flag').className = `fi fi-${flag}`;
+            document.getElementById('current-lang').innerText = name;
+            toggleLang();
         }
 
-        // ADMIN PANEL
-        function accessAdminPanel() {
-            let pw = prompt("Enter Admin Password:");
-            if(pw === "Lakshan@2001") {
-                window.location.href = "admin-dashboard.html";
-            } else { alert("Access Denied!"); }
+        // 2. Oshan AI Logic
+        function toggleChat() {
+            const win = document.getElementById('chatWin');
+            win.style.display = win.style.display === 'none' ? 'flex' : 'none';
         }
 
-        // OSHAN AI LOGIC
-        function toggleAI() {
-            let win = document.getElementById('aiWindow');
-            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        function askAI() {
-            let input = document.getElementById('aiInput');
-            let body = document.getElementById('ai-body');
+        async function askAI() {
+            const input = document.getElementById('aiInput');
+            const body = document.getElementById('chatBody');
             if(!input.value) return;
 
-            body.innerHTML += `<div style="text-align:right; margin-bottom:10px;"><span style="background:var(--orange); padding:8px; border-radius:8px;">${input.value}</span></div>`;
+            // User Message
+            body.innerHTML += `<p style="background:var(--daraz-orange); color:white; padding:8px; border-radius:8px; width:fit-content; margin-left:auto;">${input.value}</p>`;
             
-            // Simple AI Response Logic
-            let userMsg = input.value.toLowerCase();
-            let response = "I'm not sure about that, but you can contact our human support at 0727600501!";
-            
-            if(userMsg.includes("hello")) response = "Hello! Welcome to Oshan Cart. What are you looking for today?";
-            if(userMsg.includes("order")) response = "You can track your order in the 'My Orders' section.";
-            if(userMsg.includes("price")) response = "Prices are listed on each product. We have the best deals in Sri Lanka!";
+            const userMsg = input.value.toLowerCase();
+            input.value = '';
 
+            // Simple AI Logic (Actual AI can be integrated here)
             setTimeout(() => {
-                body.innerHTML += `<div style="text-align:left; margin-bottom:10px;"><span style="background:#eee; padding:8px; border-radius:8px;">${response}</span></div>`;
+                let reply = "I'm analyzing your request... For urgent matters, please contact our WhatsApp support.";
+                if(userMsg.includes("order")) reply = "You can track your order in the 'My Orders' section of your account.";
+                if(userMsg.includes("shipping")) reply = "We offer free shipping on orders over Rs. 5000!";
+                
+                body.innerHTML += `<p style="background:#f0f0f0; padding:8px; border-radius:8px; width:fit-content;">${reply}</p>`;
                 body.scrollTop = body.scrollHeight;
-            }, 800);
-            
-            input.value = "";
+            }, 1000);
+        }
+
+        // 3. Admin Access
+        function accessAdmin() {
+            const pw = prompt("Enter Admin Password:");
+            if(pw === "Lakshan@2001") {
+                window.location.href = "admin-dashboard.html";
+            } else {
+                alert("Access Denied!");
+            }
+        }
+
+        // 4. Product Loading (Simulated for demo)
+        const products = [
+            { name: "Premium 2TB Flash Drive", price: "1,803", img: "https://ae04.alicdn.com/kf/S7b767794b6d4469785890885e78378c3G.jpg" },
+            { name: "Luxury Women's Watch Set", price: "343", img: "https://ae04.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" },
+            { name: "Portable Mosquito Killer", price: "1,200", img: "https://ae04.alicdn.com/kf/H946a4d70b42f4d6d87e5b562a04944983.jpg" },
+            { name: "Wireless Bluetooth Earbuds", price: "2,500", img: "https://ae04.alicdn.com/kf/S81817c180962450291913c5443e99e469.jpg" },
+            { name: "Smart Air Fryer 5.5L", price: "29,198", img: "https://static-01.daraz.pk/p/444c1d76378e9047910543f886470081.jpg" },
+            { name: "Folding Storage Box", price: "205", img: "https://static-01.daraz.pk/p/665983794308696803881.jpg" }
+        ];
+
+        function loadProducts() {
+            const grid = document.getElementById('mainProductGrid');
+            grid.innerHTML = products.map(p => `
+                <div class="product-card">
+                    <img src="${p.img}" class="product-img">
+                    <div class="product-info">
+                        <div class="p-name">${p.name}</div>
+                        <div class="p-price">Rs. ${p.price}</div>
+                        <div style="font-size:10px; color:#999; margin-top:5px;">5000+ sold</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        window.onload = loadProducts;
+
+        // Mobile Menu Functions
+        function openAccount() {
+            alert("Redirecting to Alibaba Style Account Page...");
+            // Link to your account.html
         }
     </script>
-
 </body>
 </html>
