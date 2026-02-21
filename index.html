@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Oshan Cart | Official Global Shopping</title>
+    <title>Oshan Cart | Global Smart Shopping</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -15,19 +15,17 @@
             --amazon-blue: #131921;
             --amazon-light: #232f3e;
             --accent: #febd69;
-            --white: #ffffff;
             --bg-gray: #f3f3f3;
-            --text-dark: #111;
+            --white: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: var(--bg-gray); overflow-x: hidden; }
 
         /* ==========================================
-           1. DESKTOP NAVIGATION (Daraz/Alibaba Style)
-           ========================================== */
-        header { display: block; }
-        .top-nav {
+           DESKTOP NAVIGATION (Original Extended)
+        ========================================== */
+        .desktop-nav {
             background: var(--amazon-blue);
             padding: 10px 4%;
             display: flex;
@@ -36,334 +34,309 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            color: white;
         }
 
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo { font-size: 26px; font-weight: 700; color: white; text-decoration: none; }
+        .logo { font-size: 24px; font-weight: 700; color: white; text-decoration: none; }
         .logo span { color: var(--accent); }
 
-        /* Sidebar Toggle (Only for Desktop Header but reused in Mobile) */
-        .menu-toggle { color: white; font-size: 24px; cursor: pointer; display: block; }
-
-        .search-container {
+        .search-wrapper {
             flex: 1;
             display: flex;
             max-width: 800px;
             margin: 0 20px;
-            background: white;
-            border-radius: 4px;
-            overflow: hidden;
         }
 
         .cat-select {
             background: #f3f3f3;
+            border-radius: 4px 0 0 4px;
             border: none;
-            padding: 10px;
+            padding: 0 10px;
+            cursor: pointer;
             font-size: 13px;
             border-right: 1px solid #ddd;
-            cursor: pointer;
+        }
+
+        .search-wrapper input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
             outline: none;
+            font-size: 14px;
         }
 
-        .search-input { flex: 1; border: none; padding: 10px 15px; outline: none; font-size: 14px; }
-        .search-btn { background: var(--accent); border: none; padding: 10px 20px; cursor: pointer; color: #333; transition: 0.3s; }
-        .search-btn:hover { background: #f3a847; }
+        .search-btn {
+            background: var(--accent);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-        .nav-actions { display: flex; align-items: center; gap: 25px; color: white; }
-        
-        /* Language Selector (Functional) */
-        .lang-box { position: relative; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .nav-tools { display: flex; align-items: center; gap: 25px; }
+
+        /* Language Dropdown Logic */
+        .lang-box { position: relative; cursor: pointer; display: flex; align-items: center; gap: 6px; }
         .lang-dropdown {
-            display: none; position: absolute; top: 100%; left: 0; 
-            background: white; color: black; min-width: 150px; border-radius: 4px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2); padding: 10px 0; z-index: 1001;
+            display: none; position: absolute; top: 100%; left: 0;
+            background: white; color: black; min-width: 150px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); border-radius: 4px; padding: 10px 0; z-index: 1001;
         }
+        .lang-dropdown a {
+            display: flex; align-items: center; gap: 10px; padding: 8px 15px;
+            text-decoration: none; color: #333; font-size: 13px;
+        }
+        .lang-dropdown a:hover { background: #f0f0f0; }
         .lang-box:hover .lang-dropdown { display: block; }
-        .lang-item { padding: 8px 15px; display: flex; align-items: center; gap: 10px; font-size: 13px; text-decoration: none; color: #333; }
-        .lang-item:hover { background: #f0f0f0; }
 
-        /* User Menu (Full Recovery) */
-        .user-acc { position: relative; cursor: pointer; }
-        .user-acc span { font-size: 12px; display: block; color: #ccc; }
-        .user-acc b { font-size: 14px; display: flex; align-items: center; gap: 4px; }
-        .user-menu-list {
+        /* User Account Dropdown - FULL RESTORED */
+        .account-box { position: relative; cursor: pointer; }
+        .account-dropdown {
             display: none; position: absolute; top: 100%; right: 0;
-            background: white; min-width: 250px; border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); padding: 15px 0; z-index: 1001;
+            background: white; color: black; min-width: 240px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); border-radius: 8px; padding: 15px 0; z-index: 1001;
         }
-        .user-acc:hover .user-menu-list { display: block; }
-        .user-menu-list a { 
-            color: #333; padding: 10px 20px; text-decoration: none; display: flex; 
-            align-items: center; gap: 12px; font-size: 14px; transition: 0.2s;
+        .account-dropdown h4 { padding: 0 20px 10px; font-size: 14px; border-bottom: 1px solid #eee; }
+        .account-dropdown a {
+            display: block; padding: 10px 20px; color: #333; text-decoration: none; font-size: 13px;
         }
-        .user-menu-list a:hover { background: #f8f8f8; color: var(--primary); }
-        .user-menu-list hr { border: 0; border-top: 1px solid #eee; margin: 10px 0; }
-
-        .cart-btn { text-decoration: none; color: white; display: flex; align-items: center; gap: 8px; position: relative; }
-        .cart-count { 
-            position: absolute; top: -10px; left: 15px; background: var(--accent); 
-            color: black; font-size: 11px; padding: 2px 6px; border-radius: 50%; font-weight: bold; 
-        }
+        .account-dropdown a:hover { background: #f5f5f5; color: var(--primary); }
+        .account-box:hover .account-dropdown { display: block; }
 
         /* ==========================================
-           2. MOBILE OVERRIDE (Shein/Alibaba Style)
-           ========================================== */
-        @media (max-width: 768px) {
-            header { display: none; } /* Hide desktop nav */
-            
-            .mobile-top-bar {
-                display: flex; flex-direction: column; background: var(--amazon-blue);
-                padding: 12px; position: sticky; top: 0; z-index: 1000;
-            }
-            .m-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-            .m-search-box { background: white; border-radius: 25px; display: flex; align-items: center; padding: 2px 15px; }
-            .m-search-box input { border: none; outline: none; padding: 10px; flex: 1; font-size: 14px; }
-
-            .mobile-bottom-nav {
-                position: fixed; bottom: 0; left: 0; width: 100%; background: white;
-                display: flex; justify-content: space-around; padding: 10px 0;
-                box-shadow: 0 -5px 15px rgba(0,0,0,0.1); z-index: 1100; border-top: 1px solid #eee;
-            }
-            .m-nav-item { text-align: center; color: #666; text-decoration: none; font-size: 10px; }
-            .m-nav-item i { font-size: 22px; display: block; margin-bottom: 2px; }
-            .m-nav-item.active { color: var(--primary); }
-
-            .product-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; padding: 10px !important; }
-            
-            /* Sidebar for Mobile */
-            .sidebar {
-                position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
-                background: white; z-index: 2000; transition: 0.4s; overflow-y: auto;
-                box-shadow: 5px 0 15px rgba(0,0,0,0.2);
-            }
-            .sidebar.active { left: 0; }
-            .sidebar-header { background: var(--amazon-blue); color: white; padding: 20px; font-weight: bold; }
+           MOBILE VERSION (AliExpress/Shein Style)
+        ========================================== */
+        .mobile-header {
+            display: none;
+            background: var(--amazon-blue);
+            padding: 12px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        /* Desktop specific sidebar (Hidden by default) */
-        @media (min-width: 769px) { 
-            .mobile-top-bar, .mobile-bottom-nav { display: none; } 
-            .sidebar { position: fixed; left: -300px; }
-        }
-
-        /* ==========================================
-           3. PRODUCT & CATEGORY UI
-           ========================================== */
-        .container { padding: 20px 4%; }
-        .cat-strip { display: flex; gap: 15px; overflow-x: auto; padding: 15px 0; scrollbar-width: none; }
-        .cat-item { 
-            min-width: 80px; text-align: center; cursor: pointer; transition: 0.3s; 
-            background: white; padding: 10px; border-radius: 10px; border: 1px solid #eee;
-        }
-        .cat-item:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .cat-item img { width: 40px; height: 40px; object-fit: contain; }
-        .cat-item p { font-size: 11px; margin-top: 5px; color: #444; }
-
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .p-card { 
-            background: white; border-radius: 12px; overflow: hidden; position: relative;
-            transition: 0.4s; border: 1px solid transparent; display: flex; flex-direction: column;
-        }
-        .p-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: #eee; }
-        .p-img-box { width: 100%; height: 200px; padding: 15px; background: #fff; text-align: center; }
-        .p-img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.5s; }
-        .p-card:hover .p-img { transform: scale(1.08); }
+        .mobile-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
         
-        .p-info { padding: 15px; flex: 1; display: flex; flex-direction: column; }
-        .p-name { font-size: 14px; color: #333; height: 40px; overflow: hidden; margin-bottom: 8px; font-weight: 500; }
-        .p-price { font-size: 20px; font-weight: 700; color: #B12704; margin-bottom: 5px; }
-        .p-meta { font-size: 11px; color: #777; display: flex; align-items: center; gap: 5px; }
-        
-        .buy-now-btn {
-            background: linear-gradient(to bottom, #f7dfa1, #f0c14b);
-            border: 1px solid #a88734; border-radius: 4px; padding: 10px;
-            font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 10px;
+        /* Mobile Hamburger */
+        .menu-trigger { color: white; font-size: 22px; cursor: pointer; }
+
+        .mobile-search-bar {
+            background: white;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            padding: 5px 15px;
+        }
+        .mobile-search-bar input { border: none; flex: 1; padding: 8px; outline: none; font-size: 14px; }
+
+        /* Side Drawer Menu */
+        .side-menu {
+            position: fixed; top: 0; left: -100%; width: 80%; height: 100%;
+            background: white; z-index: 2000; transition: 0.4s;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.3); overflow-y: auto;
+        }
+        .side-menu.active { left: 0; }
+        .side-header { background: var(--amazon-blue); color: white; padding: 30px 20px; }
+        .side-categories a {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #eee;
         }
 
+        /* Bottom Nav (Full Active) */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: white; display: none; justify-content: space-around;
+            padding: 10px 0; box-shadow: 0 -2px 15px rgba(0,0,0,0.1); z-index: 1500;
+        }
+        .bottom-nav a { text-align: center; color: #666; text-decoration: none; font-size: 11px; flex: 1; position: relative; }
+        .bottom-nav a.active { color: var(--primary); }
+        .bottom-nav i { display: block; font-size: 20px; margin-bottom: 3px; }
+
         /* ==========================================
-           4. OSHAN AI & CUSTOMER AGENT
-           ========================================== */
-        .ai-floating-btn {
-            position: fixed; bottom: 80px; right: 20px; width: 60px; height: 60px;
-            background: var(--primary); border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; color: white;
-            font-size: 28px; cursor: pointer; z-index: 1500; box-shadow: 0 5px 20px rgba(201, 24, 74, 0.4);
-            animation: pulse 2s infinite;
+           AI AGENT & CUSTOMER SERVICE
+        ========================================== */
+        .ai-agent-btn {
+            position: fixed; bottom: 80px; right: 20px;
+            width: 60px; height: 60px; background: var(--primary);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 28px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000; animation: pulse 2s infinite;
         }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        .ai-chat-window {
+        /* Oshan AI Chat Box */
+        .chat-box {
             position: fixed; bottom: 150px; right: 20px; width: 320px; height: 450px;
-            background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            display: none; flex-direction: column; overflow: hidden; z-index: 1600;
+            background: white; border-radius: 15px; display: none; flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 2001; overflow: hidden;
         }
-        .ai-header { background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .ai-body { flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 10px; }
-        .ai-msg { padding: 10px 15px; border-radius: 15px; font-size: 13px; max-width: 80%; }
-        .msg-bot { background: #eee; align-self: flex-start; }
-        .msg-user { background: var(--primary); color: white; align-self: flex-end; }
-        .ai-footer { padding: 10px; display: flex; gap: 5px; border-top: 1px solid #eee; }
-        .ai-footer input { flex: 1; border: 1px solid #ddd; padding: 8px; border-radius: 20px; outline: none; }
+        .chat-header { background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-between; }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; }
+        .bot-msg { background: #eee; padding: 8px 12px; border-radius: 10px; margin-bottom: 10px; font-size: 13px; width: fit-content; }
+        .chat-input { display: flex; padding: 10px; border-top: 1px solid #eee; }
+        .chat-input input { flex: 1; border: none; outline: none; padding: 8px; }
 
         /* ==========================================
-           5. PROFILE DRAG & DROP UI
-           ========================================== */
-        .upload-container {
-            border: 2px dashed #c9184a; border-radius: 15px; padding: 30px;
-            text-align: center; margin: 20px 0; background: #fff0f3; cursor: pointer;
+           PRODUCT GRID & CONTENT
+        ========================================== */
+        .main-container { padding: 20px 4%; }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
         }
-        .upload-container.dragover { background: #ffccd5; border-style: solid; }
-        .profile-img-preview { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-top: 15px; border: 3px solid white; display: none; }
+
+        .product-card {
+            background: white; border-radius: 12px; overflow: hidden;
+            transition: 0.3s; position: relative; border: 1px solid #eee;
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .img-container { height: 200px; padding: 15px; background: #fff; }
+        .img-container img { width: 100%; height: 100%; object-fit: contain; }
+        .info { padding: 15px; }
+        .price { font-size: 20px; font-weight: 700; color: #B12704; }
+        .buy-now {
+            width: 100%; background: var(--accent); border: none; padding: 10px;
+            margin-top: 10px; border-radius: 6px; font-weight: 600; cursor: pointer;
+        }
 
         /* ==========================================
-           6. ADMIN DASHBOARD MOBILE OPTIMIZATION
-           ========================================== */
-        .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; padding: 15px; }
-        .admin-stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .admin-stat-card i { font-size: 30px; color: var(--primary); margin-bottom: 10px; }
+           RESPONSIVE OVERRIDES (THE CHALLENGE)
+        ========================================== */
+        @media (max-width: 768px) {
+            .desktop-nav { display: none; }
+            .mobile-header { display: block; }
+            .bottom-nav { display: flex; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .img-container { height: 150px; }
+            .price { font-size: 16px; }
+            body { padding-bottom: 80px; }
+            .main-container { padding: 10px; }
+        }
+
+        /* Admin Dashboard UI Improvements */
+        .admin-panel-overlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: white; z-index: 3000; display: none; overflow-y: auto;
+        }
     </style>
 </head>
 <body>
 
-    <div id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <i class="fas fa-user-circle"></i> Hello, Sign In
-            <i class="fas fa-times" style="float:right; cursor:pointer" onclick="toggleSidebar()"></i>
+    <div class="side-menu" id="sideMenu">
+        <div class="side-header">
+            <h3>Hello, Sign In</h3>
+            <p>Welcome to OshanCart Global</p>
         </div>
-        <div style="padding: 20px;">
-            <h3 style="font-size: 16px; margin-bottom: 15px;">Shop By Category</h3>
-            <div id="sidebarCats">
-                </div>
-            <hr style="margin: 20px 0;">
-            <h3 style="font-size: 16px; margin-bottom: 15px;">Help & Settings</h3>
-            <a href="#" class="lang-item"><i class="fas fa-globe"></i> Language (English)</a>
-            <a href="profile.html" class="lang-item"><i class="fas fa-cog"></i> Account Settings</a>
-            <a href="customer-service.html" class="lang-item"><i class="fas fa-headset"></i> Customer Service</a>
-            <a href="#" onclick="accessAdminPanel()" class="lang-item"><i class="fas fa-user-shield"></i> Admin Panel</a>
+        <div class="side-categories">
+            <h4 style="padding: 15px 20px; background: #f0f0f0;">Categories</h4>
+            <a href="#" onclick="filterCat('Womens')">Women's Fashion <i class="fa fa-chevron-right"></i></a>
+            <a href="#" onclick="filterCat('Mens')">Men's Fashion <i class="fa fa-chevron-right"></i></a>
+            <a href="#" onclick="filterCat('Phones')">Phones & Gadgets <i class="fa fa-chevron-right"></i></a>
+            <a href="#" onclick="filterCat('Home')">Home & Kitchen <i class="fa fa-chevron-right"></i></a>
+            <a href="#" onclick="filterCat('Ceylon')">Ceylon Special 🇱🇰 <i class="fa fa-chevron-right"></i></a>
+            <hr>
+            <h4 style="padding: 15px 20px; background: #f0f0f0;">Account Settings</h4>
+            <a href="profile.html">My Profile <i class="fa fa-user"></i></a>
+            <a href="orders.html">My Orders <i class="fa fa-box"></i></a>
+            <a href="wallet.html">Withdraw Wallet <i class="fa fa-wallet"></i></a>
+            <a href="#" onclick="accessAdmin()">Admin Dashboard <i class="fa fa-lock"></i></a>
         </div>
     </div>
 
-    <header>
-        <div class="top-nav">
-            <div class="logo-container">
-                <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
-                <a href="index.html" class="logo">Oshan<span>Cart</span></a>
-            </div>
-
-            <div class="search-container">
-                <select class="cat-select" id="desktopCat">
-                    <option>All Categories</option>
-                    <option>Womens Fashion</option>
-                    <option>Mens Fashion</option>
-                    <option>Electronics</option>
-                    <option>Home & Kitchen</option>
-                    <option>Ceylon Items</option>
-                </select>
-                <input type="text" class="search-input" id="desktopSearch" placeholder="Search for products, brands and more...">
-                <button class="search-btn" onclick="search()"><i class="fas fa-search"></i></button>
-            </div>
-
-            <div class="nav-actions">
-                <div class="lang-box">
-                    <span class="fi fi-us"></span> EN <i class="fas fa-caret-down"></i>
-                    <div class="lang-dropdown">
-                        <a href="#" class="lang-item" onclick="changeLang('en')"><span class="fi fi-us"></span> English</a>
-                        <a href="#" class="lang-item" onclick="changeLang('si')"><span class="fi fi-lk"></span> Sinhala</a>
-                        <a href="#" class="lang-item" onclick="changeLang('hi')"><span class="fi fi-in"></span> Hindi</a>
-                        <a href="#" class="lang-item" onclick="changeLang('jp')"><span class="fi fi-jp"></span> Japanese</a>
-                    </div>
-                </div>
-
-                <div class="user-acc">
-                    <span>Hello, Sign in</span>
-                    <b>Account & Lists <i class="fas fa-caret-down"></i></b>
-                    <div class="user-menu-list">
-                        <div style="padding: 0 20px 10px;"><button class="buy-now-btn" style="width:100%">Sign in</button></div>
-                        <a href="profile.html"><i class="fas fa-user-edit"></i> My Profile (Me)</a>
-                        <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
-                        <a href="referral.html"><i class="fas fa-users"></i> Referral Program</a>
-                        <a href="affiliate.html"><i class="fas fa-handshake"></i> Affiliate Program</a>
-                        <hr>
-                        <a href="seller-dashboard.html"><i class="fas fa-store"></i> Seller Dashboard</a>
-                        <a href="become-seller.html"><i class="fas fa-user-plus"></i> Become a Seller</a>
-                        <hr>
-                        <a href="#" onclick="accessAdminPanel()"><i class="fas fa-lock"></i> Admin Panel</a>
-                        <a href="#" onclick="openAI()"><i class="fas fa-robot"></i> Oshan AI Assistant</a>
-                    </div>
-                </div>
-
-                <a href="cart.html" class="cart-btn">
-                    <i class="fas fa-shopping-cart" style="font-size: 24px;"></i>
-                    <span class="cart-count" id="cartCount">0</span>
-                    <b>Cart</b>
-                </a>
-            </div>
+    <nav class="desktop-nav">
+        <a href="index.html" class="logo">Oshan<span>Cart</span></a>
+        
+        <div class="search-wrapper">
+            <select class="cat-select">
+                <option>All Categories</option>
+                <option>Womens Fashion</option>
+                <option>Mens Fashion</option>
+                <option>Electronics</option>
+            </select>
+            <input type="text" id="desktopSearch" placeholder="Search for anything global...">
+            <button class="search-btn"><i class="fa fa-search"></i></button>
         </div>
-    </header>
 
-    <div class="mobile-top-bar">
-        <div class="m-header-row">
-            <i class="fas fa-bars" style="color:white; font-size: 22px;" onclick="toggleSidebar()"></i>
+        <div class="nav-tools">
+            <div class="lang-box" id="currentLang">
+                <span class="fi fi-us"></span> EN <i class="fa fa-caret-down"></i>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLang('us', 'EN')"><span class="fi fi-us"></span> English</a>
+                    <a href="#" onclick="changeLang('lk', 'SI')"><span class="fi fi-lk"></span> Sinhala</a>
+                    <a href="#" onclick="changeLang('jp', 'JP')"><span class="fi fi-jp"></span> Japanese</a>
+                </div>
+            </div>
+
+            <div class="account-box">
+                <span style="font-size: 12px; display: block; color: #ccc;">Hello, Sign in</span>
+                <b>Account & Lists <i class="fa fa-caret-down"></i></b>
+                <div class="account-dropdown">
+                    <a href="profile.html" style="color: var(--primary); font-weight: 600;">✍️ My Profile</a>
+                    <a href="orders.html">🎁 My Orders</a>
+                    <a href="referral.html">🤝 Referral Program</a>
+                    <a href="affiliate.html">👥 Affiliate Center</a>
+                    <hr>
+                    <a href="seller-dashboard.html">📊 Seller Dashboard</a>
+                    <a href="#" onclick="accessAdmin()">👤 Admin Panel</a>
+                </div>
+            </div>
+
+            <a href="cart.html" style="color:white; text-decoration:none; display:flex; align-items:center; gap:5px;">
+                <div style="position:relative;">
+                    <i class="fa fa-shopping-cart" style="font-size: 24px;"></i>
+                    <span id="cartCount" style="position:absolute; top:-10px; right:-8px; background:var(--accent); color:black; font-size:11px; padding:2px 6px; border-radius:50%; font-weight:bold;">0</span>
+                </div>
+                <b>Cart</b>
+            </a>
+        </div>
+    </nav>
+
+    <div class="mobile-header">
+        <div class="mobile-top-row">
+            <i class="fa fa-bars menu-trigger" onclick="toggleMenu()"></i>
             <a href="index.html" class="logo" style="font-size: 20px;">Oshan<span>Cart</span></a>
-            <div style="display:flex; gap:15px; color:white;">
-                <i class="fas fa-bell"></i>
-                <a href="cart.html" style="color:white; position:relative;">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" style="top:-8px; left:10px;">0</span>
-                </a>
+            <div style="display: flex; gap: 15px; color: white; font-size: 20px;">
+                <i class="fa fa-bell"></i>
+                <i class="fa fa-comment-dots" onclick="toggleChat()"></i>
             </div>
         </div>
-        <div class="m-search-box">
-            <i class="fas fa-search" style="color:#888"></i>
-            <input type="text" placeholder="I'm shopping for..." id="mobileSearch">
-            <i class="fas fa-camera" style="color:#888"></i>
+        <div class="mobile-search-bar">
+            <i class="fa fa-search" style="color: #999;"></i>
+            <input type="text" id="mobileSearch" placeholder="Search Items..." onkeyup="search()">
+            <i class="fa fa-camera" style="color: #999; margin-left: 10px;"></i>
         </div>
     </div>
 
-    <div class="container" style="padding-bottom:0;">
-        <div class="cat-strip" id="catStrip">
+    <div class="main-container">
+        <div class="product-grid" id="productArea">
             </div>
     </div>
 
-    <div class="container">
-        <div id="profileSection" style="display:none;">
-            <h2>Edit Profile</h2>
-            <div class="upload-container" id="dropZone">
-                <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--primary);"></i>
-                <p>Drag & Drop Profile Picture here <br> or <b>Click to Browse</b></p>
-                <input type="file" id="fileInput" hidden accept="image/*">
-                <img id="profilePreview" class="profile-img-preview">
-            </div>
-        </div>
-
-        <div class="product-grid" id="productGrid">
-            </div>
+    <div class="ai-agent-btn" onclick="toggleChat()">
+        <i class="fa fa-robot"></i>
     </div>
 
-    <div class="mobile-bottom-nav">
-        <a href="index.html" class="m-nav-item active"><i class="fas fa-home"></i>Home</a>
-        <a href="#" class="m-nav-item" onclick="toggleSidebar()"><i class="fas fa-th-large"></i>Category</a>
-        <a href="cart.html" class="m-nav-item"><i class="fas fa-shopping-bag"></i>Cart</a>
-        <a href="orders.html" class="m-nav-item"><i class="fas fa-heart"></i>Wishlist</a>
-        <a href="profile.html" class="m-nav-item"><i class="fas fa-user"></i>Account</a>
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <span>Oshan AI - Assistant</span>
+            <i class="fa fa-times" onclick="toggleChat()"></i>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="bot-msg">Hello! I am Oshan AI. How can I help your shopping today?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatIn" placeholder="Ask Oshan AI...">
+            <button onclick="sendMsg()" style="border:none; background:none; color:var(--primary); font-size:20px;"><i class="fa fa-paper-plane"></i></button>
+        </div>
     </div>
 
-    <div class="ai-floating-btn" onclick="toggleAI()">
-        <i class="fas fa-robot"></i>
-    </div>
-
-    <div class="ai-chat-window" id="aiWindow">
-        <div class="ai-header">
-            <span><i class="fas fa-circle" style="color: #00ff00; font-size: 10px;"></i> Oshan AI Agent</span>
-            <i class="fas fa-times" onclick="toggleAI()" style="cursor:pointer"></i>
-        </div>
-        <div class="ai-body" id="aiBody">
-            <div class="ai-msg msg-bot">Hello! I'm Oshan AI. How can I help you today? 🇱🇰</div>
-        </div>
-        <div class="ai-footer">
-            <input type="text" id="aiInput" placeholder="Ask me anything...">
-            <button onclick="sendAIMessage()" style="background:var(--primary); color:white; border:none; padding:8px 15px; border-radius:20px;"><i class="fas fa-paper-plane"></i></button>
-        </div>
+    <div class="bottom-nav">
+        <a href="index.html" class="active"><i class="fa fa-home"></i>Home</a>
+        <a href="#" onclick="toggleMenu()"><i class="fa fa-list"></i>Category</a>
+        <a href="cart.html"><i class="fa fa-shopping-cart"></i>Cart</a>
+        <a href="profile.html"><i class="fa fa-user"></i>Account</a>
     </div>
 
     <script type="module">
@@ -381,123 +354,65 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        let products = [];
 
-        // --- Categories List (Recovered and Extended) ---
-        const categories = [
-            { name: "Womens", icon: "👗", img: "https://img.icons8.com/color/96/dress.png" },
-            { name: "Mens", icon: "👕", img: "https://img.icons8.com/color/96/t-shirt.png" },
-            { name: "Electronics", icon: "📱", img: "https://img.icons8.com/color/96/iphone.png" },
-            { name: "Home", icon: "🏠", img: "https://img.icons8.com/color/96/home.png" },
-            { name: "Ceylon", icon: "🇱🇰", img: "https://img.icons8.com/color/96/tea-cup.png" },
-            { name: "Beauty", icon: "💄", img: "https://img.icons8.com/color/96/lipstick.png" },
-            { name: "Vehicles", icon: "🚗", img: "https://img.icons8.com/color/96/car.png" }
-        ];
-
-        // Load Categories UI
-        function loadCategories() {
-            const strip = document.getElementById('catStrip');
-            const side = document.getElementById('sidebarCats');
-            
-            categories.forEach(cat => {
-                strip.innerHTML += `
-                    <div class="cat-item" onclick="filterCat('${cat.name}')">
-                        <img src="${cat.img}">
-                        <p>${cat.name}</p>
-                    </div>`;
-                side.innerHTML += `
-                    <a href="#" class="lang-item" onclick="filterCat('${cat.name}')">
-                        ${cat.icon} ${cat.name}
-                    </a>`;
-            });
+        // Fetch Data
+        async function load() {
+            const querySnapshot = await getDocs(collection(db, "products"));
+            products = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            render(products);
         }
 
-        // Fetch Products
-        async function fetchProducts() {
-            const grid = document.getElementById('productGrid');
-            const snapshot = await getDocs(collection(db, "products"));
-            grid.innerHTML = "";
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                grid.innerHTML += `
-                    <div class="p-card">
-                        <div class="p-img-box">
-                            <img src="${data.image || data.itemImage}" class="p-img">
-                        </div>
-                        <div class="p-info">
-                            <p class="p-name">${data.name || data.itemName}</p>
-                            <p class="p-price">Rs. ${parseFloat(data.price || 0).toLocaleString()}</p>
-                            <div class="p-meta"><i class="fas fa-star" style="color:#febd69"></i> 4.8 | 2.5k Sold</div>
-                            <button class="buy-now-btn" onclick="location.href='checkout.html?id=${doc.id}'">Buy Now</button>
-                        </div>
-                    </div>`;
-            });
-        }
-
-        // Drag and Drop Logic
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-        const preview = document.getElementById('profilePreview');
-
-        dropZone.onclick = () => fileInput.click();
-        dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('dragover'); };
-        dropZone.ondragleave = () => dropZone.classList.remove('dragover');
-        dropZone.ondrop = (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            handleFile(e.dataTransfer.files[0]);
-        };
-        fileInput.onchange = (e) => handleFile(e.target.files[0]);
-
-        function handleFile(file) {
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    preview.src = e.target.result;
-                    preview.style.display = "block";
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Global functions
-        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('active');
-        window.toggleAI = () => {
-            const win = document.getElementById('aiWindow');
-            win.style.display = win.style.display === "flex" ? "none" : "flex";
+        window.render = (items) => {
+            const area = document.getElementById('productArea');
+            area.innerHTML = items.map(item => `
+                <div class="product-card">
+                    <div class="img-container" onclick="location.href='product-details.html?id=${item.id}'">
+                        <img src="${item.image || item.itemImage}" alt="Product">
+                    </div>
+                    <div class="info">
+                        <p style="font-size:13px; color:#333; height:34px; overflow:hidden;">${item.name || item.itemName}</p>
+                        <p class="price">Rs. ${parseFloat(item.price || 0).toLocaleString()}</p>
+                        <div style="font-size:11px; color:green; margin-top:5px;"><i class="fa fa-truck"></i> Free Shipping Global</div>
+                        <button class="buy-now" onclick="location.href='checkout.html?id=${item.id}'">Buy Now</button>
+                    </div>
+                </div>
+            `).join('');
         };
 
-        window.sendAIMessage = () => {
-            const input = document.getElementById('aiInput');
-            const body = document.getElementById('aiBody');
-            if(!input.value) return;
-
-            body.innerHTML += `<div class="ai-msg msg-user">${input.value}</div>`;
-            
-            // Artificial Intelligence Response Logic
-            setTimeout(() => {
-                let response = "I'm Oshan AI. I can help you find products or track your order!";
-                if(input.value.toLowerCase().includes("hello")) response = "Hello! Welcome to OshanCart. How can I assist you?";
-                if(input.value.toLowerCase().includes("admin")) response = "You need a password to access the Admin Panel.";
-                
-                body.innerHTML += `<div class="ai-msg msg-bot">${response}</div>`;
-                body.scrollTop = body.scrollHeight;
-                input.value = "";
-            }, 1000);
+        // UI Functions
+        window.toggleMenu = () => document.getElementById('sideMenu').classList.toggle('active');
+        window.toggleChat = () => {
+            const box = document.getElementById('chatBox');
+            box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
         };
 
-        window.accessAdminPanel = () => {
-            const pass = prompt("Enter Admin Secret Key:");
-            if(pass === "Lakshan@2001") window.location.href = "admin-dashboard.html";
+        window.changeLang = (code, text) => {
+            document.getElementById('currentLang').innerHTML = `<span class="fi fi-${code}"></span> ${text} <i class="fa fa-caret-down"></i>`;
+            alert("Language changed to " + text);
+        };
+
+        window.accessAdmin = () => {
+            const pass = prompt("Enter Master Admin Password:");
+            if(pass === "Lakshan@2001") location.href = "admin-dashboard.html";
             else alert("Unauthorized Access!");
         };
 
-        window.changeLang = (code) => {
-            alert("Language switched to: " + code.toUpperCase());
-            // Real logic to change text would go here
+        window.sendMsg = () => {
+            const input = document.getElementById('chatIn');
+            const msg = input.value;
+            if(!msg) return;
+            const container = document.getElementById('chatMessages');
+            container.innerHTML += `<div style="text-align:right; background:var(--primary); color:white; padding:8px; border-radius:10px; margin-bottom:10px; font-size:13px; margin-left:20px;">${msg}</div>`;
+            input.value = "";
+            
+            setTimeout(() => {
+                container.innerHTML += `<div class="bot-msg">Oshan AI is checking "${msg}" in our inventory... One moment.</div>`;
+                container.scrollTop = container.scrollHeight;
+            }, 1000);
         };
 
-        loadCategories();
-        fetchProducts();
+        load();
     </script>
 </body>
 </html>
