@@ -333,15 +333,7 @@
         <div class="section-title">Just For You</div>
         <div class="product-grid" id="mainProductGrid">
         </div>
-    </section>
-
-    <nav class="bottom-nav">
-        <a href="#" class="nav-link active"><i class="fas fa-home"></i>Home</a>
-        <a href="#" class="nav-link"><i class="fas fa-list"></i>Category</a>
-        <a href="#" class="nav-link"><i class="fas fa-bolt"></i>Deals</a>
-        <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i>Cart</a>
-        <a href="#" class="nav-link" onclick="accessAdmin()"><i class="fas fa-user"></i>Admin</a>
-    </nav>
+    </section>
 
     <div id="ai-chat-widget">
         <div class="chat-window" id="chatWin">
@@ -413,29 +405,7 @@
             { name: "Folding Storage Box", price: "205", img: "https://static-01.daraz.pk/p/665983794308696803881.jpg" }
         ];
 
-       // Firebase එකෙන් අයිටම් ලෝඩ් කරන විදිහ
-function loadProducts() {
-    const grid = document.getElementById('mainProductGrid');
-    
-    // Firebase Firestore එකෙන් 'products' collection එක ගන්නා ආකාරය
-    db.collection("products").onSnapshot((snapshot) => {
-        grid.innerHTML = ""; // කලින් තිබ්බ ඒවා අයින් කරන්න
-        snapshot.forEach((doc) => {
-            let p = doc.data();
-            grid.innerHTML += `
-                <div class="product-card">
-                    <img src="${p.img || 'https://via.placeholder.com/150'}" class="product-img">
-                    <div class="product-info">
-                        <div class="p-name">${p.name}</div>
-                        <div class="p-price">Rs. ${p.price}</div>
-                        <div style="font-size:10px; color:#999; margin-top:5px;">${p.sold || 0}+ sold</div>
-                        <button onclick="addToCart('${doc.id}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
-                    </div>
-                </div>
-            `;
-        });
-    });
-}// Firebase එකෙන් අයිටම් ලෝඩ් කරන විදිහ
+    // Firebase එකෙන් අයිටම් ලෝඩ් කරන විදිහ
 function loadProducts() {
     const grid = document.getElementById('mainProductGrid');
     
