@@ -403,21 +403,51 @@
             { name: "Folding Storage Box", price: "205", img: "https://static-01.daraz.pk/p/665983794308696803881.jpg" }
         ];
 
-        function loadProducts() {
-            const grid = document.getElementById('mainProductGrid');
-            grid.innerHTML = products.map(p => `
+       // Firebase එකෙන් අයිටම් ලෝඩ් කරන විදිහ
+function loadProducts() {
+    const grid = document.getElementById('mainProductGrid');
+    
+    // Firebase Firestore එකෙන් 'products' collection එක ගන්නා ආකාරය
+    db.collection("products").onSnapshot((snapshot) => {
+        grid.innerHTML = ""; // කලින් තිබ්බ ඒවා අයින් කරන්න
+        snapshot.forEach((doc) => {
+            let p = doc.data();
+            grid.innerHTML += `
                 <div class="product-card">
-                    <img src="${p.img}" class="product-img">
+                    <img src="${p.img || 'https://via.placeholder.com/150'}" class="product-img">
                     <div class="product-info">
                         <div class="p-name">${p.name}</div>
                         <div class="p-price">Rs. ${p.price}</div>
-                        <div style="font-size:10px; color:#999; margin-top:5px;">5000+ sold</div>
+                        <div style="font-size:10px; color:#999; margin-top:5px;">${p.sold || 0}+ sold</div>
+                        <button onclick="addToCart('${doc.id}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
                     </div>
                 </div>
-            `).join('');
-        }
-
-        window.onload = loadProducts;
+            `;
+        });
+    });
+}// Firebase එකෙන් අයිටම් ලෝඩ් කරන විදිහ
+function loadProducts() {
+    const grid = document.getElementById('mainProductGrid');
+    
+    // Firebase Firestore එකෙන් 'products' collection එක ගන්නා ආකාරය
+    db.collection("products").onSnapshot((snapshot) => {
+        grid.innerHTML = ""; // කලින් තිබ්බ ඒවා අයින් කරන්න
+        snapshot.forEach((doc) => {
+            let p = doc.data();
+            grid.innerHTML += `
+                <div class="product-card">
+                    <img src="${p.img || 'https://via.placeholder.com/150'}" class="product-img">
+                    <div class="product-info">
+                        <div class="p-name">${p.name}</div>
+                        <div class="p-price">Rs. ${p.price}</div>
+                        <div style="font-size:10px; color:#999; margin-top:5px;">${p.sold || 0}+ sold</div>
+                        <button onclick="addToCart('${doc.id}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
+                    </div>
+                </div>
+            `;
+        });
+    });
+}
     </script>
 </body>
 </html>
