@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Oshan Cart | Smart Global Shopping</title>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -15,143 +14,159 @@
             --amazon-blue: #131921; 
             --accent: #febd69; 
             --ali-orange: #ff4747;
-            --ali-bg: #f4f4f4;
+            --daraz-orange: #f85606;
         }
+        
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: #f4f4f4; color: #333; overflow-x: hidden; }
 
-        body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--ali-bg); }
-
-        /* --- DESKTOP NAVIGATION (100% Original - No Changes) --- */
-        nav { 
+        /* ==========================================
+           DESKTOP NAVIGATION (Daraz/Alibaba Style)
+           ========================================== */
+        .desktop-nav { 
             background: var(--amazon-blue); 
-            padding: 10px 3%; 
+            padding: 12px 5%; 
             display: flex; 
             align-items: center; 
             justify-content: space-between; 
             position: sticky; 
             top: 0; 
-            z-index: 1000; 
-            color: white; 
+            z-index: 2000; 
         }
-        .logo { font-size: 24px; font-weight: bold; color: white; text-decoration: none; }
+
+        .logo { font-size: 26px; font-weight: 700; color: white; text-decoration: none; }
         .logo span { color: var(--accent); }
 
-        .search-container { flex: 1; display: flex; align-items: center; max-width: 700px; margin: 0 20px; }
+        .search-wrapper { flex: 1; display: flex; max-width: 800px; margin: 0 30px; position: relative; }
+        
+        /* Original Category Dropdown */
         .cat-dropdown { position: relative; }
         .cat-btn { 
-            background: #f3f3f3; color: #555; padding: 10px 15px; border: none;
-            border-radius: 4px 0 0 4px; cursor: pointer; display: flex; align-items: center; gap: 5px;
+            background: #f3f3f3; color: #555; padding: 12px 15px; border: none;
+            border-radius: 4px 0 0 4px; cursor: pointer; display: flex; align-items: center; gap: 8px; min-width: 140px;
         }
         .cat-content { 
-            display: none; position: absolute; background: white; min-width: 200px; 
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2); top: 100%; border-radius: 0 0 4px 4px; z-index: 999;
+            display: none; position: absolute; background: white; min-width: 250px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); top: 100%; border-radius: 0 0 8px 8px; z-index: 3000;
         }
-        .cat-content a { color: #333; padding: 12px 16px; text-decoration: none; display: block; border-bottom: 1px solid #eee; }
-        .cat-content a:hover { background: #f0f0f0; color: var(--primary); }
+        .cat-content a { color: #333; padding: 12px 20px; text-decoration: none; display: block; font-size: 14px; border-bottom: 1px solid #f1f1f1; transition: 0.2s; }
+        .cat-content a:hover { background: #fff5f7; color: var(--primary); padding-left: 25px; }
         .cat-dropdown:hover .cat-content { display: block; }
 
         .search-bar { flex: 1; display: flex; }
-        .search-bar input { width: 100%; border: none; padding: 10px; outline: none; }
-        .search-submit { background: var(--accent); border: none; padding: 10px 20px; border-radius: 0 4px 4px 0; cursor: pointer; }
+        .search-bar input { width: 100%; border: none; padding: 12px 20px; outline: none; font-size: 15px; }
+        .search-submit { background: var(--accent); border: none; padding: 0 25px; border-radius: 0 4px 4px 0; cursor: pointer; color: #333; font-size: 18px; }
 
-        .nav-right { display: flex; align-items: center; gap: 25px; }
-        .lang-dropdown { position: relative; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .lang-menu { display: none; position: absolute; background: white; top: 100%; right: 0; min-width: 150px; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .lang-menu a { color: #333; padding: 10px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .lang-dropdown:hover .lang-menu { display: block; }
-
-        /* USER MENU (RECOVERED FULL LIST) */
-        .user-menu { position: relative; cursor: pointer; }
-        .user-content { 
-            display: none; position: absolute; background: white; top: 100%; right: 0; min-width: 250px; 
-            border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); padding: 15px 0; z-index: 100;
+        /* Original Right Menus */
+        .nav-actions { display: flex; align-items: center; gap: 25px; color: white; }
+        
+        .lang-select { position: relative; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .lang-menu { 
+            display: none; position: absolute; background: white; top: 130%; right: 0; 
+            min-width: 150px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
         }
-        .user-content a { color: #333; padding: 12px 25px; text-decoration: none; display: block; transition: 0.3s; }
-        .user-content a:hover { background: #f5f5f5; color: var(--primary); padding-left: 30px; }
-        .user-menu:hover .user-content { display: block; }
+        .lang-menu a { color: #333; padding: 10px 15px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .lang-select:hover .lang-menu { display: block; }
 
-        /* --- MOBILE HEADER (AliExpress Style) --- */
-        .mobile-header { display: none; background: white; padding: 10px; position: sticky; top: 0; z-index: 1001; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .mobile-search-box { background: #eeeeee; border-radius: 25px; display: flex; align-items: center; padding: 8px 15px; margin-top: 10px; }
-        .mobile-search-box input { background: transparent; border: none; outline: none; margin-left: 10px; flex: 1; font-size: 14px; }
+        /* FULL USER MENU RECOVERED */
+        .user-acc { position: relative; cursor: pointer; }
+        .user-acc span { font-size: 12px; opacity: 0.8; display: block; }
+        .user-acc b { font-size: 14px; }
+        .user-dropdown { 
+            display: none; position: absolute; background: white; top: 130%; right: 0; min-width: 240px; 
+            border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); padding: 15px 0; z-index: 4000;
+        }
+        .user-dropdown a { color: #444; padding: 12px 25px; text-decoration: none; display: block; font-size: 14px; }
+        .user-dropdown a:hover { background: #f8f9fa; color: var(--primary); }
+        .user-acc:hover .user-dropdown { display: block; }
 
-        /* --- DRAG & DROP PROFILE SECTION --- */
-        .profile-container { max-width: 1200px; margin: 20px auto; padding: 20px; background: white; border-radius: 12px; }
+        .cart-box { position: relative; text-decoration: none; color: white; display: flex; align-items: center; gap: 8px; }
+        .cart-badge { background: var(--accent); color: black; font-size: 11px; font-weight: bold; padding: 2px 7px; border-radius: 10px; position: absolute; top: -8px; left: 15px; }
+
+        /* ==========================================
+           MOBILE VERSION (AliExpress/Shein Style)
+           ========================================== */
+        .mobile-header { display: none; background: white; padding: 10px 15px; position: sticky; top: 0; z-index: 2000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .m-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .m-search { background: #f0f0f0; border-radius: 25px; display: flex; align-items: center; padding: 8px 18px; }
+        .m-search input { border: none; background: transparent; outline: none; padding-left: 10px; flex: 1; font-size: 14px; }
+
+        .bottom-nav { 
+            position: fixed; bottom: 0; left: 0; width: 100%; background: white; 
+            display: none; justify-content: space-around; padding: 12px 0; 
+            box-shadow: 0 -3px 15px rgba(0,0,0,0.1); z-index: 5000; 
+        }
+        .b-nav-item { text-align: center; color: #666; text-decoration: none; font-size: 11px; flex: 1; transition: 0.3s; }
+        .b-nav-item i { display: block; font-size: 22px; margin-bottom: 3px; }
+        .b-nav-item.active { color: var(--ali-orange); }
+
+        /* ==========================================
+           DRAG & DROP PROFILE (New Feature)
+           ========================================== */
+        .upload-section { background: white; margin: 20px auto; max-width: 1200px; padding: 20px; border-radius: 12px; }
         .drop-zone {
-            width: 150px; height: 150px; border: 2px dashed #ccc; border-radius: 50%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer; position: relative; overflow: hidden; transition: 0.3s; margin: 0 auto;
+            border: 2px dashed #ddd; padding: 40px; text-align: center; border-radius: 15px;
+            cursor: pointer; transition: 0.3s; background: #fafafa;
         }
-        .drop-zone:hover { border-color: var(--primary); background: #fff0f3; }
-        .drop-zone.active { border-color: #2ecc71; background: #e8f8f5; }
-        .drop-zone img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .drop-zone i { font-size: 30px; color: #999; }
-        .drop-zone p { font-size: 10px; color: #666; margin-top: 5px; text-align: center; padding: 0 10px; }
+        .drop-zone:hover, .drop-zone.dragover { border-color: var(--primary); background: #fff0f3; }
+        .preview-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; display: none; margin: 15px auto; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        /* --- TWO-WAY OPTIMIZATION (Mobile vs Desktop) --- */
-        @media (max-width: 768px) {
-            nav { display: none; } /* Hide desktop nav */
-            .mobile-header { display: block; }
-            .product-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; padding: 8px !important; }
-            .product-card { border-radius: 12px !important; }
-            .bottom-nav { 
-                position: fixed; bottom: 0; left: 0; width: 100%; background: white; 
-                display: flex; justify-content: space-around; padding: 10px 0; 
-                box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 2000;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .bottom-nav { display: none; }
-        }
-
-        /* --- PRODUCT GRID --- */
-        .container { padding: 20px 3%; }
+        /* ==========================================
+           RESPONSIVE GRID (Two-Way Optimize)
+           ========================================== */
+        .main-container { padding: 20px 5%; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: 0.3s; padding: 15px; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .product-img { width: 100%; height: 200px; object-fit: contain; }
-        .product-name { font-size: 14px; margin: 12px 0; height: 40px; overflow: hidden; line-height: 1.4; color: #333; }
-        .product-price { font-size: 20px; font-weight: 700; color: #e44545; }
-        .buy-btn { background: linear-gradient(90deg, #ff7e5f, #feb47b); color: white; border: none; padding: 10px; border-radius: 20px; margin-top: 10px; width: 100%; font-weight: bold; cursor: pointer; }
 
-        /* Bottom Nav Items */
-        .nav-item { text-align: center; color: #666; text-decoration: none; font-size: 10px; }
-        .nav-item i { display: block; font-size: 22px; margin-bottom: 3px; }
-        .nav-item.active { color: var(--ali-orange); }
+        @media (max-width: 768px) {
+            .desktop-nav { display: none; }
+            .mobile-header, .bottom-nav { display: block; }
+            .main-container { padding: 10px; padding-bottom: 80px; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .product-card { padding: 8px !important; }
+            .p-img { height: 150px !important; }
+            .p-name { font-size: 13px !important; height: 34px !important; }
+        }
+
+        /* Product Cards (Daraz Style) */
+        .product-card { background: white; border-radius: 10px; padding: 12px; transition: 0.3s; position: relative; display: flex; flex-direction: column; cursor: pointer; border: 1px solid #eee; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .p-img { width: 100%; height: 200px; object-fit: contain; }
+        .p-name { font-size: 15px; margin: 12px 0; height: 40px; overflow: hidden; font-weight: 500; }
+        .p-price { color: var(--daraz-orange); font-size: 20px; font-weight: 700; }
+        .buy-now { background: var(--accent); border: none; padding: 10px; border-radius: 5px; margin-top: 12px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <nav>
+    <nav class="desktop-nav">
         <a href="index.html" class="logo">Oshan<span>Cart</span></a>
         
-        <div class="search-container">
+        <div class="search-wrapper">
             <div class="cat-dropdown">
-                <button class="cat-btn">All Categories <i class="fas fa-caret-down"></i></button>
+                <button class="cat-btn">All Categories <i class="fas fa-chevron-down"></i></button>
                 <div class="cat-content">
-                    <a href="#" onclick="filterCat('All')">All Categories</a>
-                    <a href="#" onclick="filterCat('Womens')">Womens Fashion 👗</a>
-                    <a href="#" onclick="filterCat('Mens')">Mens Fashion 👕</a>
-                    <a href="#" onclick="filterCat('Home & Kitchen')">Home & Kitchen 🏠</a>
-                    <a href="#" onclick="filterCat('Jewelry')">Jewelry 💍</a>
-                    <a href="#" onclick="filterCat('Phones')">Phones 📱</a>
-                    <a href="#" onclick="filterCat('Furniture')">Furniture 🛋️</a>
-                    <a href="#" onclick="filterCat('Money Saving')">Money Saving 💰</a>
-                    <a href="#" onclick="filterCat('Kids')">Kids 🧸</a>
-                    <a href="#" onclick="filterCat('Dried Food')">Dried Food 🍲</a>
-                    <a href="#" onclick="filterCat('Cakes')">Cakes 🎂</a>
-                    <a href="#" onclick="filterCat('Ceylon Items')">Ceylon Items 🇱🇰</a>
-                    <a href="#" onclick="filterCat('Vehicles')">Vehicles 🚗</a>
+                    <a href="#" onclick="filter('All')">All Categories</a>
+                    <a href="#" onclick="filter('Womens')">Womens Fashion 👗</a>
+                    <a href="#" onclick="filter('Mens')">Mens Fashion 👕</a>
+                    <a href="#" onclick="filter('Home & Kitchen')">Home & Kitchen 🏠</a>
+                    <a href="#" onclick="filter('Jewelry')">Jewelry 💍</a>
+                    <a href="#" onclick="filter('Phones')">Phones 📱</a>
+                    <a href="#" onclick="filter('Furniture')">Furniture 🛋️</a>
+                    <a href="#" onclick="filter('Money Saving')">Money Saving 💰</a>
+                    <a href="#" onclick="filter('Kids')">Kids 🧸</a>
+                    <a href="#" onclick="filter('Dried Food')">Dried Food 🍲</a>
+                    <a href="#" onclick="filter('Cakes')">Cakes 🎂</a>
+                    <a href="#" onclick="filter('Ceylon Items')">Ceylon Items 🇱🇰</a>
+                    <a href="#" onclick="filter('Vehicles')">Vehicles 🚗</a>
                 </div>
             </div>
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search Oshan Cart...">
-                <button class="search-submit" onclick="searchProducts()"><i class="fas fa-search"></i></button>
+                <input type="text" id="dSearch" placeholder="Search in Oshan Cart...">
+                <button class="search-submit" onclick="runSearch()"><i class="fas fa-search"></i></button>
             </div>
         </div>
 
-        <div class="nav-right">
-            <div class="lang-dropdown">
+        <div class="nav-actions">
+            <div class="lang-select">
                 <span class="fi fi-us"></span> EN <i class="fas fa-caret-down"></i>
                 <div class="lang-menu">
                     <a href="#"><span class="fi fi-us"></span> English</a>
@@ -160,70 +175,66 @@
                 </div>
             </div>
 
-            <div class="user-menu">
-                <div style="line-height: 1.2;">
-                    <span style="font-size: 12px; color: #ccc;">Hello, Sign in</span><br>
-                    <b>Account & Lists <i class="fas fa-caret-down"></i></b>
-                </div>
-                <div class="user-content">
-                    <a href="profile.html"><b>✍️ Me (Profile Settings)</b></a>
+            <div class="user-acc">
+                <span>Hello, Sign in</span>
+                <b>Account & Lists <i class="fas fa-caret-down"></i></b>
+                <div class="user-dropdown">
+                    <a href="profile.html" style="color: var(--primary); font-weight: bold;">✍️ Me (Profile)</a>
                     <a href="orders.html">🎁 My Orders</a>
                     <a href="referral.html">🤝 My Referral</a>
                     <a href="affiliate.html">👥 Affiliate Program</a>
                     <hr>
-                    <a href="#" onclick="accessAdminPanel()">👤 Admin Panel</a>
+                    <a href="#" onclick="admin()">👤 Admin Panel</a>
                     <a href="become-seller.html">👩🏻‍🌾 Become a Seller</a>
                     <a href="seller-dashboard.html">📊 Seller Dashboard</a>
-                    <a href="#">🎧 Customer Service</a>
+                    <a href="customer-care.html">🤖 Customer Services</a>
                 </div>
             </div>
 
-            <a href="cart.html" style="text-decoration: none; color: white; display: flex; align-items: center; gap: 8px;">
-                <div style="position: relative;">
-                    <i class="fas fa-shopping-cart" style="font-size: 24px;"></i>
-                    <span id="cartCount" style="position: absolute; top: -10px; right: -10px; background: var(--accent); color: black; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold;">0</span>
-                </div>
+            <a href="cart.html" class="cart-box">
+                <i class="fas fa-shopping-cart" style="font-size: 24px;"></i>
+                <span class="cart-badge">0</span>
                 <b>Cart</b>
             </a>
         </div>
     </nav>
 
-    <div class="mobile-header">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <i class="fas fa-bars" style="font-size: 20px; color: #333;"></i>
-            <a href="index.html" class="logo" style="color: black; font-size: 20px;">Oshan<span>Cart</span></a>
-            <div style="display: flex; gap: 15px;">
-                <i class="fas fa-camera" style="font-size: 20px; color: #666;"></i>
-                <i class="fas fa-comment-dots" style="font-size: 20px; color: #666;"></i>
+    <header class="mobile-header">
+        <div class="m-top">
+            <a href="#" class="logo" style="color: black; font-size: 20px;">Oshan<span>Cart</span></a>
+            <div style="display: flex; gap: 15px; font-size: 20px;">
+                <i class="fas fa-camera"></i>
+                <i class="fas fa-comment-dots"></i>
             </div>
         </div>
-        <div class="mobile-search-box">
+        <div class="m-search">
             <i class="fas fa-search" style="color: #999;"></i>
-            <input type="text" placeholder="I'm shopping for..." onkeyup="searchProducts()">
+            <input type="text" id="mSearch" placeholder="Search for items..." onkeyup="runSearch()">
         </div>
-    </div>
+    </header>
 
-    <div class="profile-container">
-        <h3 style="text-align: center; margin-bottom: 20px;">Set Your Profile Photo</h3>
+    <div class="upload-section">
+        <h3 style="margin-top:0">Upload Profile Photo</h3>
         <div class="drop-zone" id="dropZone">
-            <i class="fas fa-user-plus"></i>
-            <p>Drag & Drop Photo or Click to Upload</p>
-            <img src="" alt="Profile Preview" id="profilePreview">
-            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--primary);"></i>
+            <p>Drag & Drop your photo here <br> or <b>Click to browse</b></p>
+            <input type="file" id="fileInput" accept="image/*" style="display:none">
+            <img id="profilePrev" class="preview-img">
         </div>
     </div>
 
-    <div class="container">
+    <div class="main-container">
         <div class="product-grid" id="productDisplay">
             </div>
     </div>
 
-    <div class="bottom-nav">
-        <a href="index.html" class="nav-item active"><i class="fas fa-home"></i>Home</a>
-        <a href="#" class="nav-item"><i class="fas fa-th-large"></i>Category</a>
-        <a href="cart.html" class="nav-item"><i class="fas fa-shopping-cart"></i>Cart</a>
-        <a href="profile.html" class="nav-item"><i class="fas fa-user"></i>Account</a>
-    </div>
+    <nav class="bottom-nav">
+        <a href="index.html" class="b-nav-item active"><i class="fas fa-home"></i>Home</a>
+        <a href="#" class="b-nav-item"><i class="fas fa-th-large"></i>Category</a>
+        <a href="cart.html" class="b-nav-item"><i class="fas fa-shopping-cart"></i>Cart</a>
+        <a href="orders.html" class="b-nav-item"><i class="fas fa-heart"></i>Wishlist</a>
+        <a href="profile.html" class="b-nav-item"><i class="fas fa-user"></i>Account</a>
+    </nav>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -240,87 +251,73 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let allProducts = [];
+    let masterData = [];
 
-    // --- DRAG AND DROP LOGIC (New) ---
+    // --- DRAG & DROP LOGIC ---
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
-    const profilePreview = document.getElementById('profilePreview');
+    const profilePrev = document.getElementById('profilePrev');
 
-    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.onclick = () => fileInput.click();
 
-    dropZone.addEventListener('dragover', (e) => {
+    dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('dragover'); };
+    dropZone.ondragleave = () => dropZone.classList.remove('dragover');
+    dropZone.ondrop = (e) => {
         e.preventDefault();
-        dropZone.classList.add('active');
-    });
+        dropZone.classList.remove('dragover');
+        handleFile(e.dataTransfer.files[0]);
+    };
 
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
+    fileInput.onchange = (e) => handleFile(e.target.files[0]);
 
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('active');
-        const file = e.dataTransfer.files[0];
-        handleProfileFile(file);
-    });
-
-    fileInput.addEventListener('change', (e) => {
-        handleProfileFile(e.target.files[0]);
-    });
-
-    function handleProfileFile(file) {
+    function handleFile(file) {
         if (file && file.type.startsWith('image/')) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                profilePreview.src = e.target.result;
-                profilePreview.style.display = 'block';
-                dropZone.querySelector('i').style.display = 'none';
-                dropZone.querySelector('p').style.display = 'none';
+                profilePrev.src = e.target.result;
+                profilePrev.style.display = 'block';
             };
             reader.readAsDataURL(file);
         }
     }
 
-    // --- FIREBASE PRODUCTS LOGIC (Original) ---
-    async function fetchProducts() {
-        try {
-            const querySnapshot = await getDocs(collection(db, "products"));
-            allProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            displayItems(allProducts);
-        } catch (e) { console.error("Error loading products", e); }
+    // --- FIREBASE DATA ---
+    async function loadStore() {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        masterData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        render(masterData);
     }
 
-    window.displayItems = (items) => {
-        const grid = document.getElementById('productDisplay');
-        grid.innerHTML = items.map(item => `
+    window.render = (items) => {
+        const container = document.getElementById('productDisplay');
+        container.innerHTML = items.map(p => `
             <div class="product-card">
-                <div onclick="window.location.href='product-details.html?id=${item.id}'" style="cursor: pointer;">
-                    <img src="${item.image || item.itemImage}" class="product-img">
-                    <p class="product-name">${item.name || item.itemName}</p>
-                    <p class="product-price">Rs. ${parseFloat(item.price || 0).toLocaleString()}</p>
-                    <p style="font-size: 11px; color: green; margin-top: 5px;"><i class="fas fa-shipping-fast"></i> Free Shipping</p>
+                <div onclick="window.location.href='product-details.html?id=${p.id}'">
+                    <img src="${p.image || p.itemImage}" class="p-img">
+                    <p class="p-name">${p.name || p.itemName}</p>
+                    <p class="p-price">Rs. ${parseFloat(p.price || 0).toLocaleString()}</p>
+                    <p style="font-size:11px; color:#00a65a"><i class="fas fa-shipping-fast"></i> Free Shipping</p>
                 </div>
-                <button class="buy-btn" onclick="window.location.href='checkout.html?id=${item.id}'">Buy Now</button>
+                <button class="buy-now" onclick="window.location.href='checkout.html?id=${p.id}'">Buy Now</button>
             </div>
         `).join('');
     };
 
-    window.filterCat = (cat) => {
-        if(cat === 'All') displayItems(allProducts);
-        else displayItems(allProducts.filter(p => p.category === cat));
+    window.runSearch = () => {
+        const q = (document.getElementById('dSearch').value || document.getElementById('mSearch').value).toLowerCase();
+        render(masterData.filter(i => (i.name || i.itemName || "").toLowerCase().includes(q)));
     };
 
-    window.searchProducts = () => {
-        const q = document.getElementById('searchInput').value.toLowerCase();
-        displayItems(allProducts.filter(p => (p.name || p.itemName || "").toLowerCase().includes(q)));
+    window.filter = (c) => {
+        if(c === 'All') render(masterData);
+        else render(masterData.filter(i => i.category === c));
     };
 
-    window.accessAdminPanel = () => {
-        const pass = prompt("Enter Admin Access Code:");
-        if(pass === "Lakshan@2001") window.location.href = "admin-dashboard.html";
+    window.admin = () => {
+        if(prompt("Security Code:") === "Lakshan@2001") window.location.href = "admin-dashboard.html";
     };
 
-    fetchProducts();
+    loadStore();
 </script>
-
 </body>
 </html>
