@@ -3,28 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OshanCart | Global Smart Shopping Experience</title>
+    <title>Oshan Cart | Global Smart Shopping Experience</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --primary: #c9184a;
-            --secondary: #ffccd5;
             --amazon-blue: #131921;
-            --alibaba-orange: #ff6600;
-            --daraz-orange: #f57224;
-            --text-dark: #333;
-            --bg-light: #f4f4f4;
+            --amazon-light: #232f3e;
+            --accent: #febd69;
+            --text-dark: #111;
+            --bg-gray: #f3f3f3;
+            --white: #ffffff;
         }
 
-        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background: var(--bg-light); overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--bg-gray); overflow-x: hidden; }
 
         /* ==========================================
-           DESKTOP NAVIGATION (Original Full Version)
-           ========================================== */
+           1. DESKTOP NAVIGATION (Original + Expanded)
+        ========================================== */
         .desktop-nav {
             background: var(--amazon-blue);
             padding: 10px 3%;
@@ -33,233 +34,304 @@
             justify-content: space-between;
             position: sticky;
             top: 0;
-            z-index: 1100;
+            z-index: 2000;
             color: white;
         }
 
+        .logo-section { display: flex; align-items: center; gap: 10px; }
         .logo { font-size: 26px; font-weight: 700; color: white; text-decoration: none; }
-        .logo span { color: #febd69; }
+        .logo span { color: var(--accent); }
 
-        .search-wrapper { flex: 1; display: flex; max-width: 800px; margin: 0 20px; position: relative; }
-        .desktop-cat-select {
-            background: #eee; border: none; padding: 0 15px; border-radius: 4px 0 0 4px;
-            cursor: pointer; font-size: 13px; color: #555; display: flex; align-items: center; gap: 5px;
+        /* Search System */
+        .search-container { flex: 1; display: flex; align-items: center; max-width: 800px; margin: 0 20px; border-radius: 6px; overflow: hidden; }
+        .cat-dropdown { position: relative; }
+        .cat-btn { 
+            background: #f3f3f3; color: #555; padding: 12px 15px; font-size: 13px; border: none;
+            cursor: pointer; display: flex; align-items: center; gap: 5px; min-width: 130px;
         }
-        .desktop-search-input { flex: 1; border: none; padding: 12px; outline: none; font-size: 14px; }
-        .search-btn { background: #febd69; border: none; padding: 0 20px; border-radius: 0 4px 4px 0; cursor: pointer; color: #333; }
+        .search-bar { flex: 1; display: flex; background: white; }
+        .search-bar input { width: 100%; border: none; padding: 12px; outline: none; font-size: 15px; }
+        .search-submit { background: var(--accent); border: none; padding: 12px 20px; cursor: pointer; color: #333; font-size: 18px; }
 
-        .nav-tools { display: flex; align-items: center; gap: 25px; }
+        /* Desktop Menu Items */
+        .nav-right { display: flex; align-items: center; gap: 25px; }
         
-        /* Language Dropdown */
-        .lang-box { position: relative; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 14px; }
-        .lang-menu { 
-            display: none; position: absolute; background: white; top: 100%; right: 0; 
-            min-width: 150px; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 2000;
+        /* Language & Flag System (Functional) */
+        .lang-select { position: relative; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .lang-dropdown-content {
+            display: none; position: absolute; background: white; top: 100%; right: 0; min-width: 180px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-radius: 5px; padding: 10px 0; z-index: 3000;
         }
-        .lang-menu a { color: #333; padding: 10px; text-decoration: none; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; }
-        .lang-box:hover .lang-menu { display: block; }
+        .lang-dropdown-content a { color: #333; padding: 10px 20px; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+        .lang-dropdown-content a:hover { background: #f0f0f0; color: var(--primary); }
+        .lang-select:hover .lang-dropdown-content { display: block; }
 
-        /* Full User Account Menu */
-        .user-acc { position: relative; cursor: pointer; }
-        .user-acc-content {
-            display: none; position: absolute; background: white; top: 100%; right: -50px;
-            min-width: 250px; padding: 15px; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); z-index: 2000;
+        /* Account & Lists (Full Version) */
+        .user-menu { position: relative; cursor: pointer; }
+        .user-menu span { font-size: 12px; color: #ccc; display: block; }
+        .user-menu b { font-size: 14px; }
+        .user-content {
+            display: none; position: absolute; background: white; top: 100%; right: 0; min-width: 260px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); padding: 15px 0; border-radius: 8px; z-index: 3000;
         }
-        .user-acc:hover .user-acc-content { display: block; }
-        .user-acc-content a { color: #333; text-decoration: none; display: block; padding: 8px 0; font-size: 13px; transition: 0.3s; }
-        .user-acc-content a:hover { color: var(--primary); padding-left: 5px; }
+        .user-content a { color: #333; padding: 12px 20px; text-decoration: none; display: block; font-size: 14px; }
+        .user-content a:hover { background: #f5f5f5; color: var(--primary); }
+        .user-menu:hover .user-content { display: block; }
 
         /* ==========================================
-           MOBILE UI (Alibaba / Shein Style)
-           ========================================== */
-        .mobile-header { display: none; background: white; padding: 10px 15px; position: sticky; top: 0; z-index: 1001; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .mobile-top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .mobile-search-bar { background: #f0f0f0; border-radius: 25px; display: flex; align-items: center; padding: 8px 15px; }
-        .mobile-search-bar input { border: none; background: transparent; outline: none; flex: 1; padding: 0 10px; font-size: 14px; }
+           2. MOBILE OPTIMIZATION (AliExpress/Shein Style)
+        ========================================== */
+        .mobile-header { display: none; background: var(--amazon-blue); padding: 10px 15px; position: sticky; top: 0; z-index: 2000; }
+        .mobile-top-bar { display: flex; justify-content: space-between; align-items: center; color: white; margin-bottom: 10px; }
+        .menu-trigger { font-size: 22px; cursor: pointer; }
+        
+        .mobile-search-wrapper { background: white; border-radius: 25px; display: flex; align-items: center; padding: 8px 15px; }
+        .mobile-search-wrapper input { border: none; outline: none; flex: 1; padding: 5px; font-size: 14px; }
 
-        /* Bottom Tab Bar */
-        .bottom-tabs {
+        /* Side Sidebar for Mobile Navigation */
+        .sidebar {
+            position: fixed; left: -300px; top: 0; width: 300px; height: 100%; background: white;
+            z-index: 4000; transition: 0.4s; box-shadow: 5px 0 15px rgba(0,0,0,0.2); overflow-y: auto;
+        }
+        .sidebar.active { left: 0; }
+        .sidebar-header { background: var(--amazon-light); color: white; padding: 25px 20px; display: flex; align-items: center; gap: 15px; }
+        .sidebar-menu { padding: 10px 0; }
+        .sidebar-menu a { display: flex; align-items: center; gap: 15px; padding: 15px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #f0f0f0; }
+
+        /* Bottom Nav Bar (App Experience) */
+        .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; background: white;
-            display: none; justify-content: space-around; padding: 10px 0;
-            box-shadow: 0 -2px 15px rgba(0,0,0,0.1); z-index: 2000; border-top: 1px solid #eee;
+            display: none; justify-content: space-around; padding: 8px 0;
+            box-shadow: 0 -3px 15px rgba(0,0,0,0.1); z-index: 2000; border-top: 1px solid #eee;
         }
-        .tab-item { text-align: center; color: #666; text-decoration: none; font-size: 11px; flex: 1; position: relative; }
-        .tab-item i { font-size: 22px; display: block; margin-bottom: 3px; }
-        .tab-item.active { color: var(--daraz-orange); }
+        .nav-tab { text-align: center; color: #666; text-decoration: none; font-size: 11px; flex: 1; position: relative; }
+        .nav-tab i { font-size: 22px; display: block; margin-bottom: 3px; }
+        .nav-tab.active { color: var(--primary); }
 
-        /* Sidebar Menu */
-        .side-menu {
-            position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
-            background: white; z-index: 3000; transition: 0.4s; padding: 20px;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.2);
-        }
-        .side-menu.active { left: 0; }
-        .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:none; z-index:2999; }
-
-        /* AI AGENT FLOAT */
-        .ai-float {
-            position: fixed; right: 20px; bottom: 100px; width: 60px; height: 60px;
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 28px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,114,255,0.4);
-            z-index: 2001; animation: bounce 2s infinite;
+        /* ==========================================
+           3. CATEGORY & PRODUCT GRID
+        ========================================== */
+        .main-container { padding: 20px 3%; max-width: 1500px; margin: auto; }
+        
+        /* Mega Category List */
+        .category-scroll { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; }
+        .cat-item { 
+            background: white; padding: 10px 20px; border-radius: 50px; white-space: nowrap; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 13px; cursor: pointer; border: 1px solid #ddd;
         }
 
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-        /* Product Grid Two-Way */
-        .main-container { padding: 20px 3%; }
-        .product-grid { display: grid; gap: 15px; }
-
-        /* Media Queries */
-        @media (min-width: 1025px) {
-            .product-grid { grid-template-columns: repeat(5, 1fr); }
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 20px; 
         }
 
-        @media (max-width: 1024px) {
+        .product-card {
+            background: var(--white); border-radius: 12px; padding: 15px;
+            transition: 0.3s; position: relative; border: 1px solid #eee;
+            display: flex; flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .product-img { width: 100%; height: 200px; object-fit: contain; }
+        .price-tag { color: #B12704; font-size: 20px; font-weight: 700; margin: 8px 0; }
+        .buy-now-btn { background: var(--accent); border: none; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; }
+
+        /* ==========================================
+           4. OSHAN AI CHATBOT & CUSTOMER SERVICE
+        ========================================== */
+        .ai-assistant {
+            position: fixed; right: 25px; bottom: 85px; width: 60px; height: 60px;
+            background: var(--primary); border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; color: white; font-size: 30px; cursor: pointer;
+            box-shadow: 0 5px 20px rgba(201, 24, 74, 0.4); z-index: 5000; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        .chat-window {
+            position: fixed; right: 25px; bottom: 155px; width: 350px; height: 500px;
+            background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none; flex-direction: column; z-index: 5001; overflow: hidden;
+        }
+        .chat-header { background: var(--primary); color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; }
+        .chat-body { flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; }
+        .chat-input { display: flex; padding: 10px; border-top: 1px solid #eee; }
+        .chat-input input { flex: 1; border: none; padding: 10px; outline: none; }
+
+        /* ==========================================
+           5. DRAG & DROP & SETTINGS
+        ========================================== */
+        .settings-panel {
+            background: white; padding: 30px; border-radius: 15px; margin-top: 20px; display: none;
+        }
+        .upload-zone {
+            border: 3px dashed #ccc; padding: 40px; text-align: center; border-radius: 15px;
+            margin: 20px 0; cursor: pointer; transition: 0.3s;
+        }
+        .upload-zone:hover { border-color: var(--primary); background: #fff0f3; }
+
+        /* RESPONSIVE TOGGLES */
+        @media (max-width: 992px) {
             .desktop-nav { display: none; }
-            .mobile-header, .bottom-tabs { display: flex; flex-direction: column; }
-            .bottom-tabs { flex-direction: row; }
+            .mobile-header { display: block; }
+            .bottom-nav { display: flex; }
             .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .main-container { padding: 10px; padding-bottom: 80px; }
+            .main-container { padding: 10px; margin-bottom: 80px; }
         }
-
-        /* Category Modal (Mobile) */
-        .cat-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; z-index: 4000; display: none; overflow-y: auto;
-        }
-        .cat-modal-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top:0; background: white; }
-
-        /* Profile Dropdown Items */
-        .menu-heading { font-weight: bold; padding: 10px 0 5px 0; border-top: 1px solid #eee; margin-top: 5px; color: #888; font-size: 11px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div id="mobileSidebar" class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-user-circle" style="font-size: 50px;"></i>
+            <div>
+                <p>Hello, Sign In</p>
+                <small>Welcome to OshanCart</small>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" onclick="showPage('home')"><i class="fas fa-home"></i> Home</a>
+            <a href="#" onclick="showPage('settings')"><i class="fas fa-cog"></i> Account Settings</a>
+            <a href="#"><i class="fas fa-heart"></i> My Wishlist</a>
+            <a href="#"><i class="fas fa-box"></i> My Orders</a>
+            <a href="#"><i class="fas fa-users"></i> Affiliate Program</a>
+            <a href="#" onclick="accessAdmin()"><i class="fas fa-user-shield"></i> Admin Panel</a>
+            <hr>
+            <p style="padding: 15px 20px; font-weight: bold; color: #888;">All Categories</p>
+            <div id="sidebarCats"></div>
+        </div>
+    </div>
 
     <nav class="desktop-nav">
-        <a href="index.html" class="logo">Oshan<span>Cart</span></a>
-        
-        <div class="search-wrapper">
-            <div class="desktop-cat-select" onclick="toggleDesktopCat()">
-                All <i class="fas fa-caret-down"></i>
-            </div>
-            <input type="text" class="desktop-search-input" id="dSearch" placeholder="Search for products, brands and more...">
-            <button class="search-btn" onclick="masterSearch('desktop')"><i class="fas fa-search"></i></button>
+        <div class="logo-section">
+            <a href="index.html" class="logo">Oshan<span>Cart</span></a>
         </div>
 
-        <div class="nav-tools">
-            <div class="lang-box" id="langBox">
-                <span id="currentFlag" class="fi fi-us"></span> <span id="currentLang">EN</span> <i class="fas fa-caret-down"></i>
-                <div class="lang-menu">
-                    <a href="#" onclick="changeLang('en', 'fi-us')"><span class="fi fi-us"></span> English</a>
-                    <a href="#" onclick="changeLang('si', 'fi-lk')"><span class="fi fi-lk"></span> Sinhala</a>
-                    <a href="#" onclick="changeLang('hi', 'fi-in')"><span class="fi fi-in"></span> Hindi</a>
-                    <a href="#" onclick="changeLang('cn', 'fi-cn')"><span class="fi fi-cn"></span> Chinese</a>
+        <div class="search-container">
+            <div class="cat-dropdown">
+                <button class="cat-btn">All Categories <i class="fas fa-caret-down"></i></button>
+                <div class="lang-dropdown-content" style="left: 0; min-width: 250px;" id="megaCatList">
+                    </div>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="desktopSearch" placeholder="Search for products, brands and more...">
+                <button class="search-submit" onclick="search()"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <div class="lang-select" id="langSystem">
+                <span class="fi fi-us" id="currentFlag"></span> <span id="currentLang">EN</span>
+                <div class="lang-dropdown-content">
+                    <a href="#" onclick="changeLang('us', 'English')"><span class="fi fi-us"></span> English</a>
+                    <a href="#" onclick="changeLang('lk', 'Sinhala')"><span class="fi fi-lk"></span> සිංහල</a>
+                    <a href="#" onclick="changeLang('in', 'Hindi')"><span class="fi fi-in"></span> हिन्दी</a>
+                    <a href="#" onclick="changeLang('jp', 'Japan')"><span class="fi fi-jp"></span> 日本語</a>
                 </div>
             </div>
 
-            <div class="user-acc">
-                <span>Hello, Sign in</span><br>
+            <div class="user-menu">
+                <span>Hello, Sign in</span>
                 <b>Account & Lists <i class="fas fa-caret-down"></i></b>
-                <div class="user-acc-content">
-                    <a href="login.html" style="background: var(--daraz-orange); color: white; text-align: center; border-radius: 4px; padding: 10px; font-weight: bold;">Sign In / Register</a>
-                    <div class="menu-heading">Your Account</div>
-                    <a href="profile.html"><i class="fas fa-user-circle"></i> My Profile</a>
-                    <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
-                    <a href="wishlist.html"><i class="fas fa-heart"></i> My Wishlist</a>
-                    <div class="menu-heading">Earnings</div>
-                    <a href="referral.html"><i class="fas fa-users"></i> Referral Program</a>
-                    <a href="affiliate.html"><i class="fas fa-handshake"></i> Affiliate Center</a>
-                    <div class="menu-heading">Selling</div>
-                    <a href="become-seller.html"><i class="fas fa-store"></i> Become a Seller</a>
-                    <a href="seller-dashboard.html"><i class="fas fa-chart-line"></i> Seller Dashboard</a>
-                    <div class="menu-heading">Security</div>
-                    <a href="#" onclick="openAdmin()"><i class="fas fa-user-shield"></i> Admin Panel</a>
+                <div class="user-content">
+                    <a href="#" onclick="showPage('settings')">✍️ My Profile (Settings)</a>
+                    <a href="#">🎁 My Orders</a>
+                    <a href="#">🤝 Referral System</a>
+                    <a href="#">👥 Affiliate Program</a>
+                    <hr>
+                    <a href="#" onclick="accessAdmin()">👤 Admin Dashboard</a>
+                    <a href="#">🏪 Become a Seller</a>
+                    <a href="#">📊 Seller Analytics</a>
                 </div>
             </div>
 
-            <a href="cart.html" class="tab-item" style="color: white; text-decoration: none;">
+            <a href="cart.html" class="nav-tab" style="color: white;">
                 <i class="fas fa-shopping-cart"></i>
-                <span style="position: absolute; top: -10px; right: 20px; background: #febd69; color: black; border-radius: 50%; padding: 2px 6px; font-size: 10px;">0</span>
-                Cart
+                <span style="position: absolute; top: -5px; right: -5px; background: var(--accent); color: black; border-radius: 50%; padding: 2px 6px; font-size: 10px;">0</span>
+                <b>Cart</b>
             </a>
         </div>
     </nav>
 
     <header class="mobile-header">
         <div class="mobile-top-bar">
-            <i class="fas fa-bars" style="font-size: 20px;" onclick="toggleSidebar()"></i>
-            <a href="index.html" class="logo" style="color: var(--text-dark); font-size: 20px;">Oshan<span>Cart</span></a>
+            <i class="fas fa-bars menu-trigger" onclick="toggleSidebar()"></i>
+            <a href="#" class="logo" style="font-size: 20px;">Oshan<span>Cart</span></a>
             <div style="display: flex; gap: 15px;">
-                <i class="fas fa-camera" style="font-size: 20px;"></i>
-                <i class="fas fa-comment-dots" style="font-size: 20px;" onclick="location.href='oshan-ai.html'"></i>
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-shopping-cart"></i>
             </div>
         </div>
-        <div class="mobile-search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" id="mSearch" placeholder="Find items at wholesale prices...">
-            <i class="fas fa-qrcode"></i>
+        <div class="mobile-search-wrapper">
+            <i class="fas fa-search" style="color: #999; margin-right: 10px;"></i>
+            <input type="text" placeholder="Search AliExpress style...">
+            <i class="fas fa-camera" style="color: #999;"></i>
         </div>
     </header>
 
-    <div class="side-menu" id="sideMenu">
-        <h2 style="color: var(--primary);">Oshan Menu</h2>
-        <hr>
-        <a href="index.html" style="display: block; padding: 12px 0; text-decoration: none; color: #333;"><i class="fas fa-home"></i> Home</a>
-        <a href="#" onclick="openCatModal()" style="display: block; padding: 12px 0; text-decoration: none; color: #333;"><i class="fas fa-list"></i> All Categories</a>
-        <a href="offers.html" style="display: block; padding: 12px 0; text-decoration: none; color: #333;"><i class="fas fa-fire"></i> Hot Deals</a>
-        <a href="help.html" style="display: block; padding: 12px 0; text-decoration: none; color: #333;"><i class="fas fa-headset"></i> Support</a>
-        <hr>
-        <p style="font-size: 12px; color: #999;">COUNTRY / LANGUAGE</p>
-        <div onclick="location.href='settings.html'" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-            <span class="fi fi-lk"></span> Sri Lanka | LKR
+    <div class="main-container" id="homePage">
+        <div class="category-scroll" id="catScroll"></div>
+
+        <div style="width: 100%; height: 200px; background: #ddd; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+            <img src="https://via.placeholder.com/1200x400?text=Mega+Sale+Now+On" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <h3 style="margin-bottom: 15px;">Flash Sale / Just For You</h3>
+        <div class="product-grid" id="productDisplay">
+            </div>
+    </div>
+
+    <div class="main-container" id="settingsPage" style="display: none;">
+        <h2>User Account Settings</h2>
+        <div class="settings-panel">
+            <h3>Update Profile Photo</h3>
+            <div class="upload-zone" id="dropZone">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 50px; color: var(--primary);"></i>
+                <p>Drag and Drop your photo here or <b>Click to browse</b></p>
+                <input type="file" id="fileInput" hidden accept="image/*">
+                <img id="previewImg" style="width: 150px; height: 150px; border-radius: 50%; margin-top: 15px; display: none; object-fit: cover; margin-left: auto; margin-right: auto;">
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <label>Full Name:</label><br>
+                <input type="text" placeholder="Oshan Pathirana" style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px;">
+                <label>WhatsApp Number:</label><br>
+                <input type="text" placeholder="+94 7X XXX XXXX" style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px;">
+                <button class="buy-now-btn" style="margin-top: 10px;">Save All Changes</button>
+            </div>
         </div>
     </div>
 
-    <div class="ai-float" onclick="location.href='oshan-ai.html'">
+    <nav class="bottom-nav">
+        <a href="#" class="nav-tab active" onclick="showPage('home')"><i class="fas fa-home"></i>Home</a>
+        <a href="#" class="nav-tab" onclick="toggleSidebar()"><i class="fas fa-th-large"></i>Category</a>
+        <a href="#" class="nav-tab"><i class="fas fa-shopping-bag"></i>Feed</a>
+        <a href="#" class="nav-tab"><i class="fas fa-shopping-cart"></i>Cart</a>
+        <a href="#" class="nav-tab" onclick="showPage('settings')"><i class="fas fa-user"></i>Account</a>
+    </nav>
+
+    <div class="ai-assistant" onclick="toggleChat()">
         <i class="fas fa-robot"></i>
     </div>
 
-    <div class="main-container">
-        <div id="bannerPlaceholder"></div> <h3 id="viewTitle">More to Love</h3>
-        <div class="product-grid" id="productGrid">
-            <p>Scanning OshanCart Global Servers...</p>
+    <div class="chat-window" id="chatBox">
+        <div class="chat-header">
+            <span>OSHAN AI AGENT (Online)</span>
+            <i class="fas fa-times" onclick="toggleChat()" style="cursor: pointer;"></i>
         </div>
-    </div>
-
-    <div class="bottom-tabs">
-        <a href="index.html" class="tab-item active"><i class="fas fa-home"></i>Home</a>
-        <a href="javascript:void(0)" class="tab-item" onclick="openCatModal()"><i class="fas fa-th-large"></i>Category</a>
-        <a href="oshan-ai.html" class="tab-item"><i class="fas fa-magic"></i>AI Agent</a>
-        <a href="cart.html" class="tab-item"><i class="fas fa-shopping-cart"></i>Cart</a>
-        <a href="profile.html" class="tab-item"><i class="fas fa-user"></i>Account</a>
-    </div>
-
-    <div class="cat-modal" id="catModal">
-        <div class="cat-modal-header">
-            <i class="fas fa-arrow-left" onclick="closeCatModal()" style="font-size: 20px; margin-right: 20px;"></i>
-            <h3>All Categories</h3>
+        <div class="chat-body" id="chatMessages">
+            <p style="background: #eee; padding: 10px; border-radius: 10px; margin-bottom: 10px;">Hello! I am Oshan AI. How can I help you with your global shopping today?</p>
         </div>
-        <div style="padding: 20px;">
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
-                <div onclick="filterCat('Womens')" style="padding: 10px; border: 1px solid #eee; border-radius: 8px;">👗<br><small>Women</small></div>
-                <div onclick="filterCat('Mens')" style="padding: 10px; border: 1px solid #eee; border-radius: 8px;">👕<br><small>Men</small></div>
-                <div onclick="filterCat('Phones')" style="padding: 10px; border: 1px solid #eee; border-radius: 8px;">📱<br><small>Phones</small></div>
-                <div onclick="filterCat('Electronics')" style="padding: 10px; border: 1px solid #eee; border-radius: 8px;">💻<br><small>Tech</small></div>
-                <div onclick="filterCat('Home')" style="padding: 10px; border: 1px solid #eee; border-radius: 8px;">🏠<br><small>Home</small></div>
-                <div onclick="filterCat('Beauty')" style="padding: 10px; border: 1px solid #eee; border-radius: 8px;">💄<br><small>Beauty</small></div>
-                <div onclick="filterCat('Ceylon')" style="padding: 10px; border: 1px solid #eee; border-radius: 8px;">🇱🇰<br><small>Ceylon</small></div>
-                <div onclick="filterCat('Toys')" style="padding: 10px; border: 1px solid #eee; border-radius: 8px;">🧸<br><small>Kids</small></div>
-                <div onclick="filterCat('Vehicles')" style="padding: 10px; border: 1px solid #eee; border-radius: 8px;">🚗<br><small>Vehicles</small></div>
-            </div>
-            </div>
+        <div class="chat-input">
+            <input type="text" id="userMsg" placeholder="Ask Oshan AI something...">
+            <button onclick="sendMsg()" style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 5px;"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div style="padding: 5px; text-align: center;">
+            <a href="https://wa.me/94727600501" target="_blank" style="color: #25D366; text-decoration: none; font-size: 12px;"><i class="fab fa-whatsapp"></i> Chat with Human Support</a>
+        </div>
     </div>
 
 <script type="module">
-    // Firebase Setup (From your original code)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -276,54 +348,116 @@
     const db = getFirestore(app);
     let allProducts = [];
 
-    async function loadOshanProducts() {
-        try {
-            const snap = await getDocs(collection(db, "products"));
-            allProducts = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderItems(allProducts);
-        } catch (e) { console.error("Oshan Server Error", e); }
+    // --- MEGA CATEGORY LIST ---
+    const categories = [
+        "Women's Fashion", "Men's Fashion", "Electronics", "Phones & Tabs", "Home & Kitchen", 
+        "Jewelry & Watches", "Kids & Toys", "Dried Food", "Ceyon Items", "Vehicles", 
+        "Cakes & Flowers", "Beauty & Health", "Sports & Outdoor", "Computer & Office"
+    ];
+
+    // --- INITIALIZE UI ---
+    function init() {
+        // Desktop Cat Menu
+        const megaCat = document.getElementById('megaCatList');
+        const scrollCat = document.getElementById('catScroll');
+        const sidebarCat = document.getElementById('sidebarCats');
+
+        categories.forEach(cat => {
+            megaCat.innerHTML += `<a href="#" onclick="filterCat('${cat}')">${cat}</a>`;
+            scrollCat.innerHTML += `<div class="cat-item" onclick="filterCat('${cat}')">${cat}</div>`;
+            sidebarCat.innerHTML += `<a href="#" onclick="filterCat('${cat}')">${cat}</a>`;
+        });
+
+        fetchProducts();
     }
 
-    window.renderItems = (items) => {
-        const grid = document.getElementById('productGrid');
-        grid.innerHTML = items.map(item => `
-            <div class="product-card" style="background: white; border-radius: 12px; padding: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
-                <div onclick="location.href='product-details.html?id=${item.id}'">
-                    <img src="${item.image || item.itemImage}" style="width:100%; height:160px; object-fit:contain;">
-                    <h4 style="font-size:13px; color:#333; height:34px; overflow:hidden; margin:8px 0;">${item.name || item.itemName}</h4>
-                    <p style="color:var(--daraz-orange); font-weight:700; font-size:16px;">Rs. ${parseFloat(item.price || 0).toLocaleString()}</p>
-                    <div style="font-size:10px; color:#999; margin-bottom:10px;">
-                        <i class="fas fa-star" style="color:#ffc107;"></i> 4.8 | 2k+ sold
-                    </div>
-                </div>
-                <button onclick="location.href='checkout.html?id=${item.id}'" style="width:100%; background:linear-gradient(90deg, #ff9000, #ff5000); border:none; color:white; padding:8px; border-radius:20px; font-weight:600; cursor:pointer;">Buy Now</button>
+    // --- FIREBASE DATA ---
+    async function fetchProducts() {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        allProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderProducts(allProducts);
+    }
+
+    function renderProducts(items) {
+        const display = document.getElementById('productDisplay');
+        display.innerHTML = items.map(p => `
+            <div class="product-card">
+                <img src="${p.image || p.itemImage}" class="product-img">
+                <p style="font-size: 13px; color: #333; height: 38px; overflow: hidden; margin-top: 10px;">${p.name || p.itemName}</p>
+                <div class="price-tag">Rs. ${parseFloat(p.price || 0).toLocaleString()}</div>
+                <div style="font-size: 11px; color: #27ae60; margin-bottom: 10px;"><i class="fas fa-shipping-fast"></i> Free Shipping Global</div>
+                <button class="buy-now-btn" onclick="window.location.href='checkout.html?id=${p.id}'">Buy Now</button>
             </div>
         `).join('');
+    }
+
+    // --- INTERACTION LOGIC ---
+    window.toggleSidebar = () => document.getElementById('mobileSidebar').classList.toggle('active');
+    
+    window.showPage = (page) => {
+        document.getElementById('homePage').style.display = (page === 'home') ? 'block' : 'none';
+        document.getElementById('settingsPage').style.display = (page === 'settings') ? 'block' : 'none';
+        if(page === 'settings') document.querySelector('.settings-panel').style.display = 'block';
+        toggleSidebar();
     };
 
-    // UI Controls
-    window.toggleSidebar = () => {
-        document.getElementById('sideMenu').classList.toggle('active');
-        document.getElementById('overlay').style.display = document.getElementById('sideMenu').classList.contains('active') ? 'block' : 'none';
+    window.changeLang = (flag, name) => {
+        document.getElementById('currentFlag').className = `fi fi-${flag}`;
+        document.getElementById('currentLang').innerText = (flag === 'us') ? 'EN' : (flag === 'lk' ? 'SI' : 'IN');
+        alert("Language switched to " + name);
     };
 
-    window.openCatModal = () => document.getElementById('catModal').style.display = 'block';
-    window.closeCatModal = () => document.getElementById('catModal').style.display = 'none';
-
-    window.changeLang = (code, flag) => {
-        document.getElementById('currentFlag').className = `fi ${flag}`;
-        document.getElementById('currentLang').innerText = code.toUpperCase();
-        alert("OshanCart setting language to " + code.toUpperCase());
+    window.accessAdmin = () => {
+        const pass = prompt("Enter Admin Secret Key:");
+        if(pass === "Lakshan@2001") window.location.href = "admin-dashboard.html";
     };
 
-    window.openAdmin = () => {
-        const pw = prompt("SECURITY CHECK: Enter Admin Access Code:");
-        if(pw === "Lakshan@2001") location.href = "admin-dashboard.html";
-        else alert("ACCESS DENIED");
+    // --- DRAG & DROP LOGIC ---
+    const dropZone = document.getElementById('dropZone');
+    dropZone.onclick = () => document.getElementById('fileInput').click();
+    dropZone.ondragover = (e) => { e.preventDefault(); dropZone.style.background = "#fff0f3"; };
+    dropZone.ondrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        handleFile(file);
     };
 
-    loadOshanProducts();
+    document.getElementById('fileInput').onchange = (e) => handleFile(e.target.files[0]);
+
+    function handleFile(file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const img = document.getElementById('previewImg');
+            img.src = event.target.result;
+            img.style.display = "block";
+            alert("Profile image updated in preview!");
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // --- AI CHATBOT LOGIC ---
+    window.toggleChat = () => {
+        const box = document.getElementById('chatBox');
+        box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
+    };
+
+    window.sendMsg = () => {
+        const input = document.getElementById('userMsg');
+        const box = document.getElementById('chatMessages');
+        if(!input.value) return;
+
+        box.innerHTML += `<p style="text-align: right; background: var(--primary); color: white; padding: 10px; border-radius: 10px; margin-bottom: 10px;">${input.value}</p>`;
+        
+        // AI Logic Simulation
+        setTimeout(() => {
+            box.innerHTML += `<p style="background: #eee; padding: 10px; border-radius: 10px; margin-bottom: 10px;">Oshan AI: Searching for "${input.value}" in our global inventory... One moment.</p>`;
+            box.scrollTop = box.scrollHeight;
+        }, 1000);
+        
+        input.value = "";
+    };
+
+    init();
 </script>
-
 </body>
 </html>
