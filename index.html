@@ -3,252 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Oshan Cart | Smart Global Shopping</title>
+    <title>OshanCart | Global Smart Shopping</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --primary: #c9184a; --amazon-blue: #131921; --accent: #febd69; --alibaba-orange: #ff6a00; }
-        body { font-family: 'Poppins', sans-serif; margin: 0; background: #f4f4f4; color: #333; overflow-x: hidden; }
-
-        /* --- DESKTOP NAVIGATION (Original Detailed Version) --- */
-        nav { 
-            background: var(--amazon-blue); padding: 10px 3%; 
-            display: flex; align-items: center; justify-content: space-between; 
-            position: sticky; top: 0; z-index: 1000; color: white; 
+        :root { 
+            --primary: #ff4405; /* Alibaba Orange */
+            --amazon-blue: #131921; 
+            --bg-gray: #f4f4f4;
+            --white: #ffffff;
         }
-        .logo { font-size: 24px; font-weight: bold; color: white; text-decoration: none; }
-        .logo span { color: var(--accent); }
 
-        .search-container { flex: 1; display: flex; align-items: center; max-width: 800px; margin: 0 20px; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background-color: var(--bg-gray); color: #333; overflow-x: hidden; }
+
+        /* ==========================================
+           DESKTOP NAVIGATION (ORIGINAL STYLE)
+        ========================================== */
+        .desktop-nav {
+            background: var(--amazon-blue);
+            padding: 10px 4%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+        }
+
+        .logo { font-size: 24px; font-weight: 700; color: white; text-decoration: none; }
+        .logo span { color: var(--primary); }
+
+        .search-wrapper { flex: 1; display: flex; max-width: 800px; margin: 0 30px; position: relative; }
+        
         .cat-dropdown { position: relative; }
         .cat-btn { 
-            background: #eee; color: #333; padding: 10px 15px; border: none;
-            border-radius: 4px 0 0 4px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px;
+            background: #eee; border: none; padding: 10px 15px; border-radius: 4px 0 0 4px; 
+            cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px; min-width: 130px;
         }
-        .cat-content { 
-            display: none; position: absolute; background: white; min-width: 250px; 
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2); top: 100%; border-radius: 0 0 4px 4px; z-index: 1001;
+        .cat-menu { 
+            display: none; position: absolute; background: white; top: 100%; left: 0; 
+            width: 220px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 0 0 5px 5px; z-index: 3000;
         }
-        .cat-content a { color: #333; padding: 12px 16px; text-decoration: none; display: block; border-bottom: 1px solid #f1f1f1; transition: 0.2s; }
-        .cat-content a:hover { background: #f8f8f8; color: var(--primary); padding-left: 20px; }
-        .cat-dropdown:hover .cat-content { display: block; }
+        .cat-menu a { display: block; padding: 12px 20px; color: #333; text-decoration: none; font-size: 13px; border-bottom: 1px solid #f0f0f0; }
+        .cat-menu a:hover { background: #fff1eb; color: var(--primary); }
+        .cat-dropdown:hover .cat-menu { display: block; }
 
         .search-bar { flex: 1; display: flex; }
         .search-bar input { width: 100%; border: none; padding: 10px 15px; outline: none; font-size: 14px; }
-        .search-submit { background: var(--accent); border: none; padding: 10px 20px; border-radius: 0 4px 4px 0; cursor: pointer; font-size: 18px; }
+        .search-btn { background: var(--primary); color: white; border: none; padding: 0 20px; border-radius: 0 4px 4px 0; cursor: pointer; }
 
-        .nav-right { display: flex; align-items: center; gap: 25px; }
-        
-        /* Language Dropdown (RESTORED) */
-        .lang-dropdown { position: relative; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 14px; padding: 5px; }
-        .lang-menu { 
-            display: none; position: absolute; background: white; top: 100%; right: 0; 
-            min-width: 150px; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 10px 0;
+        .nav-tools { display: flex; align-items: center; gap: 25px; color: white; }
+
+        /* Language Select (Full List) */
+        .lang-box { position: relative; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 14px; }
+        .lang-list { 
+            display: none; position: absolute; top: 100%; right: 0; background: white; 
+            min-width: 150px; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 3000; padding: 10px 0;
         }
-        .lang-menu a { color: #333; padding: 8px 15px; text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 13px; }
-        .lang-menu a:hover { background: #f0f0f0; }
-        .lang-dropdown:hover .lang-menu { display: block; }
+        .lang-list a { padding: 8px 15px; color: #333; text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 13px; }
+        .lang-list a:hover { background: #f5f5f5; }
+        .lang-box:hover .lang-list { display: block; }
 
-        /* User Menu (RESTORED ALL LINKS) */
-        .user-menu { position: relative; cursor: pointer; }
-        .user-menu span { display: block; font-size: 11px; color: #ccc; }
-        .user-menu b { font-size: 14px; display: flex; align-items: center; gap: 4px; }
-        .user-content { 
-            display: none; position: absolute; background: white; top: 100%; right: 0; 
-            min-width: 240px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-            padding: 15px 0; z-index: 1001; color: #333;
+        /* User Account & Settings (Full List) */
+        .account-box { position: relative; cursor: pointer; }
+        .account-box span { font-size: 12px; color: #ccc; display: block; }
+        .account-box b { font-size: 14px; }
+        .account-menu { 
+            display: none; position: absolute; top: 100%; right: 0; background: white; 
+            width: 240px; border-radius: 4px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 3000; padding: 15px 0;
         }
-        .user-content a { color: #333; padding: 10px 20px; text-decoration: none; display: block; font-size: 13px; }
-        .user-content a i { width: 20px; margin-right: 10px; color: #666; }
-        .user-content a:hover { background: #f3f3f3; color: var(--primary); text-decoration: underline; }
-        .user-menu:hover .user-content { display: block; }
+        .account-menu a { padding: 10px 20px; color: #333; text-decoration: none; display: block; font-size: 13px; transition: 0.2s; }
+        .account-menu a:hover { background: #f0f2f2; color: var(--primary); text-decoration: underline; }
+        .account-menu hr { border: 0; border-top: 1px solid #eee; margin: 10px 0; }
+        .account-box:hover .account-menu { display: block; }
 
-        /* --- MOBILE OPTIMIZATION (Alibaba/Shein Style) --- */
-        .mobile-header { display: none; background: white; padding: 10px 15px; position: sticky; top: 0; z-index: 1002; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .mobile-search-box { background: #f0f0f0; border-radius: 25px; display: flex; align-items: center; padding: 8px 15px; flex: 1; margin: 0 10px; }
-        .mobile-search-box input { border: none; background: transparent; outline: none; padding-left: 10px; width: 100%; font-size: 14px; }
-        
+        .cart-btn-desktop { position: relative; text-decoration: none; color: white; display: flex; align-items: center; gap: 8px; }
+        .cart-badge { background: var(--primary); color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; position: absolute; top: -10px; left: 15px; }
+
+        /* ==========================================
+           MOBILE UI (ALIBABA/SHEIN STYLE)
+        ========================================== */
+        .mobile-header { display: none; background: white; padding: 10px 15px; position: sticky; top: 0; z-index: 2000; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .mobile-search-bar { background: #f0f0f0; border-radius: 25px; display: flex; align-items: center; padding: 8px 15px; width: 100%; margin-top: 5px; }
+        .mobile-search-bar input { background: transparent; border: none; outline: none; padding-left: 10px; flex: 1; font-size: 14px; }
+
         .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; width: 100%; background: white; 
-            display: none; justify-content: space-around; padding: 8px 0; 
-            box-shadow: 0 -2px 15px rgba(0,0,0,0.1); z-index: 2000; 
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: white; border-top: 1px solid #eee; justify-content: space-around; 
+            padding: 10px 0; z-index: 3000; 
         }
-        .nav-item { text-align: center; color: #666; text-decoration: none; font-size: 11px; transition: 0.3s; }
-        .nav-item i { font-size: 22px; display: block; margin-bottom: 2px; }
-        .nav-item.active { color: var(--alibaba-orange); }
+        .bottom-nav-item { text-align: center; color: #666; text-decoration: none; font-size: 11px; flex: 1; transition: 0.3s; }
+        .bottom-nav-item i { font-size: 20px; display: block; margin-bottom: 2px; }
+        .bottom-nav-item.active { color: var(--primary); }
 
-        /* Responsive Logic */
-        @media (max-width: 768px) {
-            nav { display: none; }
-            .mobile-header { display: flex; align-items: center; justify-content: space-between; }
-            .bottom-nav { display: flex; }
-            .container { padding: 10px; padding-bottom: 80px; }
-            .product-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
-            .product-card { border-radius: 12px !important; }
-        }
-
-        /* --- PRODUCT GRID --- */
-        .container { padding: 20px 3%; }
+        /* ==========================================
+           PRODUCT GRID & COMPONENTS
+        ========================================== */
+        .main-container { padding: 20px 4%; max-width: 1400px; margin: auto; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: 0.3s; padding: 12px; display: flex; flex-direction: column; cursor: pointer; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .product-img { width: 100%; height: 200px; object-fit: contain; }
-        .product-name { font-size: 14px; margin: 12px 0; height: 40px; overflow: hidden; line-height: 1.4; color: #444; }
-        .product-price { font-size: 18px; font-weight: bold; color: #e44d26; }
-        .buy-btn { background: linear-gradient(to right, #ff9900, #ffb100); border: none; padding: 10px; border-radius: 20px; margin-top: 10px; cursor: pointer; font-weight: bold; font-size: 13px; }
+        
+        /* Drag & Drop Profile Area */
+        .profile-section { background: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; border: 2px dashed #ddd; }
+        .upload-zone { cursor: pointer; padding: 20px; transition: 0.3s; }
+        .upload-zone:hover { background: #fff9f7; border-color: var(--primary); }
+        #profile-preview { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; display: none; margin: 15px auto; border: 3px solid var(--primary); }
 
+        /* AI AGENT WIDGET */
+        .ai-agent { 
+            position: fixed; bottom: 80px; right: 20px; width: 60px; height: 60px; 
+            background: var(--primary); border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; color: white; font-size: 24px; cursor: pointer; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 4000; animation: bounce 2s infinite;
+        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* RESPONSIVE MEDIA QUERIES */
+        @media (max-width: 768px) {
+            .desktop-nav { display: none; }
+            .mobile-header { display: block; }
+            .bottom-nav { display: flex; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .main-container { padding: 10px; }
+            .ai-agent { bottom: 90px; right: 15px; width: 50px; height: 50px; }
+            body { padding-bottom: 80px; }
+        }
+
+        /* Product Card (Alibaba Style) */
+        .p-card { background: white; border-radius: 8px; overflow: hidden; transition: 0.3s; border: 1px solid #eee; display: flex; flex-direction: column; }
+        .p-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .p-img-box { width: 100%; height: 200px; background: #fff; padding: 10px; box-sizing: border-box; }
+        .p-img { width: 100%; height: 100%; object-fit: contain; }
+        .p-info { padding: 12px; flex: 1; }
+        .p-name { font-size: 14px; height: 40px; overflow: hidden; margin-bottom: 8px; color: #444; }
+        .p-price { font-size: 18px; font-weight: 700; color: #ff4405; }
+        .p-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 10px; border-radius: 4px; margin-top: 10px; cursor: pointer; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <nav>
+    <nav class="desktop-nav">
         <a href="index.html" class="logo">Oshan<span>Cart</span></a>
         
-        <div class="search-container">
+        <div class="search-wrapper">
             <div class="cat-dropdown">
-                <button class="cat-btn"><i class="fas fa-list"></i> All Categories <i class="fas fa-caret-down"></i></button>
-                <div class="cat-content">
+                <button class="cat-btn">All Categories <i class="fas fa-caret-down"></i></button>
+                <div class="cat-menu">
                     <a href="#" onclick="filterCat('All')">All Categories</a>
                     <a href="#" onclick="filterCat('Womens')">Womens Fashion 👗</a>
                     <a href="#" onclick="filterCat('Mens')">Mens Fashion 👕</a>
-                    <a href="#" onclick="filterCat('Home & Kitchen')">Home & Kitchen 🏠</a>
+                    <a href="#" onclick="filterCat('Electronics')">Electronics 📱</a>
+                    <a href="#" onclick="filterCat('Home')">Home & Kitchen 🏠</a>
                     <a href="#" onclick="filterCat('Jewelry')">Jewelry 💍</a>
-                    <a href="#" onclick="filterCat('Phones')">Phones 📱</a>
                     <a href="#" onclick="filterCat('Furniture')">Furniture 🛋️</a>
-                    <a href="#" onclick="filterCat('Money Saving')">Money Saving 💰</a>
-                    <a href="#" onclick="filterCat('Kids')">Kids 🧸</a>
-                    <a href="#" onclick="filterCat('Dried Food')">Dried Food 🍲</a>
-                    <a href="#" onclick="filterCat('Cakes')">Cakes 🎂</a>
-                    <a href="#" onclick="filterCat('Ceylon Items')">Ceylon Items 🇱🇰</a>
-                    <a href="#" onclick="filterCat('Vehicles')">Vehicles 🚗</a>
+                    <a href="#" onclick="filterCat('Kids')">Kids & Toys 🧸</a>
+                    <a href="#" onclick="filterCat('Ceylon')">Ceylon Items 🇱🇰</a>
                 </div>
             </div>
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search for items, brands, or categories...">
-                <button class="search-submit" onclick="searchProducts()"><i class="fas fa-search"></i></button>
+                <input type="text" id="desktopSearch" placeholder="Search for products, brands and more...">
+                <button class="search-btn" onclick="runSearch('desktop')"><i class="fas fa-search"></i></button>
             </div>
         </div>
 
-        <div class="nav-right">
-            <div class="lang-dropdown">
-                <span class="fi fi-us"></span> <b>EN</b> <i class="fas fa-caret-down"></i>
-                <div class="lang-menu">
-                    <a href="#"><span class="fi fi-us"></span> English (US)</a>
-                    <a href="#"><span class="fi fi-lk"></span> Sinhala (SL)</a>
-                    <a href="#"><span class="fi fi-in"></span> Hindi (IN)</a>
-                    <a href="#"><span class="fi fi-cn"></span> Chinese (CN)</a>
+        <div class="nav-tools">
+            <div class="lang-box">
+                <span class="fi fi-us"></span> EN <i class="fas fa-caret-down"></i>
+                <div class="lang-list">
+                    <a href="#"><span class="fi fi-us"></span> English</a>
+                    <a href="#"><span class="fi fi-lk"></span> Sinhala</a>
+                    <a href="#"><span class="fi fi-in"></span> Hindi</a>
+                    <a href="#"><span class="fi fi-jp"></span> Japanese</a>
+                    <a href="#"><span class="fi fi-cn"></span> Chinese</a>
                 </div>
             </div>
 
-            <div class="user-menu">
+            <div class="account-box">
                 <span>Hello, Sign in</span>
-                <b>Account & Settings <i class="fas fa-caret-down"></i></b>
-                <div class="user-content">
-                    <a href="profile.html"><i class="fas fa-user-edit"></i> Edit Profile</a>
-                    <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
-                    <a href="referral.html"><i class="fas fa-users"></i> Referral Program</a>
-                    <a href="affiliate.html"><i class="fas fa-handshake"></i> Affiliate Program</a>
+                <b>Account & Lists <i class="fas fa-caret-down"></i></b>
+                <div class="account-menu">
+                    <a href="profile.html" style="font-weight: bold; color: var(--primary);">✍️ My Profile (Me)</a>
+                    <a href="orders.html">🎁 My Orders</a>
+                    <a href="wishlist.html">❤️ My Wishlist</a>
+                    <a href="referral.html">🤝 Referral Program</a>
+                    <a href="affiliate.html">👥 Affiliate Dashboard</a>
                     <hr>
-                    <a href="seller-signup.html"><i class="fas fa-store"></i> Become a Seller</a>
-                    <a href="seller-dashboard.html"><i class="fas fa-chart-line"></i> Seller Dashboard</a>
-                    <a href="#" onclick="accessAdminPanel()"><i class="fas fa-user-shield"></i> Admin Panel</a>
+                    <a href="become-seller.html">👩🏻‍🌾 Become a Seller</a>
+                    <a href="seller-dashboard.html">📊 Seller Central</a>
+                    <a href="#" onclick="checkAdmin()">👤 Admin Control</a>
                     <hr>
-                    <a href="settings.html"><i class="fas fa-cog"></i> Account Settings</a>
-                    <a href="#"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+                    <a href="settings.html">⚙️ Settings</a>
+                    <a href="logout.html">🚪 Sign Out</a>
                 </div>
             </div>
 
-            <a href="cart.html" class="cart-icon" style="color:white; text-decoration:none;">
-                <div style="position:relative;">
-                    <i class="fas fa-shopping-cart" style="font-size: 24px;"></i>
-                    <span id="cart-count" style="background:var(--accent); color:black; border-radius:50%; padding:2px 6px; position:absolute; top:-12px; right:-10px; font-size:12px; font-weight:bold;">0</span>
-                </div>
-                <b style="margin-left:10px;">Cart</b>
+            <a href="cart.html" class="cart-btn-desktop">
+                <i class="fas fa-shopping-cart" style="font-size: 24px;"></i>
+                <span class="cart-badge">0</span>
+                <b>Cart</b>
             </a>
         </div>
     </nav>
 
-    <div class="mobile-header">
-        <i class="fas fa-bars" style="font-size: 20px;"></i>
-        <div class="mobile-search-box">
-            <i class="fas fa-search" style="color:#888;"></i>
-            <input type="text" placeholder="Search OshanCart..." onkeyup="searchProducts()">
+    <header class="mobile-header">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <a href="index.html" class="logo" style="color: #333; font-size: 20px;">Oshan<span>Cart</span></a>
+            <div style="display: flex; gap: 15px; font-size: 20px; color: #444;">
+                <i class="fas fa-camera"></i>
+                <i class="fas fa-comment-dots" onclick="toggleAI()"></i>
+            </div>
         </div>
-        <i class="fas fa-camera" style="font-size: 20px; color:#555;"></i>
-    </div>
+        <div class="mobile-search-bar">
+            <i class="fas fa-search" style="color: #999;"></i>
+            <input type="text" id="mobileSearch" placeholder="Find amazing items..." onkeyup="runSearch('mobile')">
+        </div>
+    </header>
 
-    <div class="container">
-        <div class="product-grid" id="productDisplay">
+    <div class="main-container">
+        
+        <div class="profile-section">
+            <h3>Update Profile Photo</h3>
+            <div class="upload-zone" id="drop-area">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--primary);"></i>
+                <p>Drag & Drop your image here or <b>Click to browse</b></p>
+                <input type="file" id="fileInput" accept="image/*" hidden>
+                <img id="profile-preview" src="">
             </div>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+            <p>Fetching products from OshanCart Store...</p>
+        </div>
     </div>
 
-    <div class="bottom-nav">
-        <a href="index.html" class="nav-item active"><i class="fas fa-home"></i>Home</a>
-        <a href="categories.html" class="nav-item"><i class="fas fa-th-large"></i>Category</a>
-        <a href="cart.html" class="nav-item"><i class="fas fa-shopping-cart"></i>Cart</a>
-        <a href="orders.html" class="nav-item"><i class="fas fa-heart"></i>Wishlist</a>
-        <a href="profile.html" class="nav-item"><i class="fas fa-user"></i>Account</a>
+    <nav class="bottom-nav">
+        <a href="index.html" class="bottom-nav-item active"><i class="fas fa-home"></i>Home</a>
+        <a href="categories.html" class="bottom-nav-item"><i class="fas fa-th-large"></i>Category</a>
+        <a href="cart.html" class="bottom-nav-item"><i class="fas fa-shopping-cart"></i>Cart</a>
+        <a href="orders.html" class="bottom-nav-item"><i class="fas fa-box"></i>Orders</a>
+        <a href="profile.html" class="bottom-nav-item"><i class="fas fa-user"></i>Account</a>
+    </nav>
+
+    <div class="ai-agent" onclick="toggleAI()" title="Talk to Oshan AI">
+        <i class="fas fa-robot"></i>
     </div>
 
-<script type="module">
-    // Firebase Configuration
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-        authDomain: "oshancart.firebaseapp.com",
-        projectId: "oshancart",
-        storageBucket: "oshancart.appspot.com",
-        messagingSenderId: "686982543488",
-        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    let allProducts = [];
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        let products = [];
 
-    async function fetchProducts() {
-        try {
-            const querySnapshot = await getDocs(collection(db, "products"));
-            allProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            displayItems(allProducts);
-        } catch (e) { console.error("Error fetching: ", e); }
-    }
+        async function loadProducts() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "products"));
+                products = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderProducts(products);
+            } catch (e) { console.error("Error loading products:", e); }
+        }
 
-    window.displayItems = (items) => {
-        const grid = document.getElementById('productDisplay');
-        grid.innerHTML = items.map(item => `
-            <div class="product-card" onclick="window.location.href='product-details.html?id=${item.id}'">
-                <img src="${item.itemImage || item.image}" class="product-img">
-                <p class="product-name">${item.itemName || item.name}</p>
-                <p class="product-price">Rs. ${parseFloat(item.itemPrice || item.price).toLocaleString()}</p>
-                <p style="font-size:11px; color:green;"><i class="fas fa-bolt"></i> Free Shipping</p>
-                <button class="buy-btn">View Details</button>
-            </div>
-        `).join('');
-    };
+        window.renderProducts = (items) => {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = items.map(item => `
+                <div class="p-card">
+                    <div class="p-img-box" onclick="location.href='product-details.html?id=${item.id}'">
+                        <img src="${item.image || item.itemImage}" class="p-img">
+                    </div>
+                    <div class="p-info">
+                        <p class="p-name">${item.name || item.itemName}</p>
+                        <p class="p-price">Rs. ${parseFloat(item.price || 0).toLocaleString()}</p>
+                        <button class="p-btn" onclick="location.href='checkout.html?id=${item.id}'">Buy Now</button>
+                    </div>
+                </div>
+            `).join('');
+        };
 
-    window.searchProducts = () => {
-        const q = document.querySelector('.search-bar input').value || document.querySelector('.mobile-search-box input').value;
-        const filtered = allProducts.filter(p => (p.itemName || p.name).toLowerCase().includes(q.toLowerCase()));
-        displayItems(filtered);
-    };
+        // Search Logic
+        window.runSearch = (type) => {
+            const val = type === 'desktop' ? document.getElementById('desktopSearch').value : document.getElementById('mobileSearch').value;
+            const filtered = products.filter(p => (p.name || p.itemName).toLowerCase().includes(val.toLowerCase()));
+            renderProducts(filtered);
+        };
 
-    window.filterCat = (cat) => {
-        if(cat === 'All') displayItems(allProducts);
-        else displayItems(allProducts.filter(p => p.category === cat));
-    };
+        // Drag & Drop Profile Photo
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('profile-preview');
 
-    window.accessAdminPanel = () => {
-        let pass = prompt("Enter Admin Access Key:");
-        if(pass === "Lakshan@2001") window.location.href = "admin-dashboard.html";
-        else alert("Unauthorized Access!");
-    };
+        dropArea.onclick = () => fileInput.click();
+        
+        dropArea.ondragover = (e) => { e.preventDefault(); dropArea.style.borderColor = "#ff4405"; };
+        dropArea.ondragleave = () => { dropArea.style.borderColor = "#ddd"; };
+        dropArea.ondrop = (e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            handleFile(file);
+        };
 
-    fetchProducts();
-</script>
+        fileInput.onchange = (e) => handleFile(e.target.files[0]);
+
+        function handleFile(file) {
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+                    alert("Profile photo preview updated! Save it in settings.");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        window.toggleAI = () => { alert("Oshan AI Agent: Hi! I'm here to help you find the best deals."); };
+        window.checkAdmin = () => { if(prompt("Passcode:") === "Lakshan@2001") window.location.href="admin.html"; };
+
+        loadProducts();
+    </script>
 </body>
 </html>
