@@ -3,177 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Oshan Cart | Global Hub</title>
+    <title>Oshan Cart | Smart Global Shopping Hub</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --primary: #f85606; --bg: #f4f4f7; --white: #ffffff; }
+        :root {
+            --primary: #f85606; /* Daraz Orange */
+            --ali-red: #ff4747;
+            --dark: #131921;    /* Amazon Dark */
+            --bg: #f4f4f7;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--bg); }
+        body { background-color: var(--bg); color: #333; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
 
-        /* --- Desktop Design --- */
-        @media (min-width: 992px) {
-            .mobile-only { display: none !important; }
-            nav { background: var(--white); padding: 15px 5%; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
-            .logo { font-size: 26px; font-weight: 700; color: var(--primary); text-decoration: none; flex: 0.2; }
-            .search-box { flex: 1; margin: 0 30px; display: flex; background: #eff0f5; border-radius: 4px; overflow: hidden; }
-            .search-box input { flex: 1; border: none; padding: 12px; background: transparent; outline: none; }
-            .search-box button { background: var(--primary); color: white; border: none; padding: 0 20px; cursor: pointer; }
-            .hero { display: flex; padding: 20px 5%; gap: 20px; }
-            .sidebar { width: 240px; background: white; border-radius: 8px; padding: 10px 0; }
-            .sidebar li { list-style: none; padding: 10px 20px; cursor: pointer; transition: 0.2s; font-size: 14px; }
-            .sidebar li:hover { background: #fff1eb; color: var(--primary); }
+        /* --- DESKTOP NAVIGATION --- */
+        .desktop-nav {
+            background: var(--dark);
+            color: white;
+            padding: 10px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        /* --- Mobile Design --- */
+        .logo { font-size: 24px; font-weight: 700; color: white; }
+        .logo span { color: var(--primary); }
+
+        .search-container {
+            flex: 1;
+            display: flex;
+            max-width: 700px;
+            margin: 0 30px;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .search-container input {
+            flex: 1;
+            border: none;
+            padding: 10px 15px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            background: #febd69;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .nav-right { display: flex; gap: 25px; align-items: center; }
+        .nav-item { cursor: pointer; position: relative; text-align: left; }
+        .nav-item small { display: block; font-size: 11px; color: #ccc; }
+        .nav-item span { font-weight: 600; font-size: 14px; }
+
+        /* Dropdowns */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            padding: 10px 0;
+            color: #333;
+            z-index: 100;
+        }
+        .nav-item:hover .dropdown-content { display: block; }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 20px;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+        .dropdown-content a:hover { background: #f5f5f5; color: var(--primary); }
+
+        /* --- MOBILE HEADER --- */
+        .mobile-header {
+            display: none;
+            background: linear-gradient(135deg, var(--ali-red), var(--primary));
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* --- LAYOUT --- */
+        .main-container {
+            display: flex;
+            padding: 20px 5%;
+            gap: 20px;
+        }
+
+        .sidebar-cats {
+            width: 260px;
+            background: white;
+            border-radius: 8px;
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-cats li {
+            list-style: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            transition: 0.2s;
+        }
+
+        .sidebar-cats li:hover { background: #fff1eb; color: var(--primary); }
+
+        .hero-banner {
+            flex: 1;
+            height: 380px;
+            background: #333 url('https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg') center/cover;
+            border-radius: 12px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 40px;
+            color: white;
+        }
+
+        /* --- PRODUCT GRID --- */
+        .products-section { padding: 0 5% 50px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+        .card-info { padding: 15px; }
+        .card-price { font-size: 18px; font-weight: 700; color: var(--primary); }
+        .card-title { font-size: 13px; color: #444; margin: 8px 0; height: 40px; overflow: hidden; }
+
+        /* --- AI WIDGET --- */
+        .ai-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,114,255,0.4);
+            z-index: 2000;
+        }
+
+        /* Responsive */
         @media (max-width: 991px) {
-            .desktop-only { display: none !important; }
-            .mobile-header { background: linear-gradient(135deg, #ff4747, #f85606); padding: 15px; position: sticky; top: 0; z-index: 1000; }
-            .mobile-search { background: white; border-radius: 25px; display: flex; align-items: center; padding: 8px 15px; margin-top: 10px; }
-            .mobile-search input { border: none; flex: 1; padding: 0 10px; outline: none; }
-            .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 2000; }
-            .bottom-item { flex: 1; text-align: center; color: #757575; text-decoration: none; font-size: 11px; }
-            .bottom-item i { display: block; font-size: 20px; margin-bottom: 2px; }
-            .bottom-item.active { color: var(--primary); }
+            .desktop-nav, .sidebar-cats { display: none; }
+            .mobile-header { display: block; }
+            .main-container { padding: 15px; }
+            .hero-banner { height: 200px; padding: 20px; }
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
         }
-
-        /* --- Common Styles --- */
-        .container { padding: 20px 5%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-        @media (max-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
-
-        .product-card { background: white; border-radius: 8px; overflow: hidden; transition: 0.3s; cursor: pointer; border: 1px solid #eee; }
-        .product-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .product-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
-        .p-info { padding: 10px; }
-        .p-name { font-size: 13px; height: 38px; overflow: hidden; margin-bottom: 5px; color: #333; }
-        .p-price { color: var(--primary); font-size: 16px; font-weight: bold; }
-        
-        /* Oshan AI Chat */
-        .ai-widget { position: fixed; bottom: 80px; right: 20px; z-index: 3000; }
-        .ai-btn { width: 60px; height: 60px; background: #0072ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
 
-    <nav class="desktop-only">
-        <a href="index.html" class="logo">OshanCart</a>
-        <div class="search-box">
-            <input type="text" id="d-search-input" placeholder="Search products...">
-            <button onclick="searchProducts('d-search-input')"><i class="fas fa-search"></i></button>
+    <nav class="desktop-nav">
+        <a href="#" class="logo">Oshan<span>Cart</span></a>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for items, brands, or categories...">
+            <button class="search-btn" onclick="search()"><i class="fas fa-search"></i></button>
         </div>
-        <div style="display:flex; gap:20px;">
-            <div onclick="location.href='admin-dashboard.html'" style="cursor:pointer;"><i class="fas fa-user-shield"></i> Admin</div>
-            <div onclick="location.href='cart.html'" style="cursor:pointer;"><i class="fas fa-shopping-cart"></i> Cart</div>
+
+        <div class="nav-right">
+            <div class="nav-item">
+                <span class="fi fi-lk"></span> <span>SI/LKR</span>
+            </div>
+            
+            <div class="nav-item">
+                <small>Hello, Sign in</small>
+                <span>Account & Lists <i class="fas fa-caret-down"></i></span>
+                <div class="dropdown-content">
+                    <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                    <a href="#"><i class="fas fa-box"></i> My Orders</a>
+                    <a href="#" onclick="checkAdmin()"><i class="fas fa-shield-alt"></i> Admin Panel</a>
+                    <hr>
+                    <a href="#" style="color:var(--primary); font-weight:600;">Sign Out</a>
+                </div>
+            </div>
+
+            <a href="#" class="nav-item" style="display:flex; align-items:center; gap:8px;">
+                <div style="position:relative;">
+                    <i class="fas fa-shopping-cart" style="font-size:20px;"></i>
+                    <span style="position:absolute; top:-10px; right:-10px; background:var(--primary); padding:2px 6px; border-radius:10px; font-size:10px;">0</span>
+                </div>
+                <span>Cart</span>
+            </a>
         </div>
     </nav>
 
-    <header class="mobile-header mobile-only">
-        <div style="display:flex; justify-content:space-between; color:white; align-items:center;">
+    <div class="mobile-header">
+        <div style="display:flex; justify-content:space-between; align-items:center; color:white; margin-bottom:10px;">
             <i class="fas fa-bars"></i>
-            <h3>OshanCart</h3>
-            <i class="fas fa-comment-dots" onclick="toggleChat()"></i>
+            <b style="font-size:18px;">Oshan Cart</b>
+            <i class="fas fa-comment-dots"></i>
         </div>
-        <div class="mobile-search">
-            <i class="fas fa-search"></i>
-            <input type="text" id="m-search-input" placeholder="Search anything...">
-            <button style="border:none; background:none;" onclick="searchProducts('m-search-input')">GO</button>
-        </div>
-    </header>
-
-    <main class="hero">
-        <aside class="sidebar desktop-only">
-            <li onclick="filterCategory('Womens')">Womens Fashion</li>
-            <li onclick="filterCategory('Mens')">Mens Fashion</li>
-            <li onclick="filterCategory('Phones')">Phones & Gadgets</li>
-            <li onclick="filterCategory('Ceylon Items')">Ceylon Special</li>
-            <li onclick="filterCategory('All')">All Categories</li>
-        </aside>
-        <div style="flex:1;">
-             <img src="https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" style="width:100%; height:300px; object-fit:cover; border-radius:12px;">
-        </div>
-    </main>
-
-    <section class="container">
-        <h2 style="margin-bottom:15px;">Recommended For You</h2>
-        <div class="grid" id="productGrid">
-            <p style="text-align:center; width:100%;">Loading products...</p>
-        </div>
-    </section>
-
-    <nav class="bottom-nav mobile-only">
-        <a href="index.html" class="bottom-item active"><i class="fas fa-home"></i>Home</a>
-        <a href="#" class="bottom-item" onclick="alert('Category menu')"><i class="fas fa-list"></i>Category</a>
-        <a href="cart.html" class="bottom-item"><i class="fas fa-shopping-cart"></i>Cart</a>
-        <a href="profile.html" class="bottom-item"><i class="fas fa-user"></i>Account</a>
-    </nav>
-
-    <div class="ai-widget">
-        <div class="ai-btn" onclick="window.open('https://wa.me/94727600501', '_blank')">
-            <i class="fab fa-whatsapp"></i>
+        <div style="background:white; border-radius:25px; padding:8px 15px; display:flex; align-items:center;">
+            <i class="fas fa-search" style="color:#888;"></i>
+            <input type="text" placeholder="Search everything..." style="border:none; outline:none; flex:1; padding-left:10px;">
         </div>
     </div>
 
+    <section class="main-container">
+        <aside class="sidebar-cats">
+            <li onclick="filter('Women')">Women's Fashion <i class="fas fa-chevron-right"></i></li>
+            <li onclick="filter('Men')">Men's Fashion <i class="fas fa-chevron-right"></i></li>
+            <li onclick="filter('Electronics')">Electronics <i class="fas fa-chevron-right"></i></li>
+            <li onclick="filter('Home')">Home & Kitchen <i class="fas fa-chevron-right"></i></li>
+            <li onclick="filter('Ceylon')">Ceylon Authentic <i class="fas fa-chevron-right"></i></li>
+            <li onclick="filter('Deals')">Flash Sales <i class="fas fa-chevron-right"></i></li>
+        </aside>
+
+        <div class="hero-banner">
+            <div>
+                <h1 style="font-size: clamp(24px, 5vw, 42px);">2026 Global Expo</h1>
+                <p>Exclusive deals on tech and fashion</p>
+                <button style="margin-top:20px; padding:12px 30px; background:var(--ali-red); border:none; color:white; border-radius:30px; font-weight:600; cursor:pointer;">Explore Now</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <h2 style="margin-bottom:20px;">Trending Now</h2>
+        <div class="grid" id="productGrid">
+            </div>
+    </section>
+
+    <div class="ai-btn" onclick="alert('Oshan AI: How can I help you today?')">
+        <i class="fas fa-robot"></i>
+    </div>
+
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        // Firebase Config (Replace with your actual keys if needed)
+        const products = [
+            { id: 1, name: "Ultra High Speed 2TB SSD", price: 12500, img: "https://ae04.alicdn.com/kf/S7b767794b6d4469785890885e78378c3G.jpg" },
+            { id: 2, name: "Premium Leather Men's Watch", price: 4500, img: "https://ae04.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" },
+            { id: 3, name: "Smart Air Fryer - Digital 6L", price: 32000, img: "https://static-01.daraz.pk/p/665983794308696803881.jpg" },
+            { id: 4, name: "Authentic Ceylon Black Tea", price: 1200, img: "https://www.dilmahtea.com/images/default-source/products/t-series/t-series-luxury-leaf-tea.jpg" }
+        ];
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-            authDomain: "oshancart.firebaseapp.com",
-            projectId: "oshancart",
-            storageBucket: "oshancart.appspot.com",
-            messagingSenderId: "686982543488",
-            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        let allProducts = [];
-
-        async function fetchProducts() {
-            try {
-                const snapshot = await getDocs(collection(db, "products"));
-                allProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderGrid(allProducts);
-            } catch (error) {
-                console.error("Firebase Error:", error);
-                document.getElementById('productGrid').innerHTML = "Failed to load products.";
-            }
-        }
-
-        window.renderGrid = (items) => {
+        function loadProducts() {
             const grid = document.getElementById('productGrid');
-            if (items.length === 0) {
-                grid.innerHTML = "<p>No products found.</p>";
-                return;
-            }
-            grid.innerHTML = items.map(p => `
-                <div class="product-card" onclick="location.href='product-details.html?id=${p.id}'">
-                    <img src="${p.image || 'https://via.placeholder.com/150'}">
-                    <div class="p-info">
-                        <div class="p-name">${p.name}</div>
-                        <div class="p-price">Rs. ${parseFloat(p.price).toLocaleString()}</div>
-                        <div style="font-size:11px; color:green; margin-top:5px;"><i class="fas fa-truck"></i> Free Shipping</div>
+            grid.innerHTML = products.map(p => `
+                <div class="card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <div class="card-info">
+                        <div class="card-price">Rs. ${p.price.toLocaleString()}</div>
+                        <div class="card-title">${p.name}</div>
+                        <button style="width:100%; padding:8px; border:1px solid var(--primary); background:none; color:var(--primary); border-radius:4px; font-weight:600; cursor:pointer;">Add to Cart</button>
                     </div>
                 </div>
             `).join('');
+        }
+
+        window.checkAdmin = () => {
+            let pass = prompt("Enter Admin Key:");
+            if(pass === "Lakshan@2001") location.href = "admin.html";
+            else alert("Unauthorized!");
         };
 
-        window.filterCategory = (cat) => {
-            if (cat === 'All') renderGrid(allProducts);
-            else renderGrid(allProducts.filter(p => p.category === cat));
-        };
-
-        window.searchProducts = (inputId) => {
-            const val = document.getElementById(inputId).value.toLowerCase();
-            renderGrid(allProducts.filter(p => p.name.toLowerCase().includes(val)));
-        };
-
-        fetchProducts();
+        window.onload = loadProducts;
     </script>
 </body>
 </html>
