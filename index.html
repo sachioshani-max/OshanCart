@@ -1,174 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oshan Cart | Premium Global Shopping</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oshan Cart | Premium Global Shopping</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --primary-orange: #ff4747; /* Alibaba style */
+            --daraz-orange: #f85606;
+            --amazon-blue: #131921;
+            --light-bg: #f4f4f4;
+            --white: #ffffff;
+        }
 
-    <style>
-        :root {
-            --primary-orange: #ff4747;
-            --daraz-orange: #f85606;
-            --amazon-blue: #131921;
-            --light-bg: #f4f4f4;
-            --white: #ffffff;
-        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+        }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--light-bg);
-            overflow-x: hidden;
-        }
+        /* --- DESKTOP HEADER (Daraz Style) --- */
+        .desktop-nav {
+            display: block;
+            background: var(--white);
+        }
 
-        /* --- DESKTOP HEADER --- */
-        .desktop-nav { display: block; background: var(--white); }
-        .top-bar { background: #f7f7f7; padding: 5px 5%; display: flex; justify-content: flex-end; gap: 20px; font-size: 12px; }
-        .main-nav { background: var(--white); padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .search-box { flex: 1; margin: 0 40px; display: flex; background: #eff0f5; border-radius: 4px; }
-        .search-box input { width: 100%; border: none; background: transparent; padding: 12px; outline: none; }
-        .search-btn { background: var(--daraz-orange); color: white; padding: 10px 20px; border: none; cursor: pointer; }
+        .top-bar {
+            background: #f7f7f7;
+            padding: 5px 5%;
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            font-size: 12px;
+        }
 
-        /* --- MOBILE HEADER --- */
-        .mobile-nav { display: none; background: linear-gradient(90deg, #ff5000, #ff8400); padding: 10px; position: sticky; top: 0; z-index: 2000; }
-        .mobile-search-bar { background: white; border-radius: 20px; display: flex; align-items: center; padding: 8px 15px; margin-top: 10px; }
+        .main-nav {
+            background: var(--white);
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-        /* --- BOTTOM NAV --- */
-        .bottom-nav {
-            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
-            background: #ffffff; border-top: 1px solid #eeeeee; padding: 8px 0;
-            justify-content: space-around; z-index: 2000; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-        }
-        .nav-link { text-decoration: none; color: #666666; font-size: 11px; display: flex; flex-direction: column; align-items: center; }
-        .nav-link.active { color: #f85606; }
-        .nav-link i { font-size: 22px; margin-bottom: 4px; }
+        .logo-section img {
+            height: 45px;
+        }
 
-        /* --- PRODUCT GRID --- */
-        .product-container { padding: 20px 5%; }
-        .product-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
-        .product-card { background: white; border-radius: 8px; overflow: hidden; transition: 0.3s; border: 1px solid transparent; cursor: pointer; }
-        .product-card:hover { transform: translateY(-5px); border-color: var(--daraz-orange); }
-        .product-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
-        .product-info { padding: 10px; }
-        .p-name { font-size: 13px; height: 34px; overflow: hidden; margin-bottom: 5px; color: #333; }
-        .p-price { color: var(--daraz-orange); font-size: 18px; font-weight: bold; }
+        .search-box {
+            flex: 1;
+            margin: 0 40px;
+            display: flex;
+            background: #eff0f5;
+            border-radius: 4px;
+        }
 
-        @media (max-width: 768px) {
-            .desktop-nav { display: none !important; }
-            .mobile-nav, .bottom-nav { display: flex !important; }
-            .product-grid { grid-template-columns: repeat(2, 1fr); }
-            body { padding-bottom: 70px; }
-        }
-    </style>
+        .search-box input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 12px;
+            outline: none;
+        }
+
+        .search-btn {
+            background: var(--daraz-orange);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* --- MOBILE HEADER (Alibaba App Style) --- */
+        .mobile-nav {
+            display: none;
+            background: linear-gradient(90deg, #ff5000, #ff8400);
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+        }
+
+        .mobile-search-bar {
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            margin-top: 10px;
+        }
+
+        /* --- CATEGORY SIDEDAR (Desktop) --- */
+        .home-hero {
+            display: flex;
+            padding: 10px 5%;
+            gap: 20px;
+        }
+
+        .category-sidebar {
+            width: 240px;
+            background: white;
+            padding: 10px 0;
+            border-radius: 4px;
+        }
+
+        .cat-item {
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .cat-item:hover {
+            background: #f0f0f0;
+            color: var(--daraz-orange);
+        }
+    /* ... කලින් තියෙන අනෙක් CSS කෝඩ් ... */
+
+    /* Mobile Bottom Nav එක ලස්සන කරන්න (අලුත් කෝඩ් එක) */
+    .bottom-nav {
+        display: none; /* Desktop එකේදී පෙන්නන්නේ නැහැ */
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        border-top: 1px solid #eeeeee;
+        padding: 8px 0;
+        justify-content: space-around;
+        z-index: 2000;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: #666666;
+        font-size: 11px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: 0.3s;
+    }
+
+    .nav-link i {
+        font-size: 22px;
+        margin-bottom: 4px;
+    }
+
+    .nav-link.active {
+        color: #f85606; /* Active එක දොඩම් පාටින් පේන්න */
+    }
+
+    /* Mobile වලදී විතරක් Bottom Nav එක පේන්න මේකත් දාපන් */
+    @media (max-width: 768px) {
+        .bottom-nav {
+            display: flex !important;
+        }
+    }
+        /* --- PRODUCT GRID (AliExpress Style) --- */
+        .product-container {
+            padding: 20px 5%;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--daraz-orange);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 10px;
+        }
+
+        .p-name {
+            font-size: 13px;
+            height: 34px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .p-price {
+            color: var(--daraz-orange);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* --- AI CHATBOX --- */
+        #ai-chat-widget {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 3000;
+        }
+
+        .chat-bubble {
+            background: var(--daraz-orange);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .chat-window {
+            display: none;
+            width: 350px;
+            height: 450px;
+            background: white;
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            flex-direction: column;
+        }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 768px) {
+            .desktop-nav, .category-sidebar { display: none !important; }
+            .mobile-nav, .bottom-nav { display: flex !important; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+            .product-container { padding: 10px; }
+            body { padding-bottom: 70px; }
+        }
+    </style>
 </head>
 <body>
 
-    <header class="desktop-nav">
-        <div class="top-bar">
-            <span>Become a Seller</span>
-            <span>Help Center</span>
-            <span onclick="accessAdmin()" style="cursor:pointer;">Admin Login</span>
-        </div>
-        <div class="main-nav">
-            <h2 style="color:var(--daraz-orange); margin:0;">Oshan<span>Cart</span></h2>
-            <div class="search-box">
-                <input type="text" placeholder="Search in Oshan Cart...">
-                <button class="search-btn"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="user-actions" style="display:flex; gap:25px;">
-                <span><i class="far fa-user"></i> Login</span>
-                <span style="position:relative;"><i class="fas fa-shopping-cart"></i><span style="position:absolute; top:-10px; background:red; color:white; border-radius:50%; padding:2px 5px; font-size:10px;">0</span></span>
-            </div>
-        </div>
-    </header>
+    <header class="desktop-nav">
+        <div class="top-bar">
+            <div class="lang-selector" onclick="toggleLang()">
+                <span id="current-flag" class="fi fi-lk"></span> <span id="current-lang">Sinhala</span> <i class="fas fa-caret-down"></i>
+                <div id="lang-menu" style="display:none; position:absolute; background:white; box-shadow:0 2px 10px rgba(0,0,0,0.1); z-index:100;">
+                    <p onclick="changeLang('us', 'English')"><span class="fi fi-us"></span> English</p>
+                    <p onclick="changeLang('lk', 'Sinhala')"><span class="fi fi-lk"></span> Sinhala</p>
+                </div>
+            </div>
+            <span>Become a Seller</span>
+            <span>Help Center</span>
+            <span onclick="accessAdmin()" style="cursor:pointer;">Admin Login</span>
+        </div>
+        <div class="main-nav">
+            <div class="logo-section">
+                <h2 style="color:var(--daraz-orange); margin:0;">Oshan<span>Cart</span></h2>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Search in Oshan Cart...">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="user-actions" style="display:flex; gap:25px; align-items:center;">
+                <div class="user-menu-btn" style="cursor:pointer;">
+                    <i class="far fa-user"></i> Login / Signup
+                </div>
+                <div class="cart-btn" style="position:relative;">
+                    <i class="fas fa-shopping-cart" style="font-size:20px;"></i>
+                    <span style="position:absolute; top:-10px; right:-10px; background:var(--daraz-orange); color:white; border-radius:50%; padding:2px 6px; font-size:10px;">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <header class="mobile-nav">
-        <div class="mobile-search-bar">
-            <i class="fas fa-search" style="color:#999; margin-right:10px;"></i>
-            <input type="text" placeholder="I'm shopping for...">
-        </div>
-    </header>
+    <header class="mobile-nav">
+        <div style="display:flex; justify-content:space-between; width:100%; align-items:center; color:white;">
+            <i class="fas fa-bars"></i>
+            <h3 style="margin:0;">OshanCart</h3>
+            <i class="fas fa-comment-dots"></i>
+        </div>
+        <div class="mobile-search-bar">
+            <i class="fas fa-search" style="color:#999; margin-right:10px;"></i>
+            <input type="text" placeholder="I'm shopping for..." style="border:none; outline:none; width:100%;">
+            <i class="fas fa-camera" style="color:#666;"></i>
+        </div>
+    </header>
 
-    <section class="product-container">
-        <div style="font-size:22px; font-weight:bold; margin-bottom:15px;">Just For You</div>
-        <div class="product-grid" id="mainProductGrid">
-            <p>Loading products...</p>
-        </div>
-    </section>
+    <main class="home-hero">
+        <aside class="category-sidebar">
+            <div class="cat-item">Women's Fashion <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Men's Fashion <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Electronics <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Home & Garden <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Ceylon Special <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Vehicles <i class="fas fa-chevron-right"></i></div>
+            <div class="cat-item">Cakes & Sweets <i class="fas fa-chevron-right"></i></div>
+        </aside>
 
-    <nav class="bottom-nav">
-        <a href="index.html" class="nav-link active"><i class="fas fa-home"></i>Home</a>
-        <a href="#" class="nav-link"><i class="fas fa-list"></i>Category</a>
-        <a href="#" class="nav-link"><i class="fas fa-bolt"></i>Deals</a>
-        <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i>Cart</a>
-        <a href="#" class="nav-link" onclick="accessAdmin()"><i class="fas fa-user-shield"></i>Admin</a>
-    </nav>
+        <div style="flex:1; background:#ddd; border-radius:8px; height:350px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+            <img src="https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+    </main>
 
-    <script>
-        // 1. Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-            authDomain: "oshancart.firebaseapp.com",
-            projectId: "oshancart",
-            storageBucket: "oshancart.appspot.com",
-            messagingSenderId: "686982543488",
-            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-        };
+    <section class="product-container">
+        <div class="section-title">Just For You</div>
+        <div class="product-grid" id="mainProductGrid">
+        </div>
+    </section>
 
-        // 2. Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+    <nav class="bottom-nav">
+        <a href="#" class="nav-link active"><i class="fas fa-home"></i>Home</a>
+        <a href="#" class="nav-link"><i class="fas fa-list"></i>Category</a>
+        <a href="#" class="nav-link"><i class="fas fa-bolt"></i>Deals</a>
+        <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i>Cart</a>
+        <a href="#" class="nav-link" onclick="accessAdmin()"><i class="fas fa-user"></i>Admin</a>
+    </nav>
 
-        // 3. Load Products Function
-        function loadProducts() {
-            const grid = document.getElementById('mainProductGrid');
-            
-            db.collection("products").onSnapshot((snapshot) => {
-                grid.innerHTML = ""; 
-                if (snapshot.empty) {
-                    grid.innerHTML = "<p>No products found in database.</p>";
-                    return;
-                }
-                snapshot.forEach((doc) => {
-                    let p = doc.data();
-                    grid.innerHTML += `
-                        <div class="product-card" onclick="window.location.href='product-details.html?id=${doc.id}'">
-                            <img src="${p.img || 'https://via.placeholder.com/150'}" class="product-img">
-                            <div class="product-info">
-                                <div class="p-name">${p.name}</div>
-                                <div class="p-price">Rs. ${p.price}</div>
-                                <div style="font-size:10px; color:#999; margin-top:5px;">${p.sold || 0}+ sold</div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }, (error) => {
-                console.error("Error loading products: ", error);
-                grid.innerHTML = "<p>Error loading products. Check Firebase Rules.</p>";
-            });
-        }
+    <div id="ai-chat-widget">
+        <div class="chat-window" id="chatWin">
+            <div style="background:var(--daraz-orange); color:white; padding:15px; border-top-left-radius:12px; border-top-right-radius:12px; display:flex; justify-content:space-between;">
+                <span>Oshan AI Assistant</span>
+                <i class="fas fa-times" onclick="toggleChat()"></i>
+            </div>
+            <div id="chatBody" style="flex:1; padding:10px; overflow-y:auto; font-size:14px;">
+                <p style="background:#f0f0f0; padding:8px; border-radius:8px; width:fit-content;">Hello! I am Oshan AI. How can I help you today?</p>
+            </div>
+            <div style="padding:10px; border-top:1px solid #eee; display:flex;">
+                <input type="text" id="aiInput" placeholder="Ask anything..." style="flex:1; border:none; outline:none;">
+                <button onclick="askAI()" style="border:none; background:none; color:var(--daraz-orange);"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <div class="chat-bubble" onclick="toggleChat()">
+            <i class="fas fa-robot"></i>
+        </div>
+    </div>
 
-        // 4. Admin Access
-        function accessAdmin() {
-            const pw = prompt("Enter Admin Password:");
-            if(pw === "Lakshan@2001") {
-                window.location.href = "admin-dashboard.html";
-            } else if (pw !== null) {
-                alert("Access Denied!");
-            }
-        }
+    <script>
+        function toggleLang() {
+            const menu = document.getElementById('lang-menu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
 
-        // පේජ් එක ලෝඩ් වෙනකොටම function එක රන් කරනවා
-        window.onload = loadProducts;
+        function changeLang(flag, name) {
+            document.getElementById('current-flag').className = `fi fi-${flag}`;
+            document.getElementById('current-lang').innerText = name;
+            toggleLang();
+        }
 
-    </script>
+        function toggleChat() {
+            const win = document.getElementById('chatWin');
+            win.style.display = win.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        async function askAI() {
+            const input = document.getElementById('aiInput');
+            const body = document.getElementById('chatBody');
+            if(!input.value) return;
+            body.innerHTML += `<p style="background:var(--daraz-orange); color:white; padding:8px; border-radius:8px; width:fit-content; margin-left:auto;">${input.value}</p>`;
+            const userMsg = input.value.toLowerCase();
+            input.value = '';
+            setTimeout(() => {
+                let reply = "I'm analyzing your request...";
+                if(userMsg.includes("order")) reply = "Track your order in 'My Orders'.";
+                body.innerHTML += `<p style="background:#f0f0f0; padding:8px; border-radius:8px; width:fit-content;">${reply}</p>`;
+                body.scrollTop = body.scrollHeight;
+            }, 1000);
+        }
+
+        // --- FIXED ADMIN LOGIC ---
+        function accessAdmin() {
+            const pw = prompt("Enter Admin Password:");
+            if(pw === "Lakshan@2001") {
+                window.location.href = "admin-dashboard.html";
+            } else if (pw !== null) {
+                alert("Access Denied!");
+            }
+        }
+
+        const products = [
+            { name: "Premium 2TB Flash Drive", price: "1,803", img: "https://ae04.alicdn.com/kf/S7b767794b6d4469785890885e78378c3G.jpg" },
+            { name: "Luxury Women's Watch Set", price: "343", img: "https://ae04.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" },
+            { name: "Portable Mosquito Killer", price: "1,200", img: "https://ae04.alicdn.com/kf/H946a4d70b42f4d6d87e5b562a04944983.jpg" },
+            { name: "Wireless Bluetooth Earbuds", price: "2,500", img: "https://ae04.alicdn.com/kf/S81817c180962450291913c5443e99e469.jpg" },
+            { name: "Smart Air Fryer 5.5L", price: "29,198", img: "https://static-01.daraz.pk/p/444c1d76378e9047910543f886470081.jpg" },
+            { name: "Folding Storage Box", price: "205", img: "https://static-01.daraz.pk/p/665983794308696803881.jpg" }
+        ];
+
+       // Firebase එකෙන් අයිටම් ලෝඩ් කරන විදිහ
+function loadProducts() {
+    const grid = document.getElementById('mainProductGrid');
+    
+    // Firebase Firestore එකෙන් 'products' collection එක ගන්නා ආකාරය
+    db.collection("products").onSnapshot((snapshot) => {
+        grid.innerHTML = ""; // කලින් තිබ්බ ඒවා අයින් කරන්න
+        snapshot.forEach((doc) => {
+            let p = doc.data();
+            grid.innerHTML += `
+                <div class="product-card">
+                    <img src="${p.img || 'https://via.placeholder.com/150'}" class="product-img">
+                    <div class="product-info">
+                        <div class="p-name">${p.name}</div>
+                        <div class="p-price">Rs. ${p.price}</div>
+                        <div style="font-size:10px; color:#999; margin-top:5px;">${p.sold || 0}+ sold</div>
+                        <button onclick="addToCart('${doc.id}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
+                    </div>
+                </div>
+            `;
+        });
+    });
+}// Firebase එකෙන් අයිටම් ලෝඩ් කරන විදිහ
+function loadProducts() {
+    const grid = document.getElementById('mainProductGrid');
+    
+    // Firebase Firestore එකෙන් 'products' collection එක ගන්නා ආකාරය
+    db.collection("products").onSnapshot((snapshot) => {
+        grid.innerHTML = ""; // කලින් තිබ්බ ඒවා අයින් කරන්න
+        snapshot.forEach((doc) => {
+            let p = doc.data();
+            grid.innerHTML += `
+                <div class="product-card">
+                    <img src="${p.img || 'https://via.placeholder.com/150'}" class="product-img">
+                    <div class="product-info">
+                        <div class="p-name">${p.name}</div>
+                        <div class="p-price">Rs. ${p.price}</div>
+                        <div style="font-size:10px; color:#999; margin-top:5px;">${p.sold || 0}+ sold</div>
+                        <button onclick="addToCart('${doc.id}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
+                    </div>
+                </div>
+            `;
+        });
+    });
+}
+    </script>
+    <nav class="bottom-nav">
+    <a href="index.html" class="nav-link active"><i class="fas fa-home"></i>Home</a>
+    <a href="categories.html" class="nav-link"><i class="fas fa-list"></i>Category</a>
+    <a href="deals.html" class="nav-link"><i class="fas fa-bolt"></i>Deals</a>
+    <a href="cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i>Cart</a>
+    <a href="admin-dashboard.html" class="nav-link"><i class="fas fa-user-shield"></i>Admin</a>
+</nav>
 </body>
 </html>
