@@ -130,3 +130,42 @@ footer {
 @keyframes fadein { from {top: 0; opacity: 0;} to {top: 30px; opacity: 1;} }
 @-webkit-keyframes fadeout { from {top: 30px; opacity: 1;} to {top: 0; opacity: 0;} }
 @keyframes fadeout { from {top: 30px; opacity: 1;} to {top: 0; opacity: 0;} }
+.menu-list {
+    padding: 15px;
+}
+
+.menu-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #888;
+    text-transform: uppercase;
+    margin: 15px 0 8px 10px;
+    letter-spacing: 1px;
+}
+
+.menu-list a {
+    display: block;
+    padding: 12px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: 0.3s;
+    margin-bottom: 2px;
+}
+
+.menu-list a:hover {
+    background: #fdf0e9; /* Daraz/Alibaba Orange light tint */
+    color: var(--daraz-orange);
+}
+
+.menu-list a i {
+    width: 25px;
+    margin-right: 10px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 15px 0;
+}
