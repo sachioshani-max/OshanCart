@@ -150,6 +150,11 @@
     // --- 2. LOAD ORDERS ENGINE ---
     function loadMyOrders() {
         const list = document.getElementById('ordersList');
+      
+        // මේකෙන් තමයි Order ID එක අරන් Tracking පේජ් එකට යවන්නේ
+function trackOrder(id) {
+    window.location.href = `tracking.html?id=${id}`;
+}
         
         // Real-time Updates සඳහා onSnapshot පාවිච්චි කරමු
         db.collection("orders").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
