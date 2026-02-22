@@ -213,7 +213,9 @@ function trackOrder(id) {
         alert("Tracking system for Order ID: #" + id + "\nThis feature is coming soon!");
         // මෙතනට ඔයාට Tracking පේජ් එකකට යන ලින්ක් එකක් දෙන්න පුළුවන්
     }
-
+      <button class="track-btn" onclick="trackOrder('${doc.id}')">
+    <i class="fas fa-truck"></i> Track Order
+</button>
     window.onload = loadMyOrders;
 </script>
 </body>
