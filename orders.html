@@ -1,3 +1,4 @@
+✨🛒
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,99 +18,30 @@
             padding: 20px; 
         }
         .container { max-width: 900px; margin: auto; }
-        
-        /* Header Section */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
         h2 { color: #333; margin: 0; font-size: 24px; }
-        
-        /* Order Card Styling */
         .order-card {
-            background: white; 
-            border-radius: 12px; 
-            padding: 20px; 
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-            display: flex; 
-            flex-wrap: wrap;
-            gap: 20px; 
-            align-items: center;
-            transition: 0.3s;
+            background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-wrap: wrap;
+            gap: 20px; align-items: center; transition: 0.3s;
         }
         .order-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
-        
-        .order-img { 
-            width: 100px; 
-            height: 100px; 
-            object-fit: cover; 
-            border-radius: 8px; 
-            background: #eee;
-        }
-        
+        .order-img { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; background: #eee; }
         .order-details { flex: 2; min-width: 200px; }
         .order-id { font-size: 13px; color: #888; margin-bottom: 5px; }
         .product-name { font-size: 18px; font-weight: 600; color: #222; margin-bottom: 8px; }
-        
-        /* Status Tags */
-        .status-tag { 
-            padding: 5px 12px; 
-            border-radius: 20px; 
-            font-size: 11px; 
-            font-weight: bold;
-            text-transform: uppercase;
-            display: inline-block;
-        }
+        .status-tag { padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; text-transform: uppercase; display: inline-block; }
         .pending { background: #fff3cd; color: #856404; }
         .shipped { background: #cfe2ff; color: #084298; }
         .delivered { background: #d1e7dd; color: #0f5132; }
         .cancelled { background: #f8d7da; color: #842029; }
-        
-        .price-tag { 
-            font-size: 18px; 
-            color: var(--oshan-orange); 
-            font-weight: bold; 
-            margin-top: 10px;
-        }
-
-        /* Action Buttons */
-        .order-actions {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            text-align: right;
-        }
-        .track-btn {
-            background: var(--oshan-orange);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-        }
+        .price-tag { font-size: 18px; color: var(--oshan-orange); font-weight: bold; margin-top: 10px; }
+        .order-actions { flex: 1; display: flex; flex-direction: column; gap: 10px; text-align: right; }
+        .track-btn { background: var(--oshan-orange); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; }
         .track-btn:hover { background: #e65c00; }
-
         .no-orders { text-align: center; padding: 100px 20px; color: #888; }
-        .back-btn { 
-            text-decoration: none; 
-            color: var(--oshan-orange); 
-            font-weight: bold; 
-            display: flex; 
-            align-items: center; 
-            gap: 5px; 
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            .order-card { flex-direction: column; text-align: center; }
-            .order-actions { width: 100%; text-align: center; }
-        }
+        .back-btn { text-decoration: none; color: var(--oshan-orange); font-weight: bold; display: flex; align-items: center; gap: 5px; }
+        @media (max-width: 600px) { .order-card { flex-direction: column; text-align: center; } .order-actions { width: 100%; text-align: center; } }
     </style>
 </head>
 <body>
@@ -118,8 +50,8 @@
     <div class="header">
         <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Home</a>
         <h2>My Orders</h2>
-        <div style="width: 50px;"></div> </div>
-
+        <div style="width: 50px;"></div>
+    </div>
     <div id="ordersList">
         <div class="no-orders">
             <i class="fas fa-circle-notch fa-spin" style="font-size: 30px;"></i>
@@ -132,7 +64,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
 <script>
-    // --- 1. FIREBASE CONFIG (සම්පූර්ණ කරන ලදී) ---
+    // --- 1. FIREBASE CONFIG ---
     const firebaseConfig = {
         apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
         authDomain: "oshancart.firebaseapp.com",
@@ -147,16 +79,15 @@
     }
     const db = firebase.firestore();
 
-    // --- 2. LOAD ORDERS ENGINE ---
+    // --- 2. TRACK ORDER FUNCTION (මේක තියෙන්න ඕනේ loadMyOrders එකෙන් එළියේ) ---
+    function trackOrder(id) {
+        window.location.href = `tracking.html?id=${id}`;
+    }
+
+    // --- 3. LOAD ORDERS ENGINE ---
     function loadMyOrders() {
         const list = document.getElementById('ordersList');
-      
-        // මේකෙන් තමයි Order ID එක අරන් Tracking පේජ් එකට යවන්නේ
-function trackOrder(id) {
-    window.location.href = `tracking.html?id=${id}`;
-}
         
-        // Real-time Updates සඳහා onSnapshot පාවිච්චි කරමු
         db.collection("orders").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
             list.innerHTML = "";
             
@@ -176,23 +107,17 @@ function trackOrder(id) {
                 const order = doc.data();
                 const status = order.status || 'Pending';
                 const statusClass = status.toLowerCase();
-                
-                // දිනය Format කිරීම
                 const date = order.timestamp ? new Date(order.timestamp.toDate()).toLocaleDateString() : 'Just now';
 
                 list.innerHTML += `
                     <div class="order-card">
-                        <img src="${order.productImg || 'https://via.placeholder.com/100'}" 
-                             class="order-img" 
-                             onerror="this.src='https://via.placeholder.com/100?text=No+Image'">
-                        
+                        <img src="${order.productImg || 'https://via.placeholder.com/100'}" class="order-img" onerror="this.src='https://via.placeholder.com/100?text=No+Image'">
                         <div class="order-details">
                             <div class="order-id">ORDER ID: #${doc.id.substring(0,10).toUpperCase()}</div>
                             <div class="product-name">${order.productName || 'Unnamed Product'}</div>
                             <span class="status-tag ${statusClass}">${status}</span>
                             <div class="price-tag">Rs. ${order.totalPrice || '0.00'}</div>
                         </div>
-
                         <div class="order-actions">
                             <div style="font-size: 13px; color: #666; margin-bottom: 5px;">Placed on: ${date}</div>
                             <button class="track-btn" onclick="trackOrder('${doc.id}')">
@@ -204,18 +129,10 @@ function trackOrder(id) {
             });
         }, (error) => {
             console.error("Error loading orders: ", error);
-            list.innerHTML = `<p style="text-align:center; color:red;">Error loading orders. Please check your connection.</p>`;
+            list.innerHTML = `<p style="text-align:center; color:red;">Error loading orders.</p>`;
         });
     }
 
-    // Track Order function
-    function trackOrder(id) {
-        alert("Tracking system for Order ID: #" + id + "\nThis feature is coming soon!");
-        // මෙතනට ඔයාට Tracking පේජ් එකකට යන ලින්ක් එකක් දෙන්න පුළුවන්
-    }
-      <button class="track-btn" onclick="trackOrder('${doc.id}')">
-    <i class="fas fa-truck"></i> Track Order
-</button>
     window.onload = loadMyOrders;
 </script>
 </body>
