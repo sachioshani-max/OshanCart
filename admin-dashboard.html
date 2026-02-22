@@ -368,20 +368,33 @@
     } catch(e) { alert("Error: " + e.message); }
     btn.innerText = "List Product Now"; btn.disabled = false;
 };
-        // Edit Function
-        window.startEdit = (id, name, price, stock, cat, desc) => {
+    
+       // Advanced Edit Function (International Standard)
+        window.startEdit = (id, name, price, oldPrice, stock, cat, desc, brand, model, specs, ship, delTime, moq, colors, sizes) => {
             document.getElementById('edit-id').value = id;
             document.getElementById('pName').value = name;
             document.getElementById('pPrice').value = price;
+            document.getElementById('pOldPrice').value = oldPrice || 0;
             document.getElementById('pStock').value = stock;
             document.getElementById('pCategory').value = cat;
             document.getElementById('pDesc').value = desc;
-            document.getElementById('form-title').innerText = "Edit Product Mode";
-            document.getElementById('listBtn').innerText = "Update Now";
-            document.getElementById('cancelBtn').style.display = "block";
-            showTab('product-listing', document.querySelectorAll('.nav-link')[5]);
-        };
+            document.getElementById('pBrand').value = brand || "";
+            document.getElementById('pModel').value = model || "";
+            document.getElementById('pSpecs').value = specs || "";
+            document.getElementById('pShipping').value = ship || "";
+            document.getElementById('pDeliveryTime').value = delTime || "";
+            document.getElementById('pMoq').value = moq || "";
+            document.getElementById('pColors').value = colors || "";
+            document.getElementById('pSizes').value = sizes || "";
 
+            document.getElementById('form-title').innerText = "📝 Edit Product: " + name;
+            document.getElementById('listBtn').innerText = "Update Product Now";
+            document.getElementById('listBtn').style.background = "#e67e22"; 
+            document.getElementById('cancelBtn').style.display = "block";
+            
+            showTab('product-listing', document.querySelectorAll('.nav-link')[5]);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
         window.resetForm = () => {
             document.getElementById('edit-id').value = "";
             document.getElementById('pName').value = "";
@@ -394,7 +407,15 @@
             document.getElementById('upload-status').innerText = "Drag & Drop or Click to Upload Images (7+)";
             selectedFiles = [];
         };
-
+        window.resetForm = () => {
+            document.querySelectorAll('.form-container input, .form-container textarea').forEach(el => el.value = "");
+            document.getElementById('form-title').innerText = "🚀 Advanced Product Listing";
+            document.getElementById('listBtn').innerText = "🚀 List Product Globally";
+            document.getElementById('listBtn').style.background = "#27ae60";
+            document.getElementById('cancelBtn').style.display = "none";
+            document.getElementById('upload-status').innerText = "Upload Product Gallery Images (7+ Recommended)";
+            selectedFiles = [];
+        };
         window.deleteProd = async (id) => { if(confirm("Delete Product?")) await deleteDoc(doc(db, "products", id)); };
 
         // Global Function for Filtering
@@ -449,8 +470,11 @@ onSnapshot(collection(db, "products"), (snapshot) => {
                 </td>
                 <td>
                     <div class="action-icons">
-                        <button class="action-btn edit-btn-alt" onclick="startEdit('${id}', '${p.name}', ${p.price}, ${p.stock}, '${p.category}', \`${p.description}\`)" title="Edit">
-                            <i class="fas fa-edit"></i>
+                        <button class="action-btn edit-btn-alt" 
+    onclick="startEdit('${id}', '${p.name}', ${p.price}, ${p.oldPrice || 0}, ${p.stock}, '${p.category}', \`${p.description}\`, '${p.brand || ""}', '${p.model || ""}', \`${p.specifications || ""}\`, '${p.shipping || ""}', '${p.deliveryTime || ""}', '${p.moq || ""}', '${(p.colors || []).join(', ')}', '${(p.sizes || []).join(', ')}')" 
+    title="Edit">
+    <i class="fas fa-edit"></i>
+</button>
                         </button>
                         <button class="action-btn del-btn-alt" onclick="deleteProd('${id}')" title="Delete">
                             <i class="fas fa-trash"></i>
