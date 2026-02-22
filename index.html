@@ -327,7 +327,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <script>
-    // --- 1. FIREBASE INITIALIZATION ---
+    // --- 1. FIREBASE & CONFIG INITIALIZATION ---
     const firebaseConfig = {
         apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
         authDomain: "oshancart.firebaseapp.com",
@@ -341,205 +341,170 @@
         firebase.initializeApp(firebaseConfig);
     }
     const db = firebase.firestore();
+    emailjs.init("jfgAK0LaZ0w7RKAE8");
 
-    // --- 2. EMAILJS INITIALIZATION ---
-    (function() {
-        emailjs.init("jfgAK0LaZ0w7RKAE8"); // ඔයාගේ Public Key එක
-    })();
+    let currentCurrency = "Rs."; // Default මුදල් ඒකකය
 
-    // --- 3. UI FUNCTIONS ---
-    function toggleLang() {
-        const menu = document.getElementById('lang-menu');
-        menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function changeLang(flag, name) {
-        document.getElementById('current-flag').className = `fi fi-${flag}`;
-        document.getElementById('current-lang').innerText = name;
-        toggleLang();
-    }
-
-    function toggleChat() {
-        const win = document.getElementById('chatWin');
-        win.style.display = win.style.display === 'none' ? 'flex' : 'none';
-    }
-    // Side Menu එක පාලනය කරන්න
-function toggleSidebar() {
-    document.getElementById('sideOverlay').style.display = 'block';
-    document.getElementById('mobSide').classList.add('active');
-}
-
-function closeSidebar() {
-    document.getElementById('mobSide').classList.remove('active');
-    setTimeout(() => {
-        document.getElementById('sideOverlay').style.display = 'none';
-    }, 300);
-}
-
-// Categories Shortcut එක වැඩ කරන්න
-function openMobCategories() {
-    toggleSidebar();
-}
-    // සයිඩ්බාර් එක අරින්න (Open Sidebar)
-function toggleSidebar() {
-    document.getElementById('sideOverlay').style.display = 'block';
-    setTimeout(() => {
-        document.getElementById('mobSide').classList.add('active');
-    }, 10);
-}
-
-// සයිඩ්බාර් එක වහන්න (Close Sidebar)
-function closeSidebar() {
-    document.getElementById('mobSide').classList.remove('active');
-    setTimeout(() => {
-        document.getElementById('sideOverlay').style.display = 'none';
-    }, 300);
-}
-
-// පහළ තියෙන Categories Shortcut එක එබුවාම සයිඩ්බාර් එක ඇරෙන්න
-// මේක 'bottom-nav' එකේ Categories link එකට දාන්න
-function openMobCategories() {
-    toggleSidebar();
-}
-
-    // --- 4. LOAD PRODUCTS FROM FIREBASE ---
-    function loadProducts() {
-    const grid = document.getElementById('mainProductGrid');
-    db.collection("products").onSnapshot((snapshot) => {
-        grid.innerHTML = ""; 
-        snapshot.forEach((doc) => {
-            let p = doc.data();
-            grid.innerHTML += `
-                <div class="product-card">
-                    <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img" onerror="this.src='https://via.placeholder.com/150'">
-                    <div class="product-info">
-                        <div class="p-name">${p.name}</div>
-                        <div class="p-price">Rs. ${p.price}</div>
-                        <button onclick="buyNow('${doc.id}', '${p.name}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
-                    </div>
-                </div>`;
-        });
-    });
-            }
-
-    // Buy Now function with EmailJS notification
-    function buyNow(id, name) {
-        alert(name + " added to checkout!");
-        // මෙතනදී ඔයාට ඕන නම් EmailJS හරහා Admin ට notification එකක් යවන්න පුළුවන්
-    }
-
-    // --- 5. ADMIN ACCESS ---
-    function accessAdmin() {
-        const pw = prompt("Enter Admin Password:");
-        if(pw === "Lakshan@2001") {
-            window.location.href = "admin-dashboard.html";
-        } else if (pw !== null) {
-            alert("Access Denied!");
+    // --- 2. SIDEBAR & UI LOGIC ---
+    function toggleSidebar() {
+        const overlay = document.getElementById('sideOverlay');
+        const sidebar = document.getElementById('mobSide');
+        if(overlay && sidebar) {
+            overlay.style.display = 'block';
+            setTimeout(() => sidebar.classList.add('active'), 50);
         }
     }
 
-    // --- 6. AI ASSISTANT ---
+    function closeSidebar() {
+        const sidebar = document.getElementById('mobSide');
+        if(sidebar) {
+            sidebar.classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('sideOverlay').style.display = 'none';
+            }, 300);
+        }
+    }
+
+    // --- 3. LANGUAGE & CURRENCY ENGINE ---
+    // මෙනු එකේ රටවල් එබුවාම මුදල් ඒකකය මාරු කිරීම
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.lang-box')) {
+            const box = e.target.closest('.lang-box');
+            const country = box.innerText.trim();
+            
+            if(country.includes("US") || country.includes("AUS")) currentCurrency = "$";
+            else if(country.includes("UK")) currentCurrency = "£";
+            else if(country.includes("UAE")) currentCurrency = "AED";
+            else if(country.includes("CN") || country.includes("JP")) currentCurrency = "¥";
+            else currentCurrency = "Rs.";
+            
+            alert("Market Switched: " + country + " (" + currentCurrency + ")");
+            loadProducts(); 
+            closeSidebar();
+        }
+    });
+
+    // --- 4. PRODUCT ENGINE ---
+    function loadProducts() {
+        const grid = document.getElementById('mainProductGrid');
+        db.collection("products").onSnapshot((snapshot) => {
+            grid.innerHTML = ""; 
+            snapshot.forEach((doc) => renderProduct(doc.id, doc.data()));
+        });
+    }
+
+    function renderProduct(id, p) {
+        const grid = document.getElementById('mainProductGrid');
+        grid.innerHTML += `
+            <div class="product-card">
+                <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img" onerror="this.src='https://via.placeholder.com/150'">
+                <div class="product-info">
+                    <div class="p-name">${p.name}</div>
+                    <div class="p-price">${currentCurrency} ${p.price}</div>
+                    <button onclick="buyNow('${id}', '${p.name}', '${p.price}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
+                </div>
+            </div>`;
+    }
+
+    // Category Filter කිරීම
+    function filterCat(categoryName) {
+        const grid = document.getElementById('mainProductGrid');
+        db.collection("products").where("category", "==", categoryName).get().then((snapshot) => {
+            grid.innerHTML = "";
+            if(snapshot.empty) {
+                grid.innerHTML = "<p style='padding:20px; text-align:center; width:100%; grid-column: 1/-1;'>No items found in this category.</p>";
+            }
+            snapshot.forEach((doc) => renderProduct(doc.id, doc.data()));
+        });
+        closeSidebar();
+    }
+
+    // --- 5. ADVANCED SEARCH (LIVE SEARCH) ---
+    const sInput = document.getElementById('searchInput');
+    
+    // ටයිප් කරන කොටම සර්ච් වෙන විදිහ (Real-time)
+    if(sInput) {
+        sInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            filterProducts(query);
+        });
+    }
+
+    function filterProducts(query) {
+        const grid = document.getElementById('mainProductGrid');
+        db.collection("products").get().then((snapshot) => {
+            grid.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const p = doc.data();
+                if (p.name.toLowerCase().includes(query)) renderProduct(doc.id, p);
+            });
+        });
+    }
+
+    // Voice Search
+    const micBtn = document.getElementById('micBtn');
+    if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        micBtn.onclick = () => { recognition.start(); micBtn.style.color = "red"; };
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            sInput.value = transcript;
+            micBtn.style.color = "#666";
+            filterProducts(transcript.toLowerCase());
+        };
+    }
+
+    // Camera Search
+    const camInput = document.getElementById('camInput');
+    if(camInput) {
+        camInput.onchange = function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                alert("Oshan AI is analyzing: " + file.name);
+                filterProducts(file.name.split('.')[0].toLowerCase());
+            }
+        };
+    }
+
+    // --- 6. AI ASSISTANT & CHAT ---
+    function toggleChat() {
+        const win = document.getElementById('chatWin');
+        win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
+    }
+
     async function askAI() {
         const input = document.getElementById('aiInput');
         const body = document.getElementById('chatBody');
-        if(!input.value) return;
+        if(!input || !input.value) return;
 
-        body.innerHTML += `<p style="background:var(--daraz-orange); color:white; padding:8px; border-radius:8px; width:fit-content; margin-left:auto;">${input.value}</p>`;
-        
+        body.innerHTML += `<p style="background:var(--daraz-orange); color:white; padding:8px; border-radius:8px; width:fit-content; margin-left:auto; font-size:13px;">${input.value}</p>`;
         const userMsg = input.value.toLowerCase();
         input.value = '';
 
         setTimeout(() => {
-            let reply = "I'm checking Oshan Cart for you...";
-            if(userMsg.includes("order")) reply = "You can track your order in the 'My Orders' section.";
-            if(userMsg.includes("hello") || userMsg.includes("hi")) reply = "Hi there! How can Oshan AI help you today?";
+            let reply = "Let me check that for you...";
+            if(userMsg.includes("hi") || userMsg.includes("hello")) reply = "Hi! Welcome to OshanCart. How can I help?";
+            else if(userMsg.includes("price")) reply = "Our prices are global! You can switch countries from the menu.";
+            else if(userMsg.includes("delivery")) reply = "We offer fast global shipping to over 12 countries.";
             
-            body.innerHTML += `<p style="background:#f0f0f0; padding:8px; border-radius:8px; width:fit-content;">${reply}</p>`;
+            body.innerHTML += `<p style="background:#f0f0f0; padding:8px; border-radius:8px; width:fit-content; font-size:13px;">${reply}</p>`;
             body.scrollTop = body.scrollHeight;
-        }, 1000);
+        }, 800);
     }
-function filterCat(categoryName) {
-    const grid = document.getElementById('mainProductGrid');
-    db.collection("products").where("category", "==", categoryName).onSnapshot((snapshot) => {
-        grid.innerHTML = "";
-        snapshot.forEach((doc) => {
-            let p = doc.data();
-            grid.innerHTML += `
-                <div class="product-card">
-                    <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img">
-                    <div class="product-info">
-                        <div class="p-name">${p.name}</div>
-                        <div class="p-price">Rs. ${p.price}</div>
-                        <button onclick="buyNow('${doc.id}', '${p.name}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
-                    </div>
-                </div>`;
-        });
-    });
-}
-    // Start loading
+
+    // --- 7. ADMIN & CHECKOUT ---
+    function buyNow(id, name, price) {
+        alert(name + " added to checkout!");
+        window.location.href = `cart.html?id=${id}&name=${encodeURIComponent(name)}&price=${price}&curr=${currentCurrency}`;
+    }
+
+    function accessAdmin() {
+        const pw = prompt("Enter Admin Password:");
+        if(pw === "Lakshan@2001") window.location.href = "admin-dashboard.html";
+        else if (pw !== null) alert("Access Denied!");
+    }
+
     window.onload = loadProducts;
-    // --- 1. VOICE SEARCH (MIC) ---
-const micBtn = document.getElementById('micBtn');
-const searchInput = document.getElementById('searchInput');
-
-if ('webkitSpeechRecognition' in window) {
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en-US'; // සිංහලෙන් කියනවා නම් 'si-LK' දාන්නත් පුළුවන්
-
-    micBtn.onclick = () => {
-        recognition.start();
-        micBtn.style.color = "red"; // Record වෙන බව පෙන්වන්න
-    };
-
-    recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        searchInput.value = transcript;
-        micBtn.style.color = "#666";
-        filterProducts(transcript); // කියපු දේ සර්ච් කරනවා
-    };
-    
-    recognition.onerror = () => { micBtn.style.color = "#666"; };
-} else {
-    micBtn.style.display = "none"; // Browser එකේ Mic වැඩ නැත්නම් අයිකන් එක පේන්නේ නැහැ
-}
-
-// --- 2. IMAGE SEARCH (CAMERA) ---
-document.getElementById('camInput').onchange = function(e) {
-    const file = e.target.files[0];
-    if (file) {
-        alert("Image Search is analyzing your photo...");
-        // සැබෑ AI එකකින් පින්තූරයක් ඇතුළේ තියෙන්නේ මොනවද කියලා හොයන්න 
-        // Google Vision වගේ API එකක් ඕන වෙනවා. 
-        // දැනට අපි කරන්නේ පින්තූරයේ නම අනුව පොඩි සර්ච් එකක් කරන එකයි.
-        textSearch(); 
-    }
-};
-
-// --- 3. SEARCH FUNCTION ---
-function textSearch() {
-    const val = searchInput.value.toLowerCase();
-    filterProducts(val);
-}
-
-function filterProducts(query) {
-    const grid = document.getElementById('mainProductGrid');
-    db.collection("products").onSnapshot((snapshot) => {
-        grid.innerHTML = "";
-        snapshot.forEach((doc) => {
-            const p = doc.data();
-            if (p.name.toLowerCase().includes(query)) {
-                grid.innerHTML += `
-                    <div class="product-card">
-                        <img src="${p.image}" class="product-img">
-                        <div class="product-info">
-                            <div class="p-name">${p.name}</div>
-                            <div class="p-price">Rs. ${p.price}</div>
-                        </div>
-                    </div>`;
-            }
-        });
-    });
-}
 </script>
 </body>
 </html>
