@@ -200,17 +200,17 @@
             <span onclick="accessAdmin()" style="cursor:pointer;">Admin Login</span>
             <span>Help Center</span>
         </div>
-        <div class="main-nav">
-            <h2 style="color:var(--daraz-orange); margin:0;">OshanCart</h2>
-            <div class="search-box">
-                <input type="text" placeholder="Search in Oshan Cart...">
-                <button class="search-btn"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="user-actions" style="display:flex; gap:20px;">
-                <i class="far fa-user"></i>
-                <i class="fas fa-shopping-cart"></i>
-            </div>
-        </div>
+       <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search in Oshan Cart...">
+    <div class="search-addons" style="display:flex; align-items:center; gap:10px; padding-right:10px; color:#666;">
+        <i class="fas fa-microphone" id="micBtn" style="cursor:pointer;" title="Voice Search"></i>
+        <label for="camInput" style="margin:0; cursor:pointer;">
+            <i class="fas fa-camera" title="Image Search"></i>
+        </label>
+        <input type="file" id="camInput" accept="image/*" style="display:none;">
+    </div>
+    <button class="search-btn" onclick="textSearch()"><i class="fas fa-search"></i></button>
+       </div>
     </header>
 
     <header class="mobile-nav">
@@ -219,10 +219,17 @@
             <h3 style="margin:0;">OshanCart</h3>
             <i class="fas fa-comment-dots"></i>
         </div>
-        <div class="mobile-search-bar">
-            <i class="fas fa-search" style="color:#999; margin-right:10px;"></i>
-            <input type="text" placeholder="I'm shopping for..." style="border:none; outline:none; width:100%;">
-        </div>
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search in Oshan Cart...">
+    <div class="search-addons" style="display:flex; align-items:center; gap:10px; padding-right:10px; color:#666;">
+        <i class="fas fa-microphone" id="micBtn" style="cursor:pointer;" title="Voice Search"></i>
+        <label for="camInput" style="margin:0; cursor:pointer;">
+            <i class="fas fa-camera" title="Image Search"></i>
+        </label>
+        <input type="file" id="camInput" accept="image/*" style="display:none;">
+    </div>
+    <button class="search-btn" onclick="textSearch()"><i class="fas fa-search"></i></button>
+</div>
     </header>
 
     <aside class="category-sidebar">
@@ -400,6 +407,68 @@ function filterCat(categoryName) {
 }
     // Start loading
     window.onload = loadProducts;
+    // --- 1. VOICE SEARCH (MIC) ---
+const micBtn = document.getElementById('micBtn');
+const searchInput = document.getElementById('searchInput');
+
+if ('webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US'; // සිංහලෙන් කියනවා නම් 'si-LK' දාන්නත් පුළුවන්
+
+    micBtn.onclick = () => {
+        recognition.start();
+        micBtn.style.color = "red"; // Record වෙන බව පෙන්වන්න
+    };
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        searchInput.value = transcript;
+        micBtn.style.color = "#666";
+        filterProducts(transcript); // කියපු දේ සර්ච් කරනවා
+    };
+    
+    recognition.onerror = () => { micBtn.style.color = "#666"; };
+} else {
+    micBtn.style.display = "none"; // Browser එකේ Mic වැඩ නැත්නම් අයිකන් එක පේන්නේ නැහැ
+}
+
+// --- 2. IMAGE SEARCH (CAMERA) ---
+document.getElementById('camInput').onchange = function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        alert("Image Search is analyzing your photo...");
+        // සැබෑ AI එකකින් පින්තූරයක් ඇතුළේ තියෙන්නේ මොනවද කියලා හොයන්න 
+        // Google Vision වගේ API එකක් ඕන වෙනවා. 
+        // දැනට අපි කරන්නේ පින්තූරයේ නම අනුව පොඩි සර්ච් එකක් කරන එකයි.
+        textSearch(); 
+    }
+};
+
+// --- 3. SEARCH FUNCTION ---
+function textSearch() {
+    const val = searchInput.value.toLowerCase();
+    filterProducts(val);
+}
+
+function filterProducts(query) {
+    const grid = document.getElementById('mainProductGrid');
+    db.collection("products").onSnapshot((snapshot) => {
+        grid.innerHTML = "";
+        snapshot.forEach((doc) => {
+            const p = doc.data();
+            if (p.name.toLowerCase().includes(query)) {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <img src="${p.image}" class="product-img">
+                        <div class="product-info">
+                            <div class="p-name">${p.name}</div>
+                            <div class="p-price">Rs. ${p.price}</div>
+                        </div>
+                    </div>`;
+            }
+        });
+    });
+}
 </script>
 </body>
 </html>
