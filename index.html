@@ -138,43 +138,115 @@
         <a href="admin-dashboard.html" class="nav-link"><i class="fas fa-user-shield"></i>Admin</a>
     </nav>
 
-    <script>
-        // --- ADMIN & CHAT LOGIC ---
-        function toggleChat() {
-            const win = document.getElementById('chatWin');
-            win.style.display = win.style.display === 'none' ? 'flex' : 'none';
-        }
+ <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-        function accessAdmin() {
-            const pw = prompt("Enter Admin Password:");
-            if(pw === "Lakshan@2001") window.location.href = "admin-dashboard.html";
-            else if(pw) alert("Denied!");
-        }
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-        // --- FIREBASE LOADING ---
-        function loadProducts() {
-            const grid = document.getElementById('mainProductGrid');
-            if (typeof db !== 'undefined') {
-                db.collection("products").onSnapshot((snapshot) => {
-                    grid.innerHTML = ""; 
-                    snapshot.forEach((doc) => {
-                        let p = doc.data();
-                        grid.innerHTML += `
-                            <div class="product-card">
-                                <img src="${p.img || 'https://via.placeholder.com/150'}" class="product-img">
-                                <div class="product-info">
-                                    <div class="p-name">${p.name}</div>
-                                    <div class="p-price">Rs. ${p.price}</div>
-                                    <button style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
-                                </div>
-                            </div>`;
-                    });
-                });
-            } else {
-                grid.innerHTML = "<p>Please connect Firebase to load products.</p>";
+<script>
+    // --- 1. FIREBASE INITIALIZATION ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+        authDomain: "oshancart.firebaseapp.com",
+        projectId: "oshancart",
+        storageBucket: "oshancart.appspot.com",
+        messagingSenderId: "686982543488",
+        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
+    // --- 2. EMAILJS INITIALIZATION ---
+    (function() {
+        emailjs.init("jfgAK0LaZ0w7RKAE8"); // ඔයාගේ Public Key එක
+    })();
+
+    // --- 3. UI FUNCTIONS ---
+    function toggleLang() {
+        const menu = document.getElementById('lang-menu');
+        menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function changeLang(flag, name) {
+        document.getElementById('current-flag').className = `fi fi-${flag}`;
+        document.getElementById('current-lang').innerText = name;
+        toggleLang();
+    }
+
+    function toggleChat() {
+        const win = document.getElementById('chatWin');
+        win.style.display = win.style.display === 'none' ? 'flex' : 'none';
+    }
+
+    // --- 4. LOAD PRODUCTS FROM FIREBASE ---
+    function loadProducts() {
+        const grid = document.getElementById('mainProductGrid');
+        
+        db.collection("products").onSnapshot((snapshot) => {
+            grid.innerHTML = ""; 
+            if(snapshot.empty) {
+                grid.innerHTML = "<p style='padding:20px;'>No products found. Add some from Admin!</p>";
+                return;
             }
+            snapshot.forEach((doc) => {
+                let p = doc.data();
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <img src="${p.img || 'https://via.placeholder.com/150'}" class="product-img">
+                        <div class="product-info">
+                            <div class="p-name">${p.name}</div>
+                            <div class="p-price">Rs. ${p.price}</div>
+                            <div style="font-size:10px; color:#999; margin-top:5px;">${p.sold || 0}+ sold</div>
+                            <button onclick="buyNow('${doc.id}', '${p.name}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+    }
+
+    // Buy Now function with EmailJS notification
+    function buyNow(id, name) {
+        alert(name + " added to checkout!");
+        // මෙතනදී ඔයාට ඕන නම් EmailJS හරහා Admin ට notification එකක් යවන්න පුළුවන්
+    }
+
+    // --- 5. ADMIN ACCESS ---
+    function accessAdmin() {
+        const pw = prompt("Enter Admin Password:");
+        if(pw === "Lakshan@2001") {
+            window.location.href = "admin-dashboard.html";
+        } else if (pw !== null) {
+            alert("Access Denied!");
         }
-        window.onload = loadProducts;
-    </script>
+    }
+
+    // --- 6. AI ASSISTANT ---
+    async function askAI() {
+        const input = document.getElementById('aiInput');
+        const body = document.getElementById('chatBody');
+        if(!input.value) return;
+
+        body.innerHTML += `<p style="background:var(--daraz-orange); color:white; padding:8px; border-radius:8px; width:fit-content; margin-left:auto;">${input.value}</p>`;
+        
+        const userMsg = input.value.toLowerCase();
+        input.value = '';
+
+        setTimeout(() => {
+            let reply = "I'm checking Oshan Cart for you...";
+            if(userMsg.includes("order")) reply = "You can track your order in the 'My Orders' section.";
+            if(userMsg.includes("hello") || userMsg.includes("hi")) reply = "Hi there! How can Oshan AI help you today?";
+            
+            body.innerHTML += `<p style="background:#f0f0f0; padding:8px; border-radius:8px; width:fit-content;">${reply}</p>`;
+            body.scrollTop = body.scrollHeight;
+        }, 1000);
+    }
+
+    // Start loading
+    window.onload = loadProducts;
+</script>
 </body>
 </html>
