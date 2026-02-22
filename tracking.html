@@ -193,16 +193,17 @@
     }
     const db = firebase.firestore();
 
-    // URL එකෙන් ID එක ලබා ගැනීම
-    const urlParams = new URLSearchParams(window.location.search);
-    const orderId = urlParams.get('id');
-    const displayElement = document.getElementById('orderIdDisplay');
-    
-    if(orderId) {
-        displayElement.innerText = "Order: #" + orderId.substring(0, 12).toUpperCase();
-    } else {
-        displayElement.innerText = "Order ID Not Found";
-    }
+   // 1. URL එකේ අග තියෙන දත්ත කියවීම
+const urlParams = new URLSearchParams(window.location.search);
+const orderId = urlParams.get('id'); // අර අපි එවපු 'id' එක මෙතනදී අල්ලගන්නවා
+
+// 2. ඒ ID එක පේජ් එකේ පෙන්වීම
+const displayElement = document.getElementById('orderIdDisplay');
+if(orderId) {
+    displayElement.innerText = "Order: #" + orderId.substring(0, 12).toUpperCase();
+} else {
+    displayElement.innerText = "Order ID Not Found";
+}
 
     // සජීවීව දත්ත ලබා ගැනීම (Live Tracking)
     function trackLive() {
