@@ -180,7 +180,90 @@
         <button id="cancelBtn" class="cancel-btn" style="display: none;" onclick="resetForm()">Cancel Editing</button>
     </div>
 </div>
+        <div id="stock" class="tab-content">
+    <div class="stock-header">
+        <h1>📦 Global Stock & Inventory</h1>
+        <div class="stock-actions">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="stockSearch" placeholder="Search by Product Name or SKU..." onkeyup="filterStock()">
+            </div>
+            <select id="stockCategoryFilter" onchange="filterStock()">
+            <option value="Womens">Womens Fashion 👗</option>
+            <option value="Mens">Mens Fashion 👕</option>
+            <option value="Home & Kitchen">Home & Kitchen 🏠</option>
+            <option value="Tools & Home Improvement">Tools & Home Improvement 🛠️🏠</option>
+            <option value="Jewelry">Jewelry 💍</option>
+            <option value="Phones">Phones 📱</option>
+            <option value="Electronics & Gadgets">Electronics & Gadgets ⚡📱</option>
+            <option value="Home & Beauty">Home & Beauty 💄</option>
+            <option value="Furniture">Furniture 🛋️</option>
+            <option value="Money Saving">Money Saving 💰</option>
+            <option value="Kids">Kids 🧸</option>
+            <option value="Dried Food">Dried Food 🍲</option>
+            <option value="Cakes">Cakes (Wedding & Birthday) 🎂</option>
+            <option value="Ceylon Items">Ceylon Items 🇱🇰</option>
+            <option value="Vehicles">Vehicles (Electric & Petrol) 🚗</option>
+            </select>
+        </div>
+    </div>
 
+    <div class="table-responsive">
+        <table id="stockTable">
+            <thead>
+                <tr>
+                    <th>Product Details</th>
+                    <th>Category</th>
+                    <th>Inventory Status</th>
+                    <th>Pricing</th>
+                    <th>Performance</th>
+                    <th>Quick Actions</th>
+                </tr>
+            </thead>
+            <tbody id="stockTableBody">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    /* Professional Stock Styling */
+    .stock-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+    .stock-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .search-box { position: relative; width: 300px; }
+    .search-box i { position: absolute; left: 12px; top: 12px; color: #888; }
+    .search-box input { padding-left: 35px !important; margin-bottom: 0 !important; }
+    #stockCategoryFilter { width: auto; margin-bottom: 0 !important; border-radius: 8px; }
+
+    .table-responsive { overflow-x: auto; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; }
+    th { background: #f8f9fa; color: #444; font-weight: 600; padding: 18px; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; border-bottom: 2px solid #eee; }
+    td { padding: 15px 18px; vertical-align: middle; border-bottom: 1px solid #f1f1f1; }
+
+    .prod-cell { display: flex; align-items: center; gap: 12px; }
+    .prod-cell img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 1px solid #eee; }
+    .prod-name-info h4 { margin: 0; font-size: 15px; color: #333; }
+    .prod-name-info span { font-size: 12px; color: #777; }
+
+    .stock-badge { padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .in-stock { background: #e8f5e9; color: #2e7d32; }
+    .low-stock { background: #fff3e0; color: #ef6c00; }
+    .out-stock { background: #ffeef2; color: #c9184a; }
+
+    .price-tag { font-weight: bold; color: #232f3e; font-size: 15px; }
+    .old-price-strike { text-decoration: line-through; color: #999; font-size: 12px; margin-left: 5px; }
+
+    .action-icons { display: flex; gap: 8px; }
+    .action-btn { width: 35px; height: 35px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+    .edit-btn-alt { background: #e3f2fd; color: #1976d2; }
+    .del-btn-alt { background: #ffeef2; color: #c9184a; }
+    .action-btn:hover { transform: scale(1.1); }
+
+    @media (max-width: 768px) {
+        .stock-header { flex-direction: column; align-items: flex-start; }
+        .search-box { width: 100%; }
+    }
+</style>
 <style>
     .form-section { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #c9184a; }
     .form-section h3 { margin-top: 0; font-size: 16px; color: #333; display: flex; align-items: center; gap: 10px; }
@@ -314,26 +397,69 @@
 
         window.deleteProd = async (id) => { if(confirm("Delete Product?")) await deleteDoc(doc(db, "products", id)); };
 
-        // Stock Sync with Edit/Delete Buttons
-        onSnapshot(collection(db, "products"), (snapshot) => {
-            const tbody = document.getElementById("stockTableBody");
-            tbody.innerHTML = "";
-            snapshot.forEach(docSnap => {
-                const p = docSnap.data();
-                const id = docSnap.id;
-                tbody.innerHTML += `<tr>
-                    <td><img src="${p.image}" class="prod-img"></td>
-                    <td>${p.name}</td>
-                    <td>Rs. ${p.price}</td>
-                    <td>${p.stock}</td>
-                    <td>${p.sold || 0}</td>
-                    <td>
-                        <button class="edit-btn" onclick="startEdit('${id}', '${p.name}', ${p.price}, ${p.stock}, '${p.category}', \`${p.description}\`)">Edit</button>
-                        <button class="del-btn" onclick="deleteProd('${id}')">Delete</button>
-                    </td>
-                </tr>`;
-            });
-        });
+        // Global Function for Filtering
+window.filterStock = () => {
+    const search = document.getElementById('stockSearch').value.toLowerCase();
+    const cat = document.getElementById('stockCategoryFilter').value;
+    const rows = document.querySelectorAll('#stockTableBody tr');
+
+    rows.forEach(row => {
+        const name = row.querySelector('.prod-name-info h4').innerText.toLowerCase();
+        const category = row.dataset.category;
+        const matchesSearch = name.includes(search);
+        const matchesCat = (cat === "All" || category === cat);
+        row.style.display = (matchesSearch && matchesCat) ? "" : "none";
+    });
+};
+
+// Advanced Stock Sync
+onSnapshot(collection(db, "products"), (snapshot) => {
+    const tbody = document.getElementById("stockTableBody");
+    tbody.innerHTML = "";
+    
+    snapshot.forEach(docSnap => {
+        const p = docSnap.data();
+        const id = docSnap.id;
+        const stockStatus = p.stock <= 0 ? 'out-stock' : (p.stock <= 5 ? 'low-stock' : 'in-stock');
+        const statusText = p.stock <= 0 ? 'Out of Stock' : (p.stock <= 5 ? 'Low Stock' : 'In Stock');
+
+        tbody.innerHTML += `
+            <tr data-category="${p.category}">
+                <td>
+                    <div class="prod-cell">
+                        <img src="${p.image}" alt="product">
+                        <div class="prod-name-info">
+                            <h4>${p.name}</h4>
+                            <span>SKU: ${id.substring(0,8).toUpperCase()} | Brand: ${p.brand || 'Generic'}</span>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="badge" style="background:#eee; color:#555;">${p.category}</span></td>
+                <td>
+                    <div style="font-weight:600;">Qty: ${p.stock}</div>
+                    <span class="stock-badge ${stockStatus}">${statusText}</span>
+                </td>
+                <td>
+                    <div class="price-tag">Rs. ${p.price.toLocaleString()}</div>
+                    ${p.oldPrice ? `<span class="old-price-strike">Rs. ${p.oldPrice}</span>` : ''}
+                </td>
+                <td>
+                    <div style="font-size:13px; color:#27ae60;"><i class="fas fa-shopping-cart"></i> Sold: ${p.sold || 0}</div>
+                    <div style="font-size:12px; color:#888;">Revenue: Rs. ${(p.sold * p.price || 0).toLocaleString()}</div>
+                </td>
+                <td>
+                    <div class="action-icons">
+                        <button class="action-btn edit-btn-alt" onclick="startEdit('${id}', '${p.name}', ${p.price}, ${p.stock}, '${p.category}', \`${p.description}\`)" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn del-btn-alt" onclick="deleteProd('${id}')" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>`;
+    });
+});
 
         window.showTab = (id, el) => {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
