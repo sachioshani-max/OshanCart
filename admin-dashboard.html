@@ -61,7 +61,20 @@
         <a href="admin.html" class="nav-item">📦 View Customer Orders</a>
         <a href="admin.html" class="nav-item">📦 Manage Orders</a>
     </div>
-
+<div class="sidebar">
+    <h2>OSHAN ADMIN</h2>
+    <div class="nav-link active" onclick="showTab('overview', this)"><i class="fas fa-home"></i> Overview Page</div>
+    <div class="nav-link" onclick="showTab('wallet', this)"><i class="fas fa-wallet"></i> Withdrawal Wallet</div>
+    <div class="nav-link" onclick="showTab('referral', this)"><i class="fas fa-users"></i> Referral Data</div>
+    <div class="nav-link" onclick="showTab('passive', this)"><i class="fas fa-chart-line"></i> Passive Income</div>
+    <div class="nav-link" onclick="showTab('affiliate', this)"><i class="fas fa-handshake"></i> Affiliate Program</div>
+    <div class="nav-link" onclick="showTab('product-listing', this)"><i class="fas fa-plus-circle"></i> Post New Product</div>
+    <div class="nav-link" onclick="showTab('stock', this)"><i class="fas fa-database"></i> Stock & Inventory</div>
+    
+    <a href="admin.html" class="nav-link" style="text-decoration: none; display: block;">
+        <i class="fas fa-shopping-basket"></i> Customer Orders
+    </a>
+</div>
     <div class="main-content">
         
         <div id="overview" class="tab-content active">
