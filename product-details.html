@@ -6,60 +6,63 @@
     <title>Product Details | Oshan Cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-    :root { --amazon-orange: #FF9900; --amazon-navy: #131921; --price-red: #B12704; --text-gray: #565959; }
-    body { font-family: 'Poppins', sans-serif; margin: 0; background: #f8f9fa; color: #333; }
-    
-    .nav { background: var(--amazon-navy); padding: 12px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-    .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-    .cart-icon { position: relative; font-size: 24px; color: white; text-decoration: none; }
-    #cart-count { position: absolute; top: -8px; right: -12px; background: var(--amazon-orange); color: black; font-size: 11px; padding: 2px 6px; border-radius: 50%; font-weight: bold; border: 1px solid white; }
+        :root { --amazon-orange: #FF9900; --amazon-navy: #131921; --price-red: #B12704; --text-gray: #565959; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: #f8f9fa; color: #333; }
+        
+        .nav { background: var(--amazon-navy); padding: 12px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .cart-icon { position: relative; font-size: 24px; color: white; text-decoration: none; }
+        #cart-count { position: absolute; top: -8px; right: -12px; background: var(--amazon-orange); color: black; font-size: 11px; padding: 2px 6px; border-radius: 50%; font-weight: bold; border: 1px solid white; }
 
-    .container { max-width: 1200px; margin: 20px auto; background: white; padding: 30px; border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-    
-    /* Gallery */
-    .left { display: flex; gap: 20px; }
-    .thumb-col { display: flex; flex-direction: column; gap: 12px; }
-    .thumb-img { width: 70px; height: 70px; border: 2px solid #eee; border-radius: 8px; cursor: pointer; object-fit: cover; transition: 0.3s; }
-    .thumb-img.active { border-color: var(--amazon-orange); box-shadow: 0 0 5px rgba(255, 153, 0, 0.5); }
-    .main-img-container { flex: 1; text-align: center; }
-    .main-img { width: 100%; border-radius: 12px; border: 1px solid #f0f0f0; transition: transform 0.3s ease; }
-    .main-img:hover { transform: scale(1.02); }
+        .container { max-width: 1200px; margin: 20px auto; background: white; padding: 30px; border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        
+        /* Gallery */
+        .left { display: flex; gap: 20px; }
+        .thumb-col { display: flex; flex-direction: column; gap: 12px; }
+        .thumb-img { width: 70px; height: 70px; border: 2px solid #eee; border-radius: 8px; cursor: pointer; object-fit: cover; transition: 0.3s; }
+        .thumb-img.active { border-color: var(--amazon-orange); box-shadow: 0 0 5px rgba(255, 153, 0, 0.5); }
+        .main-img-container { flex: 1; text-align: center; }
+        .main-img { width: 100%; border-radius: 12px; border: 1px solid #f0f0f0; transition: transform 0.3s ease; }
 
-    /* Right Side Info */
-    .title { font-size: 26px; line-height: 1.3; color: #111; margin-bottom: 10px; }
-    .brand-link { color: #007185; text-decoration: none; font-size: 14px; font-weight: 600; }
-    .price-box { background: #fff5f5; padding: 15px; border-radius: 8px; margin: 20px 0; }
-    .price { font-size: 32px; color: var(--price-red); font-weight: bold; margin: 0; }
-    .old-price { text-decoration: line-through; color: var(--text-gray); font-size: 16px; }
+        /* Right Side Info */
+        .title { font-size: 26px; line-height: 1.3; color: #111; margin-bottom: 10px; }
+        .brand-link { color: #007185; text-decoration: none; font-size: 14px; font-weight: 600; }
+        .price-box { background: #fff5f5; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .price { font-size: 32px; color: var(--price-red); font-weight: bold; margin: 0; }
+        .old-price { text-decoration: line-through; color: var(--text-gray); font-size: 16px; }
 
-    /* Highlights & Specs Table */
-    .highlights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; font-size: 14px; }
-    .highlight-item { display: flex; align-items: center; gap: 8px; color: #555; }
-    .spec-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-    .spec-table tr { border-bottom: 1px solid #eee; }
-    .spec-table td { padding: 10px; }
-    .spec-label { font-weight: 600; color: #777; width: 35%; }
+        .highlights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; font-size: 14px; }
+        .highlight-item { display: flex; align-items: center; gap: 8px; color: #555; }
+        
+        .spec-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        .spec-table tr { border-bottom: 1px solid #eee; }
+        .spec-table td { padding: 10px; }
+        .spec-label { font-weight: 600; color: #777; width: 35%; }
 
-    /* Variants Selection */
-    .variant-section { margin: 20px 0; }
-    .variant-label { font-weight: bold; margin-bottom: 10px; display: block; }
-    .variant-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-    .v-btn { border: 1px solid #ccc; padding: 8px 16px; border-radius: 4px; cursor: pointer; background: white; font-size: 14px; }
-    .v-btn.active { border: 2px solid var(--amazon-orange); background: #fffbf2; font-weight: bold; }
+        .qty-container { display: flex; align-items: center; gap: 10px; margin: 20px 0; }
+        .qty-btn { background: #eee; border: 1px solid #ddd; padding: 5px 12px; cursor: pointer; border-radius: 4px; }
 
-    /* Sticky Mobile Footer */
-    .action-btns { display: flex; gap: 15px; margin-top: 30px; }
-    .btn-buy { background: var(--amazon-orange); color: black; border: none; padding: 15px; border-radius: 8px; font-weight: bold; flex: 1; cursor: pointer; font-size: 16px; }
-    .btn-cart { background: #ffd814; color: black; border: none; padding: 15px; border-radius: 8px; font-weight: bold; flex: 1; cursor: pointer; font-size: 16px; }
+        .variant-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
+        .v-btn { border: 1px solid #ccc; padding: 8px 16px; border-radius: 4px; cursor: pointer; background: white; }
+        .v-btn.active { border: 2px solid var(--amazon-orange); background: #fffbf2; font-weight: bold; }
 
-    @media (max-width: 800px) {
-        .container { grid-template-columns: 1fr; padding: 15px; }
-        .left { flex-direction: column-reverse; }
-        .thumb-col { flex-direction: row; overflow-x: auto; }
-        .action-btns { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; margin-top: 0; }
-        body { padding-bottom: 80px; }
-    }
-            </style>
+        .action-btns { display: flex; gap: 15px; margin-top: 30px; }
+        .btn-buy { background: var(--amazon-orange); color: black; border: none; padding: 15px; border-radius: 8px; font-weight: bold; flex: 1; cursor: pointer; }
+        .btn-cart { background: #ffd814; color: black; border: none; padding: 15px; border-radius: 8px; font-weight: bold; flex: 1; cursor: pointer; }
+
+        #toast { visibility: hidden; min-width: 250px; background-color: #232f3e; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; right: 30px; top: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border-left: 5px solid #ffa41c; }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {top: 0; opacity: 0;} to {top: 30px; opacity: 1;} }
+        @keyframes fadeout { from {top: 30px; opacity: 1;} to {top: 0; opacity: 0;} }
+
+        @media (max-width: 800px) {
+            .container { grid-template-columns: 1fr; padding: 15px; }
+            .left { flex-direction: column-reverse; }
+            .thumb-col { flex-direction: row; overflow-x: auto; }
+            .action-btns { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px; z-index: 1000; margin-top: 0; }
+            body { padding-bottom: 80px; }
+        }
+    </style>
 </head>
 <body>
 
@@ -76,7 +79,7 @@
 <div id="toast"><i class="fas fa-check-circle" style="color: #ffa41c; margin-right: 10px;"></i> Added to Cart!</div>
 
 <div class="container" id="productDetail">
-    <p style="padding: 20px;">Loading product details...</p>
+    <p style="padding: 20px; text-align: center;">🚀 Loading your premium product...</p>
 </div>
 
 <script type="module">
@@ -98,7 +101,10 @@
     const productId = urlParams.get('id');
 
     async function loadProduct() {
-        if (!productId) return;
+        if (!productId) {
+            document.getElementById('productDetail').innerHTML = "Product ID not found!";
+            return;
+        }
         
         try {
             const docRef = doc(db, "products", productId);
@@ -106,7 +112,6 @@
 
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                
                 const imgList = data.images || [data.image];
                 const discount = data.oldPrice ? Math.round(((data.oldPrice - data.price) / data.oldPrice) * 100) : 0;
 
@@ -114,7 +119,7 @@
                     <div class="left">
                         <div class="thumb-col">
                             ${imgList.map((img, index) => `
-                                <img src="${img}" class="thumb-img ${index === 0 ? 'active' : ''}" onclick="changeMainImg('${img}', this)">
+                                <img src="${img}" class="thumb-img ${index === 0 ? 'active' : ''}" onclick="window.changeMainImg('${img}', this)">
                             `).join('')}
                         </div>
                         <div class="main-img-container">
@@ -128,7 +133,7 @@
                         
                         <div style="color: #ffa41c; font-size: 14px; margin-bottom: 10px;">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                            <span style="color: #007185; margin-left: 10px;">152 ratings | 45 answered questions</span>
+                            <span style="color: #007185; margin-left: 10px;">152 ratings</span>
                         </div>
 
                         <hr style="border: 0.5px solid #eee;">
@@ -137,97 +142,73 @@
                             ${discount > 0 ? `<span style="color: #CC0C39; font-size: 24px;">-${discount}% </span>` : ''}
                             <span class="price">Rs. ${data.price.toLocaleString()}</span>
                             ${data.oldPrice ? `<div class="old-price">M.R.P: Rs. ${data.oldPrice.toLocaleString()}</div>` : ''}
-                            <p style="font-size: 13px; color: #565959; margin-top: 5px;">Inclusive of all taxes</p>
                         </div>
 
                         <div class="highlights-grid">
                             <div class="highlight-item"><i class="fas fa-truck" style="color: #007185;"></i> Free Delivery</div>
                             <div class="highlight-item"><i class="fas fa-undo" style="color: #007185;"></i> 7 Days Replacement</div>
                             <div class="highlight-item"><i class="fas fa-shield-alt" style="color: #007185;"></i> 1 Year Warranty</div>
-                            <div class="highlight-item"><i class="fas fa-lock" style="color: #007185;"></i> Secure Transaction</div>
                         </div>
 
-                        ${data.colors ? `
-                        <div class="variant-section">
-                            <span class="variant-label">Available Colors:</span>
+                        ${data.colors && data.colors.length > 0 ? `
+                        <div style="margin: 15px 0;">
+                            <strong>Color:</strong>
                             <div class="variant-btns">
-                                ${data.colors.map(c => `<button class="v-btn">${c}</button>`).join('')}
-                            </div>
-                        </div>` : ''}
-
-                        ${data.sizes ? `
-                        <div class="variant-section">
-                            <span class="variant-label">Select Size:</span>
-                            <div class="variant-btns">
-                                ${data.sizes.map(s => `<button class="v-btn">${s}</button>`).join('')}
+                                ${data.colors.map(c => `<button class="v-btn" onclick="selectVariant(this)">${c}</button>`).join('')}
                             </div>
                         </div>` : ''}
 
                         <div class="qty-container">
-                            <span style="font-weight: bold;">Quantity:</span>
-                            <button class="qty-btn" onclick="updateQty(-1)">-</button>
+                            <strong>Quantity:</strong>
+                            <button class="qty-btn" onclick="window.updateQty(-1)">-</button>
                             <span id="qty-val">1</span>
-                            <button class="qty-btn" onclick="updateQty(1)">+</button>
+                            <button class="qty-btn" onclick="window.updateQty(1)">+</button>
                         </div>
 
                         <div class="action-btns">
                             <button class="btn-cart" id="addToCartBtn"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                            <button class="btn-buy" onclick="directBuy()">⚡ Buy Now</button>
+                            <button class="btn-buy" onclick="window.directBuy()">⚡ Buy Now</button>
                         </div>
 
                         <div style="margin-top: 30px;">
-                            <h3 style="font-size: 18px; border-bottom: 2px solid #eee; padding-bottom: 8px;">Product Specifications</h3>
+                            <h3 style="font-size: 18px; border-bottom: 2px solid #eee; padding-bottom: 8px;">Specifications</h3>
                             <table class="spec-table">
                                 <tr><td class="spec-label">Brand</td><td>${data.brand || 'Generic'}</td></tr>
                                 <tr><td class="spec-label">Model</td><td>${data.model || 'N/A'}</td></tr>
-                                <tr><td class="spec-label">Shipping</td><td>${data.shipping || 'Free'}</td></tr>
-                                <tr><td class="spec-label">Delivery Time</td><td>${data.deliveryTime || '3-5 Days'}</td></tr>
+                                <tr><td class="spec-label">Shipping</td><td>${data.shipping || 'Island-wide'}</td></tr>
                             </table>
                         </div>
 
                         <div style="margin-top: 30px;">
-                            <h3 style="font-size: 18px; border-bottom: 2px solid #eee; padding-bottom: 8px;">About this item</h3>
-                            <p style="color:#333; line-height:1.6; font-size: 14px; white-space: pre-line;">${data.description}</p>
+                            <h3 style="font-size: 18px;">About this item</h3>
+                            <p style="color:#333; line-height:1.6; white-space: pre-line;">${data.description}</p>
+                        </div>
+
+                        <hr style="margin: 30px 0;">
+                        
+                        <h3>Customer Reviews</h3>
+                        <div id="reviewsList">Loading reviews...</div>
+
+                        <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                            <h4>Write a Review</h4>
+                            <input type="text" id="revName" placeholder="Your Name" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            <textarea id="revText" placeholder="Your experience..." rows="3" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                            <button id="submitReviewBtn" style="background: var(--amazon-navy); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Submit</button>
                         </div>
                     </div>
                 `;
 
-                        <div style="margin-top:20px;">
-                            <h3>Product Description</h3>
-                            <p style="color:#555; line-height:1.6;">${data.description || 'No description available.'}</p>
-                        </div>
-
-                        <div style="margin-top: 40px; border-top: 2px solid #eee; padding-top: 20px;">
-                            <h3>Write a Review</h3>
-                            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                                <input type="text" id="revName" placeholder="Your Name" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
-                                <select id="revRating" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
-                                    <option value="5">⭐⭐⭐⭐⭐</option>
-                                    <option value="4">⭐⭐⭐⭐</option>
-                                    <option value="3">⭐⭐⭐</option>
-                                    <option value="2">⭐⭐</option>
-                                    <option value="1">⭐</option>
-                                </select>
-                                <textarea id="revText" placeholder="Your experience..." rows="3" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
-                                <button id="submitReviewBtn" style="background: #131921; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit Review</button>
-                            </div>
-                        </div>
-
-                        <div style="margin-top: 30px;">
-                            <h3>Customer Reviews</h3>
-                            <div id="reviewsList">Loading...</div>
-                        </div>
-                    </div>
-                `;
-
+                // Event Listeners
                 document.getElementById('addToCartBtn').onclick = () => addToCart(productId, data);
                 document.getElementById('submitReviewBtn').onclick = submitReview;
                 loadReviews();
+            } else {
+                document.getElementById('productDetail').innerHTML = "Product not found!";
             }
         } catch (e) { console.error(e); }
     }
 
-    // --- Image Gallery Logic ---
+    // --- Window Scope Functions ---
     window.changeMainImg = (src, el) => {
         document.getElementById('main-product-img').src = src;
         document.querySelectorAll('.thumb-img').forEach(img => img.classList.remove('active'));
@@ -240,12 +221,17 @@
         if(qty >= 1) qtyEl.innerText = qty;
     };
 
-    function showToast() {
-        const x = document.getElementById("toast");
-        x.className = "show";
-        setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
-    }
+    window.selectVariant = (el) => {
+        el.parentElement.querySelectorAll('.v-btn').forEach(btn => btn.classList.remove('active'));
+        el.classList.add('active');
+    };
 
+    window.directBuy = () => {
+        alert("Redirecting to checkout...");
+        // මෙතනට Checkout Page එකට යන link එක දාන්න පුළුවන්
+    };
+
+    // --- Cart & Logic ---
     function addToCart(id, data) {
         const qty = parseInt(document.getElementById('qty-val').innerText);
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -257,47 +243,45 @@
         showToast();
     }
 
+    function updateCartCount() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const count = cart.reduce((sum, item) => sum + item.qty, 0);
+        document.getElementById('cart-count').innerText = count;
+    }
+
+    function showToast() {
+        const x = document.getElementById("toast");
+        x.className = "show";
+        setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
+    }
+
     async function submitReview() {
         const name = document.getElementById('revName').value;
-        const rating = document.getElementById('revRating').value;
         const text = document.getElementById('revText').value;
         if(!name || !text) { alert("Please fill all fields!"); return; }
-        await addDoc(collection(db, "reviews"), { productId, name, rating: parseInt(rating), text, timestamp: serverTimestamp() });
-        document.getElementById('revName').value = ""; document.getElementById('revText').value = "";
+        await addDoc(collection(db, "reviews"), { productId, name, text, timestamp: serverTimestamp() });
+        document.getElementById('revName').value = ""; 
+        document.getElementById('revText').value = "";
     }
 
     function loadReviews() {
         const q = query(collection(db, "reviews"), where("productId", "==", productId));
         onSnapshot(q, (snapshot) => {
             const list = document.getElementById('reviewsList');
-            if (snapshot.empty) { list.innerHTML = "<p>No customer reviews yet.</p>"; return; }
+            if (snapshot.empty) { list.innerHTML = "<p>No reviews yet. Be the first!</p>"; return; }
             list.innerHTML = snapshot.docs.map(doc => {
                 const r = doc.data();
                 return `<div style="border-bottom: 1px solid #eee; padding: 10px 0;">
-                    <div style="color: #ffb400;">${"⭐".repeat(r.rating)}</div>
-                    <p style="margin:5px 0;"><strong>${r.name}</strong></p>
-                    <p style="font-size:14px; color:#555;">${r.text}</p>
+                    <strong>${r.name}</strong>
+                    <p style="font-size:14px; color:#555; margin: 5px 0;">${r.text}</p>
                 </div>`;
             }).join('');
         });
     }
 
-    function updateCartCount() {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const count = cart.reduce((sum, item) => sum + item.qty, 0);
-        const countEl = document.getElementById('cart-count');
-        if(countEl) countEl.innerText = count;
-    }
-
+    // Initialize
     loadProduct();
     updateCartCount();
-    document.addEventListener('click', function(e) {
-    if(e.target.classList.contains('v-btn')) {
-        let parent = e.target.parentElement;
-        parent.querySelectorAll('.v-btn').forEach(btn => btn.classList.remove('active'));
-        e.target.classList.add('active');
-    }
-});
 </script>
 </body>
 </html>
