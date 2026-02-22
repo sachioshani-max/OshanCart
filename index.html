@@ -129,28 +129,61 @@
     font-size: 10px;
     color: #ccc;
 }
+    .side-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #444;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f1f1;
+    transition: 0.2s;
+}
+.side-item:hover { background: #fdf2ee; color: var(--daraz-orange); }
+.side-item i { width: 25px; margin-right: 15px; color: #888; font-size: 16px; }
+.badge {
+    background: #ff4747;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: auto;
+}
+/* Language Flags Grid */
+.lang-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 15px;
+    background: #f9f9f9;
+}
+.lang-box {
+    text-align: center;
+    font-size: 11px;
+    cursor: pointer;
+}  
     </style>
 </head>
 <body> 
             <div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
-
-<div class="mobile-sidebar" id="mobSide">
+            <div class="mobile-sidebar" id="mobSide">
     <div class="side-header">
         <div style="display:flex; align-items:center; gap:15px;">
-            <i class="fas fa-user-circle" style="font-size: 40px;"></i>
+            <i class="fas fa-user-circle" style="font-size: 45px;"></i>
             <div>
-                <div style="font-weight:bold;">Welcome to OshanCart</div>
-                <div style="font-size:12px;">Login / Signup</div>
+                <div style="font-weight:bold; font-size:16px;">OshanCart Global</div>
+                <div style="font-size:12px; opacity:0.9;">Login / Sign Up</div>
             </div>
+            <i class="fas fa-times" onclick="closeSidebar()" style="margin-left:auto; font-size:20px; cursor:pointer;"></i>
         </div>
     </div>
 
     <div class="side-section">
-        <div class="side-title">My Account</div>
+        <div class="side-title">My Experience</div>
         <a href="#" class="side-item"><i class="fas fa-box"></i> My Orders</a>
-        <a href="#" class="side-item"><i class="fas fa-heart"></i> Wishlist</a>
-        <a href="#" class="side-item"><i class="fas fa-shield-alt"></i> Privacy & Security</a>
-        <a href="#" class="side-item"><i class="fas fa-bell"></i> Notifications <span class="badge">ON</span></a>
+        <a href="#" class="side-item"><i class="fas fa-heart"></i> My Wishlist</a>
+        <a href="#" class="side-item"><i class="fas fa-bell"></i> Notifications <span class="badge">🔔 ON</span></a>
+        <a href="#" class="side-item"><i class="fas fa-ticket-alt"></i> Offers & Coupons <span class="badge">5 New</span></a>
     </div>
 
     <div class="side-section">
@@ -161,39 +194,40 @@
     </div>
 
     <div class="side-section">
-    <div class="side-title">Shop Categories</div>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Womens'); closeSidebar();"><span>👗</span> Womens Fashion</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Mens'); closeSidebar();"><span>👕</span> Mens Fashion</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Home & Kitchen'); closeSidebar();"><span>🏠</span> Home & Kitchen</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Jewelry'); closeSidebar();"><span>💍</span> Jewelry</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Phones'); closeSidebar();"><span>📱</span> Phones</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Furniture'); closeSidebar();"><span>🛋️</span> Furniture</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Money Saving'); closeSidebar();"><span>💰</span> Money Saving</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Kids'); closeSidebar();"><span>🧸</span> Kids</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Dried Food'); closeSidebar();"><span>🍲</span> Dried Food</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Cakes'); closeSidebar();"><span>🎂</span> Cakes (Wedding/Birthday)</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Ceylon Items'); closeSidebar();"><span>🇱🇰</span> Ceylon Items</a>
-    <a href="javascript:void(0)" class="side-item" onclick="filterCat('Vehicles'); closeSidebar();"><span>🚗</span> Vehicles (EV/Petrol)</a>
+        <div class="side-title">Region & Language (12 Selectable)</div>
+        <div class="lang-grid">
+            <div class="lang-box"><span class="fi fi-lk"></span><br>LK</div>
+            <div class="lang-box"><span class="fi fi-us"></span><br>US</div>
+            <div class="lang-box"><span class="fi fi-cn"></span><br>CN</div>
+            <div class="lang-box"><span class="fi fi-in"></span><br>IN</div>
+            <div class="lang-box"><span class="fi fi-jp"></span><br>JP</div>
+            <div class="lang-box"><span class="fi fi-gb"></span><br>UK</div>
+            <div class="lang-box"><span class="fi fi-ae"></span><br>UAE</div>
+            <div class="lang-box"><span class="fi fi-au"></span><br>AUS</div>
+            <div class="lang-box"><span class="fi fi-fr"></span><br>FRA</div>
+            <div class="lang-box"><span class="fi fi-de"></span><br>GER</div>
+            <div class="lang-box"><span class="fi fi-sg"></span><br>SGP</div>
+            <div class="lang-box"><span class="fi fi-ru"></span><br>RUS</div>
+        </div>
     </div>
 
     <div class="side-section">
-        <div class="side-title">Promotions & Support</div>
-        <a href="#" class="side-item"><i class="fas fa-ticket-alt"></i> Coupons & Offers <span class="badge">5 New</span></a>
+        <div class="side-title">Support & Policies</div>
         <a href="#" class="side-item"><i class="fas fa-headset"></i> Customer Service</a>
         <a href="#" class="side-item"><i class="fas fa-info-circle"></i> Oshan Overview</a>
+        <a href="#" class="side-item"><i class="fas fa-shield-alt"></i> Privacy & Security</a>
+        <a href="#" class="side-item"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
     </div>
 
     <div class="side-section">
-        <div class="side-title">Settings</div>
-        <a href="javascript:void(0)" class="side-item"><i class="fas fa-globe"></i> Language (SL/US/IN/UK/CN/JP...)</a>
-        <a href="#" class="side-item"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
-        <a href="#" class="side-item" style="color:red;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="#" class="side-item" style="color:red;"><i class="fas fa-sign-out-alt"></i> Logout System</a>
     </div>
-    
-    <div style="padding:20px; font-size:10px; color:#999; text-align:center;">
-        Version 2.0.1 - OshanCart Global
+
+    <div style="padding:20px; font-size:11px; color:#bbb; text-align:center;">
+        © 2026 OshanCart Global | Version 2.0.5
     </div>
-</div>
+            </div>
+
 
     <header class="desktop-nav">
         <div class="top-bar">
@@ -329,6 +363,23 @@
         const win = document.getElementById('chatWin');
         win.style.display = win.style.display === 'none' ? 'flex' : 'none';
     }
+    // Side Menu එක පාලනය කරන්න
+function toggleSidebar() {
+    document.getElementById('sideOverlay').style.display = 'block';
+    document.getElementById('mobSide').classList.add('active');
+}
+
+function closeSidebar() {
+    document.getElementById('mobSide').classList.remove('active');
+    setTimeout(() => {
+        document.getElementById('sideOverlay').style.display = 'none';
+    }, 300);
+}
+
+// Categories Shortcut එක වැඩ කරන්න
+function openMobCategories() {
+    toggleSidebar();
+}
     // සයිඩ්බාර් එක අරින්න (Open Sidebar)
 function toggleSidebar() {
     document.getElementById('sideOverlay').style.display = 'block';
