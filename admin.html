@@ -76,36 +76,44 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-<script>import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<script type="module">
+    // 1. Firebase v10 අවශ්‍ය දේවල් Import කිරීම
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-    authDomain: "oshancart.firebaseapp.com",
-    projectId: "oshancart",
-    storageBucket: "oshancart.appspot.com",
-    messagingSenderId: "686982543488",
-    appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-};
+    // 2. ඔයාගේ Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+        authDomain: "oshancart.firebaseapp.com",
+        projectId: "oshancart",
+        storageBucket: "oshancart.appspot.com",
+        messagingSenderId: "686982543488",
+        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+    };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    // 3. Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-// මෙතනින් පස්සේ loadAdminOrders() වගේ functions ලියන්න...
-
+    // 4. ඇණවුම් Load කරන ප්‍රධාන Function එක
     function loadAdminOrders() {
-        db.collection("orders").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+        const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+        
+        onSnapshot(q, (snapshot) => {
             const list = document.getElementById('adminOrderList');
-            document.getElementById('stats').innerText = `Total Orders: ${snapshot.size}`;
+            const statsElement = document.getElementById('stats');
+            
+            if (statsElement) statsElement.innerText = `Total Orders: ${snapshot.size}`;
             list.innerHTML = "";
             
-            if(snapshot.empty) {
+            if (snapshot.empty) {
                 list.innerHTML = `<div style="text-align:center; padding:50px;"><h3>No Orders Yet! 📦</h3></div>`;
                 return;
             }
 
-            snapshot.forEach((doc) => {
-                const order = doc.data();
+            snapshot.forEach((orderDoc) => {
+                const order = orderDoc.data();
+                const id = orderDoc.id;
                 const date = order.timestamp ? new Date(order.timestamp.toDate()).toLocaleString() : 'N/A';
                 const statusStr = order.status || 'Pending';
                 const statusLower = statusStr.toLowerCase();
@@ -115,7 +123,7 @@ const db = getFirestore(app);
                         <div class="prod-info">
                             <span class="badge bg-${statusLower}">${statusStr}</span>
                             <h4>${order.productName || 'Unknown Product'}</h4>
-                            <p>ID: #${doc.id.substring(0,8).toUpperCase()}</p>
+                            <p>ID: #${id.substring(0,8).toUpperCase()}</p>
                             <p><i class="far fa-clock"></i> ${date}</p>
                             <h3 style="color:white; margin:10px 0 0 0;">Rs. ${order.totalPrice || '0.00'}</h3>
                         </div>
@@ -127,19 +135,19 @@ const db = getFirestore(app);
                         </div>
 
                         <div class="actions">
-                            <select id="select-${doc.id}" class="status-select">
+                            <select id="select-${id}" class="status-select">
                                 <option value="Pending" ${statusStr === 'Pending' ? 'selected' : ''}>Pending</option>
                                 <option value="Processing" ${statusStr === 'Processing' ? 'selected' : ''}>Processing</option>
                                 <option value="Shipped" ${statusStr === 'Shipped' ? 'selected' : ''}>Shipped</option>
                                 <option value="Delivered" ${statusStr === 'Delivered' ? 'selected' : ''}>Delivered</option>
                             </select>
-                            <button class="update-btn" onclick="updateStatus('${doc.id}')">
+                            <button class="update-btn" onclick="updateStatus('${id}')">
                                 <i class="fas fa-save"></i> Save Status
                             </button>
                         </div>
 
                         <div style="text-align: center;">
-                            <button class="delete-btn" onclick="deleteOrder('${doc.id}')" title="Delete Order">
+                            <button class="delete-btn" onclick="deleteOrder('${id}')" title="Delete Order">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
@@ -149,22 +157,30 @@ const db = getFirestore(app);
         });
     }
 
-    function updateStatus(id) {
+    // 5. බටන් වලට අවශ්‍ය Global Functions (window objects ලෙස)
+    window.updateStatus = async (id) => {
         const newStatus = document.getElementById(`select-${id}`).value;
-        db.collection("orders").doc(id).update({
-            status: newStatus
-        }).then(() => {
-            // Notification එකක් වගේ දෙයක් මෙතනට දාන්න පුළුවන්
-        }).catch((error) => alert("Error: " + error.message));
-    }
-
-    function deleteOrder(id) {
-        if(confirm("Are you sure you want to delete this order? This cannot be undone!")) {
-            db.collection("orders").doc(id).delete();
+        try {
+            const orderRef = doc(db, "orders", id);
+            await updateDoc(orderRef, { status: newStatus });
+            alert("Status updated to " + newStatus);
+        } catch (error) {
+            alert("Error updating: " + error.message);
         }
-    }
+    };
 
-    window.onload = loadAdminOrders;
+    window.deleteOrder = async (id) => {
+        if (confirm("Are you sure you want to delete this order?")) {
+            try {
+                await deleteDoc(doc(db, "orders", id));
+            } catch (error) {
+                alert("Error deleting: " + error.message);
+            }
+        }
+    };
+
+    // පේජ් එක Load වන විට ක්‍රියාත්මක කරන්න
+    loadAdminOrders();
 </script>
 </body>
 </html>
