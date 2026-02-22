@@ -232,49 +232,59 @@
         });
 
         // Add/Update Product
-        window.uploadProduct = async function() {
-            const id = document.getElementById('edit-id').value;
-            const name = document.getElementById('pName').value;
-            const price = parseFloat(document.getElementById('pPrice').value);
-            const stock = parseInt(document.getElementById('pStock').value);
-            const desc = document.getElementById('pDesc').value;
-            const cat = document.getElementById('pCategory').value;
-            const btn = document.getElementById('listBtn');
+       window.uploadProduct = async function() {
+    const id = document.getElementById('edit-id').value;
+    const btn = document.getElementById('listBtn');
 
-            if(!name || isNaN(price)) { alert("Fill all fields!"); return; }
-            
-            btn.innerText = "Processing..."; btn.disabled = true;
+    // Getting all values
+    const productData = {
+        name: document.getElementById('pName').value,
+        brand: document.getElementById('pBrand').value,
+        model: document.getElementById('pModel').value,
+        description: document.getElementById('pDesc').value,
+        price: parseFloat(document.getElementById('pPrice').value),
+        oldPrice: parseFloat(document.getElementById('pOldPrice').value) || 0,
+        stock: parseInt(document.getElementById('pStock').value),
+        moq: document.getElementById('pMoq').value,
+        colors: document.getElementById('pColors').value.split(',').map(s => s.trim()),
+        sizes: document.getElementById('pSizes').value.split(',').map(s => s.trim()),
+        specifications: document.getElementById('pSpecs').value,
+        shipping: document.getElementById('pShipping').value,
+        deliveryTime: document.getElementById('pDeliveryTime').value,
+        category: document.getElementById('pCategory').value,
+        updatedAt: serverTimestamp()
+    };
 
-            try {
-                let imageUrls = [];
-                // Upload only if new files selected
-                if(selectedFiles.length > 0) {
-                    for (let file of selectedFiles) {
-                        let fd = new FormData(); fd.append("image", file);
-                        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: fd });
-                        const imgRes = await res.json();
-                        imageUrls.push(imgRes.data.url);
-                    }
-                }
+    if(!productData.name || isNaN(productData.price)) { alert("Product name and price are required!"); return; }
+    
+    btn.innerText = "Processing & Uploading..."; btn.disabled = true;
 
-                if(id) {
-                    let upData = { name, price, stock, description: desc, category: cat };
-                    if(imageUrls.length > 0) { upData.image = imageUrls[0]; upData.images = imageUrls; }
-                    await updateDoc(doc(db, "products", id), upData);
-                    alert("Product Updated!");
-                } else {
-                    if(imageUrls.length === 0) throw new Error("Select images");
-                    await addDoc(collection(db, "products"), {
-                        name, price, stock, description: desc, category: cat,
-                        image: imageUrls[0], images: imageUrls, sold: 0, timestamp: serverTimestamp()
-                    });
-                    alert("Product Added!");
-                }
-                resetForm();
-            } catch(e) { alert(e.message); }
-            btn.innerText = "List Product Now"; btn.disabled = false;
-        };
+    try {
+        let imageUrls = [];
+        if(selectedFiles.length > 0) {
+            for (let file of selectedFiles) {
+                let fd = new FormData(); fd.append("image", file);
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: fd });
+                const imgRes = await res.json();
+                imageUrls.push(imgRes.data.url);
+            }
+            productData.image = imageUrls[0];
+            productData.images = imageUrls;
+        }
 
+        if(id) {
+            await updateDoc(doc(db, "products", id), productData);
+            alert("✅ Product updated globally!");
+        } else {
+            productData.sold = 0;
+            productData.timestamp = serverTimestamp();
+            await addDoc(collection(db, "products"), productData);
+            alert("✅ Product listed successfully!");
+        }
+        resetForm();
+    } catch(e) { alert("Error: " + e.message); }
+    btn.innerText = "List Product Now"; btn.disabled = false;
+};
         // Edit Function
         window.startEdit = (id, name, price, stock, cat, desc) => {
             document.getElementById('edit-id').value = id;
