@@ -326,30 +326,23 @@
 
     // --- 4. LOAD PRODUCTS FROM FIREBASE ---
     function loadProducts() {
-        const grid = document.getElementById('mainProductGrid');
-        
-        db.collection("products").onSnapshot((snapshot) => {
-            grid.innerHTML = ""; 
-            if(snapshot.empty) {
-                grid.innerHTML = "<p style='padding:20px;'>No products found. Add some from Admin!</p>";
-                return;
-            }
-            snapshot.forEach((doc) => {
-                let p = doc.data();
-                grid.innerHTML += `
-                    <div class="product-card">
-                        <img src="${p.img || 'https://via.placeholder.com/150'}" class="product-img">
-                        <div class="product-info">
-                            <div class="p-name">${p.name}</div>
-                            <div class="p-price">Rs. ${p.price}</div>
-                            <div style="font-size:10px; color:#999; margin-top:5px;">${p.sold || 0}+ sold</div>
-                            <button onclick="buyNow('${doc.id}', '${p.name}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
-                        </div>
+    const grid = document.getElementById('mainProductGrid');
+    db.collection("products").onSnapshot((snapshot) => {
+        grid.innerHTML = ""; 
+        snapshot.forEach((doc) => {
+            let p = doc.data();
+            grid.innerHTML += `
+                <div class="product-card">
+                    <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img" onerror="this.src='https://via.placeholder.com/150'">
+                    <div class="product-info">
+                        <div class="p-name">${p.name}</div>
+                        <div class="p-price">Rs. ${p.price}</div>
+                        <button onclick="buyNow('${doc.id}', '${p.name}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
                     </div>
-                `;
-            });
+                </div>`;
         });
-    }
+    });
+            }
 
     // Buy Now function with EmailJS notification
     function buyNow(id, name) {
@@ -387,22 +380,15 @@
             body.scrollTop = body.scrollHeight;
         }, 1000);
     }
-       function filterCat(categoryName) {
+function filterCat(categoryName) {
     const grid = document.getElementById('mainProductGrid');
-    grid.innerHTML = `<div style="padding:20px; text-align:center; width:100%;">Searching for ${categoryName}...</div>`;
-
-    // Firebase එකෙන් අදාළ category එක තියෙන products විතරක් ගන්නවා
     db.collection("products").where("category", "==", categoryName).onSnapshot((snapshot) => {
         grid.innerHTML = "";
-        if (snapshot.empty) {
-            grid.innerHTML = `<div style="padding:20px; text-align:center; width:100%;">No items found in ${categoryName} yet.</div>`;
-            return;
-        }
         snapshot.forEach((doc) => {
             let p = doc.data();
             grid.innerHTML += `
                 <div class="product-card">
-                    <img src="${p.img || 'https://via.placeholder.com/150'}" class="product-img">
+                    <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img">
                     <div class="product-info">
                         <div class="p-name">${p.name}</div>
                         <div class="p-price">Rs. ${p.price}</div>
@@ -411,7 +397,7 @@
                 </div>`;
         });
     });
-       }
+}
     // Start loading
     window.onload = loadProducts;
 </script>
