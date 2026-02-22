@@ -330,6 +330,27 @@
         const win = document.getElementById('chatWin');
         win.style.display = win.style.display === 'none' ? 'flex' : 'none';
     }
+    // සයිඩ්බාර් එක අරින්න (Open Sidebar)
+function toggleSidebar() {
+    document.getElementById('sideOverlay').style.display = 'block';
+    setTimeout(() => {
+        document.getElementById('mobSide').classList.add('active');
+    }, 10);
+}
+
+// සයිඩ්බාර් එක වහන්න (Close Sidebar)
+function closeSidebar() {
+    document.getElementById('mobSide').classList.remove('active');
+    setTimeout(() => {
+        document.getElementById('sideOverlay').style.display = 'none';
+    }, 300);
+}
+
+// පහළ තියෙන Categories Shortcut එක එබුවාම සයිඩ්බාර් එක ඇරෙන්න
+// මේක 'bottom-nav' එකේ Categories link එකට දාන්න
+function openMobCategories() {
+    toggleSidebar();
+}
 
     // --- 4. LOAD PRODUCTS FROM FIREBASE ---
     function loadProducts() {
