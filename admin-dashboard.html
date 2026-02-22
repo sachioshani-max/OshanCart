@@ -48,19 +48,7 @@
     </style>
 </head>
 <body>
-
-    <div class="sidebar">
-        <h2>OSHAN ADMIN</h2>
-        <div class="nav-link active" onclick="showTab('overview', this)"><i class="fas fa-home"></i> Overview Page</div>
-        <div class="nav-link" onclick="showTab('wallet', this)"><i class="fas fa-wallet"></i> Withdrawal Wallet</div>
-        <div class="nav-link" onclick="showTab('referral', this)"><i class="fas fa-users"></i> Referral Data</div>
-        <div class="nav-link" onclick="showTab('passive', this)"><i class="fas fa-chart-line"></i> Passive Income</div>
-        <div class="nav-link" onclick="showTab('affiliate', this)"><i class="fas fa-handshake"></i> Affiliate Program</div>
-        <div class="nav-link" onclick="showTab('product-listing', this)"><i class="fas fa-plus-circle"></i> Product Listing</div>
-        <div class="nav-link" onclick="showTab('stock', this)"><i class="fas fa-database"></i> Stock & Inventory</div>
-        <a href="admin.html" class="nav-item">📦 View Customer Orders</a>
-        <a href="admin.html" class="nav-item">📦 Manage Orders</a>
-    </div>
+    
 <div class="sidebar">
     <h2>OSHAN ADMIN</h2>
     <div class="nav-link active" onclick="showTab('overview', this)"><i class="fas fa-home"></i> Overview Page</div>
@@ -117,53 +105,91 @@
             <div class="stat-card"><h3>Commission Earned</h3><p id="affIncome">Rs. 0</p></div>
         </div>
 
-        <div id="product-listing" class="tab-content">
-            <h1 id="form-title">Add New Product</h1>
-            <div class="form-container">
-                <input type="hidden" id="edit-id"> 
-                <input type="text" id="pName" placeholder="Product Name">
-                <textarea id="pDesc" placeholder="Product Description" rows="3"></textarea>
-                <input type="number" id="pPrice" placeholder="Price (Rs.)">
-                <input type="number" id="pStock" placeholder="Stock Quantity">
-                
-                <div class="upload-box" id="drop-zone" onclick="document.getElementById('p-file').click()">
-                    <i class="fas fa-cloud-upload-alt" style="font-size: 30px; color: #c9184a;"></i>
-                    <p id="upload-status">Drag & Drop or Click to Upload Images (7+)</p>
-                    <input type="file" id="p-file" accept="image/*" multiple style="display: none;">
-                </div>
+ <div id="product-listing" class="tab-content">
+    <h1 id="form-title">🚀 Advanced Product Listing</h1>
+    <div class="form-container">
+        <input type="hidden" id="edit-id">
 
-                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">Select Category</label>
-                <select id="pCategory">
-    <option value="Womens">Womens Fashion 👗</option>
-    <option value="Mens">Mens Fashion 👕</option>
-    <option value="Home & Kitchen">Home & Kitchen 🏠</option>
-    <option value="Jewelry">Jewelry 💍</option>
-    <option value="Phones">Phones 📱</option>
-    <option value="Home & Beauty">Home & Beauty 💄</option>
-    <option value="Furniture">Furniture 🛋️</option>
-    <option value="Money Saving">Money Saving 💰</option>
-    <option value="Kids">Kids 🧸</option>
-    <option value="Dried Food">Dried Food 🍲</option>
-    <option value="Cakes">Cakes (Wedding & Birthday) 🎂</option>
-    <option value="Ceylon Items">Ceylon Items 🇱🇰</option>
-    <option value="Vehicles">Vehicles (Electric & Petrol) 🚗</option>
-</select>
-                <button id="listBtn" style="background: #27ae60;" onclick="uploadProduct()">List Product Now</button>
-                <button id="cancelBtn" style="background: #777; margin-top: 10px; display: none;" onclick="resetForm()">Cancel Edit</button>
+        <div class="form-section">
+            <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
+            <input type="text" id="pName" placeholder="Product Full Name (e.g. Hongyan Fashionable New Socks)" required>
+            <div class="row">
+                <input type="text" id="pBrand" placeholder="Brand Name (e.g. Oshan Brand)">
+                <input type="text" id="pModel" placeholder="Model Number">
+            </div>
+            <textarea id="pDesc" placeholder="Short Description / Product Highlights (Bulleted points...)" rows="3"></textarea>
+        </div>
+
+        <div class="form-section">
+            <h3><i class="fas fa-tags"></i> Pricing & Inventory</h3>
+            <div class="row">
+                <input type="number" id="pPrice" placeholder="Selling Price (Rs.)" required>
+                <input type="number" id="pOldPrice" placeholder="Original Price (for Discount)">
+            </div>
+            <div class="row">
+                <input type="number" id="pStock" placeholder="Total Stock Quantity" required>
+                <input type="text" id="pMoq" placeholder="Minimum Order Quantity (e.g. 1 pair)">
             </div>
         </div>
 
-        <div id="stock" class="tab-content">
-            <h1>Stock Management</h1>
-            <table id="stockTable">
-                <thead>
-                    <tr><th>Image</th><th>Product</th><th>Price</th><th>Stock</th><th>Sold</th><th>Actions</th></tr>
-                </thead>
-                <tbody id="stockTableBody"></tbody>
-            </table>
+        <div class="form-section">
+            <h3><i class="fas fa-layer-group"></i> Variations (Separated by commas)</h3>
+            <input type="text" id="pColors" placeholder="Available Colors (e.g. Pink, White, Black)">
+            <input type="text" id="pSizes" placeholder="Available Sizes (e.g. 36, 37, 38, 39, 40)">
         </div>
 
+        <div class="form-section">
+            <h3><i class="fas fa-list-ul"></i> Key Attributes (Specifications)</h3>
+            <textarea id="pSpecs" placeholder="Feature: Lightweight, Waterproof&#10;Material: Mesh, Cotton&#10;Style: Casual Shoes" rows="4"></textarea>
+        </div>
+
+        <div class="form-section">
+            <h3><i class="fas fa-truck"></i> Shipping & Logistics</h3>
+            <div class="row">
+                <input type="text" id="pShipping" placeholder="Shipping Cost (e.g. Free or Rs. 350)">
+                <input type="text" id="pDeliveryTime" placeholder="Lead Time (e.g. 3-5 days)">
+            </div>
+        </div>
+
+        <div class="upload-box" id="drop-zone" onclick="document.getElementById('p-file').click()">
+            <i class="fas fa-images" style="font-size: 30px; color: #c9184a;"></i>
+            <p id="upload-status">Upload Product Gallery Images (7+ Recommended)</p>
+            <input type="file" id="p-file" accept="image/*" multiple style="display: none;">
+        </div>
+
+        <label style="display: block; margin-top: 15px; font-weight: 600;">Category Selection</label>
+        <select id="pCategory">
+            <option value="Womens">Womens Fashion 👗</option>
+            <option value="Mens">Mens Fashion 👕</option>
+            <option value="Home & Kitchen">Home & Kitchen 🏠</option>
+            <option value="Tools & Home Improvement">Tools & Home Improvement 🛠️🏠</option>
+            <option value="Jewelry">Jewelry 💍</option>
+            <option value="Phones">Phones 📱</option>
+            <option value="Electronics & Gadgets">Electronics & Gadgets ⚡📱</option>
+            <option value="Home & Beauty">Home & Beauty 💄</option>
+            <option value="Furniture">Furniture 🛋️</option>
+            <option value="Money Saving">Money Saving 💰</option>
+            <option value="Kids">Kids 🧸</option>
+            <option value="Dried Food">Dried Food 🍲</option>
+            <option value="Cakes">Cakes (Wedding & Birthday) 🎂</option>
+            <option value="Ceylon Items">Ceylon Items 🇱🇰</option>
+            <option value="Vehicles">Vehicles (Electric & Petrol) 🚗</option>
+        </select>
+
+        <button id="listBtn" class="main-btn" onclick="uploadProduct()">🚀 List Product Globally</button>
+        <button id="cancelBtn" class="cancel-btn" style="display: none;" onclick="resetForm()">Cancel Editing</button>
     </div>
+</div>
+
+<style>
+    .form-section { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #c9184a; }
+    .form-section h3 { margin-top: 0; font-size: 16px; color: #333; display: flex; align-items: center; gap: 10px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .main-btn { background: #27ae60; color: white; padding: 15px; width: 100%; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
+    .main-btn:hover { background: #2ecc71; transform: translateY(-2px); }
+    .cancel-btn { background: #7f8c8d; color: white; margin-top: 10px; width: 100%; padding: 10px; border: none; border-radius: 8px; cursor: pointer; }
+    @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+</style>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
