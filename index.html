@@ -471,16 +471,26 @@
     }
 
     function renderProduct(id, p) {
-        const grid = document.getElementById('mainProductGrid');
-        grid.innerHTML += `
-            <div class="product-card">
-                <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img" onerror="this.src='https://via.placeholder.com/150'">
-                <div class="product-info">
-                    <div class="p-name">${p.name}</div>
-                    <div class="p-price">${currentCurrency} ${p.price}</div>
-                    <button onclick="buyNow('${id}', '${p.name}', '${p.price}')" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">Buy Now</button>
-                </div>
-            </div>`;
+    const grid = document.getElementById('mainProductGrid');
+    // මුළු කාඩ් එකම click කළාම product-details.html එකට යනවා
+    // "Buy Now" button එක විතරක් click කළාම කෙලින්ම cart එකට යනවා
+    grid.innerHTML += `
+        <div class="product-card" onclick="goToDetails('${id}')" style="cursor:pointer;">
+            <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img" onerror="this.src='https://via.placeholder.com/150'">
+            <div class="product-info">
+                <div class="p-name">${p.name}</div>
+                <div class="p-price">${currentCurrency} ${p.price}</div>
+                <button onclick="event.stopPropagation(); buyNow('${id}', '${p.name}', '${p.price}')" 
+                        style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">
+                    Buy Now
+                </button>
+            </div>
+        </div>`;
+}
+
+// විස්තර පිටුවට යවන function එක
+function goToDetails(productId) {
+    window.location.href = `product-details.html?id=${productId}`;
     }
 
     // Category Filter කිරීම
