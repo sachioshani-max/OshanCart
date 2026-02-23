@@ -473,21 +473,20 @@
     function renderProduct(id, p) {
     const grid = document.getElementById('mainProductGrid');
     
-    // මෙතනදී අපි 'p.category' එකත් pass කරනවා link එක හරහා
+    // card එක click කළාම categories.html එකට අදාළ category එක අරන් යනවා
     grid.innerHTML += `
-        <div class="product-card" onclick="goToDetails('${id}', '${p.category}')" style="cursor:pointer;">
-            <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="product-card" onclick="window.location.href='categories.html?type=${encodeURIComponent(p.category)}'" style="cursor:pointer;">
+            <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img">
             <div class="product-info">
                 <div class="p-name">${p.name}</div>
                 <div class="p-price">${currentCurrency} ${p.price}</div>
                 <button onclick="event.stopPropagation(); buyNow('${id}', '${p.name}', '${p.price}')" 
-                        style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">
+                        style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px;">
                     Buy Now
                 </button>
             </div>
         </div>`;
-}
-
+    }
 // ඔයා ඉල්ලපු විදිහට category එක හරහා product details වලට යන root එක
 function goToDetails(productId, categoryName) {
     // encodeURIComponent පාවිච්චි කරන්නේ category නමේ හිස්තැන් (spaces) තිබුණොත් ඒවා නිවැරදිව URL එකට ගන්නයි
