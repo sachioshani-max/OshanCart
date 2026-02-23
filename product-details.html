@@ -79,8 +79,82 @@
             .action-grid { position: fixed; bottom: 0; left: 0; width: 100%; background: white; padding: 10px; z-index: 2500; grid-template-columns: 1fr 1.2fr; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); }
             body { padding-bottom: 100px; }
         }
+           /* --- Mobile App Experience Styles --- */
+@media (max-width: 600px) {
+    /* යටින් එන App Menu එක */
+    .mobile-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        z-index: 3000;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+    .mobile-nav a {
+        text-decoration: none;
+        color: #555;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+    }
+    .mobile-nav i { font-size: 20px; color: var(--amazon-navy); }
+    
+    /* Product පින්තූරය පේන විදිහ App එකක් වගේ ලස්සන කරන්න */
+    .main-img {
+        height: 300px !important;
+        border-radius: 0;
+        border: none;
+    }
+    .product-gallery {
+        padding: 0;
+        margin: -15px -15px 15px -15px; /* මේකෙන් පින්තූරය Screen එකේ අයිනටම යනවා */
+    }
+    
+    /* Buttons වල හැඩය App එකක වගේ රවුම් කරන්න */
+    .btn {
+        border-radius: 50px !important;
+        padding: 12px !important;
+    }
+    
+    /* Review Form එක Mobile එකට ලස්සන කරන්න */
+    .review-form {
+        margin-bottom: 80px; /* Menu එකට වැහෙන්නේ නැති වෙන්න */
+    }
+}
+
+/* App එකක වගේ Buttons එබෙනකොට පොඩි ගැස්මක් දැනෙන්න (Animation) */
+.btn:active, .v-opt:active, .qty-btn:active {
+    transform: scale(0.95);
+    transition: 0.1s;
+}
     </style>
 </head>
+    <div class="mobile-nav">
+    <a href="index.html">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+    </a>
+    <a href="categories.html">
+        <i class="fas fa-th-large"></i>
+        <span>Shop</span>
+    </a>
+    <a href="cart.html" style="position: relative;">
+        <i class="fas fa-shopping-bag"></i>
+        <span>Cart</span>
+    </a>
+    <a href="profile.html">
+        <i class="fas fa-user"></i>
+        <span>Account</span>
+    </a>
+    </div>
 <body>
 
 <nav class="nav">
