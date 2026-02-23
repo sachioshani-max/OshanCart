@@ -10,138 +10,97 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
-    :root {
-        --daraz-orange: #f85606;
-        --nav-dark: #131921;
-        --hover-bg: #fdf2ee;
-        --white: #ffffff;
-    }
+        :root {
+            --daraz-orange: #f85606;
+            --hover-bg: #fdf2ee;
+            --white: #ffffff;
+            --light-bg: #f4f4f4;
+            --text-main: #212121;
+        }
 
-    /* 1. Global & Utility Styles */
-    body { margin: 0; font-family: 'Roboto', sans-serif; }
-    .badge { background: #ff4747; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; margin-left: auto; }
+        body { font-family: 'Roboto', sans-serif; margin: 0; background-color: var(--light-bg); color: var(--text-main); overflow-x: hidden; }
 
-    /* 2. Desktop Navigation */
-    .desktop-nav { display: block; background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    .top-bar { background: #f7f7f7; padding: 5px 5%; display: flex; justify-content: flex-end; gap: 20px; font-size: 12px; border-bottom: 1px solid #eee; }
-    .top-bar span, .top-bar a { cursor: pointer; text-decoration: none; color: #666; transition: 0.3s; }
-    .top-bar a:hover { color: var(--daraz-orange); }
+        /* --- DESKTOP NAV --- */
+        .desktop-nav { display: block; background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .top-bar { background: #f7f7f7; padding: 5px 5%; display: flex; justify-content: flex-end; gap: 20px; font-size: 12px; border-bottom: 1px solid #eee; }
+        .top-bar span, .top-bar a { cursor: pointer; text-decoration: none; color: #666; transition: 0.3s; }
+        
+        .main-nav { display: flex; align-items: center; padding: 12px 5%; gap: 30px; }
+        .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; min-width: 180px; }
+        .logo-section h2 { color: var(--daraz-orange); margin: 0; font-family: 'Poppins', sans-serif; }
 
-    .main-nav { display: flex; align-items: center; padding: 12px 5%; gap: 30px; }
-    .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s; min-width: 180px; }
-    .logo-section h2 { color: var(--daraz-orange); margin: 0; font-family: 'Poppins', sans-serif; font-weight: 700; }
+        .search-box { flex: 1; display: flex; background: #eff0f5; border-radius: 4px; overflow: hidden; height: 45px; }
+        .search-box input { width: 100%; border: none; background: transparent; padding: 0 15px; outline: none; }
+        .search-btn { background: var(--daraz-orange); color: white; border: none; padding: 0 25px; cursor: pointer; }
 
-    /* Search Box */
-    .search-box { flex: 1; display: flex; background: #eff0f5; border-radius: 4px; overflow: hidden; border: 1px solid transparent; transition: 0.3s; height: 45px; }
-    .search-box:focus-within { border-color: var(--daraz-orange); background: white; box-shadow: 0 0 8px rgba(248,86,6,0.15); }
-    .search-box input { width: 100%; border: none; background: transparent; padding: 0 15px; outline: none; font-size: 14px; }
-    .search-btn { background: var(--daraz-orange); color: white; border: none; padding: 0 25px; cursor: pointer; font-size: 18px; transition: 0.3s; }
-    .search-btn:hover { background: #e04d05; }
+        .nav-icons { display: flex; gap: 25px; align-items: center; }
+        .icon-item { text-align: center; color: #333; text-decoration: none; font-size: 11px; }
 
-    /* Icons */
-    .nav-icons { display: flex; gap: 25px; align-items: center; }
-    .icon-item { text-align: center; cursor: pointer; color: #333; transition: 0.3s; text-decoration: none; }
-    .icon-item:hover { color: var(--daraz-orange); transform: translateY(-2px); }
-    .icon-item i { font-size: 20px; }
-    .icon-item span { display: block; font-size: 11px; margin-top: 3px; font-weight: 500; }
+        /* --- MOBILE NAV --- */
+        .mobile-nav { display: none; background: white; padding: 10px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .mobile-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 
-    /* 3. Mobile Navigation */
-    .mobile-nav { display: none; background: white; padding: 10px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .mobile-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-    .mobile-search { display: flex; background: #f2f2f2; border-radius: 20px; padding: 8px 15px; align-items: center; }
-    .mobile-search input { flex: 1; border: none; background: transparent; outline: none; padding-left: 10px; font-size: 14px; }
+        /* --- SIDEBAR --- */
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; backdrop-filter: blur(4px); }
+        .oshancart-sidebar { position: fixed; top: 0; left: -320px; width: 300px; height: 100%; background: white; z-index: 2001; transition: 0.4s; overflow-y: auto; }
+        .oshancart-sidebar.active { left: 0; }
+        .side-header { background: linear-gradient(135deg, #f85606, #ff8400); padding: 30px 20px; color: white; }
+        .side-section { border-bottom: 8px solid #f4f4f4; padding: 10px 0; }
+        .side-item { display: flex; align-items: center; padding: 12px 20px; text-decoration: none; color: #333; font-size: 14px; }
+        .side-item i { width: 30px; color: #666; }
 
-    /* 4. Sidebar Styles */
-    .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; backdrop-filter: blur(4px); }
-    .oshancart-sidebar { position: fixed; top: 0; left: -320px; width: 300px; height: 100%; background: white; z-index: 2001; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; }
-    .oshancart-sidebar.active { left: 0; }
+        /* --- LAYOUT --- */
+        .home-hero { display: flex; padding: 15px 5%; gap: 20px; }
+        .category-sidebar { width: 260px; background: white; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .cat-item { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: #444; text-decoration: none; border-bottom: 1px solid #f9f9f9; }
+        .cat-item:hover { background: var(--hover-bg); color: var(--daraz-orange); }
 
-    .side-header { background: linear-gradient(135deg, #f85606, #ff8400); padding: 30px 20px; color: white; }
-    .side-section { border-bottom: 8px solid #f4f4f4; padding: 10px 0; }
-    .side-title { padding: 12px 20px; font-size: 12px; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        .product-container { padding: 20px 5%; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+        .product-card { background: white; border-radius: 8px; overflow: hidden; border: 1px solid transparent; transition: 0.3s; }
+        .product-card:hover { border-color: var(--daraz-orange); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .product-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+        .product-info { padding: 12px; }
+        .p-price { color: var(--daraz-orange); font-weight: bold; font-size: 18px; margin: 5px 0; }
 
-    .side-item { display: flex; align-items: center; padding: 12px 20px; text-decoration: none; color: #333; font-size: 14px; transition: 0.3s; border-left: 4px solid transparent; }
-    .side-item:hover { background: var(--hover-bg); color: var(--daraz-orange); border-left-color: var(--daraz-orange); padding-left: 28px; }
-    .side-item i { width: 30px; font-size: 18px; color: #666; transition: 0.3s; }
-    .side-item:hover i { color: var(--daraz-orange); }
+        /* --- CHAT WIDGET --- */
+        #ai-chat-widget { position: fixed; bottom: 80px; right: 20px; z-index: 3000; }
+        .chat-bubble { background: var(--daraz-orange); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .chat-window { display: none; width: 300px; height: 400px; background: white; position: absolute; bottom: 75px; right: 0; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); flex-direction: column; }
 
-    /* Language Grid */
-    .lang-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
-    .lang-box { text-align: center; font-size: 11px; padding: 8px; border-radius: 4px; cursor: pointer; transition: 0.2s; border: 1px solid #eee; }
-    .lang-box:hover { background: var(--hover-bg); border-color: var(--daraz-orange); }
+        /* --- BOTTOM NAV --- */
+        .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #eee; padding: 10px 0; justify-content: space-around; z-index: 1000; }
+        .nav-link { text-decoration: none; color: #666; font-size: 11px; display: flex; flex-direction: column; align-items: center; }
 
-    @media (max-width: 768px) {
-        .desktop-nav { display: none; }
-        .mobile-nav { display: block; }
-    }
-</style>
+        @media (max-width: 768px) {
+            .desktop-nav, .category-sidebar { display: none !important; }
+            .mobile-nav, .bottom-nav { display: block !important; }
+            .bottom-nav { display: flex !important; }
+            .home-hero { padding: 10px; }
+            body { padding-bottom: 70px; }
+        }
+    </style>
 </head>
 <body>
+
     <div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
-    
     <div class="oshancart-sidebar" id="oshancartSidebar">
         <div class="side-header">
-            <div style="display:flex; align-items:center; justify-content:space-between;">
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <i class="fas fa-user-circle" style="font-size: 45px;"></i>
-                    <div>
-                        <div style="font-weight:600; font-size:16px;">Welcome to Oshan</div>
-                        <div style="font-size:12px; opacity:0.9;">Sign In / Register</div>
-                    </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <i class="fas fa-user-circle" style="font-size: 45px;"></i>
+                <div>
+                    <div style="font-weight:600;">Welcome to Oshan</div>
+                    <div style="font-size:12px; opacity:0.8;">Sign In / Register</div>
                 </div>
-                <i class="fas fa-times" onclick="closeSidebar()" style="cursor:pointer; font-size:22px;"></i>
             </div>
         </div>
-
         <div class="side-section">
-            <div class="side-title">Personalized Experience</div>
             <a href="index.html" class="side-item"><i class="fas fa-home"></i> Home</a>
-            <a href="profile.html" class="side-item"><i class="fas fa-user"></i> My Profile</a>
-            <a href="orders.html" class="side-item"><i class="fas fa-box-open"></i> My Orders <span class="badge">New</span></a>
-            <a href="wishlist.html" class="side-item"><i class="fas fa-heart"></i> My Wishlist</a>
+            <a href="orders.html" class="side-item"><i class="fas fa-box"></i> My Orders</a>
             <a href="wallet.html" class="side-item"><i class="fas fa-wallet"></i> Oshan Wallet</a>
-            <a href="#" class="side-item"><i class="fas fa-bell"></i> Notifications <span class="badge">🔔 ON</span></a>
-            <a href="#" class="side-item"><i class="fas fa-ticket-alt"></i> Offers & Coupons <span class="badge">5 New</span></a>
         </div>
-
         <div class="side-section">
-            <div class="side-title">Business Opportunities | Earn with Oshan</div>
-            <a href="become-seller.html" class="side-item" style="font-weight:bold; color:var(--daraz-orange);"><i class="fas fa-store"></i> Become a Seller</a>
-            <a href="affiliate.html" class="side-item"><i class="fas fa-handshake"></i> Affiliate Program</a>
-            <a href="referral.html" class="side-item"><i class="fas fa-gift"></i> Refer Friends & Earn</a>
-        </div>
-
-       <div class="side-section">
-        <div class="side-title">Region & Language (12 Selectable)</div>
-        <div class="lang-grid">
-            <div class="lang-box"><span class="fi fi-lk"></span><br>LK</div>
-            <div class="lang-box"><span class="fi fi-us"></span><br>US</div>
-            <div class="lang-box"><span class="fi fi-cn"></span><br>CN</div>
-            <div class="lang-box"><span class="fi fi-in"></span><br>IN</div>
-            <div class="lang-box"><span class="fi fi-jp"></span><br>JP</div>
-            <div class="lang-box"><span class="fi fi-gb"></span><br>UK</div>
-            <div class="lang-box"><span class="fi fi-ae"></span><br>UAE</div>
-            <div class="lang-box"><span class="fi fi-au"></span><br>AUS</div>
-            <div class="lang-box"><span class="fi fi-fr"></span><br>FRA</div>
-            <div class="lang-box"><span class="fi fi-de"></span><br>GER</div>
-            <div class="lang-box"><span class="fi fi-sg"></span><br>SGP</div>
-            <div class="lang-box"><span class="fi fi-ru"></span><br>RUS</div>
-        </div>
-    </div>
-
-        <div class="side-section">
-            <div class="side-title">Support & Policy</div>
-            <a href="help.html" class="side-item"><i class="fas fa-question-circle"></i> Help Center</a>
-            <a href="tracking.html" class="side-item"><i class="fas fa-truck-moving"></i> Track Your Order</a>
-            <a href="contact.html" class="side-item"><i class="fas fa-headset"></i> Customer Service</a>
-            <a href="privacy.html" class="side-item"><i class="fas fa-user-shield"></i> Privacy & Policy</a>
-            <a href="#" class="side-item"><i class="fas fa-info-circle"></i> Oshan Overview</a>
-            <a href="#" class="side-item"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
-            <a href="returns.html"><i class="fas fa-undo"></i> Returns & Refunds</a>
-        </div>
-
-        <div class="side-section">
-            <a href="#" onclick="logout()" class="side-item" style="color:red;"><i class="fas fa-sign-out-alt"></i> Logout System</a>
+            <a href="become-seller.html" class="side-item" style="color:var(--daraz-orange); font-weight:bold;"><i class="fas fa-store"></i> Sell on Oshan</a>
         </div>
     </div>
 
@@ -149,215 +108,57 @@
         <div class="top-bar">
             <span onclick="accessAdmin()">Admin Dashboard</span>
             <a href="help.html">Help Center</a>
-            <a href="become-seller.html">Sell on Oshan</a>
         </div>
-        
         <div class="main-nav">
             <div class="logo-section" onclick="toggleSidebar()">
-                <i class="fas fa-bars" style="font-size:22px; color:#333;"></i>
+                <i class="fas fa-bars"></i>
                 <h2>OshanCart</h2>
             </div>
-
             <div class="search-box">
-                <input type="text" id="desktopSearch" placeholder="What are you looking for today?">
-                <button class="search-btn" onclick="textSearch('desktopSearch')"><i class="fas fa-search"></i></button>
+                <input type="text" id="desktopSearch" placeholder="Search products...">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
             </div>
-
             <div class="nav-icons">
-                <a href="profile.html" class="icon-item">
-                    <i class="fas fa-user"></i>
-                    <span>Account</span>
-                </a>
-                <a href="wishlist.html" class="icon-item">
-                    <i class="fas fa-heart"></i>
-                    <span>Wishlist</span>
-                </a>
-                <a href="cart.html" class="icon-item" style="position:relative;">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Cart</span>
-                    <span id="cartCount" style="position:absolute; top:-10px; right:-5px; background:var(--daraz-orange); color:white; font-size:10px; padding:2px 6px; border-radius:50%;">0</span>
-                </a>
+                <a href="profile.html" class="icon-item"><i class="fas fa-user"></i><span>Account</span></a>
+                <a href="cart.html" class="icon-item"><i class="fas fa-shopping-cart"></i><span>Cart</span></a>
             </div>
         </div>
     </header>
 
     <header class="mobile-nav">
         <div class="mobile-top">
-            <div style="display:flex; align-items:center; gap:15px;">
-                <i class="fas fa-bars" onclick="toggleSidebar()" style="font-size:22px; cursor:pointer;"></i>
-                <h3 style="margin:0; color:var(--daraz-orange); font-family:'Poppins';">OshanCart</h3>
-            </div>
-            <div style="display:flex; gap:18px; font-size:20px; color:#444;">
-                <i class="fas fa-bell"></i>
-                <i class="fas fa-shopping-cart" onclick="location.href='cart.html'"></i>
-            </div>
+            <i class="fas fa-bars" onclick="toggleSidebar()"></i>
+            <h3 style="color:var(--daraz-orange); margin:0;">OshanCart</h3>
+            <i class="fas fa-shopping-cart"></i>
         </div>
-        <div class="mobile-search">
-            <i class="fas fa-search" style="color:#999;"></i>
-            <input type="text" id="mobileSearch" placeholder="Search Oshan Cart..." onkeyup="if(event.key==='Enter') textSearch('mobileSearch')">
+        <div class="search-box">
+            <input type="text" placeholder="Search Oshan Cart...">
         </div>
     </header>
-    
-</body>
-<body> 
-            <div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
-            <div class="mobile-sidebar" id="mobSide">
-    <div class="side-header">
-        <div style="display:flex; align-items:center; gap:15px;">
-            <i class="fas fa-user-circle" style="font-size: 45px;"></i>
-            <div>
-                <div style="font-weight:bold; font-size:16px;">OshanCart Global</div>
-                <div style="font-size:12px; opacity:0.9;">Login / Sign Up</div>
-            </div>
-            <i class="fas fa-times" onclick="closeSidebar()" style="margin-left:auto; font-size:20px; cursor:pointer;"></i>
-        </div>
-    </div>
 
-   <div class="side-section">
-        <a href="#" class="side-item" style="color:red;"><i class="fas fa-sign-out-alt"></i> Logout System</a>
-    </div>
-
-    <div style="padding:20px; font-size:11px; color:#bbb; text-align:center;">
-        © 2026 OshanCart Global | Version 2.0.5
-    </div>
-            </div>
-
-     <header class="desktop-nav">
-    <div class="top-bar">
-        <span onclick="accessAdmin()" style="cursor:pointer;">Admin Login</span>
-        <span>Help Center</span>
-    </div>
-    <div class="main-nav" style="display: flex; align-items: center; padding: 10px 5%;">
-        <h2 style="color: var(--daraz-orange); margin: 0;">OshanCart</h2>
-        <div class="search-box" style="flex: 1; margin: 0 40px; display: flex; background: #eff0f5; border-radius: 4px; overflow: hidden;">
-            <input type="text" id="searchInput" placeholder="Search in Oshan Cart..." style="width: 100%; border: none; background: transparent; padding: 12px; outline: none;">
-            <div class="search-addons" style="display:flex; align-items:center; gap:15px; padding:0 15px; color:#666;">
-                <i class="fas fa-microphone" id="micBtn" style="cursor:pointer;"></i>
-                <i class="fas fa-camera" style="cursor:pointer;"></i>
-            </div>
-            <button class="search-btn" onclick="textSearch()" style="background: var(--daraz-orange); color: white; border: none; padding: 10px 25px; cursor: pointer;">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-        <div class="nav-icons" style="display: flex; gap: 20px; font-size: 20px; color: #333;">
-            <i class="fas fa-shopping-cart" onclick="location.href='cart.html'" style="cursor:pointer;"></i>
-            <i class="fas fa-user" onclick="location.href='profile.html'" style="cursor:pointer;"></i>
-        </div>
-    </div>
-     </header>
-    <header class="desktop-nav">
-        <div class="menu-list">
-    <div class="menu-title">Account & Experience</div>
-    <a href="index.html"><i class="fas fa-home"></i> Home</a>
-    <a href="profile.html"><i class="fas fa-user-circle"></i> My Account</a>
-    <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
-    <a href="wishlist.html"><i class="fas fa-heart"></i> My Wishlist</a>
-    <a href="cart.html"><i class="fas fa-shopping-cart"></i> My Cart</a>
-    <a href="wallet.html"><i class="fas fa-wallet"></i> Oshan Wallet</a>
-
-    <hr>
-
-    <div class="menu-title">Sell & Earn</div>
-    <a href="become-seller.html"><i class="fas fa-store"></i> Become a Seller</a>
-    <a href="affiliate.html"><i class="fas fa-handshake"></i> Affiliate Program</a>
-    <a href="referral.html"><i class="fas fa-users"></i> Invite Friends & Earn</a>
-
-    <hr>
-
-    <div class="menu-title">Customer Support</div>
-    <a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a>
-    <a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a>
-    <a href="tracking.html"><i class="fas fa-truck"></i> Order Tracking</a>
-    <a href="returns.html"><i class="fas fa-undo"></i> Returns & Refunds</a>
-    <a href="about.html"><i class="fas fa-info-circle"></i> About OshanCart</a>
-
-    <hr>
-
-    <div class="menu-title">Settings</div>
-    <a href="#" onclick="toggleLang()"><i class="fas fa-globe"></i> Language & Currency</a>
-    <a href="privacy.html"><i class="fas fa-user-lock"></i> Privacy Policy</a>
-    <a href="#" onclick="accessAdmin()"><i class="fas fa-user-shield"></i> Admin Panel</a>
-    <a href="#" style="color: #ff4747;"><i class="fas fa-sign-out-alt"></i> Logout</a>
-</div>
-        <div class="top-bar">
-            <span onclick="accessAdmin()" style="cursor:pointer;">Admin Login</span>
-            <span>Help Center</span>
-        </div>
-       <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Search in Oshan Cart...">
-    <div class="search-addons" style="display:flex; align-items:center; gap:10px; padding-right:10px; color:#666;">
-        <i class="fas fa-microphone" id="micBtn" style="cursor:pointer;" title="Voice Search"></i>
-        <label for="camInput" style="margin:0; cursor:pointer;">
-            <i class="fas fa-camera" title="Image Search"></i>
-        </label>
-        <input type="file" id="camInput" accept="image/*" style="display:none;">
-    </div>
-    <button class="search-btn" onclick="textSearch()"><i class="fas fa-search"></i></button>
-       </div>
-    </header>
-
-    <header class="mobile-nav">
-        <div style="display:flex; justify-content:space-between; color:white; align-items:center;">
-            <i class="fas fa-bars" onclick="toggleSidebar()" style="cursor:pointer;"></i>
-            <h3 style="margin:0;">OshanCart</h3>
-            <i class="fas fa-comment-dots"></i>
-        </div>
-<div class="search-box">
-    <input type="text" id="searchInput" placeholder="Search in Oshan Cart...">
-    <div class="search-addons" style="display:flex; align-items:center; gap:10px; padding-right:10px; color:#666;">
-        <i class="fas fa-microphone" id="micBtn" style="cursor:pointer;" title="Voice Search"></i>
-        <label for="camInput" style="margin:0; cursor:pointer;">
-            <i class="fas fa-camera" title="Image Search"></i>
-        </label>
-        <input type="file" id="camInput" accept="image/*" style="display:none;">
-    </div>
-    <button class="search-btn" onclick="textSearch()"><i class="fas fa-search"></i></button>
-</div>
-    </header>
     <main class="home-hero">
-    <aside class="category-sidebar">
-    <div class="side-title" style="padding:15px; font-weight:bold; background:#fafafa; border-bottom:1px solid #eee; color: #333; font-size: 14px;">
-        <i class="fas fa-list-ul" style="margin-right:8px;"></i> ALL CATEGORIES
-    </div>
-    <div class="cat-list" style="max-height: 400px; overflow-y: auto;">
-        <a href="categories.html?type=Womens" class="cat-item" style="text-decoration:none;"><span>Womens Fashion 👗</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Mens" class="cat-item" style="text-decoration:none;"><span>Mens Fashion 👕</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Home%20%26%20Kitchen" class="cat-item" style="text-decoration:none;"><span>Home & Kitchen 🏠</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Tools%20%26%20Home%20Improvement" class="cat-item" style="text-decoration:none;"><span>Tools & Home Improvement 🛠️🏠</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Jewelry" class="cat-item" style="text-decoration:none;"><span>Jewelry 💍</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Phones" class="cat-item" style="text-decoration:none;"><span>Phones 📱</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Electronics%20%26%20Gadgets" class="cat-item" style="text-decoration:none;"><span>Electronics & Gadgets ⚡📱</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Home%20%26%20Beauty" class="cat-item" style="text-decoration:none;"><span>Home & Beauty 💄</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Furniture" class="cat-item" style="text-decoration:none;"><span>Furniture 🛋️</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Money%20Saving" class="cat-item" style="text-decoration:none;"><span>Money Saving 💰</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Kids" class="cat-item" style="text-decoration:none;"><span>Kids 🧸</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Dried%20Food" class="cat-item" style="text-decoration:none;"><span>Dried Food 🍲</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Cakes" class="cat-item" style="text-decoration:none;"><span>Cakes (Wedding & Birthday) 🎂</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Ceylon%20Items" class="cat-item" style="text-decoration:none;"><span>Ceylon Items 🇱🇰</span> <i class="fas fa-chevron-right"></i></a>
-        <a href="categories.html?type=Vehicles" class="cat-item" style="text-decoration:none;"><span>Vehicles (Electric & Petrol) 🚗</span> <i class="fas fa-chevron-right"></i></a>
-
-        <a href="index.html" class="cat-item" style="text-decoration:none; color:var(--daraz-orange); font-weight:bold; border-top:1px solid #eee;">
-            <span>Show All Products ✨</span>
-        </a>
-    </div>
-    </aside>
-        <div style="flex:1; background:#ddd; border-radius:8px; height:300px; overflow:hidden;">
+        <aside class="category-sidebar">
+            <div style="padding:15px; font-weight:bold; border-bottom:1px solid #eee;">CATEGORIES</div>
+            <a href="#" class="cat-item">Womens Fashion 👗</a>
+            <a href="#" class="cat-item">Mens Fashion 👕</a>
+            <a href="#" class="cat-item">Electronics ⚡</a>
+            <a href="#" class="cat-item">Ceylon Items 🇱🇰</a>
+        </aside>
+        
+        <div style="flex:1; border-radius:8px; overflow:hidden; height:350px;">
             <img src="https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" style="width:100%; height:100%; object-fit:cover;">
         </div>
     </main>
 
     <section class="product-container">
-        <div class="section-title">Just For You</div>
+        <h3>Just For You</h3>
         <div class="product-grid" id="mainProductGrid">
             </div>
     </section>
 
     <div id="ai-chat-widget">
         <div class="chat-window" id="chatWin">
-            <div style="background:var(--daraz-orange); color:white; padding:15px; border-radius:12px 12px 0 0; display:flex; justify-content:space-between;">
-                <span>Oshan AI</span>
-                <i class="fas fa-times" onclick="toggleChat()"></i>
-            </div>
+            <div style="background:var(--daraz-orange); color:white; padding:15px; border-radius:12px 12px 0 0;">Oshan AI</div>
             <div id="chatBody" style="flex:1; padding:10px; overflow-y:auto;"></div>
             <div style="padding:10px; border-top:1px solid #eee; display:flex;">
                 <input type="text" id="aiInput" style="flex:1; border:none; outline:none;">
@@ -368,206 +169,67 @@
     </div>
 
     <nav class="bottom-nav">
-        <a href="index.html" class="nav-link active"><i class="fas fa-home"></i>Home</a><a href="javascript:void(0)" onclick="toggleSidebar()" class="nav-link"><i class="fas fa-list"></i>Category</a>
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i>Home</a>
+        <a href="javascript:void(0)" onclick="toggleSidebar()" class="nav-link"><i class="fas fa-list"></i>Category</a>
         <a href="cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i>Cart</a>
-        <a href="admin-dashboard.html" class="nav-link"><i class="fas fa-user-shield"></i>Admin</a>
+        <a href="profile.html" class="nav-link"><i class="fas fa-user"></i>Account</a>
     </nav>
 
- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
-<script>
-    // --- 1. FIREBASE & CONFIG INITIALIZATION ---
-    const firebaseConfig = {
-        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-        authDomain: "oshancart.firebaseapp.com",
-        projectId: "oshancart",
-        storageBucket: "oshancart.appspot.com",
-        messagingSenderId: "686982543488",
-        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-    };
-
-    if (!firebase.apps.length) {
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
         firebase.initializeApp(firebaseConfig);
-    }
-    const db = firebase.firestore();
-    emailjs.init("jfgAK0LaZ0w7RKAE8");
+        const db = firebase.firestore();
 
-    let currentCurrency = "Rs."; // Default මුදල් ඒකකය
-
-    // --- 2. SIDEBAR & UI LOGIC ---
-    function toggleSidebar() {
-        const overlay = document.getElementById('sideOverlay');
-        const sidebar = document.getElementById('mobSide');
-        if(overlay && sidebar) {
-            overlay.style.display = 'block';
-            setTimeout(() => sidebar.classList.add('active'), 50);
+        function toggleSidebar() {
+            document.getElementById('sideOverlay').style.display = 'block';
+            document.getElementById('oshancartSidebar').classList.add('active');
         }
-    }
 
-    function closeSidebar() {
-        const sidebar = document.getElementById('mobSide');
-        if(sidebar) {
-            sidebar.classList.remove('active');
-            setTimeout(() => {
-                document.getElementById('sideOverlay').style.display = 'none';
-            }, 300);
+        function closeSidebar() {
+            document.getElementById('oshancartSidebar').classList.remove('active');
+            setTimeout(() => { document.getElementById('sideOverlay').style.display = 'none'; }, 300);
         }
-    }
 
-    // --- 3. LANGUAGE & CURRENCY ENGINE ---
-    // මෙනු එකේ රටවල් එබුවාම මුදල් ඒකකය මාරු කිරීම
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.lang-box')) {
-            const box = e.target.closest('.lang-box');
-            const country = box.innerText.trim();
-            
-            if(country.includes("US") || country.includes("AUS")) currentCurrency = "$";
-            else if(country.includes("UK")) currentCurrency = "£";
-            else if(country.includes("UAE")) currentCurrency = "AED";
-            else if(country.includes("CN") || country.includes("JP")) currentCurrency = "¥";
-            else currentCurrency = "Rs.";
-            
-            alert("Market Switched: " + country + " (" + currentCurrency + ")");
-            loadProducts(); 
-            closeSidebar();
+        function toggleChat() {
+            const win = document.getElementById('chatWin');
+            win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
         }
-    });
 
-    // --- 4. PRODUCT ENGINE ---
-    function loadProducts() {
-        const grid = document.getElementById('mainProductGrid');
-        db.collection("products").onSnapshot((snapshot) => {
-            grid.innerHTML = ""; 
-            snapshot.forEach((doc) => renderProduct(doc.id, doc.data()));
-        });
-    }
-
-    function renderProduct(id, p) {
-    const grid = document.getElementById('mainProductGrid');
-    
-    // card එක click කළාම categories.html එකට අදාළ category එක අරන් යනවා
-    grid.innerHTML += `
-        <div class="product-card" onclick="window.location.href='categories.html?type=${encodeURIComponent(p.category)}'" style="cursor:pointer;">
-            <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img">
-            <div class="product-info">
-                <div class="p-name">${p.name}</div>
-                <div class="p-price">${currentCurrency} ${p.price}</div>
-                <button onclick="event.stopPropagation(); buyNow('${id}', '${p.name}', '${p.price}')" 
-                        style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px;">
-                    Buy Now
-                </button>
-            </div>
-        </div>`;
-    }
-// ඔයා ඉල්ලපු විදිහට category එක හරහා product details වලට යන root එක
-function goToDetails(productId, categoryName) {
-    // encodeURIComponent පාවිච්චි කරන්නේ category නමේ හිස්තැන් (spaces) තිබුණොත් ඒවා නිවැරදිව URL එකට ගන්නයි
-    const safeCat = encodeURIComponent(categoryName);
-    window.location.href = `categories.html?type=${safeCat}&id=${productId}`;
-    }
-
-    // Category Filter කිරීම
-    function filterCat(categoryName) {
-        const grid = document.getElementById('mainProductGrid');
-        db.collection("products").where("category", "==", categoryName).get().then((snapshot) => {
-            grid.innerHTML = "";
-            if(snapshot.empty) {
-                grid.innerHTML = "<p style='padding:20px; text-align:center; width:100%; grid-column: 1/-1;'>No items found in this category.</p>";
-            }
-            snapshot.forEach((doc) => renderProduct(doc.id, doc.data()));
-        });
-        closeSidebar();
-    }
-
-    // --- 5. ADVANCED SEARCH (LIVE SEARCH) ---
-    const sInput = document.getElementById('searchInput');
-    
-    // ටයිප් කරන කොටම සර්ච් වෙන විදිහ (Real-time)
-    if(sInput) {
-        sInput.addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            filterProducts(query);
-        });
-    }
-
-    function filterProducts(query) {
-        const grid = document.getElementById('mainProductGrid');
-        db.collection("products").get().then((snapshot) => {
-            grid.innerHTML = "";
-            snapshot.forEach((doc) => {
-                const p = doc.data();
-                if (p.name.toLowerCase().includes(query)) renderProduct(doc.id, p);
+        function loadProducts() {
+            const grid = document.getElementById('mainProductGrid');
+            db.collection("products").onSnapshot((snapshot) => {
+                grid.innerHTML = "";
+                snapshot.forEach((doc) => {
+                    const p = doc.data();
+                    grid.innerHTML += `
+                        <div class="product-card">
+                            <img src="${p.image}" class="product-img">
+                            <div class="product-info">
+                                <div style="font-size:13px; height:34px; overflow:hidden;">${p.name}</div>
+                                <div class="p-price">Rs. ${p.price}</div>
+                                <button onclick="window.location.href='cart.html?id=${doc.id}'" style="width:100%; background:var(--daraz-orange); color:white; border:none; padding:8px; border-radius:4px;">Buy Now</button>
+                            </div>
+                        </div>`;
+                });
             });
-        });
-    }
+        }
 
-    // Voice Search
-    const micBtn = document.getElementById('micBtn');
-    if ('webkitSpeechRecognition' in window) {
-        const recognition = new webkitSpeechRecognition();
-        micBtn.onclick = () => { recognition.start(); micBtn.style.color = "red"; };
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            sInput.value = transcript;
-            micBtn.style.color = "#666";
-            filterProducts(transcript.toLowerCase());
-        };
-    }
+        function accessAdmin() {
+            const pw = prompt("Admin Password:");
+            if(pw === "Lakshan@2001") window.location.href = "admin-dashboard.html";
+        }
 
-    // Camera Search
-    const camInput = document.getElementById('camInput');
-    if(camInput) {
-        camInput.onchange = function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                alert("Oshan AI is analyzing: " + file.name);
-                filterProducts(file.name.split('.')[0].toLowerCase());
-            }
-        };
-    }
-
-    // --- 6. AI ASSISTANT & CHAT ---
-    function toggleChat() {
-        const win = document.getElementById('chatWin');
-        win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
-    }
-
-    async function askAI() {
-        const input = document.getElementById('aiInput');
-        const body = document.getElementById('chatBody');
-        if(!input || !input.value) return;
-
-        body.innerHTML += `<p style="background:var(--daraz-orange); color:white; padding:8px; border-radius:8px; width:fit-content; margin-left:auto; font-size:13px;">${input.value}</p>`;
-        const userMsg = input.value.toLowerCase();
-        input.value = '';
-
-        setTimeout(() => {
-            let reply = "Let me check that for you...";
-            if(userMsg.includes("hi") || userMsg.includes("hello")) reply = "Hi! Welcome to OshanCart. How can I help?";
-            else if(userMsg.includes("price")) reply = "Our prices are global! You can switch countries from the menu.";
-            else if(userMsg.includes("delivery")) reply = "We offer fast global shipping to over 12 countries.";
-            
-            body.innerHTML += `<p style="background:#f0f0f0; padding:8px; border-radius:8px; width:fit-content; font-size:13px;">${reply}</p>`;
-            body.scrollTop = body.scrollHeight;
-        }, 800);
-    }
-
-    // --- 7. ADMIN & CHECKOUT ---
-    function buyNow(id, name, price) {
-        alert(name + " added to checkout!");
-        window.location.href = `cart.html?id=${id}&name=${encodeURIComponent(name)}&price=${price}&curr=${currentCurrency}`;
-    }
-
-    function accessAdmin() {
-        const pw = prompt("Enter Admin Password:");
-        if(pw === "Lakshan@2001") window.location.href = "admin-dashboard.html";
-        else if (pw !== null) alert("Access Denied!");
-    }
-
-    window.onload = loadProducts;
-</script>
+        window.onload = loadProducts;
+    </script>
 </body>
 </html>
