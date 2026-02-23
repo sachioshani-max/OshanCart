@@ -169,3 +169,61 @@ hr {
     border-top: 1px solid #eee;
     margin: 15px 0;
 }
+/* Desktop Menu එක ලස්සන කරන CSS */
+.menu-list {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background: white;
+    border-right: 1px solid #eee;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    overflow-y: auto;
+    display: none; /* මුලින් හංගලා තියෙන්නේ */
+}
+
+/* Desktop එකේදී විතරක් මෙනු එක පෙන්වන්න */
+@media (min-width: 769px) {
+    .menu-list { display: block; }
+    .main-content-area { margin-left: 260px; } /* ප්‍රධාන කොටස පැත්තට කරන්න */
+    .desktop-nav { margin-left: 250px; }
+}
+
+.menu-title {
+    font-size: 12px;
+    color: #999;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 15px 0 10px 0;
+}
+
+.menu-list a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    text-decoration: none;
+    color: #444;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.menu-list a:hover {
+    background: #fdf2ee;
+    color: var(--daraz-orange);
+}
+
+.menu-list i {
+    width: 20px;
+    color: #666;
+}
+
+.menu-list hr {
+    border: 0;
+    border-top: 1px solid #f0f0f0;
+    margin: 15px 0;
+}
