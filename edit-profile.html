@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Global Profile Sync | OshanCart</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+    <style>
+        :root {
+            --primary: #f85606;
+            --primary-hover: #e04d05;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #1c1e21;
+            --text-muted: #65676b;
+            --border: #dddfe2;
+            --success: #42b72a;
+            --shadow: 0 12px 28px rgba(0,0,0,0.12);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-color); 
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+        }
+
+        .app-shell {
+            width: 100%; max-width: 850px; background: var(--card-bg);
+            border-radius: 16px; box-shadow: var(--shadow);
+            display: flex; overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px; background: #f7f8fa; padding: 30px 15px;
+            border-right: 1px solid var(--border);
+        }
+
+        .nav-item {
+            padding: 12px 15px; border-radius: 8px; display: flex;
+            align-items: center; gap: 12px; cursor: pointer;
+            color: var(--text-muted); font-weight: 500; transition: 0.2s;
+        }
+
+        .nav-item.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 40px; }
+
+        /* Drag & Drop Photo Box */
+        .upload-container {
+            display: flex; flex-direction: column; align-items: center; margin-bottom: 30px;
+        }
+
+        .drop-zone {
+            width: 140px; height: 140px; border-radius: 50%;
+            border: 3px dashed var(--border); display: flex;
+            align-items: center; justify-content: center;
+            overflow: hidden; cursor: pointer; position: relative;
+            background: #fafafa; transition: 0.3s;
+        }
+
+        .drop-zone:hover { border-color: var(--primary); background: #fff5f0; }
+
+        .preview-img { width: 100%; height: 100%; object-fit: cover; display: none; }
+
+        .loader-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.8); display: none;
+            flex-direction: column; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: bold; color: var(--primary);
+        }
+
+        /* Form Controls */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+
+        label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text-muted); text-transform: uppercase; }
+        input, select {
+            width: 100%; padding: 12px; border: 1px solid var(--border);
+            border-radius: 8px; font-size: 14px; box-sizing: border-box; outline: none;
+        }
+        input:focus { border-color: var(--primary); }
+
+        .footer {
+            margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border);
+            display: flex; justify-content: flex-end; gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; border: none;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-secondary { background: #eee; color: #333; }
+
+        /* Mobile View */
+        @media (max-width: 768px) {
+            .app-shell { flex-direction: column; height: 100vh; border-radius: 0; }
+            .sidebar { width: 100%; display: flex; overflow-x: auto; padding: 10px; border-bottom: 1px solid var(--border); }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-shell">
+    <div class="sidebar">
+        <h2 style="color:var(--primary); margin-left:15px; font-size: 20px;">OshanCart</h2>
+        <div class="nav-item active"><i class="fas fa-user-circle"></i> Profile</div>
+        <div class="nav-item"><i class="fas fa-shield-alt"></i> Security</div>
+        <div class="nav-item"><i class="fas fa-box"></i> My Orders</div>
+    </div>
+
+    <div class="main-content">
+        <h3>Edit Personal Profile</h3>
+        
+        <div class="upload-container">
+            <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <div id="prompt">
+                    <i class="fas fa-camera" style="font-size:24px; color:#ccc;"></i><br>
+                    <span style="font-size:10px; color:#999;">UPLOAD PHOTO</span>
+                </div>
+                <img src="" id="imgPreview" class="preview-img">
+                <div class="loader-overlay" id="uploadLoader">
+                    <i class="fas fa-spinner fa-spin"></i><br>UPLOADING...
+                </div>
+                <input type="file" id="fileInput" hidden accept="image/*">
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="input-box">
+                <label>First Name</label>
+                <input type="text" id="fName" placeholder="Enter first name">
+            </div>
+            <div class="input-box">
+                <label>Last Name</label>
+                <input type="text" id="lName" placeholder="Enter last name">
+            </div>
+            <div class="input-box full-width">
+                <label>Verified Email</label>
+                <input type="email" id="userEmail" placeholder="yourname@example.com">
+            </div>
+            <div class="input-box">
+                <label>Phone Number</label>
+                <input type="text" id="userPhone" placeholder="+94 77 123 4567">
+            </div>
+            <div class="input-box">
+                <label>Country</label>
+                <select id="userCountry">
+                    <option value="Sri Lanka">Sri Lanka 🇱🇰</option>
+                    <option value="Global">International 🌎</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button class="btn btn-secondary" onclick="window.history.back()">Back</button>
+            <button class="btn btn-primary" id="saveBtn" onclick="saveToFirebase()">Save to Cloud</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Firebase Initialization (Using your credentials) ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+        authDomain: "oshancart.firebaseapp.com",
+        projectId: "oshancart",
+        storageBucket: "oshancart.appspot.com",
+        messagingSenderId: "686982543488",
+        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    let uploadedImageUrl = ""; // Global variable to store image link
+
+    // --- Drag & Drop Logic ---
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => {
+        dropZone.addEventListener(e, (ev) => { ev.preventDefault(); ev.stopPropagation(); });
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        handleImageUpload(e.dataTransfer.files[0]);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        handleImageUpload(e.target.files[0]);
+    });
+
+    // --- Firebase Storage Upload Function ---
+    function handleImageUpload(file) {
+        if (!file) return;
+
+        // පින්තූරය Preview කිරීම
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('imgPreview').src = e.target.result;
+            document.getElementById('imgPreview').style.display = 'block';
+            document.getElementById('prompt').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+
+        // Firebase Storage එකට Upload කිරීම
+        const loader = document.getElementById('uploadLoader');
+        loader.style.display = 'flex';
+
+        // Unique නමක් දීම (උදා: user_17087000.jpg)
+        const storageRef = storage.ref('profile_pics/' + Date.now() + "_" + file.name);
+        const uploadTask = storageRef.put(file);
+
+        uploadTask.on('state_changed', 
+            null, 
+            (error) => { alert("Upload error: " + error.message); }, 
+            () => {
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                    uploadedImageUrl = downloadURL; // මෙන්න නියම Link එක
+                    loader.style.display = 'none';
+                    console.log("File available at:", downloadURL);
+                });
+            }
+        );
+    }
+
+    // --- Firestore Data Save Function ---
+    async function saveToFirebase() {
+        const btn = document.getElementById('saveBtn');
+        const data = {
+            firstName: document.getElementById('fName').value,
+            lastName: document.getElementById('lName').value,
+            email: document.getElementById('userEmail').value,
+            phone: document.getElementById('userPhone').value,
+            country: document.getElementById('userCountry').value,
+            profilePic: uploadedImageUrl, // Firebase Storage URL එක මෙතනට එනවා
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        if(!data.firstName || !data.email) {
+            alert("Please fill basic info!");
+            return;
+        }
+
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SYNCING...';
+        btn.disabled = true;
+
+        try {
+            // "users" collection එකට "sachin" කියන ID එකෙන් සේව් කරනවා (පසුව මෙය Auth ID එකට වෙනස් කළ හැක)
+            await db.collection("users").doc("current_user").set(data, { merge: true });
+            alert("✅ OshanCart Global Sync Complete!");
+        } catch (error) {
+            alert("Error: " + error.message);
+        } finally {
+            btn.innerHTML = 'Save to Cloud';
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
