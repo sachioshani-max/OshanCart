@@ -109,17 +109,23 @@
             <a href="referral.html" class="side-item"><i class="fas fa-gift"></i> Refer Friends & Earn</a>
         </div>
 
-        <div class="side-section">
-            <div class="side-title">Language & Region</div>
-            <div class="lang-grid">
-                <div class="lang-box"><span class="fi fi-lk"></span><br>LKR</div>
-                <div class="lang-box"><span class="fi fi-us"></span><br>USD</div>
-                <div class="lang-box"><span class="fi fi-cn"></span><br>CNY</div>
-                <div class="lang-box"><span class="fi fi-gb"></span><br>GBP</div>
-                <div class="lang-box"><span class="fi fi-ae"></span><br>AED</div>
-                <div class="lang-box"><span class="fi fi-in"></span><br>INR</div>
-            </div>
+       <div class="side-section">
+        <div class="side-title">Region & Language (12 Selectable)</div>
+        <div class="lang-grid">
+            <div class="lang-box"><span class="fi fi-lk"></span><br>LK</div>
+            <div class="lang-box"><span class="fi fi-us"></span><br>US</div>
+            <div class="lang-box"><span class="fi fi-cn"></span><br>CN</div>
+            <div class="lang-box"><span class="fi fi-in"></span><br>IN</div>
+            <div class="lang-box"><span class="fi fi-jp"></span><br>JP</div>
+            <div class="lang-box"><span class="fi fi-gb"></span><br>UK</div>
+            <div class="lang-box"><span class="fi fi-ae"></span><br>UAE</div>
+            <div class="lang-box"><span class="fi fi-au"></span><br>AUS</div>
+            <div class="lang-box"><span class="fi fi-fr"></span><br>FRA</div>
+            <div class="lang-box"><span class="fi fi-de"></span><br>GER</div>
+            <div class="lang-box"><span class="fi fi-sg"></span><br>SGP</div>
+            <div class="lang-box"><span class="fi fi-ru"></span><br>RUS</div>
         </div>
+    </div>
 
         <div class="side-section">
             <div class="side-title">Support & Policy</div>
@@ -186,51 +192,7 @@
             <input type="text" id="mobileSearch" placeholder="Search Oshan Cart..." onkeyup="if(event.key==='Enter') textSearch('mobileSearch')">
         </div>
     </header>
-
-    <script>
-        // 1. Sidebar Control
-        function toggleSidebar() {
-            const overlay = document.getElementById('sideOverlay');
-            const sidebar = document.getElementById('oshancartSidebar');
-            overlay.style.display = 'block';
-            setTimeout(() => sidebar.classList.add('active'), 10);
-        }
-
-        function closeSidebar() {
-            const sidebar = document.getElementById('oshancartSidebar');
-            sidebar.classList.remove('active');
-            setTimeout(() => {
-                document.getElementById('sideOverlay').style.display = 'none';
-            }, 300);
-        }
-
-        // 2. Search Logic (Desktop & Mobile දෙකටම වැඩ කරනවා)
-        function textSearch(inputId) {
-            const query = document.getElementById(inputId).value;
-            if(query.trim() !== "") {
-                alert("Searching for: " + query);
-                // මෙතනට ඔයාගේ සර්ච් රිසල්ට් පේජ් එකේ ලින්ක් එක දාන්න
-                // window.location.href = `search.html?q=${encodeURIComponent(query)}`;
-            }
-        }
-
-        // 3. Admin Access
-        function accessAdmin() {
-            const pw = prompt("Enter Admin Password:");
-            if(pw === "Lakshan@2001") {
-                window.location.href = "admin-dashboard.html";
-            } else if (pw !== null) {
-                alert("Access Denied! Incorrect Password.");
-            }
-        }
-
-        function logout() {
-            if(confirm("Are you sure you want to logout?")) {
-                alert("Logging out...");
-                // Firebase logout logic goes here
-            }
-        }
-    </script>
+    
 </body>
 </head>
 <body> 
@@ -262,23 +224,7 @@
         <a href="#" class="side-item"><i class="fas fa-user-plus"></i> Referral Program</a>
     </div>
 
-    <div class="side-section">
-        <div class="side-title">Region & Language (12 Selectable)</div>
-        <div class="lang-grid">
-            <div class="lang-box"><span class="fi fi-lk"></span><br>LK</div>
-            <div class="lang-box"><span class="fi fi-us"></span><br>US</div>
-            <div class="lang-box"><span class="fi fi-cn"></span><br>CN</div>
-            <div class="lang-box"><span class="fi fi-in"></span><br>IN</div>
-            <div class="lang-box"><span class="fi fi-jp"></span><br>JP</div>
-            <div class="lang-box"><span class="fi fi-gb"></span><br>UK</div>
-            <div class="lang-box"><span class="fi fi-ae"></span><br>UAE</div>
-            <div class="lang-box"><span class="fi fi-au"></span><br>AUS</div>
-            <div class="lang-box"><span class="fi fi-fr"></span><br>FRA</div>
-            <div class="lang-box"><span class="fi fi-de"></span><br>GER</div>
-            <div class="lang-box"><span class="fi fi-sg"></span><br>SGP</div>
-            <div class="lang-box"><span class="fi fi-ru"></span><br>RUS</div>
-        </div>
-    </div>
+    
 
     <div class="side-section">
         <div class="side-title">Support & Policies</div>
