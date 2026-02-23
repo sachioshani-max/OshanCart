@@ -578,7 +578,76 @@
 
         .mob-nav-link.active { color: var(--osh-orange); }
         .mob-nav-link i { font-size: 20px; margin-bottom: 2px; }
+      
+        /* Bottom Navigation Styling */
+.premium-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffff; /* White like SHEIN */
+    box-shadow: 0 -2px 20px rgba(0,0,0,0.1);
+    z-index: 9999;
+    border-top: 1px solid #eee;
+}
 
+.nav-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 65px;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #444;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    transition: 0.3s;
+}
+
+.nav-item i {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.nav-item span {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* Active State - AliExpress style orange */
+.nav-item.active {
+    color: #f85606;
+}
+
+.nav-item.active i {
+    transform: translateY(-3px); /* පොඩි animation එකක් */
+}
+
+/* Badge for Cart */
+.nav-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background: #ff4747;
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+.icon-box { position: relative; }
+
+/* Desktop එකේදී මේක හංගන්න */
+@media (min-width: 769px) {
+    .premium-bottom-nav { display: none; }
+}
         /* =========================================
            9. RESPONSIVE QUERIES
         ========================================= */
@@ -812,7 +881,6 @@
             <div class="icon-box"><i class="fas fa-user"></i></div>
             <span>Account</span>
         </a>
-        <div class="nav-indicator"></div>
     </div>
 </nav>
 
