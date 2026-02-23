@@ -42,29 +42,45 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    const params = new URLSearchParams(window.location.search);
-    const category = params.get('type');
-    document.getElementById('catTitle').innerText = category;
+    // categories.html ඇතුළේ ඇති script එක මේ විදිහට හදන්න
+const db = firebase.firestore();
+const urlParams = new URLSearchParams(window.location.search);
+const categoryType = urlParams.get('type'); // URL එකෙන් category එක ගන්නවා
 
-    db.collection("products").where("category", "==", category).get().then((querySnapshot) => {
-        const grid = document.getElementById('catGrid');
+// Page එකේ Title එක වෙනස් කිරීම
+document.getElementById('catTitle').innerText = categoryType || "All Categories";
+
+function loadCategoryProducts() {
+    const grid = document.getElementById('catGrid'); // ඔයාගේ product grid එකේ ID එක
+    
+    // Firebase එකෙන් අදාළ Category එකේ බඩු විතරක් ගන්නවා
+    db.collection("products").where("category", "==", categoryType)
+    .onSnapshot((snapshot) => {
         grid.innerHTML = "";
-        if (querySnapshot.empty) {
-            grid.innerHTML = "<p style='text-align:center; grid-column: 1/-1;'>No items found in this category.</p>";
+        
+        if (snapshot.empty) {
+            grid.innerHTML = "<p style='text-align:center; width:100%;'>No items found in this category.</p>";
             return;
         }
-        querySnapshot.forEach((doc) => {
+
+        snapshot.forEach((doc) => {
             const p = doc.data();
+            const id = doc.id;
+            
+            // මෙතනදී click කළාම product-details.html එකට යනවා (id එකත් අරගෙන)
             grid.innerHTML += `
-                <a href="product-details.html?id=${doc.id}" class="card">
-                    <img src="${p.image}">
-                    <div class="info">
-                        <div style="font-size:13px; height:34px; overflow:hidden;">${p.name}</div>
-                        <div class="price">Rs. ${p.price}</div>
+                <div class="product-card" onclick="window.location.href='product-details.html?id=${id}'" style="cursor:pointer; background:white; border-radius:8px; padding:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+                    <img src="${p.image}" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:5px;">
+                    <div style="margin-top:10px;">
+                        <div style="font-size:13px; height:34px; overflow:hidden; font-weight:500;">${p.name}</div>
+                        <div style="color:#f85606; font-weight:bold; margin-top:5px;">Rs. ${p.price}</div>
                     </div>
-                </a>`;
+                </div>`;
         });
     });
+}
+
+window.onload = loadCategoryProducts;
 </script>
 </body>
 </html>
