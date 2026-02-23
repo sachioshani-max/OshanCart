@@ -152,3 +152,110 @@ footer {
 
 @keyframes fadein { from {top: 0; opacity: 0;} to {top: 30px; opacity: 1;} }
 @keyframes fadeout { from {top: 30px; opacity: 1;} to {top: 0; opacity: 0;} }
+
+:root {
+    --oshancart-primary: #f85606;
+    --nav-bg: rgba(255, 255, 255, 0.95);
+}
+
+.premium-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--nav-bg);
+    backdrop-filter: blur(15px); /* Glass effect */
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.08);
+    z-index: 9999;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: env(safe-area-inset-bottom); /* For iPhone notch */
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 65px;
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #757575;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 2;
+}
+
+.icon-box {
+    font-size: 20px;
+    margin-bottom: 4px;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.nav-item span {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Active State Effects */
+.nav-item.active {
+    color: var(--oshancart-primary);
+}
+
+.nav-item.active .icon-box {
+    transform: translateY(-5px); /* Floating effect */
+}
+
+/* Notification Badge (AliExpress Style) */
+.nav-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #ff4747;
+    color: white;
+    font-size: 9px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+/* Ripple/Tap Effect */
+.nav-item:active .icon-box {
+    transform: scale(0.8);
+}
+
+/* Smooth Background Indicator (Optional) */
+.nav-item.active::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    width: 40px;
+    height: 40px;
+    background: rgba(248, 86, 6, 0.1);
+    border-radius: 50%;
+    z-index: -1;
+    animation: pulseNav 1.5s infinite;
+}
+
+@keyframes pulseNav {
+    0% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 0.2; }
+    100% { transform: scale(1); opacity: 0.5; }
+}
+
+/* Hide on Desktop if needed */
+@media (min-width: 769px) {
+    .premium-bottom-nav { display: none; }
+}
