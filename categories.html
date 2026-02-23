@@ -45,8 +45,8 @@
     // categories.html ඇතුළේ ඇති script එක මේ විදිහට හදන්න
 const db = firebase.firestore();
 const urlParams = new URLSearchParams(window.location.search);
-const categoryType = urlParams.get('type'); // URL එකෙන් category එක ගන්නවා
-
+const categoryType = urlParams.get('type'); 
+// මෙතනදී 'type' එකේ තියෙන %20 වගේ දේවල් ඉබේම "Home & Kitchen" බවට පත් වෙනවා.
 // Page එකේ Title එක වෙනස් කිරීම
 document.getElementById('catTitle').innerText = categoryType || "All Categories";
 
