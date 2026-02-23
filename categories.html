@@ -1,1 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category View | Oshan Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --daraz-orange: #f85606; --light-bg: #f4f4f4; }
+        body { font-family: 'Roboto', sans-serif; background: var(--light-bg); margin: 0; }
+        .header { background: white; padding: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        .header i { font-size: 20px; color: #333; cursor: pointer; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
+        .card { background: white; border-radius: 8px; overflow: hidden; text-decoration: none; color: #333; }
+        .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+        .info { padding: 10px; }
+        .price { color: var(--daraz-orange); font-weight: bold; font-size: 16px; }
+    </style>
+</head>
+<body>
 
+<div class="header">
+    <i class="fas fa-arrow-left" onclick="history.back()"></i>
+    <h3 id="catTitle" style="margin:0;">Category</h3>
+</div>
+
+<div class="grid" id="catGrid">
+    <p style="text-align:center; grid-column: 1/-1; padding: 50px;">Searching for items...</p>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+        authDomain: "oshancart.firebaseapp.com",
+        projectId: "oshancart",
+        storageBucket: "oshancart.appspot.com",
+        messagingSenderId: "686982543488",
+        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('type');
+    document.getElementById('catTitle').innerText = category;
+
+    db.collection("products").where("category", "==", category).get().then((querySnapshot) => {
+        const grid = document.getElementById('catGrid');
+        grid.innerHTML = "";
+        if (querySnapshot.empty) {
+            grid.innerHTML = "<p style='text-align:center; grid-column: 1/-1;'>No items found in this category.</p>";
+            return;
+        }
+        querySnapshot.forEach((doc) => {
+            const p = doc.data();
+            grid.innerHTML += `
+                <a href="product-details.html?id=${doc.id}" class="card">
+                    <img src="${p.image}">
+                    <div class="info">
+                        <div style="font-size:13px; height:34px; overflow:hidden;">${p.name}</div>
+                        <div class="price">Rs. ${p.price}</div>
+                    </div>
+                </a>`;
+        });
+    });
+</script>
+</body>
+</html>
