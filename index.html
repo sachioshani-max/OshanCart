@@ -1081,6 +1081,17 @@
                 }, 500);
             }, 5000);
         };
+
+        // දැනට ඉන්න පිටුව අනුව Bottom Nav එකේ පාට වෙනස් කරන විදිහ
+const currentPath = window.location.pathname.split("/").pop();
+const navLinks = document.querySelectorAll('.nav-item');
+
+navLinks.forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+    }
+});
     </script>
 </body>
 </html>
