@@ -787,13 +787,34 @@
         </div>
     </div>
 
-    <nav class="mobile-bottom-nav">
-        <a href="index.html" class="mob-nav-link active"><i class="fas fa-home"></i>Home</a>
-        <a href="javascript:void(0)" onclick="toggleDrawer(true)" class="mob-nav-link"><i class="fas fa-th-large"></i>Categories</a>
-        <a href="cart.html" class="mob-nav-link"><i class="fas fa-shopping-cart"></i>Cart</a>
-        <a href="wishlist.html" class="mob-nav-link"><i class="fas fa-heart"></i>Wishlist</a>
-        <a href="profile.html" class="mob-nav-link"><i class="fas fa-user"></i>Account</a>
-    </nav>
+<nav class="premium-bottom-nav">
+    <div class="nav-container">
+        <a href="index.html" class="nav-item active">
+            <div class="icon-box"><i class="fas fa-home"></i></div>
+            <span>Home</span>
+        </a>
+        <a href="javascript:void(0)" onclick="toggleDrawer(true)" class="nav-item">
+            <div class="icon-box"><i class="fas fa-th-large"></i></div>
+            <span>Categories</span>
+        </a>
+        <a href="cart.html" class="nav-item">
+            <div class="icon-box">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="nav-badge">0</span>
+            </div>
+            <span>Cart</span>
+        </a>
+        <a href="wishlist.html" class="nav-item">
+            <div class="icon-box"><i class="fas fa-heart"></i></div>
+            <span>Wishlist</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <div class="icon-box"><i class="fas fa-user"></i></div>
+            <span>Account</span>
+        </a>
+        <div class="nav-indicator"></div>
+    </div>
+</nav>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
