@@ -1023,6 +1023,17 @@ if (typeof emailjs !== 'undefined') {
     emailjs.init(PUBLIC_KEY);
 }
 
+    function executeSearch(inputId) {
+    const query = document.getElementById(inputId).value;
+    if (query.trim() === "") {
+        showToast("Please enter something to search");
+        return;
+    }
+    
+    // Search එක categories.html පිටුවට යොමු කිරීම
+    window.location.href = `categories.html?search=${encodeURIComponent(query.trim())}`;
+}
+
 // --- System States ---
 let currentCurrency = "Rs.";
 let currentSymbol = "LKR";
