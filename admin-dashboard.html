@@ -407,15 +407,7 @@
             document.getElementById('upload-status').innerText = "Drag & Drop or Click to Upload Images (7+)";
             selectedFiles = [];
         };
-        window.resetForm = () => {
-            document.querySelectorAll('.form-container input, .form-container textarea').forEach(el => el.value = "");
-            document.getElementById('form-title').innerText = "🚀 Advanced Product Listing";
-            document.getElementById('listBtn').innerText = "🚀 List Product Globally";
-            document.getElementById('listBtn').style.background = "#27ae60";
-            document.getElementById('cancelBtn').style.display = "none";
-            document.getElementById('upload-status').innerText = "Upload Product Gallery Images (7+ Recommended)";
-            selectedFiles = [];
-        };
+       
         window.deleteProd = async (id) => { if(confirm("Delete Product?")) await deleteDoc(doc(db, "products", id)); };
 
         // Global Function for Filtering
@@ -475,8 +467,8 @@ onSnapshot(collection(db, "products"), (snapshot) => {
     title="Edit">
     <i class="fas fa-edit"></i>
 </button>
-                        </button>
-                        <button class="action-btn del-btn-alt" onclick="deleteProd('${id}')" title="Delete">
+                        <button class="action-btn edit-btn-alt" onclick="startEdit(...)"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn del-btn-alt" onclick="deleteProd('${id}')"><i class="fas fa-trash"></i></button>
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
