@@ -470,82 +470,65 @@
         /* =========================================
            7. AI CHAT WIDGET (ADVANCED)
         ========================================= */
-        #osh-ai-bot {
-            position: fixed;
-            bottom: 30px; right: 30px;
-            z-index: 3000;
-        }
+        
+    :root {
+        --osh-orange: #ff6b00;
+        --osh-dark: #1a1a1a;
+        --osh-glass: rgba(255, 255, 255, 0.95);
+    }
 
-        .ai-launcher {
-            width: 65px; height: 65px;
-            background: var(--osh-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 28px;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(248,86,6,0.4);
-            animation: pulse-orange 2s infinite;
-        }
+    .ai-launcher {
+        position: fixed;
+        bottom: 80px; /* Screenshot එකේ පහළ Nav bar එකක් තියෙන නිසා මේක 80px කළා */
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: var(--osh-orange);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
+        z-index: 1000;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
-        @keyframes pulse-orange {
-            0% { box-shadow: 0 0 0 0 rgba(248,86,6,0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(248,86,6,0); }
-            100% { box-shadow: 0 0 0 0 rgba(248,86,6,0); }
-        }
+    .ai-window {
+        position: fixed;
+        bottom: 150px; 
+        right: 20px;
+        width: 330px;
+        height: 450px;
+        background: var(--osh-glass);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 1000;
+        border: 1px solid rgba(255,255,255,0.3);
+        animation: slideUp 0.4s ease-out;
+    }
 
-        .ai-window {
-            display: none;
-            width: 350px; height: 500px;
-            background: var(--osh-white);
-            position: absolute;
-            bottom: 80px; right: 0;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            flex-direction: column;
-            overflow: hidden;
-            animation: slideUp 0.3s ease;
-        }
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        .ai-header {
-            background: var(--osh-gradient);
-            padding: 20px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .ai-chat-area {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .bot-msg { background: #f0f0f0; padding: 10px 15px; border-radius: 15px 15px 15px 0; font-size: 13px; align-self: flex-start; max-width: 80%; }
-        .user-msg { background: var(--osh-orange); color: white; padding: 10px 15px; border-radius: 15px 15px 0 15px; font-size: 13px; align-self: flex-end; max-width: 80%; }
-
-        .ai-input-bar {
-            padding: 15px;
-            border-top: 1px solid var(--osh-border);
-            display: flex;
-            gap: 10px;
-        }
-
-        .ai-input-bar input {
-            flex: 1;
-            border: 1px solid var(--osh-border);
-            border-radius: 20px;
-            padding: 8px 15px;
-            outline: none;
-        }
+    .ai-header { background: var(--osh-dark); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .robot-avatar { width: 35px; height: 35px; background: var(--osh-orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .ai-chat-area { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f8f9fa; }
+    .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 14px; }
+    .bot-msg { align-self: flex-start; background: #e9ecef; color: #333; border-bottom-left-radius: 2px; }
+    .user-msg { align-self: flex-end; background: var(--osh-orange); color: white; border-bottom-right-radius: 2px; }
+    .ai-input-bar { padding: 15px; background: white; display: flex; gap: 10px; border-top: 1px solid #eee; }
+    .ai-input-bar input { flex: 1; border: 1px solid #ddd; padding: 10px; border-radius: 25px; outline: none; }
+    .typing { font-style: italic; font-size: 12px; color: #888; display: none; }
+        
 
         /* =========================================
            8. MOBILE NAVIGATION & FOOTER
@@ -674,7 +657,7 @@
             animation: loading 1.5s infinite;
         }
         @keyframes loading { from { background-position: 200% 0; } to { background-position: -200% 0; } }
-
+               
     </style>
 </head>
 <body>
@@ -692,11 +675,18 @@
                 </div>
             </div>
         </div>
+        <div class="drawer-section">
+        <div class="side-title">My Experience</div>
+        <a href="#" class="side-item"><i class="fas fa-box"></i> My Orders</a>
+        <a href="#" class="side-item"><i class="fas fa-heart"></i> My Wishlist</a>
+        <a href="#" class="side-item"><i class="fas fa-bell"></i> Notifications <span class="badge">🔔 ON</span></a>
+        <a href="#" class="side-item"><i class="fas fa-ticket-alt"></i> Offers & Coupons <span class="badge">5 New</span></a>
+    </div>
 
         <div class="drawer-body">
             <div class="drawer-section-label">Account Activity</div>
             <a href="index.html" class="drawer-link"><i class="fas fa-home"></i> Home Dashboard</a>
-            <a href="profile.html" class="drawer-link"><i class="fas fa-user-circle"></i> Personal Profile</a>
+            <a href="edit-profile.html" class="drawer-link"><i class="fas fa-user-circle"></i> Personal Profile</a>
             <a href="orders.html" class="drawer-link"><i class="fas fa-box-open"></i> Order History <span class="badge" style="background:#2ecc71; margin-left:auto;">2 Active</span></a>
             <a href="wishlist.html" class="drawer-link"><i class="fas fa-heart"></i> Saved Items</a>
             <a href="wallet.html" class="drawer-link"><i class="fas fa-wallet"></i> My Oshan Wallet</a>
@@ -711,7 +701,7 @@
                 <div class="lang-unit" onclick="switchMarket('IN', '₹')"><span class="fi fi-in"></span><br>INR</div>
             </div>
 
-            <div class="drawer-section-label">Earn & Partnership</div>
+            <div class="drawer-section-label">Earn & Partnershipwith OshanCart</div>
             <a href="become-seller.html" class="drawer-link" style="color:var(--osh-orange); font-weight:700;"><i class="fas fa-store"></i> Become a Seller</a>
             <a href="affiliate.html" class="drawer-link"><i class="fas fa-handshake"></i> Affiliate Program</a>
             <a href="referral.html" class="drawer-link"><i class="fas fa-gift"></i> Referral Rewards</a>
@@ -720,7 +710,11 @@
             <a href="help.html" class="drawer-link"><i class="fas fa-question-circle"></i> 24/7 Help Center</a>
             <a href="contact.html" class="drawer-link"><i class="fas fa-headset"></i> Contact Support</a>
             <a href="privacy.html" class="drawer-link"><i class="fas fa-shield-alt"></i> Data Privacy</a>
-            
+            <a href="#" class="side-item"><i class="fas fa-headset"></i> Customer Service</a>
+            <a href="#" class="side-item"><i class="fas fa-info-circle"></i> Oshan Overview</a>
+            <a href="#" class="side-item"><i class="fas fa-shield-alt"></i> Privacy & Security</a>
+            <a href="#" class="side-item"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
+             
             <div style="padding:30px 20px;">
                 <button onclick="systemLogout()" style="width:100%; padding:12px; border:1px solid #ff4757; color:#ff4757; background:none; border-radius:8px; cursor:pointer;">
                     <i class="fas fa-power-off"></i> Secure Logout
@@ -732,7 +726,7 @@
     <header class="desktop-header">
         <div class="top-utility-bar">
             <div class="top-links">
-                <a href="become-seller.html">Sell on Oshan</a>
+                <a href="become-seller.html">Sell on OshanCart</a>
                 <a href="help.html">Help & Support</a>
                 <span onclick="toggleTheme()"><i class="fas fa-adjust"></i> Appearance</span>
             </div>
@@ -758,7 +752,7 @@
             </div>
 
             <div class="action-icons">
-                <div class="nav-icon-group" onclick="location.href='profile.html'">
+                <div class="nav-icon-group" onclick="location.href='edit-profile.html'">
                     <i class="fas fa-user-circle"></i>
                     <span>Profile</span>
                 </div>
@@ -826,6 +820,8 @@
                 <div class="osh-card skeleton" style="height:300px;"></div>
                 <div class="osh-card skeleton" style="height:300px;"></div>
                 <div class="osh-card skeleton" style="height:300px;"></div>
+                <div class="osh-card skeleton" style="height:300px;"></div>
+                <div class="osh-card skeleton" style="height:300px;"></div>
             </div>
         </section>
 
@@ -835,22 +831,30 @@
         <div class="ai-window" id="aiWindow">
             <div class="ai-header">
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <i class="fas fa-robot"></i>
+                    <div class="robot-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
                     <div>
-                        <div style="font-weight:700; font-size:14px;">Oshan AI Assistant</div>
-                        <div style="font-size:10px; opacity:0.8;">Online | Fast Help</div>
+                        <div style="font-weight:700; font-size:14px;">Oshan AI Pro</div>
+                        <div style="font-size:10px; opacity:0.8;"><i class="fas fa-circle" style="color:#00ff00; font-size:8px;"></i> Online</div>
                     </div>
                 </div>
                 <i class="fas fa-times" style="cursor:pointer;" onclick="toggleAI(false)"></i>
             </div>
+
             <div class="ai-chat-area" id="chatFlow">
-                <div class="bot-msg">Welcome to OshanCart Global! I am your AI assistant. How can I help you today?</div>
+                <div class="msg bot-msg">හලෝ! මම Oshan AI. ඔබට අද මම කොහොමද උදව් කරන්න පුළුවන්? 😊</div>
+                <div id="typingIndicator" class="typing">AI is thinking...</div>
             </div>
+
             <div class="ai-input-bar">
-                <input type="text" id="aiQuery" placeholder="Ask about orders, prices..." onkeyup="if(event.key==='Enter') sendAIRequest()">
-                <button onclick="sendAIRequest()" style="background:var(--osh-orange); color:white; border:none; width:40px; height:40px; border-radius:50%;"><i class="fas fa-paper-plane"></i></button>
+                <input type="text" id="aiQuery" placeholder="මෙතන ටයිප් කරන්න..." onkeyup="if(event.key==='Enter') sendAIRequest()">
+                <button onclick="sendAIRequest()" style="background:var(--osh-orange); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer;">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
         </div>
+
         <div class="ai-launcher" onclick="toggleAI(true)">
             <i class="fas fa-comment-dots"></i>
         </div>
@@ -1092,6 +1096,49 @@ navLinks.forEach(link => {
         link.classList.add('active');
     }
 });
+        
+    function toggleAI(show) {
+        const window = document.getElementById('aiWindow');
+        window.style.display = show ? 'flex' : 'none';
+    }
+
+    function sendAIRequest() {
+        const input = document.getElementById('aiQuery');
+        const chatFlow = document.getElementById('chatFlow');
+        const typing = document.getElementById('typingIndicator');
+
+        if (input.value.trim() === "") return;
+
+        // User Message
+        const userDiv = document.createElement('div');
+        userDiv.className = 'msg user-msg';
+        userDiv.textContent = input.value;
+        chatFlow.insertBefore(userDiv, typing);
+
+        const userText = input.value.toLowerCase();
+        input.value = "";
+        typing.style.display = 'block';
+        chatFlow.scrollTop = chatFlow.scrollHeight;
+
+        // AI Response Logic
+        setTimeout(() => {
+            typing.style.display = 'none';
+            const botDiv = document.createElement('div');
+            botDiv.className = 'msg bot-msg';
+            
+            if(userText.includes("මිල") || userText.includes("price")) {
+                botDiv.textContent = "අපගේ භාණ්ඩ වල මිල ගණන් දැනගැනීමට කරුණාකර Products පිටුවට පිවිසෙන්න.";
+            } else if(userText.includes("hi") || userText.includes("hello")) {
+                botDiv.textContent = "හායි! මම Oshan AI. මට ඔබට උදව් කළ හැකිද?";
+            } else {
+                botDiv.textContent = "ස්තුතියි ඔබගේ පණිවිඩයට. මම මේ ගැන විමසා බලන්නම්.";
+            }
+
+            chatFlow.insertBefore(botDiv, typing);
+            chatFlow.scrollTop = chatFlow.scrollHeight;
+        }, 1000);
+    }
+
     </script>
 </body>
 </html>
