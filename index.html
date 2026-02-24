@@ -998,239 +998,200 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script>
+   // --- Firebase Configuration ---
+const firebaseConfig = {
+    apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+    authDomain: "oshancart.firebaseapp.com",
+    projectId: "oshancart",
+    storageBucket: "oshancart.appspot.com",
+    messagingSenderId: "686982543488",
+    appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+};
 
-    <script>
-        // --- Firebase Configuration ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-            authDomain: "oshancart.firebaseapp.com",
-            projectId: "oshancart",
-            storageBucket: "oshancart.appspot.com",
-            messagingSenderId: "686982543488",
-            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-        };
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-        // --- System States ---
-        let currentCurrency = "Rs.";
-        let currentSymbol = "LKR";
-        let isDarkMode = false;
-        const categories = [
-            "Electronics ⚡", "Womens Fashion 👗", "Mens Fashion 👕", "Home & Kitchen 🏠",
-            "Phones & Tabs 📱", "Jewelry 💍", "Ceylon Items 🇱🇰", "Kids & Toys 🧸"
-        ];
+// --- EmailJS Configuration (New) ---
+const SERVICE_ID = "service_il15c1q";
+const TEMPLATE_ID_DESKTOP = "template_m0njghq";
+const TEMPLATE_ID_MOBILE = "template_vmc0kvo";
+const PUBLIC_KEY = "jfgAK0LaZ0w7RKAE8";
 
-        // --- UI Control Functions ---
-        function toggleDrawer(state) {
-            const drawer = document.getElementById('mainDrawer');
-            const mask = document.getElementById('sideMask');
-            if(state) {
-                mask.style.display = 'block';
-                setTimeout(() => drawer.classList.add('active'), 10);
-            } else {
-                drawer.classList.remove('active');
-                setTimeout(() => mask.style.display = 'none', 400);
-            }
-        }
+// EmailJS Initialization
+if (typeof emailjs !== 'undefined') {
+    emailjs.init(PUBLIC_KEY);
+}
 
-        function toggleAI(state) {
-            document.getElementById('aiWindow').style.display = state ? 'flex' : 'none';
-        }
+// --- System States ---
+let currentCurrency = "Rs.";
+let currentSymbol = "LKR";
+let isDarkMode = false;
+const categories = [
+    "Electronics ⚡", "Womens Fashion 👗", "Mens Fashion 👕", "Home & Kitchen 🏠",
+    "Phones & Tabs 📱", "Jewelry 💍", "Ceylon Items 🇱🇰", "Kids & Toys 🧸"
+];
 
-        function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
-            alert("Theme switched to " + (isDarkMode ? "Dark Mode" : "Light Mode"));
-        }
-
-        // --- Market & Currency Logic ---
-        function switchMarket(flag, symbol) {
-            currentCurrency = symbol;
-            document.getElementById('marketDisplay').innerHTML = `<span class="fi fi-${flag.toLowerCase()}"></span> Market: ${flag} | ${symbol}`;
-            loadCoreProducts();
-            toggleDrawer(false);
-            showToast("Market updated to " + flag);
-        }
-
-        // --- Product Rendering Engine ---
-        async function loadCoreProducts() {
-            const container = document.getElementById('productContainer');
-            db.collection("products").limit(12).onSnapshot((snapshot) => {
-                container.innerHTML = "";
-                if(snapshot.empty) {
-                    container.innerHTML = "<p>No products available at the moment.</p>";
-                    return;
-                }
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const card = createProductCard(doc.id, data);
-                    container.appendChild(card);
-                });
-            });
-        }
-
-        function createProductCard(id, p) {
-            const div = document.createElement('div');
-            div.className = "osh-card animate__animated animate__fadeIn";
-            div.innerHTML = `
-                <div class="wishlist-btn"><i class="far fa-heart"></i></div>
-                <div class="osh-card-img-wrap" onclick="viewDetails('${id}', '${p.category}')">
-                    <img src="${p.image || 'https://via.placeholder.com/300'}" class="osh-card-img" loading="lazy">
-                </div>
-                <div class="osh-card-content">
-                    <div class="osh-p-title">${p.name}</div>
-                    <div class="osh-p-price">${currentCurrency} ${p.price} <span class="osh-p-old-price">${currentCurrency} ${Math.floor(p.price * 1.2)}</span></div>
-                    <div class="osh-p-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (4.5)</div>
-                    <button onclick="addToCart('${id}', '${p.name}', ${p.price})" style="width:100%; margin-top:10px; padding:8px; background:var(--osh-gradient); color:white; border:none; border-radius:5px; cursor:pointer; font-weight:600;">Add to Cart</button>
-                </div>
-            `;
-            return div;
-        }
-
-        function viewDetails(id, cat) {
-            window.location.href = `categories.html?type=${encodeURIComponent(cat)}&id=${id}`;
-        }
-
-        
-
-        // --- Utility Functions ---
-        function initVoiceSearch() {
-            if ('webkitSpeechRecognition' in window) {
-                const recognition = new webkitSpeechRecognition();
-                recognition.start();
-                showToast("Listening...");
-                recognition.onresult = (event) => {
-                    const text = event.results[0][0].transcript;
-                    document.getElementById('globalSearch').value = text;
-                    executeSearch();
-                };
-            } else {
-                alert("Voice search not supported on this browser.");
-            }
-        }
-
-        function executeSearch() {
-            const q = document.getElementById('globalSearch').value;
-            if(!q) return;
-            window.location.href = `categories.html?search=${encodeURIComponent(q)}`;
-        }
-
-        function addToCart(id, name, price) {
-            let count = parseInt(document.getElementById('cartCountDesktop').innerText);
-            document.getElementById('cartCountDesktop').innerText = count + 1;
-            showToast(`${name} added to cart!`);
-        }
-
-        function showToast(msg) {
-            console.log("Toast: " + msg); // Replace with real toast UI if needed
-        }
-
-        function systemLogout() {
-            if(confirm("Are you sure you want to logout?")) {
-                alert("Logging out securely...");
-                window.location.reload();
-            }
-        }
-
-        function accessAdminZone() {
-            const pin = prompt("Enter Administration PIN:");
-            if(pin === "Lakshan@2001") window.location.href = "admin-dashboard.html";
-            else alert("Invalid PIN. Access Logged.");
-        }
-
-        // --- Startup Initialization ---
-        window.onload = () => {
-            // Load Categories Rail
-            const rail = document.getElementById('categoryList');
-            categories.forEach(cat => {
-                rail.innerHTML += `<div class="rail-item" onclick="location.href='categories.html?type=${encodeURIComponent(cat)}'"><span>${cat}</span> <i class="fas fa-chevron-right" style="font-size:10px; opacity:0.5;"></i></div>`;
-            });
-
-            // Load Products
-            setTimeout(loadCoreProducts, 1000); // 1s delay to show skeleton loading
-
-            // Hero Slider Animation
-            const slides = [
-                {img: "https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg", title: "GLOBAL TECH WEEK", sub: "Up to 60% Off on Gadgets"},
-                {img: "https://ae01.alicdn.com/kf/Sf6b3188543f4435889759d57a2471677o.jpg", title: "FASHION FESTIVAL", sub: "New Collections Arrived"},
-                {img: "https://ae01.alicdn.com/kf/S555438883307409292158866e40854d9I.jpg", title: "CEYLON PREMIUM", sub: "Authentic Sri Lankan Products"}
-            ];
-            let sIdx = 0;
-            setInterval(() => {
-                sIdx = (sIdx + 1) % slides.length;
-                const hero = document.getElementById('heroSlide');
-                hero.style.opacity = 0;
-                setTimeout(() => {
-                    hero.src = slides[sIdx].img;
-                    document.getElementById('slideTitle').innerText = slides[sIdx].title;
-                    document.getElementById('slideSub').innerText = slides[sIdx].sub;
-                    hero.style.opacity = 1;
-                }, 500);
-            }, 5000);
-        };
-
-        // දැනට ඉන්න පිටුව අනුව Bottom Nav එකේ පාට වෙනස් කරන විදිහ
-const currentPath = window.location.pathname.split("/").pop();
-const navLinks = document.querySelectorAll('.nav-item');
-
-navLinks.forEach(link => {
-    if (link.getAttribute('href') === currentPath) {
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
+// --- UI Control Functions ---
+function toggleDrawer(state) {
+    const drawer = document.getElementById('mainDrawer');
+    const mask = document.getElementById('sideMask');
+    if(!drawer || !mask) return;
+    if(state) {
+        mask.style.display = 'block';
+        setTimeout(() => drawer.classList.add('active'), 10);
+    } else {
+        drawer.classList.remove('active');
+        setTimeout(() => mask.style.display = 'none', 400);
     }
-});   
-        
-        function toggleAI(show) {
-            const window = document.getElementById('aiWindow');
-            const launcher = document.getElementById('launcherBtn');
-            if(show) {
-                window.style.display = 'flex';
-                launcher.style.display = 'none'; // Window එක ඇරුණම Button එක හංගනවා
-            } else {
-                window.style.display = 'none';
-                launcher.style.display = 'flex'; // Window එක වැහුවම Button එක ආයේ පේනවා
-            }
+}
+
+function toggleAI(show) {
+    const aiWindow = document.getElementById('aiWindow');
+    const launcher = document.getElementById('launcherBtn');
+    if(!aiWindow) return;
+    if(show) {
+        aiWindow.style.display = 'flex';
+        if(launcher) launcher.style.display = 'none';
+    } else {
+        aiWindow.style.display = 'none';
+        if(launcher) launcher.style.display = 'flex';
+    }
+}
+
+function toggleTheme() {
+    isDarkMode = !isDarkMode;
+    document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+    showToast("Theme switched to " + (isDarkMode ? "Dark Mode" : "Light Mode"));
+}
+
+// --- Market & Currency Logic ---
+function switchMarket(flag, symbol) {
+    currentCurrency = symbol;
+    const display = document.getElementById('marketDisplay');
+    if(display) display.innerHTML = `<span class="fi fi-${flag.toLowerCase()}"></span> Market: ${flag} | ${symbol}`;
+    loadCoreProducts();
+    toggleDrawer(false);
+    showToast("Market updated to " + flag);
+}
+
+// --- Product Rendering Engine ---
+async function loadCoreProducts() {
+    const container = document.getElementById('productContainer');
+    if(!container) return;
+
+    db.collection("products").limit(12).onSnapshot((snapshot) => {
+        container.innerHTML = "";
+        if(snapshot.empty) {
+            container.innerHTML = "<p style='text-align:center; width:100%;'>No products available at the moment.</p>";
+            return;
         }
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            const card = createProductCard(doc.id, data);
+            container.appendChild(card);
+        });
+    }, (error) => {
+        console.error("Firestore Error: ", error);
+    });
+}
 
-        function sendAIRequest() {
-            const input = document.getElementById('aiQuery');
-            const chatFlow = document.getElementById('chatFlow');
-            const typing = document.getElementById('typingIndicator');
+function createProductCard(id, p) {
+    const div = document.createElement('div');
+    div.className = "osh-card animate__animated animate__fadeIn";
+    div.innerHTML = `
+        <div class="wishlist-btn"><i class="far fa-heart"></i></div>
+        <div class="osh-card-img-wrap" onclick="viewDetails('${id}', '${p.category}')">
+            <img src="${p.image || 'https://via.placeholder.com/300'}" class="osh-card-img" loading="lazy">
+        </div>
+        <div class="osh-card-content">
+            <div class="osh-p-title">${p.name}</div>
+            <div class="osh-p-price">${currentCurrency} ${p.price} <span class="osh-p-old-price">${currentCurrency} ${Math.floor(p.price * 1.2)}</span></div>
+            <div class="osh-p-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (4.5)</div>
+            <button onclick="addToCart('${id}', '${p.name}', ${p.price})" style="width:100%; margin-top:10px; padding:8px; background:var(--osh-gradient); color:white; border:none; border-radius:5px; cursor:pointer; font-weight:600;">Add to Cart</button>
+        </div>
+    `;
+    return div;
+}
 
-            if (input.value.trim() === "") return;
+function viewDetails(id, cat) {
+    window.location.href = `categories.html?type=${encodeURIComponent(cat)}&id=${id}`;
+}
 
-            // 1. User Message
-            const userDiv = document.createElement('div');
-            userDiv.className = 'msg user-msg';
-            userDiv.textContent = input.value;
-            chatFlow.insertBefore(userDiv, typing);
+// --- Email Notification Logic (New) ---
+function sendPlatformEmail(orderId) {
+    const isMobile = window.innerWidth <= 768;
+    const templateId = isMobile ? TEMPLATE_ID_MOBILE : TEMPLATE_ID_DESKTOP;
 
-            const userText = input.value.toLowerCase();
-            input.value = "";
-            
-            typing.style.display = 'block';
-            chatFlow.scrollTop = chatFlow.scrollHeight;
+    const params = {
+        order_id: orderId,
+        platform: isMobile ? "Mobile Device" : "Desktop PC",
+        message: "A new order notification from OshanCart"
+    };
 
-            // 2. AI Logic Simulation
+    emailjs.send(SERVICE_ID, templateId, params)
+        .then(() => console.log("Success: Email sent to " + (isMobile ? "Mobile" : "Desktop") + " template"))
+        .catch(err => console.error("EmailJS Error:", err));
+}
+
+// --- Utility Functions ---
+function addToCart(id, name, price) {
+    const cartCount = document.getElementById('cartCountDesktop');
+    if(cartCount) {
+        let count = parseInt(cartCount.innerText);
+        cartCount.innerText = count + 1;
+    }
+    showToast(`${name} added to cart!`);
+    
+    // Example: Trigger email when adding to cart (Optional)
+    // sendPlatformEmail("CART-" + id);
+}
+
+function showToast(msg) {
+    console.log("Toast: " + msg);
+}
+
+function accessAdminZone() {
+    const pin = prompt("Enter Administration PIN:");
+    if(pin === "Lakshan@2001") window.location.href = "admin-dashboard.html";
+    else alert("Invalid PIN. Access Logged.");
+}
+
+// --- Startup Initialization ---
+window.onload = () => {
+    // 1. Categories Rail
+    const rail = document.getElementById('categoryList');
+    if(rail) {
+        rail.innerHTML = "";
+        categories.forEach(cat => {
+            rail.innerHTML += `<div class="rail-item" onclick="location.href='categories.html?type=${encodeURIComponent(cat)}'"><span>${cat}</span> <i class="fas fa-chevron-right" style="font-size:10px; opacity:0.5;"></i></div>`;
+        });
+    }
+
+    // 2. Load Products
+    setTimeout(loadCoreProducts, 1000);
+
+    // 3. Hero Slider Animation
+    const slides = [
+        {img: "https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg", title: "GLOBAL TECH WEEK", sub: "Up to 60% Off on Gadgets"},
+        {img: "https://ae01.alicdn.com/kf/Sf6b3188543f4435889759d57a2471677o.jpg", title: "FASHION FESTIVAL", sub: "New Collections Arrived"},
+        {img: "https://ae01.alicdn.com/kf/S555438883307409292158866e40854d9I.jpg", title: "CEYLON PREMIUM", sub: "Authentic Sri Lankan Products"}
+    ];
+    let sIdx = 0;
+    const hero = document.getElementById('heroSlide');
+    if(hero) {
+        setInterval(() => {
+            sIdx = (sIdx + 1) % slides.length;
+            hero.style.opacity = 0;
             setTimeout(() => {
-                typing.style.display = 'none';
-                const botDiv = document.createElement('div');
-                botDiv.className = 'msg bot-msg';
-                
-                if(userText.includes("මිල") || userText.includes("price")) {
-                    botDiv.textContent = "අපගේ වෙබ් අඩවියේ ඇති සියලුම නිෂ්පාදන වල මිල ගණන් ඉතාමත් සාධාරණයි. ඔබට අවශ්‍ය භාණ්ඩය ක්ලික් කර මිල පරීක්ෂා කළ හැකියි.";
-                } else if(userText.includes("hi") || userText.includes("hello") || userText.includes("හෙලෝ")) {
-                    botDiv.textContent = "හායි! මම Oshan AI. ඔබට අද අවශ්‍ය ඕනෑම දෙයක් මාගෙන් විමසන්න පුළුවන්.";
-                } else {
-                    botDiv.textContent = "සමාවෙන්න, මට ඒක හරියටම තේරුනේ නැහැ. ඔබට තවදුරටත් විස්තර දැනගන්න අවශ්‍ය නම් අපේ සහාය කණ්ඩායම අමතන්න.";
-                }
-
-                chatFlow.insertBefore(botDiv, typing);
-                chatFlow.scrollTop = chatFlow.scrollHeight;
-            }, 1500);
-        }
-        
-    </script>
+                hero.src = slides[sIdx].img;
+                document.getElementById('slideTitle').innerText = slides[sIdx].title;
+                document.getElementById('slideSub').innerText = slides[sIdx].sub;
+                hero.style.opacity = 1;
+            }, 500);
+        }, 5000);
+    }
+};
+        </script>  
 </body>
 </html>
