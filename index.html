@@ -1158,32 +1158,9 @@ navLinks.forEach(link => {
         navLinks.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
     }
-});
+});   
         
-    function toggleAI(show) {
-        const window = document.getElementById('aiWindow');
-        window.style.display = show ? 'flex' : 'none';
-    }
-
-    function sendAIRequest() {
-        const input = document.getElementById('aiQuery');
-        const chatFlow = document.getElementById('chatFlow');
-        const typing = document.getElementById('typingIndicator');
-
-        if (input.value.trim() === "") return;
-
-        // User Message
-        const userDiv = document.createElement('div');
-        userDiv.className = 'msg user-msg';
-        userDiv.textContent = input.value;
-        chatFlow.insertBefore(userDiv, typing);
-
-        const userText = input.value.toLowerCase();
-        input.value = "";
-        typing.style.display = 'block';
-        chatFlow.scrollTop = chatFlow.scrollHeight;
-
-       function toggleAI(show) {
+        function toggleAI(show) {
             const window = document.getElementById('aiWindow');
             const launcher = document.getElementById('launcherBtn');
             if(show) {
@@ -1232,6 +1209,7 @@ navLinks.forEach(link => {
                 chatFlow.scrollTop = chatFlow.scrollHeight;
             }, 1500);
         }
+        
     </script>
 </body>
 </html>
