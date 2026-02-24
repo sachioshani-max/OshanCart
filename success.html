@@ -3,87 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Success | Oshan Cart</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Order Success | OshanCart Global</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
     <style>
-        /* Success Page Special Styles */
-        .success-wrapper {
-            text-align: center;
-            padding: 50px 20px;
-            animation: fadeIn 1s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        :root {
+            --osh-orange: #f85606;
+            --osh-blue: #232f3e;
+            --osh-success: #42b72a;
+            --text-main: #1c1e21;
         }
 
-        .success-icon {
-            font-size: 80px;
-            color: #4CAF50;
-            margin-bottom: 20px;
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh; background: #f4f7f9; overflow-x: hidden;
         }
 
-        /* Balloon Animation */
-        .balloon {
-            position: absolute;
-            bottom: -100px;
-            width: 30px;
-            height: 40px;
-            background: #ff9900;
-            border-radius: 50%;
-            opacity: 0.7;
-            animation: fly 4s infinite linear;
-            z-index: -1;
+        .success-card {
+            background: white; padding: 40px; border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            max-width: 550px; width: 92%; text-align: center; position: relative; z-index: 10;
         }
 
-        @keyframes fly {
-            0% { transform: translateY(0) rotate(0deg); left: 10%; }
-            100% { transform: translateY(-120vh) rotate(360deg); left: 90%; }
+        .check-container {
+            width: 90px; height: 90px; background: #e8f5e9; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
         }
-        .btn-continue {
-            display: inline-block;
-            background-color: #f0c14b;
-            border: 1px solid #a88734;
-            color: #111;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 3px;
-            font-weight: bold;
-            margin-top: 30px;
+
+        .check-container i { font-size: 45px; color: var(--osh-success); }
+
+        h1 { color: var(--osh-blue); margin: 0 0 10px; font-size: 26px; font-weight: 800; }
+        p { color: #65676b; font-size: 15px; margin-bottom: 20px; }
+
+        .order-id {
+            background: #fff5f0; padding: 12px 25px; border-radius: 50px;
+            font-weight: 800; color: var(--osh-orange); display: inline-block;
+            margin-bottom: 20px; border: 2px dashed var(--osh-orange);
         }
+
+        /* Trust Badges */
+        .trust-badges {
+            display: flex; justify-content: center; gap: 20px; margin: 25px 0;
+            padding: 15px; border-top: 1px solid #eee; border-bottom: 1px solid #eee;
+        }
+        .badge-item { font-size: 11px; color: #777; font-weight: 600; text-transform: uppercase; }
+        .badge-item i { display: block; font-size: 20px; color: var(--osh-blue); margin-bottom: 5px; }
+
+        /* Social Share */
+        .share-container { margin-top: 20px; }
+        .share-btn {
+            padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: 600;
+            text-decoration: none; color: white; margin: 0 5px; transition: 0.3s;
+        }
+        .fb-btn { background: #1877f2; }
+        .wa-btn { background: #25d366; }
+
+        .btn-group { margin-top: 30px; display: flex; flex-direction: column; gap: 10px; }
+        .btn {
+            padding: 15px; border-radius: 12px; text-decoration: none;
+            font-weight: 700; transition: 0.3s; border: none; cursor: pointer;
+        }
+        .btn-primary { background: var(--osh-orange); color: white; box-shadow: 0 4px 15px rgba(248, 86, 6, 0.2); }
+        .btn-secondary { background: #f0f2f5; color: var(--osh-blue); }
+
+        /* Confetti Animation */
+        .confetti {
+            position: fixed; width: 8px; height: 8px; top: -10px; z-index: 1;
+            animation: fall 3s linear forwards;
+        }
+        @keyframes fall { to { transform: translateY(105vh) rotate(720deg); } }
+
+        footer { margin-top: 30px; color: #abb0b5; font-size: 12px; }
     </style>
 </head>
-<body style="overflow: hidden; background-color: #fff;">
+<body>
 
-    <div class="navbar" style="background-color: #232f3e;">
-        <a href="index.html">Home</a>
-        <a href="wallet.html">Wallet</a>
-    </div>
-
-    <div class="balloon" style="animation-delay: 0s; background: #ff9900;"></div>
-    <div class="balloon" style="animation-delay: 1s; background: #232f3e; left: 30%;"></div>
-    <div class="balloon" style="animation-delay: 2s; background: #f0c14b; left: 50%;"></div>
-    <div class="balloon" style="animation-delay: 1.5s; background: #ff4500; left: 70%;"></div>
-
-    <div class="success-wrapper">
-        <div class="success-icon">✔</div>
-        <h1 style="color: #232f3e;">Order Placed Successfully!</h1>
-        <p style="color: #555; font-size: 18px;">Thank you for shopping with Oshan Cart.</p>
-        <p style="color: #777;">Your order #OC99234 has been confirmed.</p>
+    <div class="success-card animate__animated animate__fadeInUp">
+        <div class="check-container animate__animated animate__zoomIn animate__delay-1s">
+            <i class="fas fa-check-double"></i>
+        </div>
         
-        <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; display: inline-block;">
-            <p style="margin: 0; font-weight: bold;">Estimated Delivery:</p>
-      <p style="margin: 0; color: #007600;">2 - 4 Business Days</p>
+        <h1>Payment Successful!</h1>
+        <p>Your global order has been placed successfully. A confirmation receipt is being processed and sent to your email.</p>
+        
+        <div class="order-id" id="displayOrderID">#GENERATING...</div>
+
+        <div class="trust-badges">
+            <div class="badge-item"><i class="fas fa-shield-alt"></i>Secure</div>
+            <div class="badge-item"><i class="fas fa-undo"></i>7 Days Return</div>
+            <div class="badge-item"><i class="fas fa-globe"></i>Global Ship</div>
         </div>
 
-        <br>
-        <a href="index.html" class="btn-continue">Continue Shopping</a>
+        <div class="share-container">
+            <span style="display:block; font-size:12px; margin-bottom:10px; color:#999; font-weight:700;">SHARE YOUR JOY</span>
+            <a href="#" id="fbShare" class="share-btn fb-btn"><i class="fab fa-facebook-f"></i> Facebook</a>
+            <a href="#" id="waShare" class="share-btn wa-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+
+        <div class="btn-group">
+            <a href="index.html" class="btn btn-primary">Continue Shopping</a>
+            <button class="btn btn-secondary" onclick="window.print()"><i class="fas fa-file-invoice"></i> Print Invoice</button>
+        </div>
     </div>
 
-    <footer style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: #999; font-size: 12px;">
-        &copy; 2024 Oshan Cart Global Shipping
+    <footer>
+        &copy; 2026 OshanCart Global | Secured by SSL Encryption
     </footer>
 
+    <script>
+        // --- Configuration ---
+        const EMAILJS_PUBLIC_KEY = "jfgAK0LaZ0w7RKAE8";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+        
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+
+        window.onload = () => {
+            const orderID = "OC" + Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('displayOrderID').innerText = "#" + orderID;
+
+            startConfetti();
+            setupSharing(orderID);
+            
+            // Firebase Update
+            db.collection("orders").add({
+                orderID: orderID,
+                status: "Success",
+                date: new Date().toISOString()
+            });
+
+            // EmailJS Trigger
+            sendOrderEmail(orderID);
+        };
+
+        function sendOrderEmail(id) {
+            const templateParams = {
+                order_id: id,
+                to_email: "customer@example.com", // මෙතනට පාරිභෝගිකයාගේ Email එක ගතිකව ලබාගත හැක
+                message: "Your OshanCart order " + id + " is confirmed!"
+            };
+
+            emailjs.send('service_il15c1q', 'template_m0njghq', templateParams)
+                .then(() => console.log('Email Sent Successfully!'))
+                .catch((err) => console.log('Email Error:', err));
+        }
+
+        function setupSharing(id) {
+            const text = `I just ordered amazing products from OshanCart! Order ID: ${id}`;
+            const url = window.location.origin;
+            document.getElementById('fbShare').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            document.getElementById('waShare').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+        }
+
+        function startConfetti() {
+            const colors = ['#f85606', '#232f3e', '#42b72a', '#ffd700'];
+            for(let i=0; i<60; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                c.style.animationDelay = Math.random() * 2 + 's';
+                c.style.opacity = Math.random();
+                document.body.appendChild(c);
+            }
+        }
+    </script>
 </body>
 </html>
