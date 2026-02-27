@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OshanCart | Global Signup 🗽</title>
+    <title>OshanCart | Join Us 🗽</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -12,95 +12,140 @@
         :root {
             --primary: #ff4d6d;
             --secondary: #ff8855;
-            --bg: #fff0f3;
+            --bg-color: #fff0f3;
         }
 
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-        .root-container { background: white; width: 95%; max-width: 450px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); overflow: hidden; position: relative; }
+        .root-container {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            height: 90vh;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+        }
 
-        /* Step 1 Style - Image Based */
-        .step-image-container { position: relative; width: 100%; height: 600px; background: url('https://raw.githubusercontent.com/OshanCart/images/main/image_c63bc2.png') center/cover; }
-        .overlay-card { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        /* --- STEP 1: WELCOME SCREEN (IMAGE UI) --- */
+        .step-welcome {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: url('https://raw.githubusercontent.com/OshanCart/images/main/image_bbd664.png') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-        /* Form Steps */
-        .step { display: none; padding: 30px; animation: fadeIn 0.5s ease; }
-        .step.active { display: block; }
+        /* දෘශ්‍යමාන බොත්තම් සඳහා Invisible Overlay Buttons */
+        .overlay-btns {
+            position: absolute;
+            top: 210px; /* රූපයේ බොත්තම් ඇති ස්ථානයට අනුව සකසා ඇත */
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .clickable-area {
+            height: 45px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+        }
 
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-size: 13px; color: #555; margin-bottom: 5px; font-weight: bold; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; outline: none; transition: 0.3s; }
-        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 5px rgba(255, 77, 109, 0.2); }
+        /* --- FORM STEPS --- */
+        .step-form {
+            display: none;
+            padding: 30px;
+            height: 100%;
+            box-sizing: border-box;
+            background: white;
+            overflow-y: auto;
+        }
 
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; margin-top: 10px; }
-        .btn-next { background: var(--primary); color: white; }
-        .btn-google { background: white; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+        .step-active { display: block; animation: slideIn 0.4s ease; }
 
-        .loader { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 100; justify-content: center; align-items: center; flex-direction: column; }
+        @keyframes slideIn { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .input-box { margin-bottom: 20px; }
+        .input-box label { display: block; font-size: 13px; color: #666; font-weight: bold; margin-bottom: 8px; }
+        .input-box input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; outline-color: var(--primary); }
+
+        .btn-action { width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3); }
+
+        .loader {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.9);
+            z-index: 1000;
+            justify-content: center; align-items: center; flex-direction: column;
+        }
     </style>
 </head>
 <body>
 
 <div class="root-container">
-    <div class="loader" id="loader">
-        <i class="fas fa-circle-notch fa-spin fa-3x" style="color: var(--primary);"></i>
-        <p>Verifying with Server...</p>
+    <div class="loader" id="mainLoader">
+        <i class="fas fa-spinner fa-spin fa-3x" style="color: var(--primary);"></i>
+        <p style="margin-top: 15px; font-weight: bold;">Processing your request...</p>
     </div>
 
-    <div class="step active" id="step1" style="padding: 0;">
-        <div class="step-image-container">
-            <div class="overlay-card">
-                <h2 style="color: var(--primary); margin: 0;">Making global trading simple</h2>
-                <p style="font-size: 12px; color: #666;">Choose your way to join OshanCart</p>
-                
-                <button class="btn btn-google" onclick="nextStep(2)">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" width="18"> Continue with Google
-                </button>
-                <button class="btn btn-next" onclick="nextStep(2)" style="background: #1877F2;">
-                    <i class="fab fa-facebook"></i> Continue with Facebook
-                </button>
-                <p style="margin: 15px 0; font-size: 12px; color: #999;">OR</p>
-                <button class="btn btn-next" onclick="nextStep(2)">
-                    <i class="fas fa-envelope"></i> Continue with Email
-                </button>
-            </div>
+    <div class="step-welcome step-active" id="step1">
+        <div class="overlay-btns">
+            <button class="clickable-area" onclick="goToStep(2)"></button>
+            <button class="clickable-area" onclick="goToStep(2)"></button>
+            <button class="clickable-area" onclick="goToStep(2)"></button>
         </div>
     </div>
 
-    <div class="step" id="step2">
-        <h2 style="color: var(--primary);">Tell us about you</h2>
-        <div class="input-group">
+    <div class="step-form" id="step2">
+        <button onclick="goToStep(1)" style="border:none; background:none; color:var(--primary); cursor:pointer;"><i class="fas fa-arrow-left"></i> Back</button>
+        <h2 style="color: #333; margin-top: 20px;">Personal Details</h2>
+        <div class="input-box">
             <label>First Name</label>
-            <input type="text" id="firstName" placeholder="Enter first name">
+            <input type="text" id="fname" placeholder="Enter first name">
         </div>
-        <div class="input-group">
+        <div class="input-box">
             <label>Last Name</label>
-            <input type="text" id="lastName" placeholder="Enter last name">
+            <input type="text" id="lname" placeholder="Enter last name">
         </div>
-        <div class="input-group">
+        <div class="input-box">
             <label>WhatsApp Number</label>
-            <input type="text" id="number" placeholder="07x xxxxxxx">
+            <input type="text" id="phone" placeholder="07xxxxxxxx">
         </div>
-        <button class="btn btn-next" onclick="nextStep(3)">Next: Secure Account</button>
+        <button class="btn-action btn-primary" onclick="goToStep(3)">Next Step</button>
     </div>
 
-    <div class="step" id="step3">
-        <h2 style="color: var(--primary);">Final Step</h2>
-        <div class="input-group">
+    <div class="step-form" id="step3">
+        <button onclick="goToStep(2)" style="border:none; background:none; color:var(--primary); cursor:pointer;"><i class="fas fa-arrow-left"></i> Back</button>
+        <h2 style="color: #333; margin-top: 20px;">Security</h2>
+        <div class="input-box">
             <label>Email Address</label>
             <input type="email" id="email" placeholder="example@mail.com">
         </div>
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="password" placeholder="Min 6 characters">
+        <div class="input-box">
+            <label>Create Password</label>
+            <input type="password" id="pass" placeholder="At least 6 characters">
         </div>
-        <div class="input-group">
+        <div class="input-box">
             <label>Confirm Password</label>
-            <input type="password" id="confirmPassword">
+            <input type="password" id="cpass">
         </div>
-        <button class="btn btn-next" onclick="handleFinalSignup()">Agree and Register 🚀</button>
+        <button class="btn-action btn-primary" onclick="processRegistration()">Agree and Register 🚀</button>
     </div>
 </div>
 
@@ -109,11 +154,7 @@
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Configuration
-    const SERVICE_ID = "service_il15c1q";
-    const TEMPLATE_ID = window.innerWidth > 768 ? "template_m0njghq" : "template_vmc0kvo";
-    const PUBLIC_KEY = "jfgAK0LaZ0w7RKAE8";
-
+    // --- Configuration (Provided by you) ---
     const firebaseConfig = {
         apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
         authDomain: "oshancart.firebaseapp.com",
@@ -123,52 +164,65 @@
         appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
     };
 
+    const SERVICE_ID = "service_il15c1q";
+    const TEMPLATE_ID = window.innerWidth > 768 ? "template_m0njghq" : "template_vmc0kvo";
+    const PUBLIC_KEY = "jfgAK0LaZ0w7RKAE8";
+
+    // Initialize Services
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     emailjs.init(PUBLIC_KEY);
 
-    window.nextStep = (stepNumber) => {
-        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-        document.getElementById('step' + stepNumber).classList.add('active');
+    // Navigation Logic
+    window.goToStep = (n) => {
+        document.querySelectorAll('.step-welcome, .step-form').forEach(s => s.classList.remove('step-active'));
+        document.getElementById('step' + n).classList.add('step-active');
     };
 
-    window.handleFinalSignup = async () => {
-        const loader = document.getElementById('loader');
+    // Final Registration Logic
+    window.processRegistration = async () => {
+        const loader = document.getElementById('mainLoader');
+        const pass = document.getElementById('pass').value;
+        const cpass = document.getElementById('cpass').value;
         const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
 
-        if (password !== confirmPassword) { alert("❌ Passwords do not match!"); return; }
-        
+        if (pass !== cpass) { alert("❌ Passwords match වෙන්නේ නැහැ!"); return; }
+        if (pass.length < 6) { alert("❌ Password එකට අවම අකුරු 6ක් අවශ්‍යයි!"); return; }
+
         loader.style.display = 'flex';
 
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            // Firebase Auth
+            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
             const user = userCredential.user;
-            const affId = document.getElementById('firstName').value.toLowerCase() + Math.floor(1000 + Math.random() * 9000);
 
+            // Generate Affiliate ID
+            const affId = document.getElementById('fname').value.toLowerCase() + Math.floor(1000 + Math.random() * 9000);
+
+            // Save to Firestore
             await setDoc(doc(db, "users", user.uid), {
                 uid: user.uid,
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                whatsapp: document.getElementById('number').value,
+                firstName: document.getElementById('fname').value,
+                lastName: document.getElementById('lname').value,
+                whatsapp: document.getElementById('phone').value,
                 email: email,
                 affiliateId: affId,
-                createdAt: new Date()
+                joinDate: new Date()
             });
 
+            // EmailJS Notification
             await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-                to_name: document.getElementById('firstName').value,
-                to_email: email,
+                user_name: document.getElementById('fname').value,
+                user_email: email,
                 aff_id: affId
             });
 
-            alert("✅ Registration Successful! Your ID: " + affId);
+            alert("✅ සාර්ථකයි! ඔබේ Affiliate ID එක: " + affId);
             window.location.href = "login.html";
 
         } catch (error) {
-            alert("Error: " + error.message);
+            alert("❌ වැරදීමක් සිදු වුනා: " + error.message);
         } finally {
             loader.style.display = 'none';
         }
