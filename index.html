@@ -1214,7 +1214,36 @@ const slides = [
         }, 5000);
     }
 };
-    
+
+    // Function to show the popup after a delay
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        const popup = document.getElementById('signup-popup');
+        if(popup) {
+            popup.style.display = 'block';
+        }
+    }, 4000); // 4000ms = 4 seconds
+});
+
+// Function to close the popup
+function closePopup() {
+    document.getElementById('signup-popup').style.display = 'none';
+                }
 </script> 
+    <div id="signup-popup" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px);">
+    <div style="background-color: #fff; margin: 15% auto; padding: 30px; border-radius: 20px; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-family: sans-serif;">
+        <div style="font-size: 50px; margin-bottom: 10px;">👋</div>
+        <h2 style="color: #333; margin-bottom: 15px; font-weight: bold;">Welcome to OshanCart!</h2>
+        <p style="color: #666; font-size: 16px; line-height: 1.5; margin-bottom: 25px;">
+            To start shopping and enjoy exclusive deals, please sign up for a free account.
+        </p>
+        <button onclick="location.href='signup.html'" style="background-color: #ff4757; color: white; padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: 0.3s;">
+            Sign Up Now
+        </button>
+        <div style="margin-top: 15px;">
+            <span onclick="closePopup()" style="color: #999; cursor: pointer; text-decoration: none; font-size: 14px;">Maybe Later</span>
+        </div>
+    </div>
+    </div>
 </body>
 </html>
