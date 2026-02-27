@@ -3,236 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up or create account | OshanCart Global</title>
+    <title>Global Membership | OshanCart</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <style>
-        :root {
-            --ali-orange: #ff471a;
-            --ali-bg: #f4f4f4;
-            --white: #ffffff;
-            --text-gray: #666;
-        }
-
+        :root { --ali-orange: #ff471a; --white: #ffffff; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
 
-        body { background-color: var(--ali-bg); color: #333; }
+        .auth-root { display: flex; min-height: 100vh; width: 100%; flex-wrap: wrap; }
 
-        /* Root Layout */
-        .auth-container {
-            display: flex;
-            min-height: 100vh;
-            width: 100%;
+        /* Left Side Image Panel */
+        .banner-side {
+            flex: 1; min-width: 400px; position: relative;
+            background: #eee; overflow: hidden; display: flex; align-items: center; justify-content: center;
+        }
+        .banner-side img {
+            width: 100%; height: 100%; object-fit: cover; position: absolute;
+            transition: opacity 0.5s ease-in-out;
         }
 
-        /* --- Left Side: Dynamic Branding --- */
-        .branding-side {
-            flex: 1;
-            position: relative;
-            background-color: var(--ali-orange);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 40px;
-            overflow: hidden;
+        /* Right Side Form Panel */
+        .content-side {
+            flex: 1.2; min-width: 320px; background: var(--white);
+            padding: 40px; display: flex; flex-direction: column; justify-content: center;
         }
 
-        .branding-side img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0; left: 0;
-            opacity: 0.9;
-        }
+        .step-box { display: none; animation: fadeIn 0.4s ease; }
+        .step-box.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
 
-        .brand-overlay {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            background: rgba(0,0,0,0.2);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-        }
-
-        /* --- Right Side: The Signup Flow --- */
-        .form-side {
-            flex: 1.2;
-            background: var(--white);
-            padding: 40px 10%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .header-nav {
-            position: absolute;
-            top: 20px; right: 20px;
-            display: flex;
-            gap: 20px;
-            font-size: 14px;
-        }
-
-        .step-container { display: none; animation: slideIn 0.4s ease-out; }
-        .step-container.active { display: block; }
-
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-
-        h2 { font-size: 28px; margin-bottom: 30px; font-weight: 500; }
-
-        /* Social Buttons Style */
+        /* Alibaba Buttons */
         .social-btn {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            background: white;
-            font-size: 16px;
-            font-weight: 500;
-            transition: 0.2s;
+            width: 100%; padding: 14px; margin-bottom: 12px; border: 1px solid #ddd;
+            border-radius: 50px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; background: white; font-weight: 500;
         }
-        .social-btn:hover { background: #f9f9f9; }
-        .social-btn img { width: 20px; margin-right: 15px; }
+        .social-btn img { width: 20px; margin-right: 12px; }
 
-        .divider {
-            text-align: center;
-            margin: 25px 0;
-            position: relative;
-        }
-        .divider::before { content: ""; position: absolute; left: 0; top: 50%; width: 45%; height: 1px; background: #ddd; }
-        .divider::after { content: ""; position: absolute; right: 0; top: 50%; width: 45%; height: 1px; background: #ddd; }
-
-        /* Input Styles */
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--text-gray); }
+        .input-group { margin-bottom: 15px; }
         .input-group input {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
+            width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 8px;
             outline-color: var(--ali-orange);
         }
 
-        .btn-main {
-            width: 100%;
-            padding: 16px;
-            background: var(--ali-orange);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+        .btn-submit {
+            width: 100%; padding: 16px; background: var(--ali-orange); color: white;
+            border: none; border-radius: 50px; font-weight: bold; cursor: pointer;
         }
 
-        /* Mobile Adjustments */
-        @media (max-width: 900px) {
-            .auth-container { flex-direction: column; }
-            .branding-side { height: 350px; flex: none; }
-            .form-side { padding: 40px 20px; }
-        }
-
-        /* Loader */
-        #global-loader {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.9);
-            z-index: 1000;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+        @media (max-width: 900px) { .banner-side { height: 250px; min-width: 100%; } }
     </style>
 </head>
 <body>
 
-<div id="global-loader">
-    <i class="fas fa-circle-notch fa-spin fa-3x" style="color: var(--ali-orange);"></i>
-    <p style="margin-top: 15px; font-weight: 500;">Connecting to Global Servers...</p>
-</div>
-
-<div class="auth-container">
-    
-    <div class="branding-side">
-        <img id="brand-img" src="Screenshot_20260221_105426.jpg" alt="Branding">
-        <div class="brand-overlay">
-            <h1 id="brand-text" style="font-size: 24px;">Making Global Trading Simple</h1>
-        </div>
+<div class="auth-root">
+    <div class="banner-side">
+        <img id="step-img-1" src="Screenshot_20260221_105426.jpg" style="opacity: 1;">
+        <img id="step-img-2" src="Gemini_Generated_Image_b306nb306nb306nb.png" style="opacity: 0;">
     </div>
 
-    <div class="form-side">
-        <div class="header-nav">
-            <span>Help</span>
-            <i class="fas fa-headphones"></i>
-        </div>
-
-        <div id="step-1" class="step-container active">
-            <h2>Sign in or create account</h2>
-            
-            <div class="social-btn">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
-                Continue with Google
-            </div>
-            <div class="social-btn" style="color: #1877F2;">
-                <i class="fab fa-facebook fa-lg" style="margin-right: 15px;"></i>
-                Continue with Facebook
-            </div>
-
-            <div class="divider">OR</div>
-
-            <button class="social-btn" onclick="goToStep(2)">
-                <i class="fas fa-envelope" style="margin-right: 15px;"></i>
-                Continue with email
+    <div class="content-side">
+        <div id="view-1" class="step-box active">
+            <h2 style="margin-bottom: 30px;">Sign in or create account</h2>
+            <div class="social-btn"><img src="https://www.google.com/favicon.ico"> Continue with Google</div>
+            <div class="social-btn" style="color: #1877F2;"><i class="fab fa-facebook fa-lg" style="margin-right: 12px;"></i> Continue with Facebook</div>
+            <div style="text-align: center; margin: 20px 0; color: #999;">OR</div>
+            <button class="social-btn" onclick="nextView(2)">
+                <i class="fas fa-envelope" style="margin-right: 12px;"></i> Continue with email
             </button>
         </div>
 
-        <div id="step-2" class="step-container">
+        <div id="view-2" class="step-box">
             <h2 style="margin-bottom: 10px;">Create your account</h2>
-            <p style="color: var(--text-gray); margin-bottom: 30px;">Join OshanCart Shop Festival & Earn Income</p>
+            <p style="color: #666; margin-bottom: 25px;">Join the OshanCart Shop Festival</p>
             
-            <form id="proSignupForm">
-                <div style="display: flex; gap: 15px;">
-                    <div class="input-group" style="flex:1;">
-                        <label>First Name</label>
-                        <input type="text" id="fname" placeholder="Enter first name" required>
-                    </div>
-                    <div class="input-group" style="flex:1;">
-                        <label>Last Name</label>
-                        <input type="text" id="lname" placeholder="Enter last name" required>
-                    </div>
+            <form id="finalSignup">
+                <div style="display: flex; gap: 10px;">
+                    <div class="input-group" style="flex:1;"><input type="text" id="fn" placeholder="First Name" required></div>
+                    <div class="input-group" style="flex:1;"><input type="text" id="ln" placeholder="Last Name" required></div>
                 </div>
-
-                <div class="input-group">
-                    <label>Email Address</label>
-                    <input type="email" id="uemail" placeholder="example@mail.com" required>
-                </div>
-
-                <div class="input-group">
-                    <label>WhatsApp Number</label>
-                    <input type="tel" id="uphone" placeholder="07x xxxxxxx" required>
-                </div>
-
-                <div class="input-group">
-                    <label>Set Password</label>
-                    <input type="password" id="upass" placeholder="Min 8 secure characters" required>
-                </div>
-
-                <button type="submit" class="btn-main">Agree and Register</button>
-                <button type="button" class="btn-main" style="background: transparent; color: var(--text-gray); border: 1px solid #ddd;" onclick="goToStep(1)">Back</button>
+                <div class="input-group"><input type="email" id="em" placeholder="Email Address" required></div>
+                <div class="input-group"><input type="tel" id="ph" placeholder="WhatsApp Number" required></div>
+                <div class="input-group"><input type="password" id="ps" placeholder="Set Password (8+ chars)" required></div>
+                
+                <button type="submit" class="btn-submit">Agree and Register</button>
+                <p onclick="nextView(1)" style="text-align:center; margin-top:15px; cursor:pointer; color:#777;">Back</p>
             </form>
         </div>
     </div>
@@ -256,58 +113,39 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Step Logic
-    window.goToStep = (n) => {
-        document.querySelectorAll('.step-container').forEach(s => s.classList.remove('active'));
-        document.getElementById('step-' + n).classList.add('active');
+    // Step Switcher
+    window.nextView = (n) => {
+        document.querySelectorAll('.step-box').forEach(b => b.classList.remove('active'));
+        document.getElementById('view-' + n).classList.add('active');
 
-        // Change Image Based on Step
-        const bImg = document.getElementById('brand-img');
-        const bText = document.getElementById('brand-text');
-        
+        // Image Transition
         if(n === 2) {
-            bImg.src = "Gemini_Generated_Image_b306nb306nb306nb.png"; // දෙවන රූපය (Festival Image)
-            bText.innerText = "Join the OshanCart Shop Festival";
+            document.getElementById('step-img-1').style.opacity = "0";
+            document.getElementById('step-img-2').style.opacity = "1";
         } else {
-            bImg.src = "Screenshot_20260221_105426.jpg"; // පළමු රූපය
-            bText.innerText = "Making Global Trading Simple";
+            document.getElementById('step-img-1').style.opacity = "1";
+            document.getElementById('step-img-2').style.opacity = "0";
         }
-    };
+    }
 
-    // Firebase Registration
-    document.getElementById('proSignupForm').addEventListener('submit', async (e) => {
+    // Submit Logic
+    document.getElementById('finalSignup').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const loader = document.getElementById('global-loader');
-        loader.style.display = 'flex';
-
-        const email = document.getElementById('uemail').value;
-        const pass = document.getElementById('upass').value;
-
         try {
-            const userCred = await createUserWithEmailAndPassword(auth, email, pass);
-            const user = userCred.user;
-            const affId = "OC-" + Math.floor(100000 + Math.random() * 900000);
-
-            await setDoc(doc(db, "users", user.uid), {
-                uid: user.uid,
-                firstName: document.getElementById('fname').value,
-                lastName: document.getElementById('lname').value,
-                whatsapp: document.getElementById('uphone').value,
+            const userCred = await createUserWithEmailAndPassword(auth, document.getElementById('em').value, document.getElementById('ps').value);
+            const affId = "OC-" + Math.floor(Math.random() * 900000 + 100000);
+            
+            await setDoc(doc(db, "users", userCred.user.uid), {
+                fullName: document.getElementById('fn').value + " " + document.getElementById('ln').value,
+                whatsapp: document.getElementById('ph').value,
                 affiliateId: affId,
-                status: "Elite Member",
-                createdAt: new Date()
+                joinedAt: new Date()
             });
 
-            alert(`Success! Your Global ID: ${affId}. Please Login.`);
+            alert("Success! Your ID: " + affId);
             window.location.href = "login.html";
-
-        } catch (error) {
-            alert("Error: " + error.message);
-        } finally {
-            loader.style.display = 'none';
-        }
+        } catch (err) { alert(err.message); }
     });
 </script>
-
 </body>
 </html>
