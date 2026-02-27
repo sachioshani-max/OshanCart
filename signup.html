@@ -3,13 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup 🎁 | Oshan Cart 🗽</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script type="module">
+    <title>Secure Signup | OshanCart Global Marketplace</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #ff4757;
+            --secondary-color: #2f3542;
+            --bg-color: #f1f2f6;
+            --text-dark: #2f3542;
+            --text-light: #747d8c;
+            --white: #ffffff;
+            --shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Split Screen for International Look */
+        .signup-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            min-height: 80vh;
+        }
+
+        /* Left Side: Image & Info (Alibaba Style) */
+        .info-panel {
+            flex: 1;
+            background: linear-gradient(rgba(255, 71, 87, 0.9), rgba(47, 53, 66, 0.9)), 
+                        url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .info-panel h1 { font-size: 40px; margin-bottom: 20px; font-weight: 700; }
+        .info-panel p { font-size: 18px; line-height: 1.6; opacity: 0.9; }
+
+        /* Right Side: Signup Form */
+        .form-panel {
+            flex: 1.2;
+            padding: 50px;
+            background: var(--white);
+            overflow-y: auto;
+        }
+
+        .brand-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header { margin-bottom: 30px; }
+        .form-header h2 { color: var(--text-dark); font-size: 28px; }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-dark); font-size: 14px; }
+        
+        .input-field {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 71, 87, 0.1);
+        }
+
+        .row { display: flex; gap: 15px; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover { background: #ff6b81; transform: translateY(-2px); }
+
+        /* Security Badges */
+        .security-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0.6;
+            font-size: 12px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 968px) {
+            .info-panel { display: none; }
+            .signup-container { max-width: 500px; margin: 20px; }
+            .form-panel { padding: 30px; }
+        }
+
+        /* Loading Overlay */
+        #loader {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loader">
+    <div class="fa-3x"><i class="fas fa-spinner fa-spin" style="color: var(--primary-color);"></i></div>
+    <p style="margin-top: 15px; font-weight: 600;">Securing your account...</p>
+</div>
+
+<div class="signup-container">
+    <div class="info-panel">
+        <h1>Global Trade Starts Here.</h1>
+        <p>Join over 20,000+ businesses worldwide. Secure your account and start your journey with OshanCart today.</p>
+        <div style="margin-top: 40px;">
+            <div style="margin-bottom: 15px;"><i class="fas fa-check-circle"></i> Verified Sellers Only</div>
+            <div style="margin-bottom: 15px;"><i class="fas fa-check-circle"></i> Secure Global Payments</div>
+            <div style="margin-bottom: 15px;"><i class="fas fa-check-circle"></i> 24/7 Priority Support</div>
+        </div>
+    </div>
+
+    <div class="form-panel">
+        <div class="brand-logo">
+            <img src="logo.png" alt="OshanCart" style="height: 50px;">
+        </div>
+        
+        <div class="form-header">
+            <h2>Create Your Account</h2>
+            <p style="color: var(--text-light); font-size: 14px;">Fill in the details to become a global member.</p>
+        </div>
+
+        <form id="registrationForm">
+            <div class="row">
+                <div class="input-group" style="flex:1;">
+                    <label>First Name</label>
+                    <input type="text" id="firstName" class="input-field" placeholder="Oshan" required>
+                </div>
+                <div class="input-group" style="flex:1;">
+                    <label>Last Name</label>
+                    <input type="text" id="lastName" class="input-field" placeholder="Shan" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="email" class="input-field" placeholder="name@company.com" required>
+            </div>
+
+            <div class="input-group">
+                <label>WhatsApp Number (With Country Code)</label>
+                <input type="tel" id="whatsapp" class="input-field" placeholder="+94 7X XXX XXXX" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" class="input-field" placeholder="Min 8 characters" required>
+            </div>
+
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPassword" class="input-field" placeholder="Repeat password" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Agree and Register</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-light);">
+            Already have an account? <a href="login.html" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Sign In</a>
+        </p>
+
+        <div class="security-footer">
+            <span><i class="fas fa-lock"></i> SSL Encrypted</span>
+            <span><i class="fas fa-shield-alt"></i> Data Protected</span>
+            <span><i class="fas fa-globe"></i> Global Access</span>
+        </div>
+    </div>
+</div>
+
+<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+    // Your Secure Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
         authDomain: "oshancart.firebaseapp.com",
@@ -23,102 +240,65 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    window.handleSignup = async (event) => {
-        event.preventDefault();
-        
-        const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;
-        const email = document.getElementById('email').value;
-        const whatsapp = document.getElementById('number').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
+    // Initialize EmailJS
+    emailjs.init("USER_ID_HERE"); // ඔබගේ EmailJS User ID මෙහි දමන්න
 
-        // 1. Password පරීක්ෂා කිරීම
-        if (password !== confirmPassword) {
+    document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const loader = document.getElementById('loader');
+        const pass = document.getElementById('password').value;
+        const confirmPass = document.getElementById('confirmPassword').value;
+
+        if(pass !== confirmPass) {
             alert("❌ Passwords do not match!");
             return;
         }
 
-        if (password.length < 6) {
-            alert("❌ Password must be at least 6 characters!");
+        if(pass.length < 8) {
+            alert("❌ Security Alert: Password must be at least 8 characters.");
             return;
         }
 
+        loader.style.display = 'flex';
+
         try {
-            // 2. Firebase Auth හරහා User නිර්මාණය
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const email = document.getElementById('email').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+
+            // 1. Firebase Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
             const user = userCredential.user;
 
-            // 3. අහඹු Affiliate ID එකක් සෑදීම (උදා: oshan542)
-            const randomNum = Math.floor(1000 + Math.random() * 9000);
-            const affId = firstName.toLowerCase().replace(/\s/g, '') + randomNum;
+            // 2. Generate Elite Affiliate ID
+            const affId = "OC-" + Math.random().toString(36).substr(2, 6).toUpperCase();
 
-            // 4. Firestore එකේ දත්ත සේව් කිරීම
+            // 3. Store in Firestore
             await setDoc(doc(db, "users", user.uid), {
                 uid: user.uid,
-                firstName: firstName,
-                lastName: lastName,
+                name: `${firstName} ${lastName}`,
                 email: email,
                 whatsapp: whatsapp,
                 affiliateId: affId,
-                totalEarnings: 0,
-                totalClicks: 0,
-                createdAt: new Date()
+                status: "Premium Member",
+                joinDate: new Date().toISOString()
             });
 
-            alert(`❤️‍🩹 සාර්ථකයි! ඔබේ Affiliate ID එක: ${affId}. දැන් Login වන්න.`);
-            
-            window.location.href = "login.html";
+            // 4. Send Confirmation Email (Optional via EmailJS)
+            // emailjs.send("service_id", "template_id", { name: firstName, email: email });
+
+            alert("✅ Welcome to OshanCart Global! Registration Successful.");
+            window.location.href = "dashboard.html";
 
         } catch (error) {
-            console.error(error);
-            alert("Error: " + error.message);
+            alert("Signup Error: " + error.message);
+        } finally {
+            loader.style.display = 'none';
         }
-    };
+    });
 </script>
-</head>
-<body style="background: #fff0f3; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; padding: 20px 0;">
-
-    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 400px;">
-        <h1 style="text-align: center; color: #ff4d6d; margin-bottom: 10px;">Join Oshan Cart 🛍️</h1>
-        <p style="text-align: center; color: #ff8855; font-size: 13px; margin-bottom: 25px; font-weight: bold;">
-            Trusted Digital Marketplace & Income Platform🤑
-        </p>
-
-        <form onsubmit="handleSignup(event)">
-            <div style="display: flex; gap: 10px;">
-                <div style="flex: 1;">
-                    <label style="font-size: 13px; color: #555;">First Name</label>
-                    <input type="text" id="firstName" placeholder="මුල් නම" required style="width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
-                </div>
-                <div style="flex: 1;">
-                    <label style="font-size: 13px; color: #555;">Last Name</label>
-                    <input type="text" id="lastName" placeholder="අග නම" required style="width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
-                </div>
-            </div>
-            
-            <label style="font-size: 13px; color: #555;">Email Address</label>
-            <input type="email" id="email" autocomplete="username" placeholder="example@mail.com" required style="width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
-
-            <label style="font-size: 13px; color: #555;">WhatsApp Number</label>
-            <input type="text" id="number" placeholder="07x xxxxxxx" required style="width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
-            
-            <label style="font-size: 13px; color: #555;">Password</label>
-            <input type="password" id="password" autocomplete="new-password" placeholder="Min 6 characters (@, #, 123)" required style="width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
-
-            <label style="font-size: 13px; color: #555;">Confirm Password</label>
-            <input type="password" id="confirmPassword" autocomplete="new-password" placeholder="නැවත ඇතුළත් කරන්න" required style="width: 100%; padding: 10px; margin: 5px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline-color: #ff4d6d;">
-            
-            <button type="submit" style="width: 100%; background: #ff4d6d; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px;">
-                Agree and Register 📇
-            </button>
-        </form>
-
-        <p style="text-align: center; font-size: 13px; margin-top: 15px; color: #666;">
-            Already have an account? 🤗 <br>
-            <a href="login.html" style="color: #ff4d6d; text-decoration: none; font-weight: bold;">Login or Sign in here 🫂</a>
-        </p>
-    </div>
 
 </body>
 </html>
