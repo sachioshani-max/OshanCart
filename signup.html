@@ -5,53 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Gateway | OshanCart</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        :root {
+            --primary-orange: #ff6a00;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --text-dark: #1a1a1a;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-        body, html { height: 100%; width: 100%; }
-
-        /* ✅ පසුබිම් පින්තූරය මෙතනින් නිවැරදි කළා */
-        .main-wrapper {
-            height: 100vh;
-            width: 100%;
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                        url('Gemini_Generated_Image_pymvdjpymvdjpymv.png');
+        /* පින්තූරය පසුබිමට යෙදීම */
+        body {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('Gemini_Generated_Image_pymvdjpymvdjpymv.png'); /* ✅ ඔයාගේ රූපය මෙතන තියෙන්නේ */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
 
-        /* ✅ Glassmorphism Signup Box */
-        .glass-container {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 40px 30px;
+        /* විනිවිද පෙනෙන Glass Box එක */
+        .glass-card {
+            background: var(--glass-bg);
             width: 100%;
             max-width: 420px;
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.3);
+            animation: fadeInUp 0.6s ease-out;
         }
 
-        .logo-area img { height: 50px; margin-bottom: 20px; }
-        
-        h2 { font-size: 24px; color: #222; margin-bottom: 10px; font-weight: 600; }
-        p { font-size: 14px; color: #555; margin-bottom: 30px; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Buttons Style */
-        .social-btn {
+        .brand-logo { width: 180px; margin-bottom: 25px; }
+
+        .form-title { font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+        .form-subtitle { font-size: 14px; color: #555; margin-bottom: 30px; }
+
+        /* Social Buttons */
+        .auth-btn {
             width: 100%;
             padding: 14px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             border: 1px solid #ddd;
             border-radius: 12px;
             display: flex;
@@ -61,113 +69,119 @@
             background: white;
             font-size: 15px;
             font-weight: 500;
-            transition: 0.3s ease;
+            transition: 0.3s;
+            text-decoration: none;
+            color: var(--text-dark);
         }
-        .social-btn:hover { background: #f0f0f0; transform: translateY(-2px); }
-        .social-btn img { width: 22px; margin-right: 12px; }
+        .auth-btn:hover { background: #f8f8f8; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .auth-btn img { width: 20px; margin-right: 12px; }
+        .auth-btn i { font-size: 20px; margin-right: 12px; }
 
         .divider {
-            display: flex; align-items: center; text-align: center; margin: 20px 0; color: #888;
+            margin: 25px 0;
+            position: relative;
+            color: #888;
+            font-size: 13px;
         }
         .divider::before, .divider::after {
-            content: ''; flex: 1; border-bottom: 1px solid #ddd;
+            content: ""; position: absolute; top: 50%; width: 40%; height: 1px; background: #ddd;
         }
-        .divider:not(:empty)::before { margin-right: .5em; }
-        .divider:not(:empty)::after { margin-left: .5em; }
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
 
-        .email-btn {
-            width: 100%;
-            padding: 16px;
-            background: #ff6a00;
+        /* Main Email Button */
+        .btn-email {
+            background: var(--primary-orange);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
             font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
         }
-        .email-btn:hover { background: #e55f00; box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3); }
+        .btn-email:hover { background: #e65c00; color: white; }
 
-        .footer-info {
-            margin-top: 25px; display: flex; justify-content: center; gap: 15px;
-            font-size: 11px; color: #666; font-weight: 500;
+        .security-info {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 11px;
+            color: #777;
+        }
+        .security-info span { display: flex; align-items: center; gap: 5px; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 480px) {
+            .glass-card { padding: 30px 20px; }
+            .form-title { font-size: 20px; }
         }
     </style>
 </head>
 <body>
 
-<div class="main-wrapper">
-    <div class="glass-container">
-        <div class="logo-area">
-            <h1 style="color: #ff6a00; font-weight: bold; font-style: italic;">OshanCart</h1>
+    <div class="glass-card">
+        <h1 style="color: var(--primary-orange); margin-bottom: 15px; font-size: 32px;">Oshan<span style="color: #065279;">Cart</span></h1>
+        
+        <div class="form-header">
+            <h2 class="form-title">Global Gateway</h2>
+            <p class="form-subtitle">Your verified global trading starts here.</p>
         </div>
 
-        <h2>Sign in or create account</h2>
-        <p>Your verified global trading starts here.</p>
-
-        <div class="social-btn" id="googleLogin">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
+        <div class="auth-btn" onclick="loginWithGoogle()">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" alt="G">
             Continue with Google
         </div>
 
-        <div class="social-btn" style="color: #1877F2;" id="facebookLogin">
-            <i class="fab fa-facebook fa-lg" style="margin-right: 12px;"></i>
+        <div class="auth-btn" style="color: #1877F2;" onclick="loginWithFacebook()">
+            <i class="fab fa-facebook"></i>
             Continue with Facebook
         </div>
 
         <div class="divider">OR</div>
 
-        <button class="email-btn" onclick="window.location.href='signup-details.html'">
-            <i class="fas fa-envelope" style="margin-right: 10px;"></i> Continue with email
-        </button>
+        <a href="signup-details.html" class="auth-btn btn-email">
+            <i class="fas fa-envelope"></i>
+            Continue with email
+        </a>
 
-        <div class="footer-info">
+        <div class="security-info">
             <span><i class="fas fa-user-shield"></i> Verified Member</span>
             <span><i class="fas fa-lock"></i> Cloud Encrypted</span>
         </div>
     </div>
-</div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    // ⚠️ ඔයාගේ Firebase Config එක මෙතනට නිවැරදිව ඇතුළත් කරන්න
-    const firebaseConfig = {
-        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-        authDomain: "oshancart.firebaseapp.com",
-        projectId: "oshancart",
-        storageBucket: "oshancart.firebasestorage.app",
-        messagingSenderId: "686982543488",
-        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-    };
+        // ✅ මේ ටික ඔයාගේ Firebase එකෙන් අරන් දාන්න
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.firebasestorage.app",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-    // ✅ Google Sign-In ඇත්තටම වැඩ කරන කේතය
-    document.getElementById('googleLogin').onclick = async () => {
-        const provider = new GoogleAuthProvider();
-        try {
-            await signInWithPopup(auth, provider);
-            window.location.href = "dashboard.html";
-        } catch (error) {
-            alert("Google Sign-in failed: " + error.message);
-        }
-    };
+        // Google Sign In
+        window.loginWithGoogle = async () => {
+            const provider = new GoogleAuthProvider();
+            try {
+                await signInWithPopup(auth, provider);
+                window.location.href = "dashboard.html";
+            } catch (error) { alert(error.message); }
+        };
 
-    // ✅ Facebook Sign-In ඇත්තටම වැඩ කරන කේතය
-    document.getElementById('facebookLogin').onclick = async () => {
-        const provider = new FacebookAuthProvider();
-        try {
-            await signInWithPopup(auth, provider);
-            window.location.href = "dashboard.html";
-        } catch (error) {
-            alert("Facebook Sign-in failed: " + error.message);
-        }
-    };
-</script>
-
+        // Facebook Sign In
+        window.loginWithFacebook = async () => {
+            const provider = new FacebookAuthProvider();
+            try {
+                await signInWithPopup(auth, provider);
+                window.location.href = "dashboard.html";
+            } catch (error) { alert(error.message); }
+        };
+    </script>
 </body>
 </html>
