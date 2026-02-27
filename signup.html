@@ -3,197 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OshanCart | Professional Signup</title>
+    <title>OshanCart | Global Signup 🗽</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <style>
         :root {
-            --primary-color: #ff4d6d;
-            --secondary-color: #ff8855;
-            --dark-blue: #003049;
-            --light-bg: #fff0f3;
+            --primary: #ff4d6d;
+            --secondary: #ff8855;
+            --bg: #fff0f3;
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--light-bg);
-            height: 100%;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
 
-        /* Main Container: Desktop & Mobile Responsive */
-        .signup-root {
-            display: flex;
-            min-height: 100vh;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
-        }
+        .root-container { background: white; width: 95%; max-width: 450px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); overflow: hidden; position: relative; }
 
-        .signup-container {
-            display: flex;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            width: 90%;
-            max-width: 1000px;
-            overflow: hidden;
-            flex-direction: row; /* Desktop default */
-        }
+        /* Step 1 Style - Image Based */
+        .step-image-container { position: relative; width: 100%; height: 600px; background: url('https://raw.githubusercontent.com/OshanCart/images/main/image_c63bc2.png') center/cover; }
+        .overlay-card { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-        /* Left Side: Visual Experience (OshanCart Image) */
-        .visual-side {
-            flex: 1;
-            background: url('https://raw.githubusercontent.com/OshanCart/images/main/image_c63bc2.png') center/cover;
-            position: relative;
-            min-height: 400px;
-        }
+        /* Form Steps */
+        .step { display: none; padding: 30px; animation: fadeIn 0.5s ease; }
+        .step.active { display: block; }
 
-        .visual-overlay {
-            position: absolute;
-            bottom: 0;
-            background: rgba(255, 77, 109, 0.85);
-            color: white;
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Right Side: Form Content */
-        .form-side {
-            flex: 1.2;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 13px; color: #555; margin-bottom: 5px; font-weight: bold; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 5px rgba(255, 77, 109, 0.2); }
 
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .signup-container {
-                flex-direction: column;
-            }
-            .visual-side {
-                min-height: 250px;
-            }
-            .form-side {
-                padding: 25px;
-            }
-        }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; margin-top: 10px; }
+        .btn-next { background: var(--primary); color: white; }
+        .btn-google { background: white; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
 
-        /* Form Styling */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 5px;
-            color: #444;
-            font-weight: 600;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            outline-color: var(--primary-color);
-            transition: 0.3s;
-        }
-
-        .btn-register {
-            width: 100%;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
-            transition: 0.3s;
-        }
-
-        .btn-register:hover {
-            transform: translateY(-2px);
-            background: #e63958;
-        }
-
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
+        .loader { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 100; justify-content: center; align-items: center; flex-direction: column; }
     </style>
 </head>
 <body>
 
-<div class="loading-overlay" id="loader">
-    <i class="fas fa-spinner fa-spin fa-3x" style="color: var(--primary-color);"></i>
-</div>
+<div class="root-container">
+    <div class="loader" id="loader">
+        <i class="fas fa-circle-notch fa-spin fa-3x" style="color: var(--primary);"></i>
+        <p>Verifying with Server...</p>
+    </div>
 
-<div class="signup-root">
-    <div class="signup-container">
-        <div class="visual-side">
-            <div class="visual-overlay">
-                <h3>Welcome to OshanCart 🗽</h3>
-                <p>Join our Global Trading Community</p>
+    <div class="step active" id="step1" style="padding: 0;">
+        <div class="step-image-container">
+            <div class="overlay-card">
+                <h2 style="color: var(--primary); margin: 0;">Making global trading simple</h2>
+                <p style="font-size: 12px; color: #666;">Choose your way to join OshanCart</p>
+                
+                <button class="btn btn-google" onclick="nextStep(2)">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" width="18"> Continue with Google
+                </button>
+                <button class="btn btn-next" onclick="nextStep(2)" style="background: #1877F2;">
+                    <i class="fab fa-facebook"></i> Continue with Facebook
+                </button>
+                <p style="margin: 15px 0; font-size: 12px; color: #999;">OR</p>
+                <button class="btn btn-next" onclick="nextStep(2)">
+                    <i class="fas fa-envelope"></i> Continue with Email
+                </button>
             </div>
         </div>
+    </div>
 
-        <div class="form-side">
-            <h2 style="color: var(--dark-blue); margin-bottom: 5px;">Create Account</h2>
-            <p style="color: #666; font-size: 14px; margin-bottom: 25px;">Start your journey to success today!</p>
-
-            <form id="registrationForm">
-                <div style="display: flex; gap: 10px;">
-                    <div class="form-group" style="flex:1;">
-                        <label>First Name</label>
-                        <input type="text" id="firstName" required>
-                    </div>
-                    <div class="form-group" style="flex:1;">
-                        <label>Last Name</label>
-                        <input type="text" id="lastName" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label>WhatsApp Number</label>
-                    <input type="text" id="number" placeholder="07xxxxxxxx" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="password" required minlength="6">
-                </div>
-
-                <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input type="password" id="confirmPassword" required>
-                </div>
-
-                <button type="submit" class="btn-register">Agree and Register 🚀</button>
-            </form>
-
-            <p style="text-align: center; margin-top: 20px; font-size: 14px;">
-                Already a member? <a href="login.html" style="color: var(--primary-color); font-weight: bold; text-decoration: none;">Login Here</a>
-            </p>
+    <div class="step" id="step2">
+        <h2 style="color: var(--primary);">Tell us about you</h2>
+        <div class="input-group">
+            <label>First Name</label>
+            <input type="text" id="firstName" placeholder="Enter first name">
         </div>
+        <div class="input-group">
+            <label>Last Name</label>
+            <input type="text" id="lastName" placeholder="Enter last name">
+        </div>
+        <div class="input-group">
+            <label>WhatsApp Number</label>
+            <input type="text" id="number" placeholder="07x xxxxxxx">
+        </div>
+        <button class="btn btn-next" onclick="nextStep(3)">Next: Secure Account</button>
+    </div>
+
+    <div class="step" id="step3">
+        <h2 style="color: var(--primary);">Final Step</h2>
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="example@mail.com">
+        </div>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Min 6 characters">
+        </div>
+        <div class="input-group">
+            <label>Confirm Password</label>
+            <input type="password" id="confirmPassword">
+        </div>
+        <button class="btn btn-next" onclick="handleFinalSignup()">Agree and Register 🚀</button>
     </div>
 </div>
 
@@ -202,12 +109,16 @@
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 1. Firebase Config (As per your data)
+    // Configuration
+    const SERVICE_ID = "service_il15c1q";
+    const TEMPLATE_ID = window.innerWidth > 768 ? "template_m0njghq" : "template_vmc0kvo";
+    const PUBLIC_KEY = "jfgAK0LaZ0w7RKAE8";
+
     const firebaseConfig = {
         apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
         authDomain: "oshancart.firebaseapp.com",
         projectId: "oshancart",
-        storageBucket: "oshancart.firebasestorage.app",
+        storageBucket: "oshancart.appspot.com",
         messagingSenderId: "686982543488",
         appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
     };
@@ -215,66 +126,53 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    emailjs.init(PUBLIC_KEY);
 
-    // Initialize EmailJS
-    emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your key
+    window.nextStep = (stepNumber) => {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + stepNumber).classList.add('active');
+    };
 
-    document.getElementById('registrationForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
+    window.handleFinalSignup = async () => {
         const loader = document.getElementById('loader');
-        loader.style.display = 'flex';
-
-        const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;
         const email = document.getElementById('email').value;
-        const whatsapp = document.getElementById('number').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
 
-        // Validations
-        if(password !== confirmPassword) {
-            alert("❌ Passwords do not match!");
-            loader.style.display = 'none';
-            return;
-        }
+        if (password !== confirmPassword) { alert("❌ Passwords do not match!"); return; }
+        
+        loader.style.display = 'flex';
 
         try {
-            // Create Firebase Auth Account
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
+            const affId = document.getElementById('firstName').value.toLowerCase() + Math.floor(1000 + Math.random() * 9000);
 
-            // Generate Affiliate ID
-            const affId = firstName.toLowerCase() + Math.floor(1000 + Math.random() * 9000);
-
-            // Store in Firestore
             await setDoc(doc(db, "users", user.uid), {
                 uid: user.uid,
-                firstName,
-                lastName,
-                email,
-                whatsapp,
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                whatsapp: document.getElementById('number').value,
+                email: email,
                 affiliateId: affId,
-                totalEarnings: 0,
                 createdAt: new Date()
             });
 
-            // Send Verification Email via EmailJS
-            await emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                user_name: firstName,
-                user_email: email,
-                affiliate_id: affId
+            await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+                to_name: document.getElementById('firstName').value,
+                to_email: email,
+                aff_id: affId
             });
 
-            alert(`❤️ Welcome to OshanCart! Your Affiliate ID: ${affId}`);
-            window.location.href = "dashboard.html"; // Redirect to your success page
+            alert("✅ Registration Successful! Your ID: " + affId);
+            window.location.href = "login.html";
 
         } catch (error) {
-            alert("❌ Error: " + error.message);
+            alert("Error: " + error.message);
         } finally {
             loader.style.display = 'none';
         }
-    });
+    };
 </script>
-
 </body>
 </html>
