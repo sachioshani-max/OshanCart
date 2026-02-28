@@ -8,7 +8,6 @@
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- CSS -->
 <style>
 /* Body & Background */
 body {
@@ -20,32 +19,12 @@ body {
     align-items:center;
     background-size: cover;
     background-position: center;
+    transition: background 0.3s ease;
 }
-
-/* Drag & Drop upload box */
-.upload-box {
-    position: absolute;
-    top:20px;
-    left:50%;
-    transform: translateX(-50%);
-    width: 300px;
-    height: 100px;
-    border: 2px dashed #c9184a;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    background: rgba(255,255,255,0.2);
-    text-align:center;
-    z-index: 10;
-}
-.upload-box p { margin:5px 0 0; color:#fff; font-weight:bold; }
 
 /* Auth Card */
 .auth-card {
-    background: rgba(255, 165, 0, 0.95); /* Orange Theme */
+    background: rgba(255, 165, 0, 0.95);
     padding: 30px;
     border-radius: 12px;
     width: 350px;
@@ -55,23 +34,36 @@ body {
     position: relative;
 }
 
-/* Buttons */
-.auth-btn {
-    display:block;
-    width:100%;
-    padding: 12px;
-    margin:10px 0;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
-    font-size:16px;
+/* Buttons Container */
+.auth-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
 }
 
-.google {background:#db4437;color:#fff;}
-.facebook {background:#4267B2;color:#fff;}
-.email {background:#fff;color:#ff7f00; border:1px solid #ff7f00;}
+/* Buttons */
+.auth-btn {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    color: #fff;
+}
 
-/* Popup */
+.google { background: rgba(219,68,55,0.8); }
+.google:hover { background: rgba(219,68,55,1); border: 2px solid #fff; }
+
+.facebook { background: rgba(66,103,178,0.8); }
+.facebook:hover { background: rgba(66,103,178,1); border: 2px solid #fff; }
+
+.email { background: rgba(255,255,255,0.2); color:#ff7f00; }
+.email:hover { background: rgba(255,255,255,0.4); border: 2px solid #ff7f00; }
+
+/* Offer Popup */
 .popup {
     position: fixed;
     display: none;
@@ -101,7 +93,6 @@ body {
 /* Responsive */
 @media(max-width:480px){
     .auth-card { width:90%; padding:20px; }
-    .upload-box { width:80%; height:80px; }
 }
 </style>
 
@@ -112,13 +103,6 @@ body {
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
 </head>
 <body>
-
-<!-- Drag & Drop / Click Upload -->
-<div class="upload-box" id="drop-zone">
-    <i class="fas fa-images" style="font-size: 30px; color: #c9184a;"></i>
-    <p id="upload-status">Drag & Drop / Click to Upload Background</p>
-    <input type="file" id="p-file" accept="image/*" style="display: none;">
-</div>
 
 <!-- Offer Popup -->
 <div id="offerPopup" class="popup">
@@ -135,18 +119,15 @@ body {
     <img src="images/logo.png" alt="OshanCart Logo" class="logo">
     <h1>Welcome to OshanCart</h1>
     
-    <button id="googleSignIn" class="auth-btn google">Continue with Google</button>
-    <button id="fbSignIn" class="auth-btn facebook">Continue with Facebook</button>
-    
-    <form id="emailForm">
-        <input type="email" placeholder="Email" required id="email">
-        <input type="password" placeholder="Password" required id="password">
-        <button type="submit" class="auth-btn email">Continue with Email</button>
-    </form>
+    <div class="auth-buttons">
+        <button id="googleSignIn" class="auth-btn google">Sign-up / Login with Google</button>
+        <button id="fbSignIn" class="auth-btn facebook">Sign-up / Login with Facebook</button>
+        <button id="emailSignIn" class="auth-btn email">Sign-up / Login with Email</button>
+    </div>
 </div>
 
-<!-- Firebase Config + JS -->
 <script>
+/* Firebase Config */
 const firebaseConfig = {
     apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
     authDomain: "oshancart.firebaseapp.com",
@@ -158,7 +139,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// ----- Offer Popup -----
+/* Offer Popup */
 const popup = document.getElementById('offerPopup');
 const closeBtn = document.getElementById('closePopup');
 
@@ -170,58 +151,25 @@ window.onload = () => {
 };
 closeBtn.onclick = () => popup.style.display = 'none';
 
-// ----- Background Drag & Drop -----
-const dropZone = document.getElementById('drop-zone');
-const pFile = document.getElementById('p-file');
-
-dropZone.addEventListener('click', () => pFile.click());
-pFile.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if(file){
-        const reader = new FileReader();
-        reader.onload = evt => {
-            document.body.style.backgroundImage = `url('${evt.target.result}')`;
-        }
-        reader.readAsDataURL(file);
-    }
-});
-dropZone.addEventListener('dragover', e => e.preventDefault());
-dropZone.addEventListener('drop', e => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if(file){
-        const reader = new FileReader();
-        reader.onload = evt => {
-            document.body.style.backgroundImage = `url('${evt.target.result}')`;
-        }
-        reader.readAsDataURL(file);
-    }
-});
-
-// ----- Firebase Auth -----
-
-// Google Sign-In
+/* Firebase Auth */
+// Google
 document.getElementById('googleSignIn').addEventListener('click', () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
     .then(res => alert('Google Sign-In Success! Welcome '+ res.user.displayName))
     .catch(err => alert(err.message));
 });
-
-// Facebook Sign-In
+// Facebook
 document.getElementById('fbSignIn').addEventListener('click', () => {
     const provider = new firebase.auth.FacebookAuthProvider();
     auth.signInWithPopup(provider)
     .then(res => alert('Facebook Sign-In Success! Welcome '+ res.user.displayName))
     .catch(err => alert(err.message));
 });
-
-// Email Sign-In / Sign-Up
-document.getElementById('emailForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
+// Email
+document.getElementById('emailSignIn').addEventListener('click', () => {
+    const email = prompt("Enter your email");
+    const password = prompt("Enter your password");
     auth.createUserWithEmailAndPassword(email, password)
     .then(res => alert('Signup Success! Welcome '+ res.user.email))
     .catch(err => {
