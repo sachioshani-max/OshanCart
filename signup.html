@@ -1,232 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OshanCart | Join Us 🗽</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OshanCart Signup/Login</title>
 
-    <style>
-        :root {
-            --primary: #ff4d6d;
-            --secondary: #ff8855;
-            --bg-color: #fff0f3;
-        }
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--bg-color);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+<!-- CSS -->
+<style>
+/* Body & Background */
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-size: cover;
+    background-position: center;
+}
 
-        .root-container {
-            background: white;
-            width: 100%;
-            max-width: 450px;
-            height: 90vh;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            overflow: hidden;
-            position: relative;
-        }
+/* Drag & Drop upload box */
+.upload-box {
+    position: absolute;
+    top:20px;
+    left:50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 100px;
+    border: 2px dashed #c9184a;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(255,255,255,0.2);
+    text-align:center;
+    z-index: 10;
+}
+.upload-box p { margin:5px 0 0; color:#fff; font-weight:bold; }
 
-        /* --- STEP 1: WELCOME SCREEN (IMAGE UI) --- */
-        .step-welcome {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: url('https://raw.githubusercontent.com/OshanCart/images/main/image_bbd664.png') center/cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+/* Auth Card */
+.auth-card {
+    background: rgba(255, 165, 0, 0.95); /* Orange Theme */
+    padding: 30px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    z-index: 5;
+    position: relative;
+}
 
-        /* දෘශ්‍යමාන බොත්තම් සඳහා Invisible Overlay Buttons */
-        .overlay-btns {
-            position: absolute;
-            top: 210px; /* රූපයේ බොත්තම් ඇති ස්ථානයට අනුව සකසා ඇත */
-            width: 80%;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+/* Buttons */
+.auth-btn {
+    display:block;
+    width:100%;
+    padding: 12px;
+    margin:10px 0;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:16px;
+}
 
-        .clickable-area {
-            height: 45px;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-        }
+.google {background:#db4437;color:#fff;}
+.facebook {background:#4267B2;color:#fff;}
+.email {background:#fff;color:#ff7f00; border:1px solid #ff7f00;}
 
-        /* --- FORM STEPS --- */
-        .step-form {
-            display: none;
-            padding: 30px;
-            height: 100%;
-            box-sizing: border-box;
-            background: white;
-            overflow-y: auto;
-        }
+/* Popup */
+.popup {
+    position: fixed;
+    display: none;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.popup-content {
+    background:#fff;
+    padding: 20px;
+    border-radius: 12px;
+    text-align:center;
+    position: relative;
+}
+.close {
+    position:absolute;
+    top:10px; right:15px;
+    font-size:24px;
+    cursor:pointer;
+}
 
-        .step-active { display: block; animation: slideIn 0.4s ease; }
+/* Logo */
+.logo { width:100px; margin-bottom:15px; }
 
-        @keyframes slideIn { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+/* Responsive */
+@media(max-width:480px){
+    .auth-card { width:90%; padding:20px; }
+    .upload-box { width:80%; height:80px; }
+}
+</style>
 
-        .input-box { margin-bottom: 20px; }
-        .input-box label { display: block; font-size: 13px; color: #666; font-weight: bold; margin-bottom: 8px; }
-        .input-box input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; outline-color: var(--primary); }
-
-        .btn-action { width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3); }
-
-        .loader {
-            display: none;
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.9);
-            z-index: 1000;
-            justify-content: center; align-items: center; flex-direction: column;
-        }
-    </style>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
 </head>
 <body>
 
-<div class="root-container">
-    <div class="loader" id="mainLoader">
-        <i class="fas fa-spinner fa-spin fa-3x" style="color: var(--primary);"></i>
-        <p style="margin-top: 15px; font-weight: bold;">Processing your request...</p>
-    </div>
-
-    <div class="step-welcome step-active" id="step1">
-        <div class="overlay-btns">
-            <button class="clickable-area" onclick="goToStep(2)"></button>
-            <button class="clickable-area" onclick="goToStep(2)"></button>
-            <button class="clickable-area" onclick="goToStep(2)"></button>
-        </div>
-    </div>
-
-    <div class="step-form" id="step2">
-        <button onclick="goToStep(1)" style="border:none; background:none; color:var(--primary); cursor:pointer;"><i class="fas fa-arrow-left"></i> Back</button>
-        <h2 style="color: #333; margin-top: 20px;">Personal Details</h2>
-        <div class="input-box">
-            <label>First Name</label>
-            <input type="text" id="fname" placeholder="Enter first name">
-        </div>
-        <div class="input-box">
-            <label>Last Name</label>
-            <input type="text" id="lname" placeholder="Enter last name">
-        </div>
-        <div class="input-box">
-            <label>WhatsApp Number</label>
-            <input type="text" id="phone" placeholder="07xxxxxxxx">
-        </div>
-        <button class="btn-action btn-primary" onclick="goToStep(3)">Next Step</button>
-    </div>
-
-    <div class="step-form" id="step3">
-        <button onclick="goToStep(2)" style="border:none; background:none; color:var(--primary); cursor:pointer;"><i class="fas fa-arrow-left"></i> Back</button>
-        <h2 style="color: #333; margin-top: 20px;">Security</h2>
-        <div class="input-box">
-            <label>Email Address</label>
-            <input type="email" id="email" placeholder="example@mail.com">
-        </div>
-        <div class="input-box">
-            <label>Create Password</label>
-            <input type="password" id="pass" placeholder="At least 6 characters">
-        </div>
-        <div class="input-box">
-            <label>Confirm Password</label>
-            <input type="password" id="cpass">
-        </div>
-        <button class="btn-action btn-primary" onclick="processRegistration()">Agree and Register 🚀</button>
-    </div>
+<!-- Drag & Drop / Click Upload -->
+<div class="upload-box" id="drop-zone">
+    <i class="fas fa-images" style="font-size: 30px; color: #c9184a;"></i>
+    <p id="upload-status">Drag & Drop / Click to Upload Background</p>
+    <input type="file" id="p-file" accept="image/*" style="display: none;">
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<!-- Offer Popup -->
+<div id="offerPopup" class="popup">
+  <div class="popup-content">
+    <span id="closePopup" class="close">&times;</span>
+    <img src="images/offer1.png" alt="50% OFF" style="width:80px; margin-bottom:10px;">
+    <h2>SUPER SALE</h2>
+    <p>Big offers today! Don't miss out!</p>
+  </div>
+</div>
 
-    // --- Configuration (Provided by you) ---
-    const firebaseConfig = {
-        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-        authDomain: "oshancart.firebaseapp.com",
-        projectId: "oshancart",
-        storageBucket: "oshancart.appspot.com",
-        messagingSenderId: "686982543488",
-        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-    };
+<!-- Signup/Login Card -->
+<div class="auth-card">
+    <img src="images/logo.png" alt="OshanCart Logo" class="logo">
+    <h1>Welcome to OshanCart</h1>
+    
+    <button id="googleSignIn" class="auth-btn google">Continue with Google</button>
+    <button id="fbSignIn" class="auth-btn facebook">Continue with Facebook</button>
+    
+    <form id="emailForm">
+        <input type="email" placeholder="Email" required id="email">
+        <input type="password" placeholder="Password" required id="password">
+        <button type="submit" class="auth-btn email">Continue with Email</button>
+    </form>
+</div>
 
-    const SERVICE_ID = "service_il15c1q";
-    const TEMPLATE_ID = window.innerWidth > 768 ? "template_m0njghq" : "template_vmc0kvo";
-    const PUBLIC_KEY = "jfgAK0LaZ0w7RKAE8";
+<!-- Firebase Config + JS -->
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+    authDomain: "oshancart.firebaseapp.com",
+    projectId: "oshancart",
+    storageBucket: "oshancart.appspot.com",
+    messagingSenderId: "686982543488",
+    appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 
-    // Initialize Services
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    emailjs.init(PUBLIC_KEY);
+// ----- Offer Popup -----
+const popup = document.getElementById('offerPopup');
+const closeBtn = document.getElementById('closePopup');
 
-    // Navigation Logic
-    window.goToStep = (n) => {
-        document.querySelectorAll('.step-welcome, .step-form').forEach(s => s.classList.remove('step-active'));
-        document.getElementById('step' + n).classList.add('step-active');
-    };
+window.onload = () => {
+    if(!localStorage.getItem('offerShown')){
+        popup.style.display = 'flex';
+        localStorage.setItem('offerShown','true');
+    }
+};
+closeBtn.onclick = () => popup.style.display = 'none';
 
-    // Final Registration Logic
-    window.processRegistration = async () => {
-        const loader = document.getElementById('mainLoader');
-        const pass = document.getElementById('pass').value;
-        const cpass = document.getElementById('cpass').value;
-        const email = document.getElementById('email').value;
+// ----- Background Drag & Drop -----
+const dropZone = document.getElementById('drop-zone');
+const pFile = document.getElementById('p-file');
 
-        if (pass !== cpass) { alert("❌ Passwords match වෙන්නේ නැහැ!"); return; }
-        if (pass.length < 6) { alert("❌ Password එකට අවම අකුරු 6ක් අවශ්‍යයි!"); return; }
-
-        loader.style.display = 'flex';
-
-        try {
-            // Firebase Auth
-            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-            const user = userCredential.user;
-
-            // Generate Affiliate ID
-            const affId = document.getElementById('fname').value.toLowerCase() + Math.floor(1000 + Math.random() * 9000);
-
-            // Save to Firestore
-            await setDoc(doc(db, "users", user.uid), {
-                uid: user.uid,
-                firstName: document.getElementById('fname').value,
-                lastName: document.getElementById('lname').value,
-                whatsapp: document.getElementById('phone').value,
-                email: email,
-                affiliateId: affId,
-                joinDate: new Date()
-            });
-
-            // EmailJS Notification
-            await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-                user_name: document.getElementById('fname').value,
-                user_email: email,
-                aff_id: affId
-            });
-
-            alert("✅ සාර්ථකයි! ඔබේ Affiliate ID එක: " + affId);
-            window.location.href = "login.html";
-
-        } catch (error) {
-            alert("❌ වැරදීමක් සිදු වුනා: " + error.message);
-        } finally {
-            loader.style.display = 'none';
+dropZone.addEventListener('click', () => pFile.click());
+pFile.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = evt => {
+            document.body.style.backgroundImage = `url('${evt.target.result}')`;
         }
-    };
+        reader.readAsDataURL(file);
+    }
+});
+dropZone.addEventListener('dragover', e => e.preventDefault());
+dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = evt => {
+            document.body.style.backgroundImage = `url('${evt.target.result}')`;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// ----- Firebase Auth -----
+
+// Google Sign-In
+document.getElementById('googleSignIn').addEventListener('click', () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+    .then(res => alert('Google Sign-In Success! Welcome '+ res.user.displayName))
+    .catch(err => alert(err.message));
+});
+
+// Facebook Sign-In
+document.getElementById('fbSignIn').addEventListener('click', () => {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    auth.signInWithPopup(provider)
+    .then(res => alert('Facebook Sign-In Success! Welcome '+ res.user.displayName))
+    .catch(err => alert(err.message));
+});
+
+// Email Sign-In / Sign-Up
+document.getElementById('emailForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    auth.createUserWithEmailAndPassword(email, password)
+    .then(res => alert('Signup Success! Welcome '+ res.user.email))
+    .catch(err => {
+        if(err.code === 'auth/email-already-in-use'){
+            auth.signInWithEmailAndPassword(email,password)
+            .then(res => alert('Login Success! Welcome '+ res.user.email))
+            .catch(e => alert(e.message));
+        } else alert(err.message);
+    });
+});
 </script>
+
 </body>
 </html>
