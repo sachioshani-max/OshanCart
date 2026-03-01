@@ -1,186 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OshanCart Signup/Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in | OshanCart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-<style>
-/* Body & Background */
-body {
-    margin:0;
-    font-family: Arial, sans-serif;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background-size: cover;
-    background-position: center;
-    transition: background 0.3s ease;
-}
+        body, html {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* ✅ පින්තූරය පේන්නේ නැති ප්‍රශ්නයට විසඳුම: */
+            background: url('Gemini_Generated_Image_b306nb306nb306nb.png') no-repeat center center fixed;
+            background-size: cover;
+        }
 
-/* Auth Card */
-.auth-card {
-    background: rgba(255, 165, 0, 0.95);
-    padding: 30px;
-    border-radius: 12px;
-    width: 350px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    z-index: 5;
-    position: relative;
-}
+        /* පින්තූරය උඩින් ඇති කළු අඳුරු ස්ථරය */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
 
-/* Buttons Container */
-.auth-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-}
+        /* ප්‍රධාන Login Card එක */
+        .login-card {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 380px;
+            background: #CC4024; /* ✅ ඔයාගේ රූපයේ තියෙන නිවැරදි තද රතු/තැඹිලි පාට */
+            padding: 40px 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
 
-/* Buttons */
-.auth-btn {
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: 2px solid transparent;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-    color: #fff;
-}
+        .login-card h2 {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
 
-.google { background: rgba(219,68,55,0.8); }
-.google:hover { background: rgba(219,68,55,1); border: 2px solid #fff; }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
 
-.facebook { background: rgba(66,103,178,0.8); }
-.facebook:hover { background: rgba(66,103,178,1); border: 2px solid #fff; }
+        .btn img { width: 20px; margin-right: 15px; }
+        .btn i { font-size: 18px; margin-right: 15px; }
 
-.email { background: rgba(255,255,255,0.2); color:#ff7f00; }
-.email:hover { background: rgba(255,255,255,0.4); border: 2px solid #ff7f00; }
+        /* සුදු පාට බොත්තම් */
+        .btn-white { background: white; color: #333; }
+        .btn-white:hover { background: #f2f2f2; }
 
-/* Offer Popup */
-.popup {
-    position: fixed;
-    display: none;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.6);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-.popup-content {
-    background:#fff;
-    padding: 20px;
-    border-radius: 12px;
-    text-align:center;
-    position: relative;
-}
-.close {
-    position:absolute;
-    top:10px; right:15px;
-    font-size:24px;
-    cursor:pointer;
-}
-
-/* Logo */
-.logo { width:100px; margin-bottom:15px; }
-
-/* Responsive */
-@media(max-width:480px){
-    .auth-card { width:90%; padding:20px; }
-}
-</style>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+        .divider {
+            color: rgba(255,255,255,0.6);
+            margin: 10px 0;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .divider::before, .divider::after {
+            content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.3); margin: 0 10px;
+        }
+    </style>
 </head>
 <body>
 
-<!-- Offer Popup -->
-<div id="offerPopup" class="popup">
-  <div class="popup-content">
-    <span id="closePopup" class="close">&times;</span>
-    <img src="images/offer1.png" alt="50% OFF" style="width:80px; margin-bottom:10px;">
-    <h2>SUPER SALE</h2>
-    <p>Big offers today! Don't miss out!</p>
-  </div>
-</div>
+    <div class="overlay"></div>
 
-<!-- Signup/Login Card -->
-<div class="auth-card">
-    <img src="images/logo.png" alt="OshanCart Logo" class="logo">
-    <h1>Welcome to OshanCart</h1>
-    
-    <div class="auth-buttons">
-        <button id="googleSignIn" class="auth-btn google">Sign-up / Login with Google</button>
-        <button id="fbSignIn" class="auth-btn facebook">Sign-up / Login with Facebook</button>
-        <button id="emailSignIn" class="auth-btn email">Sign-up / Login with Email</button>
+    <div class="login-card">
+        <h2>Making global trading simple</h2>
+
+        <button class="btn btn-white" onclick="login('google')">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg">
+            Continue with Google
+        </button>
+
+        <div class="divider">OR</div>
+
+        <button class="btn btn-white" style="color: #1877F2;" onclick="login('facebook')">
+            <i class="fab fa-facebook"></i>
+            Continue with Facebook
+        </button>
+
+        <button class="btn btn-white" onclick="window.location.href='signup-details.html'">
+            <i class="fas fa-envelope"></i>
+            Continue with email
+        </button>
     </div>
-</div>
 
-<script>
-/* Firebase Config */
-const firebaseConfig = {
-    apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-    authDomain: "oshancart.firebaseapp.com",
-    projectId: "oshancart",
-    storageBucket: "oshancart.appspot.com",
-    messagingSenderId: "686982543488",
-    appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-/* Offer Popup */
-const popup = document.getElementById('offerPopup');
-const closeBtn = document.getElementById('closePopup');
+        // ✅ ඔයාගේ Firebase Config එක මෙතනට දාන්න
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.firebasestorage.app",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
 
-window.onload = () => {
-    if(!localStorage.getItem('offerShown')){
-        popup.style.display = 'flex';
-        localStorage.setItem('offerShown','true');
-    }
-};
-closeBtn.onclick = () => popup.style.display = 'none';
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-/* Firebase Auth */
-// Google
-document.getElementById('googleSignIn').addEventListener('click', () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
-    .then(res => alert('Google Sign-In Success! Welcome '+ res.user.displayName))
-    .catch(err => alert(err.message));
-});
-// Facebook
-document.getElementById('fbSignIn').addEventListener('click', () => {
-    const provider = new firebase.auth.FacebookAuthProvider();
-    auth.signInWithPopup(provider)
-    .then(res => alert('Facebook Sign-In Success! Welcome '+ res.user.displayName))
-    .catch(err => alert(err.message));
-});
-// Email
-document.getElementById('emailSignIn').addEventListener('click', () => {
-    const email = prompt("Enter your email");
-    const password = prompt("Enter your password");
-    auth.createUserWithEmailAndPassword(email, password)
-    .then(res => alert('Signup Success! Welcome '+ res.user.email))
-    .catch(err => {
-        if(err.code === 'auth/email-already-in-use'){
-            auth.signInWithEmailAndPassword(email,password)
-            .then(res => alert('Login Success! Welcome '+ res.user.email))
-            .catch(e => alert(e.message));
-        } else alert(err.message);
-    });
-});
-</script>
-
+        window.login = async (type) => {
+            const provider = type === 'google' ? new GoogleAuthProvider() : new FacebookAuthProvider();
+            try {
+                await signInWithPopup(auth, provider);
+                window.location.href = "index.html";
+            } catch (e) { alert(e.message); }
+        };
+    </script>
 </body>
 </html>
