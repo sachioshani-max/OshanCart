@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OshanCart | Full Signup</title>
+<title>OshanCart | Alibaba Style Signup</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{display:flex;justify-content:center;align-items:center;height:100vh;background:#f1f1f1;}
+body{display:flex;justify-content:center;align-items:flex-start;padding-top:30px;background:#f1f1f1;}
 .container{width:90%;max-width:420px;background:#CC4024;border-radius:15px;padding:30px;text-align:center;color:white;box-shadow:0 15px 40px rgba(0,0,0,0.5);}
 h2{margin-bottom:25px;font-weight:600;}
 .btn-white{width:100%;padding:12px;margin-bottom:15px;border:none;border-radius:50px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:600;text-decoration:none;transition:.3s;background:white;color:#333;font-size:15px;}
@@ -18,11 +18,12 @@ h2{margin-bottom:25px;font-weight:600;}
 .divider::before,.divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.2);margin:0 15px;}
 .form-step{display:none;}
 .form-step.active{display:block;}
-input[type=text],input[type=email],input[type=password],input[type=tel]{width:100%;padding:10px;margin:8px 0;border-radius:4px;border:none;}
+input[type=text],input[type=email],input[type=password],input[type=tel],input[type=file]{width:100%;padding:10px;margin:8px 0;border-radius:4px;border:none;}
 button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;border:none;border-radius:50px;background:#fff;color:#CC4024;font-weight:600;cursor:pointer;}
 #progress-bar{display:flex;justify-content:space-between;margin-bottom:20px;}
 .step{width:30px;height:30px;line-height:30px;border-radius:50%;background:#ddd;text-align:center;font-weight:bold;color:#333;}
 .step.active{background:#fff;color:#CC4024;}
+#gift-box{margin:15px 0;width:120px;height:120px;background:#fff url('https://via.placeholder.com/120') center/cover no-repeat;border-radius:15px;}
 </style>
 </head>
 <body>
@@ -37,6 +38,9 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
         <div class="step">4</div>
         <div class="step">5</div>
     </div>
+
+    <!-- Gift box preview (Admin upload target) -->
+    <div id="gift-box"></div>
 
     <!-- Step 1: Social / Email -->
     <div class="form-step active" id="step1">
@@ -90,6 +94,13 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
         <button class="back" onclick="nextStep(4)">Back</button>
     </div>
 
+    <!-- Admin panel for gift box image -->
+    <div class="form-step active" id="adminPanel" style="margin-top:30px;">
+        <h2>Admin Panel (Upload Gift Box Image)</h2>
+        <input type="file" id="giftUpload" accept="image/*">
+        <button class="next" onclick="uploadGiftImage()">Upload</button>
+    </div>
+
 </div>
 
 <script type="module">
@@ -114,31 +125,29 @@ let currentStep = 1;
 function nextStep(step){
     document.querySelector(`#step${currentStep}`).classList.remove('active');
     document.querySelector(`#step${step}`).classList.add('active');
-    document.querySelectorAll('.step')[currentStep-1].classList.remove('active');
-    document.querySelectorAll('.step')[step-1].classList.add('active');
+    document.querySelectorAll('.step')[currentStep-1]?.classList.remove('active');
+    document.querySelectorAll('.step')[step-1]?.classList.add('active');
     currentStep = step;
 }
 
 // Social logins
 window.loginGoogle = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-    .then(result=>{
-        const user = result.user;
-        document.getElementById("fullName").value = user.displayName || '';
-        document.getElementById("email").value = user.email || '';
-        nextStep(4); // skip phone OTP if social login
+    signInWithPopup(auth, provider).then(res=>{
+        const user = res.user;
+        document.getElementById("fullName").value = user.displayName||'';
+        document.getElementById("email").value = user.email||'';
+        nextStep(4); // skip phone OTP
     }).catch(e=>alert(e.message));
 }
 
 window.loginFacebook = () => {
     const provider = new FacebookAuthProvider();
-    signInWithPopup(auth, provider)
-    .then(result=>{
-        const user = result.user;
-        document.getElementById("fullName").value = user.displayName || '';
-        document.getElementById("email").value = user.email || '';
-        nextStep(4); // skip phone OTP if social login
+    signInWithPopup(auth, provider).then(res=>{
+        const user = res.user;
+        document.getElementById("fullName").value = user.displayName||'';
+        document.getElementById("email").value = user.email||'';
+        nextStep(4);
     }).catch(e=>alert(e.message));
 }
 
@@ -148,19 +157,17 @@ window.sendOTP = () => {
     const phone = document.getElementById("phoneOtpInput").value;
     if(!phone){ alert("Enter phone number"); return; }
     window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
-    signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
-        .then(result=>{
-            confirmationResult = result;
-            alert("OTP sent!");
-            document.getElementById("otpCode").style.display = "block";
-            document.getElementById("verifyOtpBtn").style.display = "block";
-        }).catch(e=>alert(e.message));
+    signInWithPhoneNumber(auth, phone, window.recaptchaVerifier).then(res=>{
+        confirmationResult = res;
+        alert("OTP sent!");
+        document.getElementById("otpCode").style.display = "block";
+        document.getElementById("verifyOtpBtn").style.display = "block";
+    }).catch(e=>alert(e.message));
 }
-
 window.verifyOTP = () => {
     const code = document.getElementById("otpCode").value;
     if(!code){ alert("Enter OTP"); return; }
-    confirmationResult.confirm(code).then(result=>{
+    confirmationResult.confirm(code).then(res=>{
         alert("Phone verified!");
         nextStep(4);
     }).catch(e=>alert(e.message));
@@ -176,7 +183,7 @@ async function submitSignup(){
     const terms = document.getElementById("terms").checked;
 
     if(!name||!email||!password||!confirm){ alert("Fill all fields"); return; }
-    if(password !== confirm){ alert("Passwords do not match"); return; }
+    if(password!==confirm){ alert("Passwords do not match"); return; }
     if(!terms){ alert("Accept terms first"); return; }
 
     try{
@@ -184,6 +191,15 @@ async function submitSignup(){
         await setDoc(userRef,{name,email,phone,password,createdAt:new Date()});
         alert("Signup Successful! ✅");
     } catch(e){ alert("Error saving user: "+e.message); }
+}
+
+// Admin panel gift image upload
+window.uploadGiftImage = () => {
+    const file = document.getElementById("giftUpload").files[0];
+    if(!file){ alert("Select image first"); return; }
+    const reader = new FileReader();
+    reader.onload = e => { document.getElementById("gift-box").style.backgroundImage = `url('${e.target.result}')`; }
+    reader.readAsDataURL(file);
 }
 </script>
 
