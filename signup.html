@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{display:flex;justify-content:center;align-items:center;height:100vh;background:#f1f1f1;}
 .container{width:90%;max-width:400px;background:#CC4024;border-radius:15px;padding:30px;text-align:center;color:white;box-shadow:0 15px 40px rgba(0,0,0,0.5);}
 h2{margin-bottom:25px;font-weight:600;}
@@ -33,30 +33,49 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
     <div id="progress-bar">
         <div class="step active">1</div>
         <div class="step">2</div>
+        <div class="step">3</div>
+        <div class="step">4</div>
     </div>
 
-    <!-- Step 1 -->
+    <!-- Step 1: Choose Login Method -->
     <div class="form-step active" id="step1">
         <h2>Making global trading simple</h2>
         <div class="btn-white" onclick="loginGoogle()">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg">Continue with Google
         </div>
-        <div class="btn-white" style="color:#1877F2;" onclick="alert('Facebook OTP issue. Use Google Login.')">
+        <div class="btn-white" style="color:#1877F2;" onclick="alert('Facebook login temporary disabled.')">
             <i class="fab fa-facebook"></i>Continue with Facebook
         </div>
-        <div class="btn-white" onclick="goEmailStep()">
+        <div class="btn-white" onclick="nextStep(2)">
             <i class="fas fa-envelope"></i>Continue with Email
         </div>
     </div>
 
-    <!-- Step 2: Email Signup -->
+    <!-- Step 2: User Info -->
     <div class="form-step" id="step2">
-        <h2>Email Signup</h2>
-        <input type="text" placeholder="Full Name" id="fullName" required>
-        <input type="email" placeholder="Email" id="email" required>
-        <input type="password" placeholder="Password" id="password" required>
-        <button class="next submit" onclick="submitEmail()">Submit</button>
-        <button class="back" onclick="backStep()">Back</button>
+        <h2>User Info</h2>
+        <input type="text" id="fullName" placeholder="Full Name">
+        <input type="email" id="email" placeholder="Email">
+        <button class="next" onclick="nextStep(3)">Next</button>
+        <button class="back" onclick="nextStep(1)">Back</button>
+    </div>
+
+    <!-- Step 3: Password -->
+    <div class="form-step" id="step3">
+        <h2>Set Password</h2>
+        <input type="password" id="password" placeholder="Password">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+        <div id="passwordMsg" style="color:white;font-size:13px;margin:5px 0;"></div>
+        <button class="next" onclick="nextStep(4)">Next</button>
+        <button class="back" onclick="nextStep(2)">Back</button>
+    </div>
+
+    <!-- Step 4: Terms & Submit -->
+    <div class="form-step" id="step4">
+        <h2>Accept Terms</h2>
+        <label><input type="checkbox" id="terms"> I accept terms & conditions</label>
+        <button class="submit" onclick="submitSignup()">Submit</button>
+        <button class="back" onclick="nextStep(3)">Back</button>
     </div>
 
 </div>
@@ -77,34 +96,43 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Step-by-step control
+let currentStep = 1;
+function nextStep(step){
+    document.querySelector(`#step${currentStep}`).classList.remove('active');
+    document.querySelector(`#step${step}`).classList.add('active');
+    document.querySelectorAll('.step')[currentStep-1].classList.remove('active');
+    document.querySelectorAll('.step')[step-1].classList.add('active');
+    currentStep = step;
+}
+
+// Google login
 window.loginGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-    .then(() => { goStep2(); })
-    .catch(e => alert(e.message));
-};
-
-window.goEmailStep = () => { goStep2(); }
-
-function goStep2(){
-    document.getElementById("step1").classList.remove("active");
-    document.getElementById("step2").classList.add("active");
-    document.querySelectorAll(".step")[1].classList.add("active");
+    .then((result)=>{
+        const user = result.user;
+        document.getElementById("fullName").value = user.displayName || '';
+        document.getElementById("email").value = user.email || '';
+        nextStep(3);
+    })
+    .catch(e=>alert(e.message));
 }
 
-window.backStep = () => {
-    document.getElementById("step2").classList.remove("active");
-    document.getElementById("step1").classList.add("active");
-    document.querySelectorAll(".step")[1].classList.remove("active");
-}
-
-window.submitEmail = () => {
+// Submit signup
+function submitSignup(){
     const name = document.getElementById("fullName").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    if(name && email && password){ alert("Signup Success!"); }
-    else{ alert("Fill all fields!"); }
-};
+    const confirm = document.getElementById("confirmPassword").value;
+    const terms = document.getElementById("terms").checked;
+
+    if(!name||!email||!password||!confirm){ alert("Fill all fields"); return; }
+    if(password !== confirm){ alert("Passwords do not match"); return; }
+    if(!terms){ alert("Accept terms first"); return; }
+
+    alert("Signup Successful! ✅");
+}
 </script>
 
 </body>
