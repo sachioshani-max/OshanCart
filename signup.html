@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OshanCart | Global Gateway</title>
+<title>OshanCart | Full Signup</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{display:flex;justify-content:center;align-items:center;height:100vh;background:#f1f1f1;}
-.container{width:90%;max-width:400px;background:#CC4024;border-radius:15px;padding:30px;text-align:center;color:white;box-shadow:0 15px 40px rgba(0,0,0,0.5);}
+.container{width:90%;max-width:420px;background:#CC4024;border-radius:15px;padding:30px;text-align:center;color:white;box-shadow:0 15px 40px rgba(0,0,0,0.5);}
 h2{margin-bottom:25px;font-weight:600;}
 .btn-white{width:100%;padding:12px;margin-bottom:15px;border:none;border-radius:50px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:600;text-decoration:none;transition:.3s;background:white;color:#333;font-size:15px;}
 .btn-white img{width:22px;margin-right:15px;}
@@ -18,7 +18,7 @@ h2{margin-bottom:25px;font-weight:600;}
 .divider::before,.divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.2);margin:0 15px;}
 .form-step{display:none;}
 .form-step.active{display:block;}
-input[type=text],input[type=email],input[type=password]{width:100%;padding:10px;margin:8px 0;border-radius:4px;border:none;}
+input[type=text],input[type=email],input[type=password],input[type=tel]{width:100%;padding:10px;margin:8px 0;border-radius:4px;border:none;}
 button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;border:none;border-radius:50px;background:#fff;color:#CC4024;font-weight:600;cursor:pointer;}
 #progress-bar{display:flex;justify-content:space-between;margin-bottom:20px;}
 .step{width:30px;height:30px;line-height:30px;border-radius:50%;background:#ddd;text-align:center;font-weight:bold;color:#333;}
@@ -35,15 +35,16 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
         <div class="step">2</div>
         <div class="step">3</div>
         <div class="step">4</div>
+        <div class="step">5</div>
     </div>
 
-    <!-- Step 1: Choose Login Method -->
+    <!-- Step 1: Social / Email -->
     <div class="form-step active" id="step1">
-        <h2>Making global trading simple</h2>
+        <h2>Global Trading Made Simple</h2>
         <div class="btn-white" onclick="loginGoogle()">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg">Continue with Google
         </div>
-        <div class="btn-white" style="color:#1877F2;" onclick="alert('Facebook login temporary disabled.')">
+        <div class="btn-white" style="color:#1877F2;" onclick="loginFacebook()">
             <i class="fab fa-facebook"></i>Continue with Facebook
         </div>
         <div class="btn-white" onclick="nextStep(2)">
@@ -56,33 +57,45 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
         <h2>User Info</h2>
         <input type="text" id="fullName" placeholder="Full Name">
         <input type="email" id="email" placeholder="Email">
+        <input type="tel" id="phone" placeholder="Phone Number (Optional)">
         <button class="next" onclick="nextStep(3)">Next</button>
         <button class="back" onclick="nextStep(1)">Back</button>
     </div>
 
-    <!-- Step 3: Password -->
+    <!-- Step 3: Phone OTP -->
     <div class="form-step" id="step3">
-        <h2>Set Password</h2>
-        <input type="password" id="password" placeholder="Password">
-        <input type="password" id="confirmPassword" placeholder="Confirm Password">
-        <div id="passwordMsg" style="color:white;font-size:13px;margin:5px 0;"></div>
-        <button class="next" onclick="nextStep(4)">Next</button>
+        <h2>Verify Phone</h2>
+        <input type="tel" id="phoneOtpInput" placeholder="Enter phone number for OTP">
+        <div id="recaptcha-container"></div>
+        <button class="next" onclick="sendOTP()">Send OTP</button>
+        <input type="text" id="otpCode" placeholder="Enter OTP" style="display:none;">
+        <button class="next" id="verifyOtpBtn" style="display:none;" onclick="verifyOTP()">Verify OTP</button>
         <button class="back" onclick="nextStep(2)">Back</button>
     </div>
 
-    <!-- Step 4: Terms & Submit -->
+    <!-- Step 4: Password -->
     <div class="form-step" id="step4">
+        <h2>Set Password</h2>
+        <input type="password" id="password" placeholder="Password">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+        <button class="next" onclick="nextStep(5)">Next</button>
+        <button class="back" onclick="nextStep(3)">Back</button>
+    </div>
+
+    <!-- Step 5: Terms & Submit -->
+    <div class="form-step" id="step5">
         <h2>Accept Terms</h2>
         <label><input type="checkbox" id="terms"> I accept terms & conditions</label>
         <button class="submit" onclick="submitSignup()">Submit</button>
-        <button class="back" onclick="nextStep(3)">Back</button>
+        <button class="back" onclick="nextStep(4)">Back</button>
     </div>
 
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
@@ -95,8 +108,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-// Step-by-step control
 let currentStep = 1;
 function nextStep(step){
     document.querySelector(`#step${currentStep}`).classList.remove('active');
@@ -106,23 +119,58 @@ function nextStep(step){
     currentStep = step;
 }
 
-// Google login
+// Social logins
 window.loginGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-    .then((result)=>{
+    .then(result=>{
         const user = result.user;
         document.getElementById("fullName").value = user.displayName || '';
         document.getElementById("email").value = user.email || '';
-        nextStep(3);
-    })
-    .catch(e=>alert(e.message));
+        nextStep(4); // skip phone OTP if social login
+    }).catch(e=>alert(e.message));
+}
+
+window.loginFacebook = () => {
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(auth, provider)
+    .then(result=>{
+        const user = result.user;
+        document.getElementById("fullName").value = user.displayName || '';
+        document.getElementById("email").value = user.email || '';
+        nextStep(4); // skip phone OTP if social login
+    }).catch(e=>alert(e.message));
+}
+
+// Phone OTP
+let confirmationResult;
+window.sendOTP = () => {
+    const phone = document.getElementById("phoneOtpInput").value;
+    if(!phone){ alert("Enter phone number"); return; }
+    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
+    signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
+        .then(result=>{
+            confirmationResult = result;
+            alert("OTP sent!");
+            document.getElementById("otpCode").style.display = "block";
+            document.getElementById("verifyOtpBtn").style.display = "block";
+        }).catch(e=>alert(e.message));
+}
+
+window.verifyOTP = () => {
+    const code = document.getElementById("otpCode").value;
+    if(!code){ alert("Enter OTP"); return; }
+    confirmationResult.confirm(code).then(result=>{
+        alert("Phone verified!");
+        nextStep(4);
+    }).catch(e=>alert(e.message));
 }
 
 // Submit signup
-function submitSignup(){
+async function submitSignup(){
     const name = document.getElementById("fullName").value;
     const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
     const password = document.getElementById("password").value;
     const confirm = document.getElementById("confirmPassword").value;
     const terms = document.getElementById("terms").checked;
@@ -131,7 +179,11 @@ function submitSignup(){
     if(password !== confirm){ alert("Passwords do not match"); return; }
     if(!terms){ alert("Accept terms first"); return; }
 
-    alert("Signup Successful! ✅");
+    try{
+        const userRef = doc(db,"users",email);
+        await setDoc(userRef,{name,email,phone,password,createdAt:new Date()});
+        alert("Signup Successful! ✅");
+    } catch(e){ alert("Error saving user: "+e.message); }
 }
 </script>
 
