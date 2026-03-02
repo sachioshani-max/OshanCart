@@ -8,10 +8,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{display:flex;justify-content:center;align-items:flex-start;padding-top:30px;background:#0B1D3A;} /* Dark Navy Background */
-.container{width:90%;max-width:420px;background:#FF6EC7;border-radius:15px;padding:30px;text-align:center;color:white;box-shadow:0 15px 40px rgba(0,0,0,0.5);} /* Pink Card */
+body{display:flex;justify-content:center;align-items:flex-start;padding-top:30px;background:#0B1D3A;}
+.container{width:90%;max-width:420px;background:#FF6EC7;border-radius:15px;padding:30px;text-align:center;color:white;box-shadow:0 15px 40px rgba(0,0,0,0.5);}
 h2{margin-bottom:25px;font-weight:600;}
-.btn-white{width:100%;padding:12px;margin-bottom:15px;border:none;border-radius:50px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:600;text-decoration:none;transition:.3s;background:white;color:#0B1D3A;font-size:15px;} /* Buttons with Dark Navy text */
+.btn-white{width:100%;padding:12px;margin-bottom:15px;border:none;border-radius:50px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:600;text-decoration:none;transition:.3s;background:white;color:#0B1D3A;font-size:15px;}
 .btn-white img{width:22px;margin-right:15px;}
 .btn-white i{font-size:20px;margin-right:15px;}
 .divider{margin:20px 0;color:rgba(255,255,255,0.5);font-size:13px;display:flex;align-items:center;}
@@ -22,15 +22,14 @@ input[type=text],input[type=email],input[type=password],input[type=tel],input[ty
 button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;border:none;border-radius:50px;background:#fff;color:#0B1D3A;font-weight:600;cursor:pointer;}
 #progress-bar{display:flex;justify-content:space-between;margin-bottom:20px;}
 .step{width:30px;height:30px;line-height:30px;border-radius:50%;background:#ddd;text-align:center;font-weight:bold;color:#333;}
-.step.active{background:#fff;color:#FF6EC7;} /* Active step pink */
+.step.active{background:#fff;color:#FF6EC7;}
 #gift-box{margin:15px 0;width:120px;height:120px;background:#fff url('https://via.placeholder.com/120') center/cover no-repeat;border-radius:15px;}
+.avatar-preview{width:50px;height:50px;border-radius:50%;margin:10px auto;background:#fff;background-size:cover;background-position:center;}
 </style>
 </head>
 <body>
-
 <div class="container">
 
-    <!-- Progress Bar -->
     <div id="progress-bar">
         <div class="step active">1</div>
         <div class="step">2</div>
@@ -39,10 +38,9 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
         <div class="step">5</div>
     </div>
 
-    <!-- Gift box preview -->
     <div id="gift-box"></div>
+    <div id="avatar" class="avatar-preview"></div>
 
-    <!-- Step 1: Social / Email -->
     <div class="form-step active" id="step1">
         <h2>Global Trading Made Simple</h2>
         <div class="btn-white" onclick="loginGoogle()">
@@ -56,7 +54,6 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
         </div>
     </div>
 
-    <!-- Step 2: User Info -->
     <div class="form-step" id="step2">
         <h2>User Info</h2>
         <input type="text" id="fullName" placeholder="Full Name">
@@ -66,7 +63,6 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
         <button class="back" onclick="nextStep(1)">Back</button>
     </div>
 
-    <!-- Step 3: Phone OTP -->
     <div class="form-step" id="step3">
         <h2>Verify Phone</h2>
         <input type="tel" id="phoneOtpInput" placeholder="Enter phone number for OTP">
@@ -77,7 +73,6 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
         <button class="back" onclick="nextStep(2)">Back</button>
     </div>
 
-    <!-- Step 4: Password -->
     <div class="form-step" id="step4">
         <h2>Set Password</h2>
         <input type="password" id="password" placeholder="Password">
@@ -86,7 +81,6 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
         <button class="back" onclick="nextStep(3)">Back</button>
     </div>
 
-    <!-- Step 5: Terms & Submit -->
     <div class="form-step" id="step5">
         <h2>Accept Terms</h2>
         <label><input type="checkbox" id="terms"> I accept terms & conditions</label>
@@ -94,7 +88,6 @@ button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;
         <button class="back" onclick="nextStep(4)">Back</button>
     </div>
 
-    <!-- Admin panel -->
     <div class="form-step active" style="margin-top:30px;">
         <h2>Admin Panel (Upload Gift Box)</h2>
         <input type="file" id="giftUpload" accept="image/*">
@@ -130,14 +123,14 @@ function nextStep(step){
     currentStep = step;
 }
 
-// Social login
 window.loginGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider).then(res=>{
         const user = res.user;
         document.getElementById("fullName").value = user.displayName||'';
         document.getElementById("email").value = user.email||'';
-        nextStep(4); 
+        if(user.photoURL) document.getElementById("avatar").style.backgroundImage = `url(${user.photoURL})`;
+        nextStep(4);
     }).catch(e=>alert(e.message));
 }
 
@@ -147,11 +140,11 @@ window.loginFacebook = () => {
         const user = res.user;
         document.getElementById("fullName").value = user.displayName||'';
         document.getElementById("email").value = user.email||'';
-        nextStep(4); 
+        if(user.photoURL) document.getElementById("avatar").style.backgroundImage = `url(${user.photoURL})`;
+        nextStep(4);
     }).catch(e=>alert(e.message));
 }
 
-// Phone OTP
 let confirmationResult;
 window.sendOTP = () => {
     const phone = document.getElementById("phoneOtpInput").value;
@@ -173,7 +166,6 @@ window.verifyOTP = () => {
     }).catch(e=>alert(e.message));
 }
 
-// Signup submit
 async function submitSignup(){
     const name = document.getElementById("fullName").value;
     const email = document.getElementById("email").value;
@@ -193,7 +185,6 @@ async function submitSignup(){
     } catch(e){ alert("Error saving user: "+e.message); }
 }
 
-// Admin upload gift image
 window.uploadGiftImage = () => {
     const file = document.getElementById("giftUpload").files[0];
     if(!file){ alert("Select image first"); return; }
@@ -202,6 +193,5 @@ window.uploadGiftImage = () => {
     reader.readAsDataURL(file);
 }
 </script>
-
 </body>
 </html>
