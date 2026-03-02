@@ -10,18 +10,19 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         
         body {
-            height: 100vh;
+            height: 100vh; width: 100vw;
             display: flex; justify-content: center; align-items: center;
-            /* ✅ පින්තූරය 100% ක් පේන්න කෙළින්ම GitHub Link එක දැම්මා */
+            /* ✅ පින්තූරය පේන්න කෙළින්ම GitHub Link එක දැම්මා */
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                         url('https://raw.githubusercontent.com/oshani-max/oshani-max.github.io/main/Gemini_Generated_Image_b306nb306nb306nb.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            overflow: hidden;
         }
 
         .auth-card {
-            background: #CC4024; /* ✅ ඔයා එවපු InShot පින්තූරයේ තිබුණු නිවැරදි රතු පාට */
+            background: #CC4024; /* ✅ ඔයා එවපු InShot පින්තූරයේ තිබුණු රතු පාට */
             padding: 40px 25px;
             border-radius: 15px;
             width: 90%; max-width: 380px;
@@ -31,11 +32,8 @@
         }
 
         .auth-card h2 {
-            color: white;
-            font-size: 22px;
-            margin-bottom: 30px;
-            font-weight: 600;
-            line-height: 1.4;
+            color: white; font-size: 20px;
+            margin-bottom: 30px; font-weight: 600; line-height: 1.4;
         }
 
         .btn-white {
@@ -43,11 +41,9 @@
             border: none; border-radius: 50px;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; font-weight: 600; text-decoration: none;
-            transition: 0.3s; background: white; color: #333;
-            font-size: 15px;
+            transition: 0.3s; background: white; color: #333; font-size: 15px;
         }
 
-        .btn-white:hover { transform: scale(1.02); background: #f8f8f8; }
         .btn-white img { width: 22px; margin-right: 15px; }
         .btn-white i { font-size: 20px; margin-right: 15px; }
 
@@ -60,14 +56,14 @@
     <div class="auth-card">
         <h2>Making global trading simple</h2>
 
-        <div class="btn-white" onclick="login('google')">
+        <div class="btn-white" onclick="loginGoogle()">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg">
             Continue with Google
         </div>
 
         <div class="divider">OR</div>
 
-        <div class="btn-white" style="color: #1877F2;" onclick="alert('Facebook login is under maintenance. Please use Google.')">
+        <div class="btn-white" style="color: #1877F2;" onclick="alert('Facebook OTP issue. Please use Google Login.')">
             <i class="fab fa-facebook"></i>
             Continue with Facebook
         </div>
@@ -82,7 +78,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // ✅ ඔයාගේ Firebase Settings
         const firebaseConfig = {
             apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
             authDomain: "oshancart.firebaseapp.com",
@@ -95,13 +90,11 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        window.login = (type) => {
-            if(type === 'google') {
-                const provider = new GoogleAuthProvider();
-                signInWithPopup(auth, provider)
-                    .then(() => { window.location.href = "index.html"; })
-                    .catch((error) => { console.log(error.message); });
-            }
+        window.loginGoogle = () => {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider)
+                .then(() => { window.location.href = "dashboard.html"; })
+                .catch((e) => { alert(e.message); });
         };
     </script>
 </body>
