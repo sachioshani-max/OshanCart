@@ -3,117 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in | OshanCart</title>
+    <title>OshanCart | Global Gateway</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
-        body, html {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* ✅ පින්තූරය පේන්නේ නැති ප්‍රශ්නයට විසඳුම: */
-            background: url('Gemini_Generated_Image_b306nb306nb306nb.png') no-repeat center center fixed;
+        
+        body {
+            height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            /* ✅ පින්තූරය 100% ක් පේන්න කෙළින්ම GitHub Link එක දැම්මා */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://raw.githubusercontent.com/oshani-max/oshani-max.github.io/main/Gemini_Generated_Image_b306nb306nb306nb.png');
             background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        /* පින්තූරය උඩින් ඇති කළු අඳුරු ස්ථරය */
-        .overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-
-        /* ප්‍රධාන Login Card එක */
-        .login-card {
-            position: relative;
-            z-index: 2;
-            width: 90%;
-            max-width: 380px;
-            background: #CC4024; /* ✅ ඔයාගේ රූපයේ තියෙන නිවැරදි තද රතු/තැඹිලි පාට */
+        .auth-card {
+            background: #CC4024; /* ✅ ඔයා එවපු InShot පින්තූරයේ තිබුණු නිවැරදි රතු පාට */
             padding: 40px 25px;
-            border-radius: 20px;
+            border-radius: 15px;
+            width: 90%; max-width: 380px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .login-card h2 {
+        .auth-card h2 {
             color: white;
-            font-size: 20px;
-            margin-bottom: 25px;
+            font-size: 22px;
+            margin-bottom: 30px;
             font-weight: 600;
+            line-height: 1.4;
         }
 
-        .btn {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 12px;
-            border: none;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .btn-white {
+            width: 100%; padding: 14px; margin-bottom: 15px;
+            border: none; border-radius: 50px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-weight: 600; text-decoration: none;
+            transition: 0.3s; background: white; color: #333;
             font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            transition: 0.3s;
         }
 
-        .btn img { width: 20px; margin-right: 15px; }
-        .btn i { font-size: 18px; margin-right: 15px; }
+        .btn-white:hover { transform: scale(1.02); background: #f8f8f8; }
+        .btn-white img { width: 22px; margin-right: 15px; }
+        .btn-white i { font-size: 20px; margin-right: 15px; }
 
-        /* සුදු පාට බොත්තම් */
-        .btn-white { background: white; color: #333; }
-        .btn-white:hover { background: #f2f2f2; }
-
-        .divider {
-            color: rgba(255,255,255,0.6);
-            margin: 10px 0;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-        }
-        .divider::before, .divider::after {
-            content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.3); margin: 0 10px;
-        }
+        .divider { margin: 20px 0; color: rgba(255,255,255,0.5); font-size: 13px; display: flex; align-items: center; }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.2); margin: 0 15px; }
     </style>
 </head>
 <body>
 
-    <div class="overlay"></div>
-
-    <div class="login-card">
+    <div class="auth-card">
         <h2>Making global trading simple</h2>
 
-        <button class="btn btn-white" onclick="login('google')">
+        <div class="btn-white" onclick="login('google')">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg">
             Continue with Google
-        </button>
+        </div>
 
         <div class="divider">OR</div>
 
-        <button class="btn btn-white" style="color: #1877F2;" onclick="login('facebook')">
+        <div class="btn-white" style="color: #1877F2;" onclick="alert('Facebook login is under maintenance. Please use Google.')">
             <i class="fab fa-facebook"></i>
             Continue with Facebook
-        </button>
+        </div>
 
-        <button class="btn btn-white" onclick="window.location.href='signup-details.html'">
+        <div class="btn-white" onclick="window.location.href='signup.html'">
             <i class="fas fa-envelope"></i>
             Continue with email
-        </button>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // ✅ ඔයාගේ Firebase Config එක මෙතනට දාන්න
+        // ✅ ඔයාගේ Firebase Settings
         const firebaseConfig = {
             apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
             authDomain: "oshancart.firebaseapp.com",
@@ -126,12 +95,13 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        window.login = async (type) => {
-            const provider = type === 'google' ? new GoogleAuthProvider() : new FacebookAuthProvider();
-            try {
-                await signInWithPopup(auth, provider);
-                window.location.href = "index.html";
-            } catch (e) { alert(e.message); }
+        window.login = (type) => {
+            if(type === 'google') {
+                const provider = new GoogleAuthProvider();
+                signInWithPopup(auth, provider)
+                    .then(() => { window.location.href = "index.html"; })
+                    .catch((error) => { console.log(error.message); });
+            }
         };
     </script>
 </body>
