@@ -1,197 +1,206 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OshanCart | Alibaba Style Signup</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{display:flex;justify-content:center;align-items:flex-start;padding-top:30px;background:#0B1D3A;}
-.container{width:90%;max-width:420px;background:#FF6EC7;border-radius:15px;padding:30px;text-align:center;color:white;box-shadow:0 15px 40px rgba(0,0,0,0.5);}
-h2{margin-bottom:25px;font-weight:600;}
-.btn-white{width:100%;padding:12px;margin-bottom:15px;border:none;border-radius:50px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:600;text-decoration:none;transition:.3s;background:white;color:#0B1D3A;font-size:15px;}
-.btn-white img{width:22px;margin-right:15px;}
-.btn-white i{font-size:20px;margin-right:15px;}
-.divider{margin:20px 0;color:rgba(255,255,255,0.5);font-size:13px;display:flex;align-items:center;}
-.divider::before,.divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.2);margin:0 15px;}
-.form-step{display:none;}
-.form-step.active{display:block;}
-input[type=text],input[type=email],input[type=password],input[type=tel],input[type=file]{width:100%;padding:10px;margin:8px 0;border-radius:4px;border:none;}
-button.next, button.back, button.submit{width:100%;padding:12px;margin-top:10px;border:none;border-radius:50px;background:#fff;color:#0B1D3A;font-weight:600;cursor:pointer;}
-#progress-bar{display:flex;justify-content:space-between;margin-bottom:20px;}
-.step{width:30px;height:30px;line-height:30px;border-radius:50%;background:#ddd;text-align:center;font-weight:bold;color:#333;}
-.step.active{background:#fff;color:#FF6EC7;}
-#gift-box{margin:15px 0;width:120px;height:120px;background:#fff url('https://via.placeholder.com/120') center/cover no-repeat;border-radius:15px;}
-.avatar-preview{width:50px;height:50px;border-radius:50%;margin:10px auto;background:#fff;background-size:cover;background-position:center;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OshanCart | Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --google-red: #db4437;
+            --fb-blue: #4267B2;
+            --tiktok-black: #010101;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .signup-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .signup-card h2 { margin-bottom: 0.5rem; color: #1f2937; }
+        .signup-card p { color: #6b7280; font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+        .input-group { margin-bottom: 1rem; text-align: left; }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--primary-color); }
+
+        .btn-main {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            color: #9ca3af;
+            font-size: 0.8rem;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+            margin: 0 10px;
+        }
+
+        .social-btns { display: flex; flex-direction: column; gap: 10px; }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .footer-link { margin-top: 1.5rem; font-size: 0.85rem; }
+        .footer-link a { color: var(--primary-color); text-decoration: none; }
+    </style>
 </head>
 <body>
-<div class="container">
 
-    <div id="progress-bar">
-        <div class="step active">1</div>
-        <div class="step">2</div>
-        <div class="step">3</div>
-        <div class="step">4</div>
-        <div class="step">5</div>
+<div class="signup-card">
+    <h2>ගිණුමක් සාදන්න</h2>
+    <p>OshanCart සමඟ එක්ව ආරක්ෂිතව සාප්පු සවාරි යන්න.</p>
+
+    <div class="input-group">
+        <input type="text" id="fullName" placeholder="සම්පූර්ණ නම">
+    </div>
+    <div class="input-group">
+        <input type="email" id="email" placeholder="ඊමේල් ලිපිනය">
+    </div>
+    <div class="input-group">
+        <input type="password" id="password" placeholder="මුරපදය">
+    </div>
+    <button class="btn-main" id="btnEmailSignup">ලියාපදිංචි වන්න</button>
+
+    <div class="divider">නැතිනම් මේ හරහා</div>
+
+    <div class="social-btns">
+        <button class="social-btn" id="btnGoogle">
+            <i class="fab fa-google" style="color:#db4437"></i> Google සමඟ එක්වන්න
+        </button>
+        <button class="social-btn" id="btnFacebook">
+            <i class="fab fa-facebook" style="color:#4267B2"></i> Facebook සමඟ එක්වන්න
+        </button>
     </div>
 
-    <div id="gift-box"></div>
-    <div id="avatar" class="avatar-preview"></div>
-
-    <div class="form-step active" id="step1">
-        <h2>Global Trading Made Simple</h2>
-        <div class="btn-white" onclick="loginGoogle()">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg">Continue with Google
-        </div>
-        <div class="btn-white" style="color:#0B1D3A;" onclick="loginFacebook()">
-            <i class="fab fa-facebook"></i>Continue with Facebook
-        </div>
-        <div class="btn-white" onclick="nextStep(2)">
-            <i class="fas fa-envelope"></i>Continue with Email
-        </div>
+    <div class="footer-link">
+        දැනටමත් ගිණුමක් තිබේද? <a href="login.html">ඇතුළු වන්න</a>
     </div>
-
-    <div class="form-step" id="step2">
-        <h2>User Info</h2>
-        <input type="text" id="fullName" placeholder="Full Name">
-        <input type="email" id="email" placeholder="Email">
-        <input type="tel" id="phone" placeholder="Phone Number (Optional)">
-        <button class="next" onclick="nextStep(3)">Next</button>
-        <button class="back" onclick="nextStep(1)">Back</button>
-    </div>
-
-    <div class="form-step" id="step3">
-        <h2>Verify Phone</h2>
-        <input type="tel" id="phoneOtpInput" placeholder="Enter phone number for OTP">
-        <div id="recaptcha-container"></div>
-        <button class="next" onclick="sendOTP()">Send OTP</button>
-        <input type="text" id="otpCode" placeholder="Enter OTP" style="display:none;">
-        <button class="next" id="verifyOtpBtn" style="display:none;" onclick="verifyOTP()">Verify OTP</button>
-        <button class="back" onclick="nextStep(2)">Back</button>
-    </div>
-
-    <div class="form-step" id="step4">
-        <h2>Set Password</h2>
-        <input type="password" id="password" placeholder="Password">
-        <input type="password" id="confirmPassword" placeholder="Confirm Password">
-        <button class="next" onclick="nextStep(5)">Next</button>
-        <button class="back" onclick="nextStep(3)">Back</button>
-    </div>
-
-    <div class="form-step" id="step5">
-        <h2>Accept Terms</h2>
-        <label><input type="checkbox" id="terms"> I accept terms & conditions</label>
-        <button class="submit" onclick="submitSignup()">Submit</button>
-        <button class="back" onclick="nextStep(4)">Back</button>
-    </div>
-
-    <div class="form-step active" style="margin-top:30px;">
-        <h2>Admin Panel (Upload Gift Box)</h2>
-        <input type="file" id="giftUpload" accept="image/*">
-        <button class="next" onclick="uploadGiftImage()">Upload</button>
-    </div>
-
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-    authDomain: "oshancart.firebaseapp.com",
-    projectId: "oshancart",
-    storageBucket: "oshancart.firebasestorage.app",
-    messagingSenderId: "686982543488",
-    appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-};
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+        authDomain: "oshancart.firebaseapp.com",
+        projectId: "oshancart",
+        storageBucket: "oshancart.firebasestorage.app",
+        messagingSenderId: "686982543488",
+        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+    };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-let currentStep = 1;
-function nextStep(step){
-    document.querySelector(`#step${currentStep}`).classList.remove('active');
-    document.querySelector(`#step${step}`).classList.add('active');
-    document.querySelectorAll('.step')[currentStep-1]?.classList.remove('active');
-    document.querySelectorAll('.step')[step-1]?.classList.add('active');
-    currentStep = step;
-}
+    // දත්ත Firestore හි සුරැකීමේ Function එක
+    async function saveUserToDB(user, name) {
+        try {
+            await setDoc(doc(db, "users", user.uid), {
+                name: name || user.displayName,
+                email: user.email,
+                uid: user.uid,
+                createdAt: serverTimestamp()
+            }, { merge: true });
+            window.location.href = "index.html";
+        } catch (error) {
+            console.error("Error saving user:", error);
+        }
+    }
 
-window.loginGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider).then(res=>{
-        const user = res.user;
-        document.getElementById("fullName").value = user.displayName||'';
-        document.getElementById("email").value = user.email||'';
-        if(user.photoURL) document.getElementById("avatar").style.backgroundImage = `url(${user.photoURL})`;
-        nextStep(4);
-    }).catch(e=>alert(e.message));
-}
+    // Google Sign-In
+    document.getElementById('btnGoogle').onclick = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            await saveUserToDB(result.user);
+        } catch (error) {
+            alert("Google Sign-in වැරදුනා: " + error.message);
+        }
+    };
 
-window.loginFacebook = () => {
-    const provider = new FacebookAuthProvider();
-    signInWithPopup(auth, provider).then(res=>{
-        const user = res.user;
-        document.getElementById("fullName").value = user.displayName||'';
-        document.getElementById("email").value = user.email||'';
-        if(user.photoURL) document.getElementById("avatar").style.backgroundImage = `url(${user.photoURL})`;
-        nextStep(4);
-    }).catch(e=>alert(e.message));
-}
+    // Facebook Sign-In
+    document.getElementById('btnFacebook').onclick = async () => {
+        const provider = new FacebookAuthProvider();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            await saveUserToDB(result.user);
+        } catch (error) {
+            alert("Facebook Sign-in වැරදුනා: " + error.message);
+        }
+    };
 
-let confirmationResult;
-window.sendOTP = () => {
-    const phone = document.getElementById("phoneOtpInput").value;
-    if(!phone){ alert("Enter phone number"); return; }
-    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
-    signInWithPhoneNumber(auth, phone, window.recaptchaVerifier).then(res=>{
-        confirmationResult = res;
-        alert("OTP sent!");
-        document.getElementById("otpCode").style.display = "block";
-        document.getElementById("verifyOtpBtn").style.display = "block";
-    }).catch(e=>alert(e.message));
-}
-window.verifyOTP = () => {
-    const code = document.getElementById("otpCode").value;
-    if(!code){ alert("Enter OTP"); return; }
-    confirmationResult.confirm(code).then(res=>{
-        alert("Phone verified!");
-        nextStep(4);
-    }).catch(e=>alert(e.message));
-}
+    // Email/Password Sign-Up
+    document.getElementById('btnEmailSignup').onclick = async () => {
+        const name = document.getElementById('fullName').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-async function submitSignup(){
-    const name = document.getElementById("fullName").value;
-    const email = document.getElementById("email").value;
-    const phone = document.getElementById("phone").value;
-    const password = document.getElementById("password").value;
-    const confirm = document.getElementById("confirmPassword").value;
-    const terms = document.getElementById("terms").checked;
+        if(!name || !email || !password) return alert("කරුණාකර සියලු විස්තර පුරවන්න.");
 
-    if(!name||!email||!password||!confirm){ alert("Fill all fields"); return; }
-    if(password!==confirm){ alert("Passwords do not match"); return; }
-    if(!terms){ alert("Accept terms first"); return; }
-
-    try{
-        const userRef = doc(db,"users",email);
-        await setDoc(userRef,{name,email,phone,password,createdAt:new Date()});
-        alert("Signup Successful! ✅");
-    } catch(e){ alert("Error saving user: "+e.message); }
-}
-
-window.uploadGiftImage = () => {
-    const file = document.getElementById("giftUpload").files[0];
-    if(!file){ alert("Select image first"); return; }
-    const reader = new FileReader();
-    reader.onload = e => { document.getElementById("gift-box").style.backgroundImage = `url('${e.target.result}')`; }
-    reader.readAsDataURL(file);
-}
+        try {
+            const result = await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(result.user, { displayName: name });
+            await saveUserToDB(result.user, name);
+        } catch (error) {
+            alert("ලියාපදිංචිය වැරදුනා: " + error.message);
+        }
+    };
 </script>
+
 </body>
 </html>
