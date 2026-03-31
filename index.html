@@ -971,7 +971,7 @@
             </div>
 
             <div class="ai-chat-area" id="chatFlow">
-                <div class="msg bot-msg">හලෝ! මම Oshan AI. කොහොමද ඔබට අද උදව් කරන්නේ? 😊</div>
+                <div class="msg bot-msg">Hello! I am Oshan AI. How can you help today? 😊</div>
                 <div id="typingIndicator" class="typing">Oshan AI is thinking...</div>
             </div>
 
@@ -1019,18 +1019,13 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-<script>
-   // --- Firebase Configuration ---
-
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
 <script type="module">
+    // 1. Firebase Modules Import කිරීම
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    
-    // මේ ලයින් එක අලුතින් එකතු කරන්න (Auth සඳහා)
+    import { getFirestore, collection, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+    // 2. Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
         authDomain: "oshancart.firebaseapp.com",
@@ -1042,254 +1037,120 @@ const db = firebase.firestore();
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const auth = getAuth(app); // Auth පද්ධතිය පණ ගැන්වීම
+    const auth = getAuth(app);
 
-    // User ගේ තත්ත්වය පරීක්ෂා කිරීම (Login ද නැද්ද?)
+    // 3. EmailJS Config (ඔබේ පැරණි දත්ත අනුව)
+    const PUBLIC_KEY = "jfgAK0LaZ0w7RKAE8";
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init(PUBLIC_KEY);
+    }
+
+    // --- Auth Logic ---
     onAuthStateChanged(auth, (user) => {
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
-
         if (user) {
-            // User ලොග් වෙලා නම්: Login හංගන්න, Logout පෙන්වන්න
             if(loginBtn) loginBtn.style.display = 'none';
             if(logoutBtn) logoutBtn.style.display = 'block';
-            console.log("User ලොග් වී ඇත:", user.email);
         } else {
-            // User ලොග් වෙලා නැත්නම්: Login පෙන්වන්න, Logout හංගන්න
             if(loginBtn) loginBtn.style.display = 'block';
             if(logoutBtn) logoutBtn.style.display = 'none';
         }
     });
 
-    // Logout Function එක (බටන් එක Click කළ විට වැඩ කිරීමට)
-    window.handleLogout = function() {
+    window.handleLogout = () => {
         signOut(auth).then(() => {
-            alert("ඔබ සාර්ථකව Logout විය!");
+            alert("සාර්ථකව Logout විය!");
             window.location.reload(); 
-        }).catch((error) => {
-            alert("Error: " + error.message);
         });
     };
 
-    // --- ඔබේ ඉතිරි පරණ Code එක (fetchProducts ආදිය) මෙතැන් සිට පල්ලෙහාට දාන්න ---
-// --- EmailJS Configuration (New) ---
-const SERVICE_ID = "service_il15c1q";
-const TEMPLATE_ID_DESKTOP = "template_m0njghq";
-const TEMPLATE_ID_MOBILE = "template_vmc0kvo";
-const PUBLIC_KEY = "jfgAK0LaZ0w7RKAE8";
+    // --- Product Logic ---
+    async function loadCoreProducts() {
+        const container = document.getElementById('productContainer');
+        if(!container) return;
 
-// EmailJS Initialization
-if (typeof emailjs !== 'undefined') {
-    emailjs.init(PUBLIC_KEY);
-}
-
-    function executeSearch(inputId) {
-    const query = document.getElementById(inputId).value;
-    if (query.trim() === "") {
-        showToast("Please enter something to search");
-        return;
-    }
-    
-    // Search එක categories.html පිටුවට යොමු කිරීම
-    window.location.href = `categories.html?search=${encodeURIComponent(query.trim())}`;
-}
-
-// --- System States ---
-let currentCurrency = "Rs.";
-let currentSymbol = "LKR";
-let isDarkMode = false;
-const categories = [
-    "Electronics ⚡", "Womens Fashion 👗", "Mens Fashion 👕", "Home & Kitchen 🏠",
-    "Phones & Tabs 📱", "Jewelry 💍", "Ceylon Items 🇱🇰", "Kids & Toys 🧸"
-];
-
-// --- UI Control Functions ---
-function toggleDrawer(state) {
-    const drawer = document.getElementById('mainDrawer');
-    const mask = document.getElementById('sideMask');
-    if(!drawer || !mask) return;
-    if(state) {
-        mask.style.display = 'block';
-        setTimeout(() => drawer.classList.add('active'), 10);
-    } else {
-        drawer.classList.remove('active');
-        setTimeout(() => mask.style.display = 'none', 400);
-    }
-}
-
-function toggleAI(show) {
-    const aiWindow = document.getElementById('aiWindow');
-    const launcher = document.getElementById('launcherBtn');
-    if(!aiWindow) return;
-    if(show) {
-        aiWindow.style.display = 'flex';
-        if(launcher) launcher.style.display = 'none';
-    } else {
-        aiWindow.style.display = 'none';
-        if(launcher) launcher.style.display = 'flex';
-    }
-}
-
-function toggleTheme() {
-    isDarkMode = !isDarkMode;
-    document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
-    showToast("Theme switched to " + (isDarkMode ? "Dark Mode" : "Light Mode"));
-}
-
-// --- Market & Currency Logic ---
-function switchMarket(flag, symbol) {
-    currentCurrency = symbol;
-    const display = document.getElementById('marketDisplay');
-    if(display) display.innerHTML = `<span class="fi fi-${flag.toLowerCase()}"></span> Market: ${flag} | ${symbol}`;
-    loadCoreProducts();
-    toggleDrawer(false);
-    showToast("Market updated to " + flag);
-}
-
-// --- Product Rendering Engine ---
-async function loadCoreProducts() {
-    const container = document.getElementById('productContainer');
-    if(!container) return;
-
-    db.collection("products").limit(12).onSnapshot((snapshot) => {
-        container.innerHTML = "";
-        if(snapshot.empty) {
-            container.innerHTML = "<p style='text-align:center; width:100%;'>No products available at the moment.</p>";
-            return;
-        }
-        snapshot.forEach((doc) => {
-            const data = doc.data();
-            const card = createProductCard(doc.id, data);
-            container.appendChild(card);
+        const q = query(collection(db, "products"), limit(12));
+        onSnapshot(q, (snapshot) => {
+            container.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                container.appendChild(createProductCard(doc.id, data));
+            });
         });
-    }, (error) => {
-        console.error("Firestore Error: ", error);
-    });
-}
+    }
 
-function createProductCard(id, p) {
-    const div = document.createElement('div');
-    div.className = "osh-card animate__animated animate__fadeIn";
-    div.innerHTML = `
-        <div class="wishlist-btn"><i class="far fa-heart"></i></div>
-        <div class="osh-card-img-wrap" onclick="viewDetails('${id}', '${p.category}')">
-            <img src="${p.image || 'https://via.placeholder.com/300'}" class="osh-card-img" loading="lazy">
-        </div>
-        <div class="osh-card-content">
-            <div class="osh-p-title">${p.name}</div>
-            <div class="osh-p-price">${currentCurrency} ${p.price} <span class="osh-p-old-price">${currentCurrency} ${Math.floor(p.price * 1.2)}</span></div>
-            <div class="osh-p-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (4.5)</div>
-            <button onclick="addToCart('${id}', '${p.name}', ${p.price})" style="width:100%; margin-top:10px; padding:8px; background:var(--osh-gradient); color:white; border:none; border-radius:5px; cursor:pointer; font-weight:600;">Add to Cart</button>
-        </div>
-    `;
-    return div;
-}
+    function createProductCard(id, p) {
+        const div = document.createElement('div');
+        div.className = "osh-card animate__animated animate__fadeIn";
+        div.innerHTML = `
+            <div class="wishlist-btn"><i class="far fa-heart"></i></div>
+            <div class="osh-card-img-wrap" onclick="window.location.href='categories.html?id=${id}'">
+                <img src="${p.image || 'https://via.placeholder.com/300'}" class="osh-card-img" loading="lazy">
+            </div>
+            <div class="osh-card-content">
+                <div class="osh-p-title">${p.name}</div>
+                <div class="osh-p-price">Rs. ${p.price}</div>
+                <button onclick="addToCart('${id}', '${p.name}', ${p.price})" style="width:100%; margin-top:10px; padding:8px; background:var(--osh-gradient, #ff4757); color:white; border:none; border-radius:5px; cursor:pointer;">Add to Cart</button>
+            </div>
+        `;
+        return div;
+    }
 
-function viewDetails(id, cat) {
-    window.location.href = `categories.html?type=${encodeURIComponent(cat)}&id=${id}`;
-}
-
-// --- Email Notification Logic (New) ---
-function sendPlatformEmail(orderId) {
-    const isMobile = window.innerWidth <= 768;
-    const templateId = isMobile ? TEMPLATE_ID_MOBILE : TEMPLATE_ID_DESKTOP;
-
-    const params = {
-        order_id: orderId,
-        platform: isMobile ? "Mobile Device" : "Desktop PC",
-        message: "A new order notification from OshanCart"
+    // --- අඩුව තිබූ අත්‍යවශ්‍ය UI Functions ---
+    
+    // 1. Search Function
+    window.executeSearch = (inputId) => {
+        const queryVal = document.getElementById(inputId).value;
+        if (queryVal.trim()) {
+            window.location.href = `categories.html?search=${encodeURIComponent(queryVal.trim())}`;
+        }
     };
 
-    emailjs.send(SERVICE_ID, templateId, params)
-        .then(() => console.log("Success: Email sent to " + (isMobile ? "Mobile" : "Desktop") + " template"))
-        .catch(err => console.error("EmailJS Error:", err));
-}
-
-// --- Utility Functions ---
-function addToCart(id, name, price) {
-    const cartCount = document.getElementById('cartCountDesktop');
-    if(cartCount) {
-        let count = parseInt(cartCount.innerText);
-        cartCount.innerText = count + 1;
-    }
-    showToast(`${name} added to cart!`);
-    
-    // Example: Trigger email when adding to cart (Optional)
-    // sendPlatformEmail("CART-" + id);
-}
-
-function showToast(msg) {
-    console.log("Toast: " + msg);
-}
-
-function accessAdminZone() {
-    const pin = prompt("Enter Administration PIN:");
-    if(pin === "Lakshan@2001") window.location.href = "admin-dashboard.html";
-    else alert("Invalid PIN. Access Logged.");
-}
-
-// --- Startup Initialization ---
-window.onload = () => {
-    // 1. Categories Rail
-    const rail = document.getElementById('categoryList');
-    if(rail) {
-        rail.innerHTML = "";
-        categories.forEach(cat => {
-            rail.innerHTML += `<div class="rail-item" onclick="location.href='categories.html?type=${encodeURIComponent(cat)}'"><span>${cat}</span> <i class="fas fa-chevron-right" style="font-size:10px; opacity:0.5;"></i></div>`;
-        });
-    }
-
-    // 2. Load Products
-    setTimeout(loadCoreProducts, 1000);
-
-const slides = [
-    {
-        img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1600&h=600", 
-        title: "FUTURE TECH WEEK", 
-        sub: "Experience the Power of Next-Gen Devices"
-    },
-    {
-        img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1600&h=600", 
-        title: "ELITE FASHION HUB", 
-        sub: "Define Your Style with Global Brands"
-    },
-    {
-        img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=1600&h=600", 
-        title: "CEYLON PREMIUM LUXE", 
-        sub: "The Purest Essence of Sri Lanka"
-    }
-];
-    let sIdx = 0;
-    const hero = document.getElementById('heroSlide');
-    if(hero) {
-        setInterval(() => {
-            sIdx = (sIdx + 1) % slides.length;
-            hero.style.opacity = 0;
-            setTimeout(() => {
-                hero.src = slides[sIdx].img;
-                document.getElementById('slideTitle').innerText = slides[sIdx].title;
-                document.getElementById('slideSub').innerText = slides[sIdx].sub;
-                hero.style.opacity = 1;
-            }, 500);
-        }, 5000);
-    }
-};
-
-    // Function to show the popup after a delay
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        const popup = document.getElementById('signup-popup');
-        if(popup) {
-            popup.style.display = 'block';
+    // 2. Drawer (Side Menu) Control
+    window.toggleDrawer = (state) => {
+        const drawer = document.getElementById('mainDrawer');
+        const mask = document.getElementById('sideMask');
+        if(!drawer || !mask) return;
+        if(state) {
+            mask.style.display = 'block';
+            setTimeout(() => drawer.classList.add('active'), 10);
+        } else {
+            drawer.classList.remove('active');
+            setTimeout(() => mask.style.display = 'none', 400);
         }
-    }, 4000); // 4000ms = 4 seconds
-});
+    };
 
-// Function to close the popup
-function closePopup() {
-    document.getElementById('signup-popup').style.display = 'none';
-                }
-</script> 
+    // 3. Admin Access
+    window.accessAdminZone = () => {
+        const pin = prompt("Enter Administration PIN:");
+        if(pin === "Lakshan@2001") window.location.href = "admin-dashboard.html";
+        else alert("Invalid PIN.");
+    };
+
+    window.addToCart = (id, name, price) => alert(`${name} added to cart!`);
+    window.closePopup = () => document.getElementById('signup-popup').style.display = 'none';
+
+    // Startup
+    window.onload = () => {
+        loadCoreProducts();
+        
+        // Category Rail එක පිරවීම
+        const categories = ["Electronics ⚡", "Fashion 👗", "Home 🏠", "Jewelry 💍", "Ceylon Items 🇱🇰"];
+        const rail = document.getElementById('categoryList');
+        if(rail) {
+            rail.innerHTML = categories.map(cat => 
+                `<div class="rail-item" onclick="location.href='categories.html?type=${encodeURIComponent(cat)}'">${cat}</div>`
+            ).join('');
+        }
+
+        setTimeout(() => {
+            const popup = document.getElementById('signup-popup');
+            if(popup) popup.style.display = 'block';
+        }, 4000);
+    };
+</script>
+
     <div id="signup-popup" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px);">
     <div style="background-color: #fff; margin: 15% auto; padding: 30px; border-radius: 20px; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-family: sans-serif;">
         <div style="font-size: 50px; margin-bottom: 10px;">👋</div>
