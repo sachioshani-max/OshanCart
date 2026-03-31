@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Points | OshanCart Global</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --card-bg: #121212;
+            --accent: #ff4757;
+            --point-gold: #fbc02d;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            display: flex; flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--card-bg);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+        .back-btn { background: none; border: none; color: white; cursor: pointer; font-size: 18px; }
+
+        /* Points Overview (Screenshot 1-like) */
+        .points-overview {
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000000 100%);
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+        .mascot-star {
+            width: 150px; height: 150px; margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(251, 192, 45, 0.4));
+        }
+        .points-display {
+            display: flex; align-items: center; justify-content: center;
+            gap: 15px; margin-bottom: 10px;
+        }
+        .points-value { font-size: 48px; font-weight: 800; color: var(--point-gold); }
+        .dollar-value { font-size: 18px; color: var(--text-dim); }
+
+        .btn-check-in {
+            background: linear-gradient(135deg, #fbc02d, #ffea00);
+            color: #000; border: none; padding: 12px 30px;
+            border-radius: 50px; font-weight: 700; cursor: pointer;
+            margin-top: 15px; transition: 0.3s;
+        }
+        .btn-check-in:hover { transform: scale(1.05); }
+
+        /* Tasks Section (Screenshot 2-like) */
+        .tasks-container { padding: 20px; }
+        .tasks-container h2 { font-size: 18px; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 10px; }
+        
+        .task-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border: 1px solid #222;
+            transition: 0.2s;
+        }
+        .task-card:hover { border-color: #333; }
+        .task-info { display: flex; align-items: center; gap: 15px; }
+        .task-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            background: #252525; color: var(--point-gold); font-size: 18px;
+        }
+        .task-title { font-weight: 600; font-size: 15px; }
+        .task-points { color: var(--point-gold); font-size: 13px; margin-top: 3px; }
+
+        .btn-task {
+            background: #ffffff; color: #000; border: none;
+            padding: 8px 20px; border-radius: 50px; font-size: 13px; font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-task.done { background: #333; color: #888; cursor: default; }
+
+        /* Footer */
+        footer {
+            margin-top: auto; padding: 20px;
+            text-align: center; font-size: 12px; color: var(--text-dim);
+            border-top: 1px solid #222; background: var(--card-bg);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="back-btn" onclick="location.href='index.html'">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1 style="font-size: 16px; margin:0; font-weight: 600;">OshanCart Points</h1>
+    </header>
+
+    <main class="points-page animate__animated animate__fadeIn">
+        <section class="points-overview">
+            <img src="https://cdn-icons-png.flaticon.com/512/10321/10321262.png" alt="Star" class="mascot-star">
+            <div class="points-display">
+                <i class="fas fa-coins" style="color: var(--point-gold); font-size: 24px;"></i>
+                <span class="points-value" id="userPoints">0</span>
+            </div>
+            <div class="dollar-value" id="dollarValue">≈ $0.00</div>
+            <button class="btn-check-in" id="dailyCheckInBtn">
+                <i class="fas fa-calendar-check"></i> Daily Check-in (+1 Point)
+            </button>
+        </section>
+
+        <section class="tasks-container">
+            <h2>Earn more points!</h2>
+
+            <div class="task-card">
+                <div class="task-info">
+                    <div class="task-icon"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <div class="task-title">Verify Email</div>
+                        <div class="task-points">+100 Points</div>
+                    </div>
+                </div>
+                <button class="btn-task" id="verifyEmailBtn">Go</button>
+            </div>
+
+            <div class="task-card">
+                <div class="task-info">
+                    <div class="task-icon"><i class="fas fa-user-edit"></i></div>
+                    <div>
+                        <div class="task-title">Complete Preferences</div>
+                        <div class="task-points">+20 Points</div>
+                    </div>
+                </div>
+                <button class="btn-task" onclick="location.href='preferences.html'">Go</button>
+            </div>
+
+            <div class="task-card">
+                <div class="task-info">
+                    <div class="task-icon"><i class="fas fa-star"></i></div>
+                    <div>
+                        <div class="task-title">Review Order</div>
+                        <div class="task-points">up to +15 points</div>
+                    </div>
+                </div>
+                <button class="btn-task done">Done</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 OshanCart Global | <a href="#" style="color: var(--text-dim);">Points Rules</a>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // 1. OshanCart Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+
+        // SweetAlert Notification
+        const notify = (icon, title, text) => {
+            Swal.fire({
+                icon: icon, title: title, text: text,
+                background: '#121212', color: '#fff', confirmButtonColor: '#ff4757',
+                showClass: { popup: 'animate__animated animate__fadeInDown' }
+            });
+        };
+
+        // 2. Points Update and Display Function
+        const updatePointsDisplay = (points) => {
+            document.getElementById('userPoints').innerText = points;
+            document.getElementById('dollarValue').innerText = `≈ $${(points / 100).toFixed(2)}`;
+        };
+
+        // 3. Main Logic
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                // Fetch current points from Firestore "users" collection
+                const userDocRef = doc(db, "users", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if (userDocSnap.exists()) {
+                    updatePointsDisplay(userDocSnap.data().points || 0);
+                } else {
+                    notify('error', 'Error', 'User data not found.');
+                }
+            } else {
+                window.location.href = "login.html"; // Redirect if not logged in
+            }
+        });
+
+        // 4. Daily Check-in Logic
+        document.getElementById('dailyCheckInBtn').onclick = async () => {
+            if (!currentUser) return;
+            const userDocRef = doc(db, "users", currentUser.uid);
+
+            try {
+                // Backend points update via Firestore increment
+                await updateDoc(userDocRef, {
+                    points: increment(1)
+                });
+                notify('success', 'Checked In!', '❤️‍🩹🏆 +1 Point added. Come back tomorrow! 🪅🥳');
+                
+                // Update frontend display
+                const snap = await getDoc(userDocRef);
+                updatePointsDisplay(snap.data().points);
+            } catch (err) {
+                notify('error', 'Error', err.message);
+            }
+        };
+    </script>
+</body>
+</html>
