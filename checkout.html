@@ -14,6 +14,7 @@
             --accent-color: #febd69;
             --success-color: #27ae60;
             --bg-color: #f4f7f9;
+            --osh-orange: #ff4757;
         }
 
         body {
@@ -24,7 +25,7 @@
             color: #333;
         }
 
-        /* Header Styling */
+        /* Header */
         .top-bar {
             background: var(--primary-color);
             color: white;
@@ -44,7 +45,7 @@
             gap: 30px;
         }
 
-        /* Section Cards */
+        /* Card Styling */
         .card {
             background: white;
             border-radius: 12px;
@@ -65,7 +66,7 @@
             padding-bottom: 15px;
         }
 
-        /* Form Inputs */
+        /* Input Styling */
         .input-group { margin-bottom: 20px; }
         label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: #555; }
         input, textarea {
@@ -83,7 +84,7 @@
             box-shadow: 0 0 0 3px rgba(254, 189, 105, 0.2);
         }
 
-        /* Product Preview */
+        /* Product Box */
         .product-box {
             display: flex;
             gap: 15px;
@@ -103,7 +104,7 @@
         .product-info h4 { margin: 0; font-size: 16px; color: #222; }
         .product-info p { color: #B12704; font-weight: 700; margin: 8px 0 0; }
 
-        /* Summary Styling */
+        /* Summary */
         .summary-line {
             display: flex;
             justify-content: space-between;
@@ -135,7 +136,7 @@
         .btn-confirm:hover { background: #eeb933; }
         .btn-confirm:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        /* Loader Overlay */
+        /* Loading Overlay */
         .overlay {
             display: none;
             position: fixed;
@@ -207,7 +208,7 @@
                     <span id="sub-total">Rs. 0.00</span>
                 </div>
                 <div class="summary-line">
-                    <span>Shipping:</span>
+                    <span>Shipping Fee:</span>
                     <span style="color: var(--success-color); font-weight: 600;">FREE</span>
                 </div>
                 <div class="summary-line total-line">
@@ -227,11 +228,12 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        // Firebase Configuration (OshanCart)
         const firebaseConfig = {
             apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
             authDomain: "oshancart.firebaseapp.com",
             projectId: "oshancart",
-            storageBucket: "oshancart.firebasestorage.app",
+            storageBucket: "oshancart.appspot.com",
             messagingSenderId: "686982543488",
             appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
         };
@@ -246,7 +248,7 @@
         const productId = urlParams.get('id');
         let currentProduct = null;
 
-        // Fetch Product Data Safely
+        // 1. Fetch Product Data
         async function fetchProduct() {
             if (!productId) {
                 document.getElementById('productDisplay').innerHTML = "<p style='color:red;'>Product ID is missing!</p>";
@@ -259,16 +261,15 @@
 
                 if (snap.exists()) {
                     const data = snap.data();
-                    // Handling dynamic field names from Firebase (name vs itemName)
                     currentProduct = {
                         name: data.name || data.itemName || "Unnamed Product",
                         price: data.price || data.itemPrice || 0,
-                        image: data.image || "https://via.placeholder.com/150"
+                        image: data.image || data.img || "https://via.placeholder.com/150"
                     };
 
                     document.getElementById('productDisplay').innerHTML = `
                         <div class="product-box">
-                            <img src="${currentProduct.image}" alt="img">
+                            <img src="${currentProduct.image}" alt="img" onerror="this.src='https://via.placeholder.com/150'">
                             <div class="product-info">
                                 <h4>${currentProduct.name}</h4>
                                 <p>Rs. ${parseFloat(currentProduct.price).toLocaleString()}</p>
@@ -277,20 +278,22 @@
                     `;
                     document.getElementById('sub-total').innerText = "Rs. " + currentProduct.price;
                     document.getElementById('grand-total').innerText = "Rs. " + currentProduct.price;
+                } else {
+                    document.getElementById('productDisplay').innerHTML = "<p>Product not found.</p>";
                 }
             } catch (err) {
                 console.error(err);
-                alert("Could not load product. Check internet.");
+                alert("Internet connection error.");
             }
         }
         fetchProduct();
 
-        // Handle Form Submission
+        // 2. Handle Form Submission
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             if (!currentProduct) {
-                alert("Wait until product details load!");
+                alert("Please wait until product details load.");
                 return;
             }
 
@@ -301,39 +304,47 @@
             btn.disabled = true;
 
             const orderID = "OS" + Date.now().toString().slice(-6);
+            const cName = document.getElementById('cust-name').value;
+            const cPhone = document.getElementById('cust-phone').value;
+            const cAddress = document.getElementById('cust-address').value;
 
             try {
-                // 1. Save to Firebase
+                // Save to Firestore
                 await addDoc(collection(db, "orders"), {
                     orderID: orderID,
-                    customerName: document.getElementById('cust-name').value,
-                    phone: document.getElementById('cust-phone').value,
-                    address: document.getElementById('cust-address').value,
+                    customerName: cName,
+                    phone: cPhone,
+                    address: cAddress,
                     productName: currentProduct.name,
                     price: currentProduct.price,
                     status: "Pending",
                     timestamp: serverTimestamp()
                 });
 
-                // 2. Send Email
+                // Send Email Notification
                 await emailjs.send('service_il15c1q', 'template_vmc0kvo', {
                     order_id: orderID,
-                    cust_name: document.getElementById('cust-name').value,
-                    cust_phone: document.getElementById('cust-phone').value,
+                    cust_name: cName,
+                    cust_phone: cPhone,
                     product_name: currentProduct.name,
                     total_price: currentProduct.price
                 });
 
                 overlay.style.display = 'none';
-                alert("Order Placed Successfully! Order ID: " + orderID);
+                alert("Success! Your Order ID is: " + orderID);
+                
+                // Optional: WhatsApp Redirect (+94727600501)
+                // const waMsg = `Hello OshanCart, I placed an order.\nID: ${orderID}\nProduct: ${currentProduct.name}`;
+                // window.location.href = `https://wa.me/94727600501?text=${encodeURIComponent(waMsg)}`;
+                
                 window.location.href = "index.html";
 
             } catch (error) {
                 overlay.style.display = 'none';
                 btn.disabled = false;
-                alert("Error placing order: " + error.message);
+                alert("Error: " + error.message);
             }
         });
     </script>
 </body>
-</html>
+    </html>
