@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Checkout | OshanCart</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Secure Checkout | OshanCart - Global Trading Simplified</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -12,92 +13,198 @@
     
     <style>
         :root {
-            --primary-color: #232f3e;
-            --accent-color: #febd69;
-            --success-color: #27ae60;
-            --bg-color: #f4f7f9;
+            --primary: #131921;
+            --accent: #febd69;
+            --success: #27ae60;
+            --light-bg: #f7f8fa;
+            --border-color: #d5d9d9;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            margin: 0; padding: 0; color: #333;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            margin: 0; padding: 0; color: #111;
         }
 
-        /* Header */
-        .top-bar {
-            background: var(--primary-color);
-            color: white; padding: 15px 0; text-align: center;
+        /* --- Global Header --- */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 12px 5%;
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        .container {
-            max-width: 1100px; margin: 30px auto; padding: 0 20px;
-            display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px;
+        .logo { font-size: 22px; font-weight: 700; color: var(--accent); cursor: pointer; text-decoration: none; }
+        .secure-badge { font-size: 13px; display: flex; align-items: center; gap: 8px; opacity: 0.9; }
+
+        /* --- Main Layout --- */
+        .main-container {
+            max-width: 1150px; margin: 30px auto; padding: 0 20px;
+            display: grid; grid-template-columns: 1.8fr 1fr; gap: 40px;
         }
 
-        .card {
-            background: white; border-radius: 12px; padding: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px;
+        .section-card {
+            background: white; border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 25px; margin-bottom: 20px;
         }
 
-        .input-group { margin-bottom: 20px; }
-        label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; }
-        input, textarea {
-            width: 100%; padding: 12px; border: 1.5px solid #d1d9e0;
-            border-radius: 8px; box-sizing: border-box;
+        .section-title {
+            font-size: 18px; font-weight: 700; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; padding-bottom: 15px;
         }
 
-        .btn-confirm {
-            width: 100%; background: linear-gradient(180deg, #f7dfa5 0%, #f0c14b 100%);
-            border: 1px solid #a88734; padding: 15px; border-radius: 8px;
-            font-weight: 700; cursor: pointer;
+        /* --- Responsive Form --- */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .full-width { grid-column: span 2; }
+
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+        input, select, textarea {
+            width: 100%; padding: 10px 12px; border: 1px solid #888;
+            border-radius: 4px; font-size: 14px; box-sizing: border-box;
         }
+        input:focus { border-color: #e77600; box-shadow: 0 0 3px rgba(228, 121, 17, 0.5); outline: none; }
 
-        /* පින්තූරය පෙන්වන කොටස */
-        .product-box { display: flex; gap: 15px; background: #fdfdfd; padding: 15px; border-radius: 10px; border: 1px solid #eee; }
-        .product-box img { width: 80px; height: 80px; object-fit: contain; border-radius: 8px; }
+        /* --- Shipping Options --- */
+        .shipping-method {
+            border: 1px solid var(--border-color); border-radius: 8px; padding: 15px;
+            display: flex; justify-content: space-between; align-items: center; margin-top: 10px;
+            cursor: pointer; transition: 0.2s;
+        }
+        .shipping-method:hover { border-color: var(--accent); background: #fffcf5; }
 
-        @media (max-width: 850px) { .container { grid-template-columns: 1fr; } }
+        /* --- Order Summary (Sidebar) --- */
+        .summary-sidebar { position: sticky; top: 20px; }
+        
+        .product-preview { display: flex; gap: 15px; align-items: center; margin-bottom: 20px; }
+        .product-preview img { width: 65px; height: 65px; object-fit: contain; border: 1px solid #eee; border-radius: 4px; }
+        
+        .price-details { border-top: 1px solid #eee; padding-top: 15px; }
+        .price-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+        .total-row { font-size: 19px; font-weight: 700; color: #B12704; margin-top: 15px; padding-top: 15px; border-top: 2px solid #eee; }
+
+        /* --- Action Button --- */
+        .btn-place-order {
+            width: 100%; background: #ffd814; border: 1px solid #fcd200;
+            padding: 14px; border-radius: 25px; font-weight: 600; cursor: pointer;
+            font-size: 16px; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-place-order:hover { background: #f7ca00; }
+
+        @media (max-width: 850px) {
+            .main-container { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="top-bar"><h1>OSHAN CART</h1></div>
+    <header>
+        <a href="index.html" class="logo">OshanCart</a>
+        <div class="secure-badge"><i class="fas fa-lock"></i> Secure Global Checkout</div>
+    </header>
 
-    <div class="container">
-        <div class="left-side">
-            <div class="card">
-                <h2><i class="fas fa-truck-moving"></i> Shipping Details</h2>
-                <form id="orderForm">
-                    <div class="input-group">
-                        <label>Full Name</label>
-                        <input type="text" id="cust-name" placeholder="Kamal Perera" required>
-                    </div>
-                    <div class="input-group">
-                        <label>WhatsApp Number</label>
-                        <input type="tel" id="cust-phone" placeholder="07xxxxxxxx" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Address</label>
-                        <textarea id="cust-address" rows="3" required></textarea>
+    <main class="main-container">
+        
+        <div class="checkout-steps">
+            
+            <div class="section-card">
+                <div class="section-title">
+                    <span style="background:var(--primary); color:white; width:25px; height:25px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; font-size:14px;">1</span>
+                    Shipping Address
+                </div>
+                <form id="globalOrderForm">
+                    <div class="form-row">
+                        <div class="input-group full-width">
+                            <label>Full Name</label>
+                            <input type="text" id="full-name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Phone Number (WhatsApp)</label>
+                            <input type="tel" id="phone" placeholder="+94 XX XXX XXXX" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Country / Region</label>
+                            <select id="country" required>
+                                <option value="Sri Lanka">Sri Lanka</option>
+                                <option value="Worldwide">International Shipping</option>
+                            </select>
+                        </div>
+                        <div class="input-group full-width">
+                            <label>Street Address</label>
+                            <input type="text" id="street" placeholder="House number and street name" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Town / City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="input-group">
+                            <label>State / Province (District)</label>
+                            <input type="text" id="province" required>
+                        </div>
                     </div>
                 </form>
             </div>
-        </div>
 
-        <div class="right-side">
-            <div class="card">
-                <h2>Order Summary</h2>
-                <div id="productDisplay">Loading...</div>
-                <hr>
-                <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2em; color:#B12704;">
-                    <span>Total:</span>
-                    <span id="grand-total">Rs. 0.00</span>
+            <div class="section-card">
+                <div class="section-title">
+                    <span style="background:var(--primary); color:white; width:25px; height:25px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; font-size:14px;">2</span>
+                    Shipping Method
                 </div>
-                <button type="submit" form="orderForm" class="btn-confirm" id="confirmBtn" style="margin-top:20px;">CONFIRM ORDER</button>
+                <div class="shipping-method">
+                    <span><i class="fas fa-truck" style="margin-right:10px;"></i> <b>Standard Delivery</b> (3-5 Business Days)</span>
+                    <span style="color:var(--success); font-weight:700;">FREE</span>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">
+                    <span style="background:var(--primary); color:white; width:25px; height:25px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; font-size:14px;">3</span>
+                    Payment Method
+                </div>
+                <div style="display:flex; align-items:center; gap:15px; padding:15px; border:1px solid #b7e4c7; background:#f0fff4; border-radius:8px;">
+                    <i class="fas fa-hand-holding-usd fa-2x" style="color:var(--success);"></i>
+                    <div>
+                        <b style="display:block;">Cash on Delivery (COD)</b>
+                        <small>Pay when you receive your package.</small>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="summary-sidebar">
+            <div class="section-card">
+                <h3 style="margin-top:0; font-size:16px;">Order Summary</h3>
+                
+                <div id="itemPreview">
+                    <p style="color:#888; font-size:13px; text-align:center;">Loading item details...</p>
+                </div>
+
+                <div class="price-details">
+                    <div class="price-row">
+                        <span>Items:</span>
+                        <span id="subtotal-val">LKR 0.00</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Shipping & handling:</span>
+                        <span style="color:var(--success);">LKR 0.00</span>
+                    </div>
+                    <div class="price-row total-row">
+                        <span>Order Total:</span>
+                        <span id="total-val">LKR 0.00</span>
+                    </div>
+                </div>
+
+                <button type="submit" form="globalOrderForm" class="btn-place-order" id="submitBtn">
+                    Place Your Order
+                </button>
+                
+                <p style="font-size:12px; color:#555; text-align:center; margin-top:15px;">
+                    By placing your order, you agree to OshanCart's <a href="#">privacy notice</a> and <a href="#">conditions of use</a>.
+                </p>
+            </div>
+        </div>
+    </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -117,76 +224,71 @@
         emailjs.init("jfgAK0LaZ0w7RKAE8");
 
         const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id');
-        let currentProduct = null;
+        const pid = urlParams.get('id');
+        let productData = null;
 
-        // භාණ්ඩය Load කිරීම
-        async function fetchProduct() {
-            if (!productId) return;
-            const docRef = doc(db, "products", productId);
-            const snap = await getDoc(docRef);
+        async function loadProduct() {
+            if (!pid) return;
+            const snap = await getDoc(doc(db, "products", pid));
             if (snap.exists()) {
-                currentProduct = snap.data();
-                document.getElementById('productDisplay').innerHTML = `
-                    <div class="product-box">
-                        <img src="${currentProduct.image || currentProduct.img}" onerror="this.src='https://via.placeholder.com/150'">
+                productData = snap.data();
+                document.getElementById('itemPreview').innerHTML = `
+                    <div class="product-preview">
+                        <img src="${productData.image || productData.img}" onerror="this.src='https://via.placeholder.com/100'">
                         <div>
-                            <h4 style="margin:0;">${currentProduct.name || currentProduct.itemName}</h4>
-                            <p style="color:#B12704; font-weight:bold;">Rs. ${currentProduct.price || currentProduct.itemPrice}</p>
+                            <h4 style="margin:0; font-size:14px;">${productData.name || productData.itemName}</h4>
+                            <p style="margin:5px 0 0; color:#B12704; font-weight:700;">LKR ${(productData.price || productData.itemPrice).toLocaleString()}</p>
                         </div>
                     </div>
                 `;
-                document.getElementById('grand-total').innerText = "Rs. " + (currentProduct.price || currentProduct.itemPrice);
+                const priceLabel = "LKR " + (productData.price || productData.itemPrice).toLocaleString();
+                document.getElementById('subtotal-val').innerText = priceLabel;
+                document.getElementById('total-val').innerText = priceLabel;
             }
         }
-        fetchProduct();
+        loadProduct();
 
-        // ඇණවුම Submit කිරීම
-        document.getElementById('orderForm').addEventListener('submit', async (e) => {
+        document.getElementById('globalOrderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // ලස්සන Loading එකක් පෙන්වීම
             Swal.fire({
                 title: 'Processing...',
-                text: 'ඔබේ ඇණවුම සකසමින් පවතී.',
+                text: 'Securing your order. Please wait.',
                 allowOutsideClick: false,
                 didOpen: () => { Swal.showLoading(); }
             });
 
-            const orderID = "OS" + Date.now().toString().slice(-6);
+            const oid = "OSG" + Math.floor(Math.random() * 1000000);
+            const addressString = `${document.getElementById('street').value}, ${document.getElementById('city').value}, ${document.getElementById('province').value}, ${document.getElementById('country').value}`;
 
             try {
-                // Firebase එකට දත්ත යැවීම
                 await addDoc(collection(db, "orders"), {
-                    orderID,
-                    customerName: document.getElementById('cust-name').value,
-                    phone: document.getElementById('cust-phone').value,
-                    address: document.getElementById('cust-address').value,
-                    productName: currentProduct.name || currentProduct.itemName,
+                    orderID: oid,
+                    customer: document.getElementById('full-name').value,
+                    phone: document.getElementById('phone').value,
+                    address: addressString,
+                    product: productData.name || productData.itemName,
+                    price: productData.price || productData.itemPrice,
                     status: "Pending",
                     timestamp: serverTimestamp()
                 });
 
-                // EmailJS Notification
                 await emailjs.send('service_il15c1q', 'template_vmc0kvo', {
-                    order_id: orderID,
-                    cust_name: document.getElementById('cust-name').value,
-                    product_name: currentProduct.name || currentProduct.itemName
+                    order_id: oid,
+                    cust_name: document.getElementById('full-name').value,
+                    product_name: productData.name || productData.itemName,
+                    total_price: productData.price || productData.itemPrice
                 });
 
-                // සාර්ථක වූ පසු ලස්සන Popup එකක් පෙන්වීම
                 Swal.fire({
                     icon: 'success',
-                    title: 'ඇණවුම සාර්ථකයි! 🎉',
-                    text: `ඔබේ Order ID එක: ${orderID}`,
-                    confirmButtonText: 'හරි',
-                    confirmButtonColor: '#27ae60'
-                }).then(() => {
-                    window.location.href = "index.html";
-                });
+                    title: 'Thank you for your order!',
+                    text: `Your Order ID is ${oid}. We will contact you soon.`,
+                    confirmButtonColor: '#131921'
+                }).then(() => location.href = "index.html");
 
-            } catch (error) {
-                Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: 'Checkout Failed', text: err.message });
             }
         });
     </script>
