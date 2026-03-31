@@ -9,196 +9,184 @@
     
     <style>
         :root {
-            --bg-black: #000000;
-            --card-gray: #121212;
-            --accent-glow: rgba(255, 71, 87, 0.15);
-            --border-color: #262626;
-            --text-secondary: #8e8e8e;
+            --bg-dark: #000000;
+            --card-bg: #121212;
+            --btn-border: #2c2c2c;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --accent: #ff4757;
         }
 
         body, html {
-            margin: 0; padding: 0; width: 100%; min-height: 100vh;
+            margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-black);
-            color: white; display: flex; justify-content: center; align-items: center;
-            overflow-x: hidden;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
         }
 
-        /* --- Background Particles --- */
-        #particle-canvas {
+        /* --- Manus Style Animated Background --- */
+        .bg-animation {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; opacity: 0.4; pointer-events: none;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000000 100%);
         }
 
-        .signup-wrapper {
-            width: 100%; max-width: 440px; padding: 40px 20px;
-            z-index: 10; position: relative; text-align: center;
+        /* බොත්තම් පිටුපසින් පෙනෙන චලනය වන ආලෝකය */
+        .bg-glow {
+            position: absolute; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(255, 71, 87, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: moveGlow 15s infinite alternate ease-in-out;
         }
 
-        /* --- Logo Styling --- */
-        .brand-header { margin-bottom: 40px; }
-        .logo-box {
-            width: 80px; height: 80px; margin: 0 auto 20px;
-            background: url('https://oshlababa.com/logo.png') no-repeat center;
-            background-size: contain; filter: drop-shadow(0 0 15px var(--accent-glow));
+        @keyframes moveGlow {
+            0% { transform: translate(-20%, -20%); }
+            100% { transform: translate(20%, 20%); }
         }
-        .brand-header h1 { font-size: 32px; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
-        .brand-header p { color: var(--text-secondary); margin-top: 10px; font-size: 15px; }
 
-        /* --- Animated Social Buttons (Manus Style) --- */
-        .social-stack { display: flex; flex-direction: column; gap: 14px; }
+        .container {
+            width: 100%; max-width: 400px; padding: 25px;
+            text-align: center; position: relative; z-index: 10;
+        }
 
+        /* --- Branding --- */
+        .logo-section { margin-bottom: 35px; }
+        .logo-img {
+            width: 65px; height: 65px; margin-bottom: 15px;
+            filter: drop-shadow(0 0 15px rgba(255, 71, 87, 0.4));
+        }
+        h1 { font-size: 32px; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
+        p { color: var(--text-dim); font-size: 15px; margin-top: 10px; }
+
+        /* --- Social Buttons (Manus Global Style) --- */
+        .social-list { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+        
         .btn-social {
+            display: flex; align-items: center; justify-content: flex-start;
+            background: var(--card-bg);
+            border: 1px solid var(--btn-border);
+            padding: 14px 24px; border-radius: 14px;
+            color: white; font-weight: 500; font-size: 15px;
+            cursor: pointer; transition: all 0.3s ease;
             position: relative; overflow: hidden;
-            display: flex; align-items: center;
-            background: var(--card-gray);
-            border: 1px solid var(--border-color);
-            padding: 16px 24px; border-radius: 14px;
-            color: white; font-weight: 500; font-size: 16px;
-            cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
         }
 
-        /* බොත්තම පිටුපස ඇති Animation එක */
-        .btn-social::before {
-            content: ''; position: absolute; top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: 0.5s;
-        }
-
-        .btn-social:hover::before { left: 100%; }
         .btn-social:hover {
-            border-color: #444; background: #1a1a1a;
-            transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            background: #1c1c1c;
+            border-color: #444;
+            transform: translateY(-2px);
         }
 
-        .btn-social i { width: 30px; font-size: 20px; margin-right: 12px; text-align: center; }
+        .btn-social i { width: 30px; font-size: 20px; margin-right: 10px; }
 
         /* --- Divider --- */
         .divider {
             display: flex; align-items: center; color: #333;
-            font-size: 13px; font-weight: 600; margin: 30px 0; text-transform: uppercase;
+            font-size: 11px; font-weight: 700; margin: 25px 0;
+            text-transform: uppercase; letter-spacing: 2px;
         }
-        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #222; margin: 0 20px; }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #222; margin: 0 15px; }
 
-        /* --- Forms --- */
-        .form-group { margin-bottom: 15px; }
-        .form-group input {
-            width: 100%; background: #080808; border: 1px solid var(--border-color);
-            padding: 16px; border-radius: 12px; color: white;
-            font-size: 15px; box-sizing: border-box; transition: 0.3s;
+        /* --- Input Fields --- */
+        .input-box { margin-bottom: 12px; }
+        .input-box input {
+            width: 100%; background: #0f0f0f; border: 1px solid #222;
+            padding: 15px; border-radius: 12px; color: white;
+            box-sizing: border-box; font-size: 14px;
         }
-        .form-group input:focus { border-color: #ff4757; outline: none; box-shadow: 0 0 0 4px rgba(255, 71, 87, 0.1); }
+        .input-box input:focus { border-color: var(--accent); outline: none; background: #000; }
 
-        .btn-submit {
-            width: 100%; background: white; color: black;
-            border: none; padding: 16px; border-radius: 12px;
-            font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 10px;
-            transition: 0.3s;
+        .btn-main {
+            width: 100%; background: #ffffff; color: #000000;
+            border: none; padding: 16px; border-radius: 14px;
+            font-weight: 700; font-size: 16px; cursor: pointer;
+            margin-top: 15px; transition: 0.3s;
         }
-        .btn-submit:hover { background: #e0e0e0; transform: scale(0.98); }
+        .btn-main:hover { background: #e0e0e0; }
 
-        /* --- Footer --- */
-        .footer-links { margin-top: 30px; color: var(--text-secondary); font-size: 14px; }
-        .footer-links a { color: white; text-decoration: none; font-weight: 600; margin-left: 5px; }
-        
-        .legal-notice {
-            margin-top: 40px; font-size: 11px; color: #444; line-height: 1.6;
-        }
+        .footer { margin-top: 30px; font-size: 13px; color: var(--text-dim); }
+        .footer a { color: white; text-decoration: none; font-weight: 600; }
+
     </style>
 </head>
 <body>
 
-    <canvas id="particle-canvas"></canvas>
+    <div class="bg-animation">
+        <div class="bg-glow"></div>
+    </div>
 
-    <div class="signup-wrapper">
-        <div class="brand-header">
-            <div class="logo-box"></div>
+    <div class="container">
+        <div class="logo-section">
+            <img src="https://oshlababa.com/logo.png" alt="OshanCart" class="logo-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1162/1162499.png'">
             <h1>Welcome to OshanCart</h1>
-            <p>Connect with the global marketplace.</p>
         </div>
 
-        <div class="social-stack">
-            <button class="btn-social" id="googleLogin">
-                <i class="fab fa-google" style="color: #4285F4;"></i> Continue with Google
+        <div class="social-list">
+            <button class="btn-social" id="btnFacebook">
+                <i class="fab fa-facebook" style="color: #1877f2;"></i> Continue with Facebook
             </button>
-            <button class="btn-social" id="fbLogin">
-                <i class="fab fa-facebook" style="color: #1877F2;"></i> Continue with Facebook
+            <button class="btn-social" id="btnGoogle">
+                <i class="fab fa-google" style="color: #ffffff;"></i> Continue with Google
             </button>
-            <button class="btn-social">
-                <i class="fab fa-microsoft" style="color: #00A4EF;"></i> Continue with Microsoft
+            <button class="btn-social" id="btnMicrosoft">
+                <i class="fab fa-microsoft" style="color: #00a4ef;"></i> Continue with Microsoft
             </button>
-            <button class="btn-social">
+            <button class="btn-social" id="btnApple">
                 <i class="fab fa-apple"></i> Continue with Apple
             </button>
         </div>
 
         <div class="divider">OR</div>
 
-        <form id="emailSignup">
-            <div class="form-group">
-                <input type="email" placeholder="Email Address" required>
+        <form id="signupForm">
+            <div class="input-box">
+                <input type="email" id="email" placeholder="Email Address" required>
             </div>
-            <div class="form-group">
-                <input type="password" placeholder="Password" required>
-            </div>
-            <button type="submit" class="btn-submit">Continue with Email</button>
+            <button class="btn-main">Continue with Email</button>
         </form>
 
-        <div class="footer-links">
-            Already have an account? <a href="login.html">Sign In</a>
-        </div>
-
-        <div class="legal-notice">
-            By continuing, you agree to OshanCart's <a href="#" style="color: #666;">Terms of Service</a> and 
-            <a href="#" style="color: #666;">Privacy Policy</a>. <br> © 2026 OshanCart Global by Oshani Pathirana.
+        <div class="footer">
+            By continuing, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+            <p>© 2026 OshanCart Global</p>
         </div>
     </div>
 
-    <script>
-        // Background Particle Animation Logic
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vX = (Math.random() - 0.5) * 0.4;
-                this.vY = (Math.random() - 0.5) * 0.4;
-                this.size = Math.random() * 1.5;
-            }
-            update() {
-                this.x += this.vX;
-                this.y += this.vY;
-                if (this.x < 0 || this.x > canvas.width) this.vX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vY *= -1;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-                ctx.fill();
-            }
-        }
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-        for (let i = 0; i < 80; i++) particles.push(new Particle());
+        // Google Sign-In
+        document.getElementById('btnGoogle').onclick = async () => {
+            const provider = new GoogleAuthProvider();
+            try {
+                const result = await signInWithPopup(auth, provider);
+                window.location.href = "index.html";
+            } catch (error) { alert(error.message); }
+        };
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-
-        window.addEventListener('resize', resize);
-        resize(); animate();
+        // Facebook Sign-In
+        document.getElementById('btnFacebook').onclick = async () => {
+            const provider = new FacebookAuthProvider();
+            try {
+                const result = await signInWithPopup(auth, provider);
+                window.location.href = "index.html";
+            } catch (error) { alert(error.message); }
+        };
     </script>
 </body>
 </html>
