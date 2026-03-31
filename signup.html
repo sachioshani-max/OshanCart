@@ -1,155 +1,179 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OshanCart | Sign Up</title>
+    <title>Sign Up | OshanCart - Global Trading</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         :root {
-            --primary-color: #2563eb;
-            --google-red: #db4437;
-            --fb-blue: #4267B2;
-            --tiktok-black: #010101;
+            --primary-bg: #0f172a;
+            --accent-orange: #febd69;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --input-bg: rgba(255, 255, 255, 0.12);
+            --text-white: #ffffff;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
+        body, html {
+            height: 100%; margin: 0;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--primary-bg);
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; /* Background animation එක සඳහා */
         }
 
-        .signup-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
+        /* --- Background Animation Effect --- */
+        .bg-animation {
+            position: absolute; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+            z-index: -1;
         }
 
-        .signup-card h2 { margin-bottom: 0.5rem; color: #1f2937; }
-        .signup-card p { color: #6b7280; font-size: 0.9rem; margin-bottom: 1.5rem; }
-
-        .input-group { margin-bottom: 1rem; text-align: left; }
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            box-sizing: border-box;
-            outline: none;
+        .circles {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
         }
 
-        input:focus { border-color: var(--primary-color); }
-
-        .btn-main {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+        .circles li {
+            position: absolute; display: block; list-style: none;
+            width: 20px; height: 20px; background: rgba(254, 189, 105, 0.1);
+            animation: animate 25s linear infinite; bottom: -150px;
         }
+
+        @keyframes animate {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+        }
+
+        /* --- Signup Card --- */
+        .signup-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            padding: 40px; border-radius: 24px;
+            width: 90%; max-width: 420px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center; color: var(--text-white);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-box { margin-bottom: 25px; }
+        .logo-box img { width: 180px; filter: drop-shadow(0 0 10px rgba(254, 189, 105, 0.3)); }
+
+        h2 { font-size: 24px; font-weight: 700; margin: 10px 0; }
+        p { font-size: 14px; opacity: 0.7; margin-bottom: 30px; }
+
+        /* --- Social Buttons (Manus Style) --- */
+        .social-area { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        
+        .btn-social {
+            display: flex; align-items: center; justify-content: center;
+            gap: 12px; padding: 14px; border-radius: 12px;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            background: var(--input-bg); color: white;
+            font-weight: 600; cursor: pointer; transition: 0.3s;
+            font-size: 15px; text-decoration: none;
+        }
+        .btn-social:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
 
         .divider {
-            margin: 1.5rem 0;
-            display: flex;
-            align-items: center;
-            color: #9ca3af;
-            font-size: 0.8rem;
+            display: flex; align-items: center; margin: 25px 0;
+            font-size: 12px; color: rgba(255, 255, 255, 0.4);
         }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); margin: 0 10px; }
 
-        .divider::before, .divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #e5e7eb;
-            margin: 0 10px;
+        /* --- Input Fields --- */
+        .input-box { margin-bottom: 15px; position: relative; }
+        .input-box input {
+            width: 100%; padding: 14px 15px; border-radius: 12px;
+            border: 1.5px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.2); color: white;
+            box-sizing: border-box; outline: none; transition: 0.3s;
         }
+        .input-box input:focus { border-color: var(--accent-orange); }
 
-        .social-btns { display: flex; flex-direction: column; gap: 10px; }
-
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            font-weight: 500;
+        .btn-create {
+            width: 100%; padding: 15px; border-radius: 12px;
+            background: var(--accent-orange); color: #131921;
+            border: none; font-weight: 700; font-size: 16px;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
         }
+        .btn-create:hover { background: #f3a847; transform: scale(1.02); }
 
-        .footer-link { margin-top: 1.5rem; font-size: 0.85rem; }
-        .footer-link a { color: var(--primary-color); text-decoration: none; }
+        .footer-text { margin-top: 25px; font-size: 14px; opacity: 0.8; }
+        .footer-text a { color: var(--accent-orange); text-decoration: none; font-weight: 600; }
+
+        /* Animation Circle positions */
+        .circles li:nth-child(1){ left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .circles li:nth-child(2){ left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .circles li:nth-child(3){ left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
     </style>
 </head>
 <body>
 
-<div class="signup-card">
-    <h2>ගිණුමක් සාදන්න</h2>
-    <p>OshanCart සමඟ එක්ව ආරක්ෂිතව සාප්පු සවාරි යන්න.</p>
-
-    <div class="input-group">
-        <input type="text" id="fullName" placeholder="සම්පූර්ණ නම">
-    </div>
-    <div class="input-group">
-        <input type="email" id="email" placeholder="ඊමේල් ලිපිනය">
-    </div>
-    <div class="input-group">
-        <input type="password" id="password" placeholder="මුරපදය">
-    </div>
-    <button class="btn-main" id="btnEmailSignup">ලියාපදිංචි වන්න</button>
-
-    <div class="divider">නැතිනම් මේ හරහා</div>
-
-    <div class="social-btns">
-        <button class="social-btn" id="btnGoogle">
-            <i class="fab fa-google" style="color:#db4437"></i> Google සමඟ එක්වන්න
-        </button>
-        <button class="social-btn" id="btnFacebook">
-            <i class="fab fa-facebook" style="color:#4267B2"></i> Facebook සමඟ එක්වන්න
-        </button>
+    <div class="bg-animation">
+        <ul class="circles">
+            <li></li><li></li><li></li><li></li><li></li>
+        </ul>
     </div>
 
-    <div class="footer-link">
-        දැනටමත් ගිණුමක් තිබේද? <a href="login.html">ඇතුළු වන්න</a>
+    <div class="signup-container">
+        <div class="logo-box">
+            <img src="https://oshani-max.github.io/img/oshancart-logo.png" alt="OshanCart" onerror="this.src='https://via.placeholder.com/180x50/131921/febd69?text=OshanCart'">
+        </div>
+
+        <h2>Create Account</h2>
+        <p>Making global trading simple</p>
+
+        <div class="social-area">
+            <button class="btn-social" id="btnGoogle">
+                <img src="https://img.icons8.com/color/24/000000/google-logo.png"/> Continue with Google
+            </button>
+            <button class="btn-social" id="btnFacebook">
+                <i class="fab fa-facebook fa-lg" style="color:#1877F2"></i> Continue with Facebook
+            </button>
+        </div>
+
+        <div class="divider">OR</div>
+
+        <form id="signupForm">
+            <div class="input-box">
+                <input type="text" id="fullName" placeholder="Full Name" required>
+            </div>
+            <div class="input-box">
+                <input type="email" id="email" placeholder="Email Address" required>
+            </div>
+            <div class="input-box">
+                <input type="password" id="password" placeholder="Create Password" required>
+            </div>
+            <button type="submit" class="btn-create" id="btnSubmit">Create Account</button>
+        </form>
+
+        <div class="footer-text">
+            Already have an account? <a href="login.html">Sign In</a>
+        </div>
     </div>
-</div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Firebase Configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-        authDomain: "oshancart.firebaseapp.com",
-        projectId: "oshancart",
-        storageBucket: "oshancart.firebasestorage.app",
-        messagingSenderId: "686982543488",
-        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.firebasestorage.app",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    // දත්ත Firestore හි සුරැකීමේ Function එක
-    async function saveUserToDB(user, name) {
-        try {
+        // Firestore User Save
+        async function saveUser(user, name) {
             await setDoc(doc(db, "users", user.uid), {
                 name: name || user.displayName,
                 email: user.email,
@@ -157,50 +181,30 @@
                 createdAt: serverTimestamp()
             }, { merge: true });
             window.location.href = "index.html";
-        } catch (error) {
-            console.error("Error saving user:", error);
         }
-    }
 
-    // Google Sign-In
-    document.getElementById('btnGoogle').onclick = async () => {
-        const provider = new GoogleAuthProvider();
-        try {
-            const result = await signInWithPopup(auth, provider);
-            await saveUserToDB(result.user);
-        } catch (error) {
-            alert("Google Sign-in වැරදුනා: " + error.message);
-        }
-    };
+        // Social Handlers
+        document.getElementById('btnGoogle').onclick = async () => {
+            const result = await signInWithPopup(auth, new GoogleAuthProvider());
+            await saveUser(result.user);
+        };
 
-    // Facebook Sign-In
-    document.getElementById('btnFacebook').onclick = async () => {
-        const provider = new FacebookAuthProvider();
-        try {
-            const result = await signInWithPopup(auth, provider);
-            await saveUserToDB(result.user);
-        } catch (error) {
-            alert("Facebook Sign-in වැරදුනා: " + error.message);
-        }
-    };
+        // Email Signup
+        document.getElementById('signupForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
 
-    // Email/Password Sign-Up
-    document.getElementById('btnEmailSignup').onclick = async () => {
-        const name = document.getElementById('fullName').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        if(!name || !email || !password) return alert("කරුණාකර සියලු විස්තර පුරවන්න.");
-
-        try {
-            const result = await createUserWithEmailAndPassword(auth, email, password);
-            await updateProfile(result.user, { displayName: name });
-            await saveUserToDB(result.user, name);
-        } catch (error) {
-            alert("ලියාපදිංචිය වැරදුනා: " + error.message);
-        }
-    };
-</script>
-
+            try {
+                const res = await createUserWithEmailAndPassword(auth, email, pass);
+                await updateProfile(res.user, { displayName: name });
+                await saveUser(res.user, name);
+                Swal.fire('Success!', 'Account created successfully', 'success');
+            } catch (err) {
+                alert(err.message);
+            }
+        };
+    </script>
 </body>
 </html>
