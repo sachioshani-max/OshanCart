@@ -52,6 +52,7 @@
             text-align: center; position: relative; z-index: 10;
         }
 
+        /* --- Branding --- */
         .logo-section { margin-bottom: 30px; }
         .logo-img {
             width: 65px; height: 65px; margin-bottom: 15px;
@@ -59,6 +60,7 @@
         }
         h1 { font-size: 28px; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
 
+        /* --- Social Buttons (All Buttons Added) --- */
         .social-list { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
         
         .btn-social {
@@ -73,6 +75,7 @@
         .btn-social:hover { background: #1c1c1c; border-color: #444; transform: translateY(-2px); }
         .btn-social i { width: 30px; font-size: 20px; margin-right: 10px; }
 
+        /* --- Divider --- */
         .divider {
             display: flex; align-items: center; color: #333;
             font-size: 11px; font-weight: 700; margin: 25px 0;
@@ -80,11 +83,13 @@
         }
         .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #222; margin: 0 15px; }
 
+        /* --- Input Fields --- */
         .input-box input {
             width: 100%; background: #0f0f0f; border: 1px solid #222;
             padding: 15px; border-radius: 12px; color: white;
             box-sizing: border-box; font-size: 14px; margin-bottom: 12px;
         }
+        .input-box input:focus { border-color: var(--accent); outline: none; }
 
         .btn-main {
             width: 100%; background: #ffffff; color: #000000;
@@ -109,8 +114,10 @@
         </div>
 
         <div class="social-list">
-            <button class="btn-social" id="btnGoogle"><i class="fab fa-google"></i> Continue with Google</button>
             <button class="btn-social" id="btnFacebook"><i class="fab fa-facebook" style="color: #1877f2;"></i> Continue with Facebook</button>
+            <button class="btn-social" id="btnGoogle"><i class="fab fa-google"></i> Continue with Google</button>
+            <button class="btn-social" id="btnMicrosoft"><i class="fab fa-microsoft" style="color: #00a4ef;"></i> Continue with Microsoft</button>
+            <button class="btn-social" id="btnApple"><i class="fab fa-apple"></i> Continue with Apple</button>
         </div>
 
         <div class="divider">OR</div>
@@ -147,7 +154,7 @@
         const handleAuth = async (provider) => {
             try {
                 await signInWithPopup(auth, provider);
-                Swal.fire({ icon: 'success', title: 'Welcome!', timer: 2000, showConfirmButton: false }).then(() => {
+                Swal.fire({ icon: 'success', title: 'Success!', timer: 2000, showConfirmButton: false }).then(() => {
                     window.location.href = "index.html";
                 });
             } catch (error) { Swal.fire({ icon: 'error', title: 'Failed', text: error.message }); }
@@ -155,6 +162,7 @@
 
         document.getElementById('btnGoogle').onclick = () => handleAuth(new GoogleAuthProvider());
         document.getElementById('btnFacebook').onclick = () => handleAuth(new FacebookAuthProvider());
+        // Note: Microsoft and Apple require additional configuration in Firebase Console.
     </script>
 </body>
 </html>
