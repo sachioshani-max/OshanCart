@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up | OshanCart Global</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     <style>
         :root {
             --bg-dark: #000000;
@@ -27,7 +29,7 @@
             overflow: hidden;
         }
 
-        /* --- Manus Style Animated Background --- */
+        /* --- Manus Style Animated Background Glow --- */
         .bg-animation {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
@@ -35,70 +37,83 @@
         }
 
         .bg-glow {
-            position: absolute; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(255, 71, 87, 0.08) 0%, transparent 70%);
+            position: absolute; width: 650px; height: 650px;
+            background: radial-gradient(circle, rgba(255, 71, 87, 0.1) 0%, transparent 70%);
             border-radius: 50%;
-            filter: blur(80px);
-            animation: moveGlow 15s infinite alternate ease-in-out;
+            filter: blur(90px);
+            animation: moveGlow 18s infinite alternate ease-in-out;
         }
 
         @keyframes moveGlow {
-            0% { transform: translate(-20%, -20%); }
-            100% { transform: translate(20%, 20%); }
+            0% { transform: translate(-25%, -25%); }
+            100% { transform: translate(25%, 25%); }
         }
 
+        /* --- Main Container --- */
         .container {
-            width: 100%; max-width: 400px; padding: 25px;
+            width: 100%; max-width: 420px; padding: 30px;
             text-align: center; position: relative; z-index: 10;
         }
 
-        /* --- Branding --- */
+        /* --- Logo Section with Shadow --- */
         .logo-section { margin-bottom: 30px; }
         .logo-img {
-            width: 65px; height: 65px; margin-bottom: 15px;
-            filter: drop-shadow(0 0 15px rgba(255, 71, 87, 0.4));
+            width: 80px; height: 80px; margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.6)); /* Logo Glow Effect */
+            object-fit: contain;
         }
-        h1 { font-size: 28px; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
+        h1 { font-size: 30px; font-weight: 700; margin: 0; letter-spacing: -1px; }
 
-        /* --- Social Buttons (All Buttons Added) --- */
-        .social-list { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
+        /* --- Social Login Buttons --- */
+        .social-list { display: flex; flex-direction: column; gap: 14px; margin-top: 30px; }
         
         .btn-social {
             display: flex; align-items: center; justify-content: flex-start;
             background: var(--card-bg);
             border: 1px solid var(--btn-border);
-            padding: 14px 24px; border-radius: 14px;
-            color: white; font-weight: 500; font-size: 15px;
-            cursor: pointer; transition: 0.3s ease;
+            padding: 15px 25px; border-radius: 16px;
+            color: white; font-weight: 500; font-size: 15.5px;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .btn-social:hover { background: #1c1c1c; border-color: #444; transform: translateY(-2px); }
-        .btn-social i { width: 30px; font-size: 20px; margin-right: 10px; }
+        .btn-social:hover {
+            background: #1c1c1c; border-color: #555;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
 
-        /* --- Divider --- */
+        .btn-social i { width: 35px; font-size: 22px; margin-right: 12px; }
+
+        /* --- Custom Divider --- */
         .divider {
-            display: flex; align-items: center; color: #333;
-            font-size: 11px; font-weight: 700; margin: 25px 0;
-            text-transform: uppercase; letter-spacing: 2px;
+            display: flex; align-items: center; color: #444;
+            font-size: 11px; font-weight: 800; margin: 30px 0;
+            text-transform: uppercase; letter-spacing: 3px;
         }
-        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #222; margin: 0 15px; }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #222; margin: 0 20px; }
 
         /* --- Input Fields --- */
+        .input-box { margin-bottom: 15px; }
         .input-box input {
-            width: 100%; background: #0f0f0f; border: 1px solid #222;
-            padding: 15px; border-radius: 12px; color: white;
-            box-sizing: border-box; font-size: 14px; margin-bottom: 12px;
+            width: 100%; background: #0a0a0a; border: 1px solid #222;
+            padding: 16px; border-radius: 14px; color: white;
+            box-sizing: border-box; font-size: 15px; transition: 0.3s;
         }
-        .input-box input:focus { border-color: var(--accent); outline: none; }
+        .input-box input:focus { border-color: var(--accent); outline: none; background: #000; }
 
         .btn-main {
             width: 100%; background: #ffffff; color: #000000;
-            border: none; padding: 16px; border-radius: 14px;
-            font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s;
+            border: none; padding: 18px; border-radius: 16px;
+            font-weight: 800; font-size: 16px; cursor: pointer;
+            margin-top: 10px; transition: 0.3s;
         }
+        .btn-main:hover { background: #e0e0e0; transform: scale(1.02); }
 
-        .footer { margin-top: 25px; font-size: 13px; color: var(--text-dim); }
-        .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        /* --- Footer --- */
+        .footer { margin-top: 35px; font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+        .footer a { color: var(--accent); text-decoration: none; font-weight: 700; transition: 0.2s; }
+        .footer a:hover { text-decoration: underline; }
+
     </style>
 </head>
 <body>
@@ -107,17 +122,25 @@
         <div class="bg-glow"></div>
     </div>
 
-    <div class="container">
+    <div class="container animate__animated animate__fadeIn">
         <div class="logo-section">
             <img src="https://oshancart.github.io/logo.png" alt="OshanCart" class="logo-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1162/1162499.png'">
-            <h1>Create Account</h1>
+            <h1>Welcome to OshanCart</h1>
         </div>
 
         <div class="social-list">
-            <button class="btn-social" id="btnFacebook"><i class="fab fa-facebook" style="color: #1877f2;"></i> Continue with Facebook</button>
-            <button class="btn-social" id="btnGoogle"><i class="fab fa-google"></i> Continue with Google</button>
-            <button class="btn-social" id="btnMicrosoft"><i class="fab fa-microsoft" style="color: #00a4ef;"></i> Continue with Microsoft</button>
-            <button class="btn-social" id="btnApple"><i class="fab fa-apple"></i> Continue with Apple</button>
+            <button class="btn-social" id="btnFacebook">
+                <i class="fab fa-facebook" style="color: #1877f2;"></i> Continue with Facebook
+            </button>
+            <button class="btn-social" id="btnGoogle">
+                <i class="fab fa-google"></i> Continue with Google
+            </button>
+            <button class="btn-social" id="btnMicrosoft">
+                <i class="fab fa-microsoft" style="color: #00a4ef;"></i> Continue with Microsoft
+            </button>
+            <button class="btn-social" id="btnApple">
+                <i class="fab fa-apple"></i> Continue with Apple
+            </button>
         </div>
 
         <div class="divider">OR</div>
@@ -126,12 +149,15 @@
             <div class="input-box">
                 <input type="email" id="email" placeholder="Email Address" required>
             </div>
-            <button class="btn-main">Create Account</button>
+            <button type="submit" class="btn-main">Continue with Email</button>
         </form>
 
         <div class="footer">
-            Already have an account? <a href="login.html">Log In</a>
-            <p style="margin-top: 15px; opacity: 0.5;">© 2026 OshanCart Global</p>
+            Already have an account? <a href="login.html">Log In</a><br>
+            <span style="font-size: 12px; opacity: 0.6; display: block; margin-top: 20px;">
+                By continuing, you agree to our Terms and Privacy Policy.<br>
+                © 2026 OshanCart Global
+            </span>
         </div>
     </div>
 
@@ -139,6 +165,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+        // Firebase Config (Oshan Cart Project)
         const firebaseConfig = {
             apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
             authDomain: "oshancart.firebaseapp.com",
@@ -151,18 +178,38 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        // SweetAlert Custom Notification
+        const notify = (icon, title, text) => {
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: text,
+                showConfirmButton: false,
+                timer: 2500,
+                background: '#121212',
+                color: '#fff',
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+            });
+        };
+
         const handleAuth = async (provider) => {
             try {
                 await signInWithPopup(auth, provider);
-                Swal.fire({ icon: 'success', title: 'Success!', timer: 2000, showConfirmButton: false }).then(() => {
-                    window.location.href = "index.html";
-                });
-            } catch (error) { Swal.fire({ icon: 'error', title: 'Failed', text: error.message }); }
+                notify('success', 'Registration Successful!', '❤️‍🩹🏆 Welcome to OshanCart Global. 🪅🥳');
+                setTimeout(() => window.location.href = "index.html", 2500);
+            } catch (error) {
+                notify('error', 'Authentication Failed', error.message);
+            }
         };
 
         document.getElementById('btnGoogle').onclick = () => handleAuth(new GoogleAuthProvider());
         document.getElementById('btnFacebook').onclick = () => handleAuth(new FacebookAuthProvider());
-        // Note: Microsoft and Apple require additional configuration in Firebase Console.
+
+        document.getElementById('signupForm').onsubmit = (e) => {
+            e.preventDefault();
+            notify('info', 'Check Your Email', 'Verification link sent to your inbox.');
+        };
     </script>
 </body>
 </html>
