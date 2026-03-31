@@ -3,8 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login💹 |
-        Oshan Cart🪙</title>
+    <title>Login | Oshan Cart Global</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #fff0f3;
+            --text-dark: #1f2937;
+        }
+
+        body {
+            background: var(--secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 { color: var(--primary); margin-bottom: 10px; font-weight: 800; }
+
+        .promo-box {
+            background: #fff9db;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #856404;
+            margin-bottom: 25px;
+            border: 1px dashed #ffe066;
+            line-height: 1.5;
+        }
+
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 13px; font-weight: 600; color: #4b5563; display: block; margin-bottom: 5px; }
+        
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #f3f4f6;
+            border-radius: 12px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--primary); background: #fff8f9; }
+
+        .checkbox-section {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .check-row { display: flex; align-items: center; margin-bottom: 10px; font-size: 12px; }
+        
+        .btn-signin {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-signin:hover { opacity: 0.9; transform: scale(1.02); }
+
+        .footer-link { margin-top: 20px; font-size: 14px; color: #6b7280; }
+        .footer-link a { color: var(--primary); text-decoration: none; font-weight: 700; }
+    </style>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -26,47 +118,79 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
+            // Loading state
+            Swal.fire({
+                title: 'Verifying...',
+                didOpen: () => { Swal.showLoading() },
+                allowOutsideClick: false
+            });
+
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                alert("❤️‍🩹🏆Login සාර්ථකයි! Welcome back. 🪅🥳");
-                window.location.href = "index.html"; 
+                
+                // Success Notification
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful!',
+                    text: 'Welcome back to Oshan Cart 🛍️',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    showClass: { popup: 'animate__animated animate__fadeInDown' },
+                    hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+                }).then(() => {
+                    window.location.href = "index.html";
+                });
+
             } catch (error) {
-                alert("Login Failed: " + error.message);
+                // Error Notification
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: error.message,
+                    confirmButtonColor: '#ff4d6d'
+                });
             }
         };
     </script>
 </head>
-<body style="background: #fff0f3; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
-    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px;">
-        <h2 style="color: #ff4d6d; text-align: center; margin-bottom: 20px;">Login to Oshan Cart 🛍️</h2>
-        
-        <h3 style="color: #fff800; text-align: center; margin-bottom: 15px;">𝐎𝐬𝐡𝐚𝐧𝐂𝐚𝐫𝐭 Share this💫🧧, the commission you get if you join friends🛗 has been increased🔮Empowering individuals to shop smarter and build digital income opportunities securely.💲</h3>
+<body>
+
+    <div class="login-card animate__animated animate__zoomIn">
+        <h2>Oshan Cart 🛍️</h2>
+        <div class="promo-box">
+            <b>Limited Offer!</b> Share OshanCart & earn higher commissions on every friend you refer. 💲💫
+        </div>
         
         <form onsubmit="handleLogin(event)">
-            <label style="font-size: 14px; color: #555;">Email</label>
-            <input type="email" id="email" name="email" autocomplete="username" placeholder="ඔබේ Email ලිපිනය" required style="width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="example@mail.com" required>
+            </div>
             
-            <label style="font-size: 14px; color: #555;">Password</label>
-            <input type="password" id="password" name="password" autocomplete="current-password" placeholder="මුරපදය" required style="width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
             
-            <div style="margin-bottom: 20px; background: #fafafa; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
-                <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                    <input type="checkbox" id="terms" required style="cursor: pointer;">
-                    <label for="terms" style="font-size: 12px; margin-left: 8px; color: #666;">I agree to Terms & Privacy Policy🤝</label>
+            <div class="checkbox-section">
+                <div class="check-row">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms" style="margin-left: 8px;">Agree to Terms & Privacy Policy 🤝</label>
                 </div>
-                <div style="display: flex; align-items: center; background: white; border: 1px solid #ddd; padding: 8px; border-radius: 4px;">
-                    <input type="checkbox" id="bot-check" required style="cursor: pointer;">
-                    <label for="bot-check" style="font-size: 12px; margin-left: 8px; color: #333;">I'm not a robot👾</label>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/RecaptchaLogo.svg" width="25" style="margin-left: auto;">
+                <div class="check-row" style="background: white; padding: 8px; border-radius: 8px; border: 1px solid #eee;">
+                    <input type="checkbox" id="bot-check" required>
+                    <label for="bot-check" style="margin-left: 8px;">I'm not a robot 👾</label>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/RecaptchaLogo.svg" width="20" style="margin-left: auto;">
                 </div>
             </div>
 
-            <button type="submit" style="width: 100%; background: #ff4d6d; color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer;">Sign In🪩</button>
+            <button type="submit" class="btn-signin">Sign In 🪩</button>
         </form>
 
-        <p style="text-align: center; font-size: 13px; margin-top: 15px; color: #666;">
-            ගිණුමක් නැද්ද?🥺 <a href="signup.html" style="color: #ff4d6d; text-decoration: none; font-weight: bold;">ලියාපදිංචි වන්න🖋️🏆</a>
+        <p class="footer-link">
+            New here? <a href="signup.html">Create Account 🖋️🏆</a>
         </p>
     </div>
+
 </body>
 </html>
