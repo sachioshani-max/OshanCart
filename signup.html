@@ -10,11 +10,11 @@
     <style>
         :root {
             --bg-dark: #000000;
-            --card-bg: rgba(18, 18, 18, 0.8);
+            --card-bg: #121212;
             --btn-border: #2c2c2c;
-            --accent: #ff4757;
             --text-main: #ffffff;
             --text-dim: #a0a0a0;
+            --accent: #ff4757;
         }
 
         body, html {
@@ -22,110 +22,114 @@
             font-family: 'Inter', sans-serif;
             background: var(--bg-dark);
             color: var(--text-main);
-            overflow: hidden;
             display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
         }
 
-        /* --- Full Page Animated Background (Manus Style) --- */
-        .bg-wrapper {
+        /* --- Manus Style Animated Background --- */
+        .bg-animation {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000000 100%);
         }
 
-        .glow-ball {
-            position: absolute; width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(255, 71, 87, 0.15) 0%, transparent 70%);
-            border-radius: 50%; filter: blur(60px);
-            animation: moveAround 20s infinite alternate ease-in-out;
+        /* බොත්තම් පිටුපසින් පෙනෙන චලනය වන ආලෝකය */
+        .bg-glow {
+            position: absolute; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(255, 71, 87, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: moveGlow 15s infinite alternate ease-in-out;
         }
 
-        @keyframes moveAround {
-            0% { transform: translate(-30%, -30%); }
-            100% { transform: translate(30%, 30%); }
+        @keyframes moveGlow {
+            0% { transform: translate(-20%, -20%); }
+            100% { transform: translate(20%, 20%); }
         }
 
-        /* --- Center Container --- */
         .container {
-            width: 100%; max-width: 420px; padding: 40px 25px;
-            background: var(--card-bg); border: 1px solid #222;
-            border-radius: 24px; backdrop-filter: blur(15px);
-            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            z-index: 10;
+            width: 100%; max-width: 400px; padding: 25px;
+            text-align: center; position: relative; z-index: 10;
         }
 
+        /* --- Branding --- */
         .logo-section { margin-bottom: 35px; }
-        .logo-section h1 { font-size: 32px; font-weight: 700; margin: 10px 0 5px; letter-spacing: -1px; }
-        .logo-section p { color: var(--text-dim); font-size: 15px; }
+        .logo-img {
+            width: 65px; height: 65px; margin-bottom: 15px;
+            filter: drop-shadow(0 0 15px rgba(255, 71, 87, 0.4));
+        }
+        h1 { font-size: 32px; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
+        p { color: var(--text-dim); font-size: 15px; margin-top: 10px; }
 
-        /* --- All Social Buttons --- */
-        .social-buttons { display: flex; flex-direction: column; gap: 14px; }
-
+        /* --- Social Buttons (Manus Global Style) --- */
+        .social-list { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+        
         .btn-social {
-            width: 100%; display: flex; align-items: center; justify-content: flex-start;
-            padding: 14px 25px; background: transparent; border: 1px solid var(--btn-border);
-            border-radius: 14px; color: white; font-size: 15px; font-weight: 500;
-            cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; align-items: center; justify-content: flex-start;
+            background: var(--card-bg);
+            border: 1px solid var(--btn-border);
+            padding: 14px 24px; border-radius: 14px;
+            color: white; font-weight: 500; font-size: 15px;
+            cursor: pointer; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
         }
 
         .btn-social:hover {
-            background: rgba(255, 255, 255, 0.05); border-color: #555;
+            background: #1c1c1c;
+            border-color: #444;
             transform: translateY(-2px);
         }
 
-        .btn-social i { width: 30px; font-size: 20px; margin-right: 12px; }
+        .btn-social i { width: 30px; font-size: 20px; margin-right: 10px; }
 
+        /* --- Divider --- */
         .divider {
-            display: flex; align-items: center; margin: 30px 0;
-            font-size: 12px; color: #444; text-transform: uppercase; letter-spacing: 2px;
+            display: flex; align-items: center; color: #333;
+            font-size: 11px; font-weight: 700; margin: 25px 0;
+            text-transform: uppercase; letter-spacing: 2px;
         }
         .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #222; margin: 0 15px; }
 
-        /* --- Email Input Field --- */
-        .input-group { margin-bottom: 15px; }
-        .input-group input {
-            width: 100%; padding: 16px; background: #0a0a0a; border: 1px solid #222;
-            border-radius: 14px; color: white; box-sizing: border-box; font-size: 15px;
-            transition: 0.3s;
+        /* --- Input Fields --- */
+        .input-box { margin-bottom: 12px; }
+        .input-box input {
+            width: 100%; background: #0f0f0f; border: 1px solid #222;
+            padding: 15px; border-radius: 12px; color: white;
+            box-sizing: border-box; font-size: 14px;
         }
-        .input-group input:focus { border-color: var(--accent); outline: none; background: #000; }
+        .input-box input:focus { border-color: var(--accent); outline: none; background: #000; }
 
-        .btn-continue {
-            width: 100%; padding: 16px; background: white; color: black;
-            border: none; border-radius: 14px; font-weight: 700; font-size: 16px;
-            cursor: pointer; transition: 0.3s;
+        .btn-main {
+            width: 100%; background: #ffffff; color: #000000;
+            border: none; padding: 16px; border-radius: 14px;
+            font-weight: 700; font-size: 16px; cursor: pointer;
+            margin-top: 15px; transition: 0.3s;
         }
-        .btn-continue:hover { background: #e0e0e0; transform: scale(1.02); }
+        .btn-main:hover { background: #e0e0e0; }
 
-        .footer { margin-top: 35px; font-size: 13px; color: var(--text-dim); }
+        .footer { margin-top: 30px; font-size: 13px; color: var(--text-dim); }
         .footer a { color: white; text-decoration: none; font-weight: 600; }
 
-        /* --- Responsive for Mobile Apps --- */
-        @media (max-width: 480px) {
-            .container { border: none; background: transparent; box-shadow: none; }
-            .glow-ball { width: 300px; height: 300px; }
-        }
     </style>
 </head>
 <body>
 
-    <div class="bg-wrapper">
-        <div class="glow-ball" style="top: 10%; left: 10%;"></div>
-        <div class="glow-ball" style="bottom: 10%; right: 10%; animation-delay: -5s;"></div>
+    <div class="bg-animation">
+        <div class="bg-glow"></div>
     </div>
 
     <div class="container">
         <div class="logo-section">
-            <img src="https://oshancart.github.io/logo.png" width="60" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1162/1162499.png'">
+            <img src="https://oshlababa.com/logo.png" alt="OshanCart" class="logo-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1162/1162499.png'">
             <h1>Welcome to OshanCart</h1>
-            <p>Join the future of global trading.</p>
         </div>
 
-        <div class="social-buttons">
+        <div class="social-list">
             <button class="btn-social" id="btnFacebook">
                 <i class="fab fa-facebook" style="color: #1877f2;"></i> Continue with Facebook
             </button>
             <button class="btn-social" id="btnGoogle">
-                <i class="fab fa-google"></i> Continue with Google
+                <i class="fab fa-google" style="color: #ffffff;"></i> Continue with Google
             </button>
             <button class="btn-social" id="btnMicrosoft">
                 <i class="fab fa-microsoft" style="color: #00a4ef;"></i> Continue with Microsoft
@@ -138,21 +142,21 @@
         <div class="divider">OR</div>
 
         <form id="signupForm">
-            <div class="input-group">
-                <input type="email" id="userEmail" placeholder="Email Address" required>
+            <div class="input-box">
+                <input type="email" id="email" placeholder="Email Address" required>
             </div>
-            <button class="btn-continue">Continue with Email</button>
+            <button class="btn-main">Continue with Email</button>
         </form>
 
         <div class="footer">
             By continuing, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
-            <div style="margin-top: 15px; opacity: 0.5;">© 2026 OshanCart Global</div>
+            <p>© 2026 OshanCart Global</p>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
@@ -166,22 +170,22 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Google Authentication
+        // Google Sign-In
         document.getElementById('btnGoogle').onclick = async () => {
             const provider = new GoogleAuthProvider();
             try {
-                await signInWithPopup(auth, provider);
+                const result = await signInWithPopup(auth, provider);
                 window.location.href = "index.html";
-            } catch (error) { console.error("Error:", error.message); }
+            } catch (error) { alert(error.message); }
         };
 
-        // Facebook Authentication
+        // Facebook Sign-In
         document.getElementById('btnFacebook').onclick = async () => {
             const provider = new FacebookAuthProvider();
             try {
-                await signInWithPopup(auth, provider);
+                const result = await signInWithPopup(auth, provider);
                 window.location.href = "index.html";
-            } catch (error) { console.error("Error:", error.message); }
+            } catch (error) { alert(error.message); }
         };
     </script>
 </body>
