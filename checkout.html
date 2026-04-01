@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Checkout | OshanCart - Global Trading Simplified</title>
+    <title>Secure Checkout | OshanCart Global</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -18,176 +18,81 @@
             --success: #27ae60;
             --light-bg: #f7f8fa;
             --border-color: #d5d9d9;
+            --point-gold: #ff6b1a;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--light-bg);
-            margin: 0; padding: 0; color: #111;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--light-bg); margin: 0; color: #111; }
 
-        /* --- Global Header --- */
-        header {
-            background: var(--primary);
-            color: white;
-            padding: 12px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        header { background: var(--primary); color: white; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 22px; font-weight: 700; color: var(--accent); text-decoration: none; }
 
-        .logo { font-size: 22px; font-weight: 700; color: var(--accent); cursor: pointer; text-decoration: none; }
-        .secure-badge { font-size: 13px; display: flex; align-items: center; gap: 8px; opacity: 0.9; }
-
-        /* --- Main Layout --- */
-        .main-container {
-            max-width: 1150px; margin: 30px auto; padding: 0 20px;
-            display: grid; grid-template-columns: 1.8fr 1fr; gap: 40px;
-        }
-
-        .section-card {
-            background: white; border: 1px solid var(--border-color);
-            border-radius: 8px; padding: 25px; margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-size: 18px; font-weight: 700; margin-bottom: 20px;
-            display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; padding-bottom: 15px;
-        }
-
-        /* --- Responsive Form --- */
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .full-width { grid-column: span 2; }
-
-        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-        input, select, textarea {
-            width: 100%; padding: 10px 12px; border: 1px solid #888;
-            border-radius: 4px; font-size: 14px; box-sizing: border-box;
-        }
-        input:focus { border-color: #e77600; box-shadow: 0 0 3px rgba(228, 121, 17, 0.5); outline: none; }
-
-        /* --- Shipping Options --- */
-        .shipping-method {
-            border: 1px solid var(--border-color); border-radius: 8px; padding: 15px;
-            display: flex; justify-content: space-between; align-items: center; margin-top: 10px;
-            cursor: pointer; transition: 0.2s;
-        }
-        .shipping-method:hover { border-color: var(--accent); background: #fffcf5; }
-
-        /* --- Order Summary (Sidebar) --- */
-        .summary-sidebar { position: sticky; top: 20px; }
+        .main-container { max-width: 1150px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1.8fr 1fr; gap: 40px; }
+        .section-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; margin-bottom: 20px; }
         
-        .product-preview { display: flex; gap: 15px; align-items: center; margin-bottom: 20px; }
-        .product-preview img { width: 65px; height: 65px; object-fit: contain; border: 1px solid #eee; border-radius: 4px; }
-        
-        .price-details { border-top: 1px solid #eee; padding-top: 15px; }
+        /* --- Points Section (The New Addition) --- */
+        .points-box {
+            background: #fff8f0; border: 1px dashed var(--point-gold); border-radius: 8px;
+            padding: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+        .points-info i { color: var(--point-gold); margin-right: 10px; }
+        .use-points-btn { background: var(--point-gold); color: white; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 700; cursor: pointer; }
+
         .price-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+        .discount-row { color: var(--success); font-weight: 600; display: none; }
         .total-row { font-size: 19px; font-weight: 700; color: #B12704; margin-top: 15px; padding-top: 15px; border-top: 2px solid #eee; }
 
-        /* --- Action Button --- */
-        .btn-place-order {
-            width: 100%; background: #ffd814; border: 1px solid #fcd200;
-            padding: 14px; border-radius: 25px; font-weight: 600; cursor: pointer;
-            font-size: 16px; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .btn-place-order:hover { background: #f7ca00; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #888; border-radius: 4px; box-sizing: border-box; }
+        .btn-place-order { width: 100%; background: #ffd814; border: 1px solid #fcd200; padding: 14px; border-radius: 25px; font-weight: 700; cursor: pointer; font-size: 16px; }
 
-        @media (max-width: 850px) {
-            .main-container { grid-template-columns: 1fr; }
-            .form-row { grid-template-columns: 1fr; }
-            .full-width { grid-column: span 1; }
-        }
+        @media (max-width: 850px) { .main-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <header>
         <a href="index.html" class="logo">OshanCart</a>
-        <div class="secure-badge"><i class="fas fa-lock"></i> Secure Global Checkout</div>
+        <span>Secure Checkout</span>
     </header>
 
     <main class="main-container">
         
         <div class="checkout-steps">
-            
-            <div class="section-card">
-                <div class="section-title">
-                    <span style="background:var(--primary); color:white; width:25px; height:25px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; font-size:14px;">1</span>
-                    Shipping Address
+            <div class="points-box">
+                <div class="points-info">
+                    <i class="fas fa-coins"></i>
+                    <span>Your Balance: <b id="displayPoints">0</b> Points</span>
                 </div>
-                <form id="globalOrderForm">
-                    <div class="form-row">
-                        <div class="input-group full-width">
-                            <label>Full Name</label>
-                            <input type="text" id="full-name" placeholder="Enter your full name" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Phone Number (WhatsApp)</label>
-                            <input type="tel" id="phone" placeholder="+94 XX XXX XXXX" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Country / Region</label>
-                            <select id="country" required>
-                                <option value="Sri Lanka">Sri Lanka</option>
-                                <option value="Worldwide">International Shipping</option>
-                            </select>
-                        </div>
-                        <div class="input-group full-width">
-                            <label>Street Address</label>
-                            <input type="text" id="street" placeholder="House number and street name" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Town / City</label>
-                            <input type="text" id="city" required>
-                        </div>
-                        <div class="input-group">
-                            <label>State / Province (District)</label>
-                            <input type="text" id="province" required>
-                        </div>
-                    </div>
+                <button class="use-points-btn" id="applyPoints">Apply Discount</button>
+            </div>
+
+            <div class="section-card">
+                <h3>1. Shipping Address</h3>
+                <form id="orderForm">
+                    <input type="text" id="full-name" placeholder="Full Name" required style="margin-bottom:10px;">
+                    <input type="tel" id="phone" placeholder="WhatsApp Number" required style="margin-bottom:10px;">
+                    <input type="text" id="address" placeholder="Full Street Address" required>
                 </form>
             </div>
 
             <div class="section-card">
-                <div class="section-title">
-                    <span style="background:var(--primary); color:white; width:25px; height:25px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; font-size:14px;">2</span>
-                    Shipping Method
-                </div>
-                <div class="shipping-method">
-                    <span><i class="fas fa-truck" style="margin-right:10px;"></i> <b>Standard Delivery</b> (3-5 Business Days)</span>
-                    <span style="color:var(--success); font-weight:700;">FREE</span>
-                </div>
-            </div>
-
-            <div class="section-card">
-                <div class="section-title">
-                    <span style="background:var(--primary); color:white; width:25px; height:25px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; font-size:14px;">3</span>
-                    Payment Method
-                </div>
-                <div style="display:flex; align-items:center; gap:15px; padding:15px; border:1px solid #b7e4c7; background:#f0fff4; border-radius:8px;">
-                    <i class="fas fa-hand-holding-usd fa-2x" style="color:var(--success);"></i>
-                    <div>
-                        <b style="display:block;">Cash on Delivery (COD)</b>
-                        <small>Pay when you receive your package.</small>
-                    </div>
-                </div>
+                <h3>2. Payment Method</h3>
+                <p><i class="fas fa-hand-holding-usd"></i> <b>Cash on Delivery (COD)</b></p>
             </div>
         </div>
 
         <div class="summary-sidebar">
             <div class="section-card">
-                <h3 style="margin-top:0; font-size:16px;">Order Summary</h3>
-                
-                <div id="itemPreview">
-                    <p style="color:#888; font-size:13px; text-align:center;">Loading item details...</p>
-                </div>
+                <h3 style="margin-top:0;">Order Summary</h3>
+                <div id="itemPreview"></div>
 
-                <div class="price-details">
+                <div class="price-details" style="border-top: 1px solid #eee; padding-top: 15px; margin-top:15px;">
                     <div class="price-row">
                         <span>Items:</span>
                         <span id="subtotal-val">LKR 0.00</span>
                     </div>
-                    <div class="price-row">
-                        <span>Shipping & handling:</span>
-                        <span style="color:var(--success);">LKR 0.00</span>
+                    <div class="price-row discount-row" id="pointDiscountRow">
+                        <span>Points Discount:</span>
+                        <span id="discount-val">- LKR 0.00</span>
                     </div>
                     <div class="price-row total-row">
                         <span>Order Total:</span>
@@ -195,20 +100,15 @@
                     </div>
                 </div>
 
-                <button type="submit" form="globalOrderForm" class="btn-place-order" id="submitBtn">
-                    Place Your Order
-                </button>
-                
-                <p style="font-size:12px; color:#555; text-align:center; margin-top:15px;">
-                    By placing your order, you agree to OshanCart's <a href="#">privacy notice</a> and <a href="#">conditions of use</a>.
-                </p>
+                <button type="submit" form="orderForm" class="btn-place-order">Place Your Order</button>
             </div>
         </div>
     </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, collection, addDoc, updateDoc, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
@@ -221,76 +121,97 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
         emailjs.init("jfgAK0LaZ0w7RKAE8");
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const pid = urlParams.get('id');
-        let productData = null;
+        let userPoints = 0;
+        let originalPrice = 0;
+        let currentTotal = 0;
+        let discountUsed = 0;
+        let currentUser = null;
 
+        const pid = new URLSearchParams(window.location.search).get('id');
+
+        // 1. Load User & Points
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    userPoints = userDoc.data().points || 0;
+                    document.getElementById('displayPoints').innerText = userPoints;
+                }
+                loadProduct();
+            }
+        });
+
+        // 2. Load Product Details
         async function loadProduct() {
             if (!pid) return;
             const snap = await getDoc(doc(db, "products", pid));
             if (snap.exists()) {
-                productData = snap.data();
+                const data = snap.data();
+                originalPrice = data.price || data.itemPrice;
+                currentTotal = originalPrice;
+                
                 document.getElementById('itemPreview').innerHTML = `
-                    <div class="product-preview">
-                        <img src="${productData.image || productData.img}" onerror="this.src='https://via.placeholder.com/100'">
-                        <div>
-                            <h4 style="margin:0; font-size:14px;">${productData.name || productData.itemName}</h4>
-                            <p style="margin:5px 0 0; color:#B12704; font-weight:700;">LKR ${(productData.price || productData.itemPrice).toLocaleString()}</p>
-                        </div>
+                    <div style="display:flex; gap:10px;">
+                        <img src="${data.image || data.img}" style="width:50px; height:50px; object-fit:contain;">
+                        <div><p style="margin:0; font-size:14px; font-weight:600;">${data.name || data.itemName}</p></div>
                     </div>
                 `;
-                const priceLabel = "LKR " + (productData.price || productData.itemPrice).toLocaleString();
-                document.getElementById('subtotal-val').innerText = priceLabel;
-                document.getElementById('total-val').innerText = priceLabel;
+                updateDisplay();
             }
         }
-        loadProduct();
 
-        document.getElementById('globalOrderForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        function updateDisplay() {
+            document.getElementById('subtotal-val').innerText = `LKR ${originalPrice.toLocaleString()}`;
+            document.getElementById('total-val').innerText = `LKR ${currentTotal.toLocaleString()}`;
+        }
+
+        // 3. Apply Points Logic (1 Point = LKR 1.00)
+        document.getElementById('applyPoints').onclick = () => {
+            if (userPoints <= 0) return;
             
-            Swal.fire({
-                title: 'Processing...',
-                text: 'Securing your order. Please wait.',
-                allowOutsideClick: false,
-                didOpen: () => { Swal.showLoading(); }
-            });
+            discountUsed = userPoints; // Use all points
+            currentTotal = originalPrice - discountUsed;
+            if (currentTotal < 0) currentTotal = 0;
+
+            document.getElementById('pointDiscountRow').style.display = 'flex';
+            document.getElementById('discount-val').innerText = `- LKR ${discountUsed.toLocaleString()}`;
+            updateDisplay();
+            
+            Swal.fire({ icon: 'success', title: 'Points Applied!', text: `You saved LKR ${discountUsed}!`, timer: 2000 });
+        };
+
+        // 4. Submit Order
+        document.getElementById('orderForm').onsubmit = async (e) => {
+            e.preventDefault();
+            Swal.fire({ title: 'Finalizing Order...', didOpen: () => Swal.showLoading() });
 
             const oid = "OSG" + Math.floor(Math.random() * 1000000);
-            const addressString = `${document.getElementById('street').value}, ${document.getElementById('city').value}, ${document.getElementById('province').value}, ${document.getElementById('country').value}`;
 
             try {
+                // Update Firebase: Add Order & Deduct Points
                 await addDoc(collection(db, "orders"), {
                     orderID: oid,
                     customer: document.getElementById('full-name').value,
-                    phone: document.getElementById('phone').value,
-                    address: addressString,
-                    product: productData.name || productData.itemName,
-                    price: productData.price || productData.itemPrice,
+                    total: currentTotal,
+                    discount: discountUsed,
                     status: "Pending",
                     timestamp: serverTimestamp()
                 });
 
-                await emailjs.send('service_il15c1q', 'template_vmc0kvo', {
-                    order_id: oid,
-                    cust_name: document.getElementById('full-name').value,
-                    product_name: productData.name || productData.itemName,
-                    total_price: productData.price || productData.itemPrice
-                });
+                if (discountUsed > 0) {
+                    await updateDoc(doc(db, "users", currentUser.uid), {
+                        points: increment(-discountUsed)
+                    });
+                }
 
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thank you for your order!',
-                    text: `Your Order ID is ${oid}. We will contact you soon.`,
-                    confirmButtonColor: '#131921'
-                }).then(() => location.href = "index.html");
+                Swal.fire({ icon: 'success', title: 'Order Placed!', text: `ID: ${oid}` }).then(() => location.href = "index.html");
 
-            } catch (err) {
-                Swal.fire({ icon: 'error', title: 'Checkout Failed', text: err.message });
-            }
-        });
+            } catch (err) { Swal.fire({ icon: 'error', title: 'Error', text: err.message }); }
+        };
     </script>
 </body>
 </html>
