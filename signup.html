@@ -18,7 +18,7 @@
             --text-main: #ffffff;
             --text-dim: #a0a0a0;
             --accent: #ff4757;
-            --gold: #fbc02d;
+            --gold: #fbc02d; /* Reward Color */
         }
 
         body, html {
@@ -30,7 +30,7 @@
             overflow-x: hidden;
         }
 
-        /* --- Manus Style Animated Background Glow --- */
+        /* --- Animated Background Glow --- */
         .bg-animation {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
@@ -64,51 +64,52 @@
             display: inline-block;
             padding: 8px 15px;
             border-radius: 50px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         /* --- Logo Section --- */
-        .logo-section { margin-bottom: 25px; }
+        .logo-section { margin-bottom: 30px; }
         .logo-img {
-            width: 85px; height: 85px; margin-bottom: 15px;
+            width: 80px; height: 80px; margin-bottom: 15px;
             filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.6));
             object-fit: contain;
         }
-        h1 { font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -1px; }
+        h1 { font-size: 30px; font-weight: 700; margin: 0; letter-spacing: -1px; }
 
         /* --- Social Login Buttons --- */
-        .social-list { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
+        .social-list { display: flex; flex-direction: column; gap: 14px; margin-top: 30px; }
         
         .btn-social {
             display: flex; align-items: center; justify-content: flex-start;
             background: var(--card-bg);
             border: 1px solid var(--btn-border);
-            padding: 14px 22px; border-radius: 16px;
-            color: white; font-weight: 600; font-size: 15px;
+            padding: 15px 25px; border-radius: 16px;
+            color: white; font-weight: 500; font-size: 15.5px;
             cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn-social:hover {
             background: #1c1c1c; border-color: #555;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
 
-        .btn-social i { width: 30px; font-size: 20px; margin-right: 12px; }
+        .btn-social i { width: 35px; font-size: 22px; margin-right: 12px; }
 
+        /* --- Custom Divider --- */
         .divider {
             display: flex; align-items: center; color: #444;
-            font-size: 10px; font-weight: 800; margin: 25px 0;
+            font-size: 11px; font-weight: 800; margin: 30px 0;
             text-transform: uppercase; letter-spacing: 3px;
         }
         .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #222; margin: 0 20px; }
 
         /* --- Input Fields --- */
-        .input-box { margin-bottom: 12px; }
+        .input-box { margin-bottom: 15px; }
         .input-box input {
             width: 100%; background: #0a0a0a; border: 1px solid #222;
             padding: 16px; border-radius: 14px; color: white;
@@ -122,10 +123,13 @@
             font-weight: 800; font-size: 16px; cursor: pointer;
             margin-top: 10px; transition: 0.3s;
         }
-        .btn-main:hover { background: var(--accent); color: white; transform: scale(1.02); }
+        .btn-main:hover { background: #e0e0e0; transform: scale(1.02); }
 
-        .footer { margin-top: 30px; font-size: 14px; color: var(--text-dim); line-height: 1.6; }
-        .footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
+        /* --- Footer --- */
+        .footer { margin-top: 35px; font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+        .footer a { color: var(--accent); text-decoration: none; font-weight: 700; transition: 0.2s; }
+        .footer a:hover { text-decoration: underline; }
+
     </style>
 </head>
 <body>
@@ -141,15 +145,21 @@
 
         <div class="logo-section">
             <img src="https://oshancart.github.io/logo.png" alt="OshanCart" class="logo-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1162/1162499.png'">
-            <h1>Join OshanCart Global</h1>
+            <h1>Welcome to OshanCart</h1>
         </div>
 
         <div class="social-list">
+            <button class="btn-social" id="btnFacebook">
+                <i class="fab fa-facebook" style="color: #1877f2;"></i> Continue with Facebook
+            </button>
             <button class="btn-social" id="btnGoogle">
                 <i class="fab fa-google"></i> Continue with Google
             </button>
-            <button class="btn-social" id="btnFacebook">
-                <i class="fab fa-facebook" style="color: #1877f2;"></i> Continue with Facebook
+            <button class="btn-social" id="btnMicrosoft">
+                <i class="fab fa-microsoft" style="color: #00a4ef;"></i> Continue with Microsoft
+            </button>
+            <button class="btn-social" id="btnApple">
+                <i class="fab fa-apple"></i> Continue with Apple
             </button>
         </div>
 
@@ -159,7 +169,7 @@
             <div class="input-box">
                 <input type="email" id="email" placeholder="Email Address" required>
             </div>
-            <button type="submit" class="btn-main">Create Account</button>
+            <button type="submit" class="btn-main">Continue with Email</button>
         </form>
 
         <div class="footer">
@@ -176,6 +186,7 @@
         import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
             authDomain: "oshancart.firebaseapp.com",
@@ -189,18 +200,18 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const notifyReward = (pts) => {
-            Swal.fire({
-                title: 'Congratulations! 🥳',
-                html: `<p style="color:#a0a0a0">You've earned <b>${pts} Points</b> as a welcome bonus!</p>`,
-                icon: 'success',
+        // SweetAlert Custom Notification
+        const notify = (icon, title, text) => {
+            return Swal.fire({
+                icon: icon,
+                title: title,
+                text: text,
+                showConfirmButton: false,
+                timer: 2500,
                 background: '#121212',
                 color: '#fff',
-                confirmButtonColor: '#ff4757',
-                confirmButtonText: 'Great, Thanks!',
-                showClass: { popup: 'animate__animated animate__zoomIn' }
-            }).then(() => {
-                window.location.href = "index.html";
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' }
             });
         };
 
@@ -209,40 +220,51 @@
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
 
-                // Check if User exists in Firestore
+                // Check if user exists in Firestore
                 const userRef = doc(db, "users", user.uid);
                 const userSnap = await getDoc(userRef);
 
                 if (!userSnap.exists()) {
-                    // NEW USER: Give 100 Welcome Points
+                    // NEW USER: Add 100 Points to Firestore
                     await setDoc(userRef, {
                         email: user.email,
                         points: 100,
                         createdAt: new Date()
                     });
-                    notifyReward(100);
+                    
+                    // Show Points Earning Alert
+                    Swal.fire({
+                        title: 'Congratulations! 🥳',
+                        html: `<p style="color:#a0a0a0">Registration Successful! You've earned <b style="color:#fbc02d">100 Welcome Points</b>. ❤️‍🩹🏆</p>`,
+                        icon: 'success',
+                        background: '#121212',
+                        color: '#fff',
+                        confirmButtonColor: '#ff4757',
+                        confirmButtonText: 'Let\'s Shop!'
+                    }).then(() => {
+                        window.location.href = "index.html";
+                    });
                 } else {
-                    // EXISTING USER: Just log in
-                    window.location.href = "index.html";
+                    // EXISTING USER: Normal Login Notification
+                    notify('success', 'Welcome Back!', '❤️‍🩹🏆 Login Successful. 🪅🥳');
+                    setTimeout(() => window.location.href = "index.html", 2500);
                 }
-
+                
             } catch (error) {
-                Swal.fire({ icon: 'error', title: 'Oops...', text: error.message, background: '#121212', color: '#fff' });
+                notify('error', 'Authentication Failed', error.message);
             }
         };
 
         document.getElementById('btnGoogle').onclick = () => handleAuth(new GoogleAuthProvider());
         document.getElementById('btnFacebook').onclick = () => handleAuth(new FacebookAuthProvider());
+        
+        // Placeholder for Microsoft/Apple
+        document.getElementById('btnMicrosoft').onclick = () => notify('info', 'Coming Soon', 'Microsoft login is currently being integrated.');
+        document.getElementById('btnApple').onclick = () => notify('info', 'Coming Soon', 'Apple login is currently being integrated.');
 
         document.getElementById('signupForm').onsubmit = (e) => {
             e.preventDefault();
-            Swal.fire({
-                icon: 'info',
-                title: 'Check Your Email',
-                text: 'Verification link sent. (Points will be added after login)',
-                background: '#121212',
-                color: '#fff'
-            });
+            notify('info', 'Check Your Email', 'Verification link sent to your inbox.');
         };
     </script>
 </body>
