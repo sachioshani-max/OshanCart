@@ -212,6 +212,51 @@
 
             } catch (err) { Swal.fire({ icon: 'error', title: 'Error', text: err.message }); }
         };
+        // 1. කලින් වගේම Firebase සහ Firestore Initialize කරගන්න
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+const db = getFirestore();
+
+let userPoints = 0;
+let orderTotal = 0; // මේක ඔයාගේ Cart එකේ තියෙන මුළු ගාණට සමාන වෙන්න ඕනේ
+
+// 2. User ගේ Points Firestore එකෙන් අරගන්න
+async function loadUserPoints(userId) {
+    const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+        userPoints = userSnap.data().points || 0;
+        document.getElementById('points-balance').innerText = `${userPoints} Points`; // UI එකේ පෙන්වන්න
+    }
+}
+
+// 3. "Apply Discount" Button එකේ ක්‍රියාවලිය
+document.getElementById('apply-discount-btn').addEventListener('click', () => {
+    if (userPoints <= 0) {
+        alert("ඔයාට පාවිච්චි කරන්න Points නැහැ! 🥲");
+        return;
+    }
+
+    // SHEIN Logic: සාමාන්‍යයෙන් බිලෙන් 70% කට වඩා Points වලින් ගෙවන්න බැහැ (නැත්නම් ඔයාට පාඩුයි!)
+    let maxDiscountAllowed = orderTotal * 0.7; 
+    let pointsToUse = Math.min(userPoints, maxDiscountAllowed);
+    
+    let newTotal = orderTotal - pointsToUse;
+
+    // UI එක Update කරන්න
+    document.getElementById('discount-amount').innerText = `- LKR ${pointsToUse.toFixed(2)}`;
+    document.getElementById('final-total').innerText = `LKR ${newTotal.toFixed(2)}`;
+    
+    alert(`සාර්ථකයි! Points පාවිච්චි කරලා LKR ${pointsToUse} ක වට්ටමක් ලැබුණා. 😍`);
+});
+
+// 4. "Place Order" එබුවම Points ටික Database එකෙන් අඩු කරන්න
+async function deductPointsAfterOrder(userId, pointsUsed) {
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+        points: userPoints - pointsUsed
+    });
+}
     </script>
 </body>
 </html>
