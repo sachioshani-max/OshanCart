@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preference | OshanCart Global</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --card-bg: #121212;
+            --accent: #ff4757;
+            --point-orange: #ff6b1a;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --border: #222;
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .back-btn { background: none; border: none; color: white; cursor: pointer; font-size: 20px; margin-right: 20px; }
+        header h1 { font-size: 18px; margin: 0; font-weight: 700; flex-grow: 1; text-align: center; margin-right: 40px; }
+
+        /* --- Top Promo Banner --- */
+        .promo-banner {
+            background: #fff5eb; color: #ff6b1a;
+            padding: 12px; font-size: 13px; font-weight: 600;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        /* --- Banner Image --- */
+        .banner-img {
+            width: 100%; height: 150px;
+            background: url('https://img.freepik.com/free-vector/gradient-dynamic-blue-lines-background_23-2148995756.jpg') center/cover;
+            display: flex; align-items: center; padding: 0 20px; box-sizing: border-box;
+        }
+        .banner-text { color: #000; font-size: 18px; font-weight: 800; }
+
+        /* --- Content Container --- */
+        .content { padding: 25px 20px 100px 20px; }
+        h2 { font-size: 15px; font-weight: 700; margin: 25px 0 15px 0; }
+
+        /* --- Option Chips --- */
+        .options-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .chip {
+            padding: 12px 20px; border: 1px solid var(--border);
+            border-radius: 8px; font-size: 14px; font-weight: 500;
+            cursor: pointer; transition: 0.2s; background: var(--card-bg);
+        }
+        .chip.selected {
+            border-color: var(--accent); color: var(--accent);
+            background: rgba(255, 71, 87, 0.1);
+        }
+
+        /* --- Save Button Fix --- */
+        .footer-btn-container {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--bg-dark); padding: 15px 20px;
+            box-sizing: border-box; border-top: 1px solid var(--border);
+        }
+        .btn-save {
+            width: 100%; background: #000; color: #fff;
+            border: 1px solid #fff; padding: 16px; border-radius: 8px;
+            font-weight: 800; font-size: 16px; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+        }
+        .btn-save span { color: #ff6b1a; font-size: 12px; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i></button>
+        <h1>Preference</h1>
+    </header>
+
+    <div class="promo-banner">
+        <i class="fas fa-coins"></i> Answer all questions and get 20 points instantly!
+    </div>
+
+    <div class="banner-img">
+        <div class="banner-text">Get Personalized Recommendations</div>
+    </div>
+
+    <div class="content animate__animated animate__fadeInUp">
+        
+        <h2>Which are your favorite categories?</h2>
+        <div class="options-grid" id="categories">
+            <div class="chip">Women</div>
+            <div class="chip">Men</div>
+            <div class="chip">Plus Size</div>
+            <div class="chip">Kids</div>
+            <div class="chip">Home</div>
+            <div class="chip">Pets Supplies</div>
+        </div>
+
+        <h2>Who do you usually buy clothes for?</h2>
+        <div class="options-grid" id="target">
+            <div class="chip">Myself</div>
+            <div class="chip">Partner</div>
+            <div class="chip">Parents</div>
+            <div class="chip">Dogs</div>
+            <div class="chip">Cats</div>
+        </div>
+
+        <h2>Which are your favorite styles?</h2>
+        <div class="options-grid" id="styles">
+            <div class="chip">Basics</div>
+            <div class="chip">Casual</div>
+            <div class="chip">Elegant</div>
+            <div class="chip">Sexy</div>
+            <div class="chip">Sporty</div>
+            <div class="chip">Vintage</div>
+            <div class="chip">Vacation</div>
+            <div class="chip">Party</div>
+        </div>
+
+    </div>
+
+    <div class="footer-btn-container">
+        <button class="btn-save" id="savePrefs">
+            Save <span>get 20 points</span>
+        </button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, updateDoc, increment, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let uid = null;
+
+        // Toggle selection logic
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.onclick = () => chip.classList.toggle('selected');
+        });
+
+        onAuthStateChanged(auth, user => { if(user) uid = user.uid; });
+
+        document.getElementById('savePrefs').onclick = async () => {
+            const selected = document.querySelectorAll('.chip.selected').length;
+            
+            if(selected < 3) {
+                Swal.fire({ icon: 'warning', title: 'අඩුම තරමේ 3ක්වත් තෝරන්න', background: '#121212', color: '#fff' });
+                return;
+            }
+
+            try {
+                const userRef = doc(db, "users", uid);
+                const userSnap = await getDoc(userRef);
+
+                if (userSnap.data().prefsCompleted) {
+                    Swal.fire({ icon: 'info', title: 'දැනටමත් ලබාගෙන ඇත', text: 'ඔබ මෙම points දැනටමත් ලබාගෙන අවසන්.', background: '#121212', color: '#fff' });
+                } else {
+                    await updateDoc(userRef, {
+                        points: increment(20),
+                        prefsCompleted: true,
+                        preferences: Array.from(document.querySelectorAll('.chip.selected')).map(c => c.innerText)
+                    });
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'සාර්ථකයි!',
+                        text: '❤️‍🩹🏆 +20 Points ඔබේ ගිණුමට එකතු වුණා! 🪅🥳',
+                        background: '#121212',
+                        color: '#fff',
+                        timer: 3000
+                    }).then(() => location.href = 'points.html');
+                }
+            } catch (e) { console.error(e); }
+        };
+    </script>
+</body>
+</html>
