@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Points Details | OshanCart Global</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --card-bg: #121212;
+            --accent: #ff4757;
+            --gold: #fbc02d;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --border: #222;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0; padding: 0;
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 15px 20px;
+            display: flex; align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--card-bg);
+        }
+        .back-btn { background: none; border: none; color: white; cursor: pointer; font-size: 20px; }
+        header h1 { font-size: 18px; margin: 0 auto; font-weight: 700; }
+
+        /* --- Balance Card (Screenshot Style) --- */
+        .balance-card {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            margin: 20px; padding: 25px; border-radius: 20px;
+            color: #5d4037; text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .balance-main { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+        .balance-main img { width: 35px; height: 35px; }
+        .balance-points { font-size: 32px; font-weight: 800; }
+        .balance-dollar { font-size: 20px; font-weight: 600; opacity: 0.8; }
+        .balance-sub { font-size: 11px; margin-top: 10px; color: #8d6e63; }
+
+        /* --- Tabs --- */
+        .tabs {
+            display: flex; justify-content: space-around;
+            border-bottom: 1px solid var(--border);
+            margin-top: 10px;
+        }
+        .tab {
+            padding: 15px; font-size: 14px; font-weight: 600;
+            color: var(--text-dim); cursor: pointer; position: relative;
+        }
+        .tab.active { color: var(--text-main); }
+        .tab.active::after {
+            content: ''; position: absolute; bottom: 0; left: 25%;
+            width: 50%; height: 3px; background: var(--text-main);
+        }
+
+        /* --- History List --- */
+        .history-list { padding: 10px 20px; }
+        .history-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 0; border-bottom: 1px solid var(--border);
+        }
+        .history-left { display: flex; align-items: center; gap: 15px; }
+        .coin-icon {
+            width: 45px; height: 45px; background: #1a1a1a;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        }
+        .coin-icon img { width: 28px; height: 28px; }
+        
+        .history-info .title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .history-info .date { font-size: 12px; color: var(--text-dim); }
+
+        .history-right { font-size: 18px; font-weight: 700; }
+        .points-plus { color: #ff6b1a; }
+        .points-minus { color: var(--text-dim); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i></button>
+        <h1>DETAILS</h1>
+    </header>
+
+    <div class="balance-card">
+        <div class="balance-main">
+            <img src="https://cdn-icons-png.flaticon.com/512/10321/10321262.png" alt="coin">
+            <span class="balance-points" id="totalPoints">0</span>
+            <span class="balance-dollar" id="dollarValue">= $0.00</span>
+        </div>
+        <div class="balance-sub">1 Point = 0.01 US Dollar, Depending on the exchange rates</div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active">All</div>
+        <div class="tab">Earned</div>
+        <div class="tab">Used</div>
+        <div class="tab">Expired</div>
+    </div>
+
+    <div class="history-list" id="historyContainer">
+        <p style="text-align: center; color: #444; margin-top: 50px;">Loading history...</p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // 1. Get Total Balance
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    const pts = userDoc.data().points || 0;
+                    document.getElementById('totalPoints').innerText = pts;
+                    document.getElementById('dollarValue').innerText = `= $${(pts * 0.01).toFixed(2)}`;
+                }
+
+                // 2. Fetch History (Mocking Firestore data based on your screenshots)
+                const historyContainer = document.getElementById('historyContainer');
+                historyContainer.innerHTML = ''; // Clear loader
+
+                const historyData = [
+                    { title: "Complete preference", date: "03.31", points: "+20", type: "plus" },
+                    { title: "Daily Check In", date: "03.31", points: "+1", type: "plus" },
+                    { title: "Email Verification", date: "02.05", points: "+100", type: "plus" },
+                    { title: "Points Expired", date: "02.02", points: "-1", type: "minus" }
+                ];
+
+                historyData.forEach(item => {
+                    const html = `
+                        <div class="history-item">
+                            <div class="history-left">
+                                <div class="coin-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/10321/10321262.png">
+                                </div>
+                                <div class="history-info">
+                                    <div class="title">${item.title}</div>
+                                    <div class="date">Expired on:${item.date}/2026</div>
+                                </div>
+                            </div>
+                            <div class="history-right ${item.type === 'plus' ? 'points-plus' : 'points-minus'}">
+                                ${item.points}
+                            </div>
+                        </div>
+                    `;
+                    historyContainer.innerHTML += html;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
