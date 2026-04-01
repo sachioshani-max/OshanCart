@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | OshanCart Global</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --bg: #000000;
+            --card: #121212;
+            --accent: #ff4757;
+            --gold: #fbc02d;
+            --text: #ffffff;
+            --dim: #a0a0a0;
+            --border: #222;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0; padding-bottom: 50px;
+        }
+
+        /* --- Profile Header --- */
+        .profile-header {
+            background: linear-gradient(to bottom, #1a1a1a, var(--bg));
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            padding: 5px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 15px rgba(255, 71, 87, 0.4));
+        }
+
+        .user-name { font-size: 22px; font-weight: 700; margin: 0; }
+        .user-email { font-size: 14px; color: var(--dim); margin-top: 5px; }
+
+        /* --- Points Summary Card --- */
+        .points-summary {
+            background: var(--card);
+            margin: -30px 20px 20px 20px;
+            padding: 20px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-box h3 { color: var(--gold); font-size: 24px; margin: 0; }
+        .stat-box p { color: var(--dim); font-size: 12px; margin: 5px 0 0; }
+
+        /* --- Action Grid --- */
+        .action-grid {
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .action-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .action-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .action-card i { font-size: 24px; color: var(--accent); margin-bottom: 10px; display: block; }
+        .action-card span { font-size: 14px; font-weight: 600; }
+
+        /* --- Recent Orders Section --- */
+        .orders-section { padding: 25px 20px; }
+        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .section-title a { font-size: 13px; color: var(--accent); text-decoration: none; }
+
+        .order-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .order-info h4 { margin: 0; font-size: 14px; }
+        .order-info p { margin: 5px 0 0; font-size: 12px; color: var(--dim); }
+        .status-badge {
+            background: rgba(39, 174, 96, 0.1);
+            color: #27ae60;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .btn-logout {
+            margin: 30px 20px;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            background: none;
+            color: #ff4757;
+            width: calc(100% - 40px);
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-header">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="user-avatar" id="userImg">
+        <h2 class="user-name" id="userName">OshanCart User</h2>
+        <p class="user-email" id="userEmail">loading...</p>
+    </div>
+
+    <div class="points-summary" onclick="location.href='details.html'">
+        <div class="stat-box">
+            <h3 id="pointsVal">0</h3>
+            <p>Available Points</p>
+        </div>
+        <div class="stat-box" style="border-left: 1px solid #222; padding-left: 30px;">
+            <h3 id="dollarVal">$0.00</h3>
+            <p>Estimated Value</p>
+        </div>
+    </div>
+
+    <div class="action-grid">
+        <div class="action-card" onclick="location.href='points.html'">
+            <i class="fas fa-coins"></i>
+            <span>Earn Points</span>
+        </div>
+        <div class="action-card" onclick="location.href='preferences.html'">
+            <i class="fas fa-user-edit"></i>
+            <span>Preferences</span>
+        </div>
+        <div class="action-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Addresses</span>
+        </div>
+        <div class="action-card">
+            <i class="fas fa-headset"></i>
+            <span>Support</span>
+        </div>
+    </div>
+
+    <div class="orders-section">
+        <div class="section-title">
+            Recent Orders
+            <a href="#">View All</a>
+        </div>
+        <div id="orderList">
+            <p style="color: #444; font-size: 13px;">Fetching your orders...</p>
+        </div>
+    </div>
+
+    <button class="btn-logout" id="logoutBtn">Logout</button>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
+            authDomain: "oshancart.firebaseapp.com",
+            projectId: "oshancart",
+            storageBucket: "oshancart.appspot.com",
+            messagingSenderId: "686982543488",
+            appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                document.getElementById('userEmail').innerText = user.email;
+                if(user.displayName) document.getElementById('userName').innerText = user.displayName;
+                if(user.photoURL) document.getElementById('userImg').src = user.photoURL;
+
+                // 1. Get Points
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    const pts = userDoc.data().points || 0;
+                    document.getElementById('pointsVal').innerText = pts;
+                    document.getElementById('dollarVal').innerText = `$${(pts * 0.01).toFixed(2)}`;
+                }
+
+                // 2. Get Orders (Mocking recent order display)
+                const orderList = document.getElementById('orderList');
+                orderList.innerHTML = `
+                    <div class="order-item">
+                        <div class="order-info">
+                            <h4>OshanCart Item #4492</h4>
+                            <p>Ordered on: 2026-03-31</p>
+                        </div>
+                        <div class="status-badge">Processing</div>
+                    </div>
+                `;
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        document.getElementById('logoutBtn').onclick = () => {
+            signOut(auth).then(() => location.href = "login.html");
+        };
+    </script>
+</body>
+</html>
