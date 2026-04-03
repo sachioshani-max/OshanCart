@@ -785,7 +785,57 @@
        .menu-toggle-btn {
             display: block;
          }
-        }    
+        }  
+        /* --- Notification Card Style --- */
+.notification-card {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 380px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 18px;
+    padding: 15px;
+    display: none; /* පස්සේ පෙන්වන්න */
+    align-items: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    z-index: 10005;
+    border: 1px solid #f0f0f0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.notif-icon-wrap { position: relative; margin-right: 15px; }
+.notif-icon-wrap img { width: 45px; height: 45px; border-radius: 10px; }
+.s-badge {
+    position: absolute; bottom: -3px; right: -3px;
+    background: #000; color: #fff; font-size: 10px;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-weight: bold;
+}
+
+.notif-body-text { flex: 1; }
+.notif-top { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.notif-name { font-size: 12px; color: #777; font-weight: 600; letter-spacing: 0.5px; }
+.notif-time { font-size: 11px; color: #bbb; }
+.notif-msg { font-size: 14px; margin: 0; font-weight: 600; color: #222; }
+
+/* --- Floating Check-in Button Style --- */
+.checkin-float {
+    position: fixed;
+    right: 20px;
+    bottom: 110px;
+    z-index: 10000;
+    background: linear-gradient(135deg, #ff4757, #ff6b81);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 50px 15px 50px 50px;
+    box-shadow: 0 10px 25px rgba(255, 71, 87, 0.4);
+    cursor: pointer;
+    display: none;
+    border: 2px solid white;
+    text-align: center;
+}
     </style>
 </head>
 <body>
@@ -865,6 +915,26 @@
             </div>
         </div>
     </div>
+    <div id="checkin-notification" class="notification-card animate__animated animate__fadeInDown">
+    <div class="notif-icon-wrap">
+        <img src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png" alt="Checkin">
+        <span class="s-badge">S</span>
+    </div>
+    <div class="notif-body-text" onclick="window.location.href='points.html'">
+        <div class="notif-top">
+            <span class="notif-name">OSHANCART • SHEIN</span>
+            <span class="notif-time">Now</span>
+        </div>
+        <p class="notif-msg">Daily Check-in is ready!</p>
+    </div>
+    <button style="background:none; border:none; font-size:22px; color:#ccc; cursor:pointer;" onclick="this.parentElement.style.display='none'">&times;</button>
+</div>
+
+<div id="daily-checkin-widget" class="checkin-float animate__animated animate__bounceInRight" onclick="window.location.href='points.html'">
+    <i class="fas fa-calendar-check" style="font-size: 20px; display: block;"></i>
+    <span style="font-size: 11px; font-weight: 800; display: block;">DAILY CHECK-IN</span>
+    <small style="font-size: 10px; opacity: 0.9;">+1 Point Ready</small>
+</div>
 
     <header class="desktop-header">
         <div class="top-utility-bar">
@@ -1095,7 +1165,36 @@
             if(logoutBtn) logoutBtn.style.display = 'none';
         }
     });
+// මේක auth.onAuthStateChanged එක ඇතුළෙම දාන්න
+auth.onAuthStateChanged(async (user) => {
+    const checkinBtn = document.getElementById('daily-checkin-widget');
+    const checkinNotif = document.getElementById('checkin-notification');
+    
+    if (user) {
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
 
+        if (userSnap.exists()) {
+            const lastCheckin = userSnap.data().lastCheckinDate;
+            const today = new Date().toISOString().split('T')[0];
+
+            // අද තාම check-in වෙලා නැත්නම් විතරක් Button එක සහ Notification එක පෙන්වනවා
+            if (lastCheckin !== today) {
+                checkinBtn.style.display = 'block';
+                
+                // තත්පර 3කට පස්සේ SHEIN notification එක උඩින් පෙන්වනවා
+                setTimeout(() => {
+                    checkinNotif.style.display = 'flex';
+                    // Notification sound එකක් ඕනේ නම්: 
+                    // let audio = new Audio('https://www.soundjay.com/buttons/beep-07a.mp3'); audio.play();
+                }, 3000);
+            }
+        }
+    } else {
+        checkinBtn.style.display = 'none';
+        checkinNotif.style.display = 'none';
+    }
+});
     window.handleLogout = () => {
         signOut(auth).then(() => {
             alert("සාර්ථකව Logout විය!");
