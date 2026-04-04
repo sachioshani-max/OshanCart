@@ -820,21 +820,29 @@
 .notif-time { font-size: 11px; color: #bbb; }
 .notif-msg { font-size: 14px; margin: 0; font-weight: 600; color: #222; }
 
-/* --- Floating Check-in Button Style --- */
+#daily-checkin-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 10px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+#daily-checkin-widget i {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+}
+
+#daily-checkin-widget span {
+    font-size: 12px;
+}
+
+/* පැරණි floating style එක තිබේ නම් එය ඉවත් කරන්න */
 .checkin-float {
-    position: fixed;
-    right: 20px;
-    bottom: 110px;
-    z-index: 10000;
-    background: linear-gradient(135deg, #ff4757, #ff6b81);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 50px 15px 50px 50px;
-    box-shadow: 0 10px 25px rgba(255, 71, 87, 0.4);
-    cursor: pointer;
-    display: none;
-    border: 2px solid white;
-    text-align: center;
+    position: static; /* floating ඉවත් කිරීමට */
 }
         .slide-img {
     width: 100%;
@@ -845,10 +853,9 @@
     </style>
 </head>
 <body>
-
-    <div class="sidebar-mask" id="sideMask" onclick="toggleDrawer(false)"></div>
     
 <div class="sidebar-mask" id="sideMask" onclick="toggleDrawer(false)"></div>
+    
 
 <div class="oshancart-drawer" id="mainDrawer">
     <div class="drawer-head">
@@ -992,61 +999,57 @@
     </header>
 
 <header class="mobile-header">
-    <div style="display:flex; align-items:center; margin-bottom:15px;">
-        <div class="menu-toggle-btn" onclick="toggleDrawer()" style="font-size: 22px; color: var(--osh-text-main); cursor: pointer; margin-right: 15px;">
-            <i class="fas fa-bars"></i>
-        </div>
-
-        <header style="display: flex; align-items: center; padding: 10px;">
-    <img src="assets/oshancart-logo.png" alt="OshanCart Logo" style="height: 50px; width: auto;">
-    <h1 style="margin-left: 15px;">OshanCart</h1>
-        </header>
-        
-        <div style="display:flex; justify-content:space-between; align-items:center; width: 100%;">
-            <div style="color:var(--osh-orange); font-size:24px; font-weight:800;" onclick="location.href='index.html'">OshanCart</div>
-            
-            <div style="display:flex; gap:20px; font-size:20px; color: var(--osh-text-main);">
-                <i class="fas fa-search"></i>
-                <i class="fas fa-shopping-cart" onclick="location.href='cart.html'"></i>
+    <div style="display:flex; align-items:center; justify-content: space-between; padding: 10px 15px;">
+        <div style="display:flex; align-items:center; gap: 15px;">
+            <div class="menu-toggle-btn" onclick="toggleDrawer(true)" style="font-size: 22px; color: var(--osh-text-main); cursor: pointer;">
+                <i class="fas fa-bars"></i>
             </div>
+            <div style="display: flex; align-items: center; cursor: pointer;" onclick="location.href='index.html'">
+                <img src="assets/oshancart-logo.png" alt="OshanCart Logo" style="height: 40px; width: auto;">
+                <span style="color:var(--osh-orange); font-size:22px; font-weight:800; margin-left: 8px;">OshanCart</span>
+            </div>
+        </div>
+        
+        <div style="display:flex; gap:20px; font-size:20px; color: var(--osh-text-main);">
+            <i class="fas fa-search" onclick="executeSearch('mobileSearchInput')"></i>
+            <i class="fas fa-shopping-cart" onclick="location.href='cart.html'"></i>
         </div>
     </div>
 
-    <div style="background:#fff; border-radius:20px; display:flex; align-items:center; padding:8px 15px;">
+    <div style="background:#f4f4f4; border-radius:20px; display:flex; align-items:center; padding:8px 15px; margin: 0 15px 10px 15px;">
         <i class="fas fa-search" style="color:#999;"></i>
-        <input type="text" placeholder="Search OshanCart..." style="border:none; outline:none; margin-left:10px; width:100%;">
+        <input type="text" id="mobileSearchInput" placeholder="Search OshanCart..." style="border:none; outline:none; background: transparent; margin-left:10px; width:100%;">
     </div>
 </header>
 
-    <main class="container-wide">
-        
-        <section class="hero-layout">
-            <aside class="category-rail">
-                <div class="rail-header">ALL CATEGORIES</div>
-                <div id="categoryList">
-                    </div>
-                <div class="rail-item" style="color:var(--osh-orange); font-weight:700;">Exclusive Deals <i class="fas fa-fire"></i></div>
-            </aside>
+<main class="container-wide">
+    <section class="hero-layout">
+        <aside class="category-rail">
+            <div class="rail-header">ALL CATEGORIES</div>
+            <div id="categoryList"></div>
+            <div class="rail-item" style="color:var(--osh-orange); font-weight:700;">Exclusive Deals <i class="fas fa-fire"></i></div>
+        </aside>
 
-           
-    <div class="slider-canvas">
-    <img src="https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" class="slide-img" id="heroSlide" style="transition: 0.8s ease-in-out;">
-    
-    <div class="slide-caption animate__animated animate__fadeInUp">
-        <h2 id="slideTitle">GLOBAL TECH WEEK</h2>
-        <p id="slideSub">Up to 60% Off on Premium Electronics</p>
-        <button onclick="location.href='categories.html'" style="padding:12px 30px; background:var(--osh-orange); border:none; color:white; border-radius:25px; cursor:pointer; font-weight:700; box-shadow: 0 4px 15px rgba(248, 86, 6, 0.4);">Shop Now</button>
-    </div>
-    
-    <div style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20;">
-        <div class="s-dot active" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.5;"></div>
-        <div class="s-dot" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.3;"></div>
-        <div class="s-dot" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.3;"></div>
-        <div class="s-dot" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.3;"></div>
-        <div class="s-dot" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.3;"></div>
-        <div class="s-dot" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.3;"></div>
-    </div>
-</div>>
+        <div class="slider-canvas">
+            <img src="https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" class="slide-img" id="heroSlide" style="transition: 0.8s ease-in-out;">
+            
+            <div class="slide-caption animate__animated animate__fadeInUp">
+                <h2 id="slideTitle">GLOBAL TECH WEEK</h2>
+                <p id="slideSub">Up to 60% Off on Premium Electronics</p>
+                <button onclick="location.href='categories.html'" style="padding:12px 30px; background:var(--osh-orange); border:none; color:white; border-radius:25px; cursor:pointer; font-weight:700; box-shadow: 0 4px 15px rgba(248, 86, 6, 0.4);">Shop Now</button>
+            </div>
+            
+            <div style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20;">
+                <div class="s-dot active" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.8;"></div>
+                <div class="s-dot" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.3;"></div>
+                <div class="s-dot" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.3;"></div>
+                <div class="s-dot" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.3;"></div>
+                <div class="s-dot" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.3;"></div>
+                <div class="s-dot" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.3;"></div>
+            </div>
+        </div>
+    </section>
+</main>
 
         <section class="products-showcase">
             <div class="grid-header">
