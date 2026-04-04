@@ -836,37 +836,57 @@
     border: 2px solid white;
     text-align: center;
 }
+        .slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.8s ease-in-out; /* රූපය මාරු වෙද්දී smooth වෙන්න */
+        }
     </style>
 </head>
 <body>
 
     <div class="sidebar-mask" id="sideMask" onclick="toggleDrawer(false)"></div>
     
-    <div class="oshancart-drawer" id="mainDrawer">
-        <div class="drawer-head">
-            <span class="drawer-close" onclick="toggleDrawer(false)">&times;</span>
-            <div class="user-profile-preview">
-                <div class="user-avatar-circle"><i class="fas fa-user"></i></div>
-                <div>
-                    <div style="font-weight:700; font-size:18px;">Hello, Oshanian!</div>
-                    <div style="font-size:12px; opacity:0.8;">Premium Global Account</div>
-                    
-                </div>
+<div class="sidebar-mask" id="sideMask" onclick="toggleDrawer(false)"></div>
+
+<div class="oshancart-drawer" id="mainDrawer">
+    <div class="drawer-head">
+        <span class="drawer-close" onclick="toggleDrawer(false)">&times;</span>
+        <div class="user-profile-preview">
+            <div class="user-avatar-circle"><i class="fas fa-user"></i></div>
+            <div>
+                <div style="font-weight:700; font-size:18px;">Hello, Oshanian!</div>
+                <div style="font-size:12px; opacity:0.8;">Premium Global Account</div>
             </div>
         </div>
-       <head>
-    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-    <link rel="shortcut icon" href="logo.png">
-    
-    <link rel="apple-touch-icon" href="logo.png">
-      
+    </div>
+    ```
 
-    <title>OshanCart | Global Shopping Hub</title>
-    <meta name="description" content="OshanCart offers a premium global shopping experience. Explore our global sourcing made easy.">
+---
+
+### **පියවර 2: Slider එක (Auto Image Swap) සඳහා Code එක**
+දැන් ඔයාගේ HTML එකේ `<div class="slider-canvas">` කියන තැන සොයාගෙන, ඒ මුළු කොටසම (Slide caption එකත් එක්කම) අයින් කරලා මේ **Smart Slider** එක ඒ වෙනුවට **Replace** කරන්න. මේක Mobile සහ Desktop දෙකටම ලස්සනට පේන්න මම හදලා තියෙන්නේ.
+
+```html
+<div class="slider-canvas">
+    <img src="https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" class="slide-img" id="heroSlide" style="transition: 0.8s ease-in-out;">
     
-    <meta property="og:image" content="https://sachioshani-max.github.io/OshanCart/logo.png">
-    <meta property="og:title" content="OshanCart | Global Shopping Hub">
-</head>
+    <div class="slide-caption animate__animated animate__fadeInUp">
+        <h2 id="slideTitle">GLOBAL TECH WEEK</h2>
+        <p id="slideSub">Up to 60% Off on Premium Electronics</p>
+        <button onclick="location.href='categories.html'" style="padding:12px 30px; background:var(--osh-orange); border:none; color:white; border-radius:25px; cursor:pointer; font-weight:700; box-shadow: 0 4px 15px rgba(248, 86, 6, 0.4);">Shop Now</button>
+    </div>
+    
+    <div style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20;">
+        <div class="s-dot active" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.5;"></div>
+        <div class="s-dot" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.3;"></div>
+        <div class="s-dot" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.3;"></div>
+        <div class="s-dot" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.3;"></div>
+        <div class="s-dot" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.3;"></div>
+        <div class="s-dot" style="width:10px; height:10px; border-radius:50%; background:white; opacity:0.3;"></div>
+    </div>
+</div>
 
         <div class="drawer-body">
             <div class="drawer-section-label">Account Activity</div>
@@ -1286,6 +1306,64 @@ onAuthStateChanged(auth, async (user) => {
     // Startup
     window.onload = () => {
         loadCoreProducts();
+
+        // --- Auto Image Slider Logic ---
+const slides = [
+    {
+        img: "https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg",
+        title: "GLOBAL TECH WEEK",
+        sub: "Up to 60% Off on Premium Electronics"
+    },
+    {
+        img: "https://img.freepik.com/free-vector/horizontal-sale-banner-template_23-2148897328.jpg",
+        title: "FASHION FRIDAY",
+        sub: "Latest Global Trends Just for You"
+    },
+    {
+        img: "https://ae01.alicdn.com/kf/S6e84d436d654497593c6f09f08638645Z.jpg",
+        title: "SMART WATCH ELITE",
+        sub: "Track your life with OshanCart Tech"
+    },
+    {
+        img: "https://img.freepik.com/free-vector/flat-design-shopping-center-social-media-promo-template_23-2149337408.jpg",
+        title: "HOME ESSENTIALS",
+        sub: "Upgrade your living space today"
+    },
+    {
+        img: "https://ae01.alicdn.com/kf/S4a6136814b7e41578e32924197931698k.jpg",
+        title: "CEYLON PREMIUM",
+        sub: "Best Organic Products from Sri Lanka"
+    },
+    {
+        img: "https://img.freepik.com/free-vector/flat-abstract-sale-banner-template_23-2148810753.jpg",
+        title: "NEW ARRIVALS",
+        sub: "Explore 1000+ New International Brands"
+    }
+];
+
+let currentSlide = 0;
+function updateSlider() {
+    const imgTag = document.getElementById('heroSlide');
+    const titleTag = document.getElementById('slideTitle');
+    const subTag = document.getElementById('slideSub');
+    
+    if(!imgTag) return;
+
+    currentSlide = (currentSlide + 1) % slides.length;
+    
+    // Smooth Fade Effect
+    imgTag.style.opacity = '0.5';
+    
+    setTimeout(() => {
+        imgTag.src = slides[currentSlide].img;
+        titleTag.innerText = slides[currentSlide].title;
+        subTag.innerText = slides[currentSlide].sub;
+        imgTag.style.opacity = '1';
+    }, 400);
+}
+
+// තත්පර 4කට වරක් මාරු වේ
+setInterval(updateSlider, 4000);
         
         // Category Rail එක පිරවීම
         const categories = ["Electronics ⚡", "Fashion 👗", "Home 🏠", "Jewelry 💍", "Ceylon Items 🇱🇰"];
