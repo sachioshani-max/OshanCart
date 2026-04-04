@@ -1125,14 +1125,12 @@
     </div>
 </nav>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
 <script type="module">
     // 1. Firebase Modules Import කිරීම
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
     // 2. Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
@@ -1153,7 +1151,7 @@
         emailjs.init(PUBLIC_KEY);
     }
 
-// --- Integrated Auth & Daily Check-in Logic ---
+// --- [SUPER UPDATE] Auth & Daily Check-in System ---
 onAuthStateChanged(auth, async (user) => {
     const loginBtn = document.getElementById('loginBtn');
     const logoutBtn = document.getElementById('logoutBtn');
@@ -1161,14 +1159,12 @@ onAuthStateChanged(auth, async (user) => {
     const checkinNotif = document.getElementById('checkin-notification');
 
     if (user) {
-        // 1. UI Buttons Update (Login/Logout)
+        // UI Buttons Update
         if(loginBtn) loginBtn.style.display = 'none';
         if(logoutBtn) logoutBtn.style.display = 'block';
 
-        // 2. Daily Check-in පද්ධතිය පරීක්ෂා කිරීම
         try {
-            // Firestore එකෙන් user ගේ දත්ත ලබා ගැනීම
-            // සටහන: මෙතන doc සහ getDoc functions පාවිච්චි කරන්නේ firebase-firestore එකෙන්
+            // Firestore එකෙන් User ගේ Point Status එක පරීක්ෂා කිරීම
             const userRef = doc(db, "users", user.uid);
             const userSnap = await getDoc(userRef);
 
@@ -1177,39 +1173,38 @@ onAuthStateChanged(auth, async (user) => {
                 const lastCheckin = userData.lastCheckinDate;
                 const today = new Date().toISOString().split('T')[0];
 
-                // අද දිනට තවමත් check-in වී නොමැති නම් පමණක් පෙන්වන්න
+                // අදට Check-in වෙලා නැත්නම් විතරක් Notification එක පෙන්වන්න
                 if (lastCheckin !== today) {
-                    if (checkinBtn) checkinBtn.style.display = 'block';
+                    if (checkinBtn) {
+                        checkinBtn.style.display = 'block';
+                        checkinBtn.classList.add('animate__bounceInRight');
+                    }
                     
-                    // තත්පර 3කට පසු Notification එක පෙන්වන්න
+                    // තත්පර 3කට පසු SHEIN ස්ටයිල් Notification එක
                     setTimeout(() => {
                         if (checkinNotif) {
                             checkinNotif.style.display = 'flex';
-                            // Notification sound එකක් අවශ්‍ය නම් මෙතනට audio line එක දාන්න පුළුවන්
+                            checkinNotif.classList.add('animate__fadeInDown');
+                            
+                            // පොඩි Beep Sound එකක් (optional)
+                            // let audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+                            // audio.play().catch(e => console.log("Audio play blocked"));
                         }
                     }, 3000);
                 } else {
-                    // දැනටමත් අද දිනට අදාළව ලකුණු ලබාගෙන ඇත්නම් Widget එක හංගන්න
                     if (checkinBtn) checkinBtn.style.display = 'none';
                 }
             }
         } catch (error) {
-            console.error("Firestore data fetch error:", error);
+            console.error("Points Status Error:", error);
         }
 
     } else {
-        // User Logout වී ඇති විට
+        // Logout වෙලා නම්
         if(loginBtn) loginBtn.style.display = 'block';
         if(logoutBtn) logoutBtn.style.display = 'none';
-        
-        // Widget සහ Notification දෙකම හංගන්න
         if(checkinBtn) checkinBtn.style.display = 'none';
         if(checkinNotif) checkinNotif.style.display = 'none';
-    }
-});9
-    } else {
-        checkinBtn.style.display = 'none';
-        checkinNotif.style.display = 'none';
     }
 });
     window.handleLogout = () => {
@@ -1239,18 +1234,21 @@ onAuthStateChanged(auth, async (user) => {
         div.className = "osh-card animate__animated animate__fadeIn";
         div.innerHTML = `
             <div class="wishlist-btn"><i class="far fa-heart"></i></div>
-            <div class="osh-card-img-wrap" onclick="window.location.href='categories.html?id=${id}'">
+            <div class="osh-card-img-wrap" onclick="window.location.href='product-details.html?id=${id}'">
                 <img src="${p.image || 'https://via.placeholder.com/300'}" class="osh-card-img" loading="lazy">
             </div>
             <div class="osh-card-content">
                 <div class="osh-p-title">${p.name}</div>
                 <div class="osh-p-price">Rs. ${p.price}</div>
-                <button onclick="addToCart('${id}', '${p.name}', ${p.price})" style="width:100%; margin-top:10px; padding:8px; background:var(--osh-gradient, #ff4757); color:white; border:none; border-radius:5px; cursor:pointer;">Add to Cart</button>
+                <div class="osh-p-rating">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    <span style="color:#777; font-size:10px;"> (120+)</span>
+                </div>
+                <button onclick="addToCart('${id}', '${p.name}', ${p.price})" style="width:100%; margin-top:10px; padding:10px; background:var(--osh-gradient, #f85606); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Add to Cart</button>
             </div>
         `;
         return div;
     }
-
     // --- අඩුව තිබූ අත්‍යවශ්‍ය UI Functions ---
     
     // 1. Search Function
