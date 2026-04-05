@@ -850,6 +850,89 @@
     object-fit: cover;
     transition: opacity 0.8s ease-in-out; /* රූපය මාරු වෙද්දී smooth වෙන්න */
         }
+
+        /* Slider Container */
+.wow-slider-container {
+    flex: 1;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden; /* එලියට පේන එක නවත්වන්න */
+    height: 400px;
+    background: #eee;
+}
+
+/* Wrapper - මේක තමයි පත්තට move වෙන්නේ */
+.wow-slider-wrapper {
+    display: flex;
+    width: 600%; /* slides 6ක් නිසා */
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Smooth sliding effect */
+}
+
+.wow-slide {
+    width: 16.666%; /* 100 / 6 */
+    position: relative;
+    height: 100%;
+}
+
+.wow-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* image එක ඇද වෙන්නේ නැතුව පිරෙන්න */
+}
+
+.wow-caption {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    z-index: 10;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.wow-caption h2 { font-size: 32px; font-weight: 800; margin: 0; }
+.wow-caption p { font-size: 18px; margin: 10px 0 20px 0; opacity: 0.9; }
+.wow-caption button {
+    padding: 12px 35px;
+    background: var(--osh-orange);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Dots */
+.wow-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+.w-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transition: 0.3s;
+}
+.w-dot.active {
+    width: 25px;
+    background: white;
+    border-radius: 10px;
+}
+
+/* Mobile එකේදී slider එකේ උස අඩු කරන්න */
+@media (max-width: 768px) {
+    .wow-slider-container { height: 220px; border-radius: 15px; margin: 0 10px; }
+    .wow-caption h2 { font-size: 18px; }
+    .wow-caption p { font-size: 12px; }
+    .wow-caption { bottom: 20px; left: 20px; }
+    .wow-caption button { padding: 8px 20px; font-size: 12px; }
+}
     </style>
 </head>
 
@@ -1007,7 +1090,7 @@
                 <i class="fas fa-bars"></i>
             </div>
             <div style="display: flex; align-items: center; cursor: pointer;" onclick="location.href='index.html'">
-                <img src="assets/oshancart-logo.png" alt="OshanCart Logo" style="height: 32px; width: auto;">
+             
                 <span style="color:var(--osh-orange); font-size:18px; font-weight:800; margin-left: 5px; letter-spacing: -0.5px;">OshanCart</span>
             </div>
         </div>
@@ -1034,28 +1117,73 @@
     </div>
 </header>
 
-<main class="container-wide">
-    <section class="hero-layout">
+<main class="container-wide" style="padding-top: 10px;">
+    <section class="hero-layout" style="display: flex; gap: 20px; align-items: flex-start;">
         <aside class="category-rail">
             <div class="rail-header">ALL CATEGORIES</div>
             <div id="categoryList"></div>
             <div class="rail-item" style="color:var(--osh-orange); font-weight:700;">Exclusive Deals <i class="fas fa-fire"></i></div>
         </aside>
 
-        
-            <div class="slide-caption animate__animated animate__fadeInUp">
-                <h2 id="slideTitle">GLOBAL TECH WEEK</h2>
-                <p id="slideSub">Up to 60% Off on Premium Electronics</p>
-                <button onclick="location.href='categories.html'" style="padding:12px 30px; background:var(--osh-orange); border:none; color:white; border-radius:25px; cursor:pointer; font-weight:700; box-shadow: 0 4px 15px rgba(248, 86, 6, 0.4);">Shop Now</button>
+        <div class="wow-slider-container">
+            <div class="wow-slider-wrapper" id="sliderWrapper">
+                <div class="wow-slide">
+                    <img src="https://ae01.alicdn.com/kf/S8f903828330740929215886e40854d9I.jpg" alt="Tech Week">
+                    <div class="wow-caption">
+                        <h2>GLOBAL TECH WEEK</h2>
+                        <p>Up to 60% Off Premium Electronics</p>
+                        <button onclick="location.href='categories.html'">Shop Now</button>
+                    </div>
+                </div>
+                <div class="wow-slide">
+                    <img src="https://ae01.alicdn.com/kf/S7e0f8c2b5d4e4c9e8d4f1a2b3c4d5e6fG.jpg" alt="New Arrivals">
+                    <div class="wow-caption">
+                        <h2>NEW ARRIVALS 2026</h2>
+                        <p>Explore the Latest Global Trends</p>
+                        <button>View Collection</button>
+                    </div>
+                </div>
+                <div class="wow-slide">
+                    <img src="https://ae01.alicdn.com/kf/S6d5e4f3g2h1i0j9k8l7m6n5o4p3q2r1sT.jpg" alt="Price Drop">
+                    <div class="wow-caption">
+                        <h2>BIG PRICE DROP!</h2>
+                        <p>Lowest Prices for OshanCart Members</p>
+                        <button>Grab Deals</button>
+                    </div>
+                </div>
+                <div class="wow-slide">
+                    <img src="https://ae01.alicdn.com/kf/S5a4b3c2d1e0f9g8h7i6j5k4l3m2n1o0pU.jpg" alt="Tickets">
+                    <div class="wow-caption">
+                        <h2>EVENT TICKETS</h2>
+                        <p>Book Your Tickets with Special Offers</p>
+                        <button>Book Now</button>
+                    </div>
+                </div>
+                <div class="wow-slide">
+                    <img src="https://ae01.alicdn.com/kf/S4z3y2x1w0v9u8t7s6r5q4p3o2n1m0l9kV.jpg" alt="Gifts">
+                    <div class="wow-caption">
+                        <h2>SURPRISE GIFTS</h2>
+                        <p>Free Gift with Every Order Over Rs. 5000</p>
+                        <button>Details</button>
+                    </div>
+                </div>
+                <div class="wow-slide">
+                    <img src="https://ae01.alicdn.com/kf/S3e2d1c0b9a8f7g6h5i4j3k2l1m0n9o8pW.jpg" alt="Flash Sale">
+                    <div class="wow-caption">
+                        <h2>FLASH SALE</h2>
+                        <p>Ending in 02:00:00! Hurry Up!</p>
+                        <button style="background: #ff4757;">Buy Now</button>
+                    </div>
+                </div>
             </div>
-            
-            <div style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20;">
-                <div class="s-dot active" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.8;"></div>
-                <div class="s-dot" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.3;"></div>
-                <div class="s-dot" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.3;"></div>
-                <div class="s-dot" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.3;"></div>
-                <div class="s-dot" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.3;"></div>
-                <div class="s-dot" style="width:8px; height:8px; border-radius:50%; background:white; opacity:0.3;"></div>
+
+            <div class="wow-dots">
+                <div class="w-dot active"></div>
+                <div class="w-dot"></div>
+                <div class="w-dot"></div>
+                <div class="w-dot"></div>
+                <div class="w-dot"></div>
+                <div class="w-dot"></div>
             </div>
         </div>
     </section>
@@ -1305,63 +1433,33 @@ onAuthStateChanged(auth, async (user) => {
     window.onload = () => {
         loadCoreProducts();
 
-        // --- Auto Image Slider Logic ---
-const slides = [
-    {
-        img: "https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg",
-        title: "GLOBAL TECH WEEK",
-        sub: "Up to 60% Off on Premium Electronics"
-    },
-    {
-        img: "https://img.freepik.com/free-vector/horizontal-sale-banner-template_23-2148897328.jpg",
-        title: "FASHION FRIDAY",
-        sub: "Latest Global Trends Just for You"
-    },
-    {
-        img: "https://ae01.alicdn.com/kf/S6e84d436d654497593c6f09f08638645Z.jpg",
-        title: "SMART WATCH ELITE",
-        sub: "Track your life with OshanCart Tech"
-    },
-    {
-        img: "https://img.freepik.com/free-vector/flat-design-shopping-center-social-media-promo-template_23-2149337408.jpg",
-        title: "HOME ESSENTIALS",
-        sub: "Upgrade your living space today"
-    },
-    {
-        img: "https://ae01.alicdn.com/kf/S4a6136814b7e41578e32924197931698k.jpg",
-        title: "CEYLON PREMIUM",
-        sub: "Best Organic Products from Sri Lanka"
-    },
-    {
-        img: "https://img.freepik.com/free-vector/flat-abstract-sale-banner-template_23-2148810753.jpg",
-        title: "NEW ARRIVALS",
-        sub: "Explore 1000+ New International Brands"
-    }
-];
-
+       // --- [WOW APP STYLE] Sliding Logic ---
 let currentSlide = 0;
-function updateSlider() {
-    const imgTag = document.getElementById('heroSlide');
-    const titleTag = document.getElementById('slideTitle');
-    const subTag = document.getElementById('slideSub');
-    
-    if(!imgTag) return;
+const totalSlides = 6;
+const wrapper = document.getElementById('sliderWrapper');
+const dots = document.querySelectorAll('.w-dot');
 
-    currentSlide = (currentSlide + 1) % slides.length;
-    
-    // Smooth Fade Effect
-    imgTag.style.opacity = '0.5';
-    
-    setTimeout(() => {
-        imgTag.src = slides[currentSlide].img;
-        titleTag.innerText = slides[currentSlide].title;
-        subTag.innerText = slides[currentSlide].sub;
-        imgTag.style.opacity = '1';
-    }, 400);
+function showSlide(index) {
+    if (index >= totalSlides) currentSlide = 0;
+    else if (index < 0) currentSlide = totalSlides - 1;
+    else currentSlide = index;
+
+    // පසෙකට තල්ලු වන ගණිතය (CSS transform එක පාවිච්චි කරයි)
+    const offset = -currentSlide * (100 / totalSlides);
+    if(wrapper) {
+        wrapper.style.transform = `translateX(${offset}%)`;
+    }
+
+    // Dots active කිරීම
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+    });
 }
 
-// තත්පර 4කට වරක් මාරු වේ
-setInterval(updateSlider, 4000);
+// තත්පර 4කට වරක් auto slide වීම
+setInterval(() => {
+    showSlide(currentSlide + 1);
+}, 4000);;
         
         // Category Rail එක පිරවීම
         const categories = ["Electronics ⚡", "Fashion 👗", "Home 🏠", "Jewelry 💍", "Ceylon Items 🇱🇰"];
