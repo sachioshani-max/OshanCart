@@ -852,6 +852,22 @@
         }
     </style>
 </head>
+
+    <div id="daily-checkin-toast" class="notification-card animate__animated" style="display:none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10005;">
+    <div class="notif-icon-wrap">
+        <img src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png" alt="Checkin" style="width:40px;">
+        <span class="s-badge">S</span>
+    </div>
+    <div class="notif-body-text" onclick="window.location.href='points.html'">
+        <div class="notif-top">
+            <span class="notif-name">OSHANCART • REWARDS</span>
+            <span class="notif-time">Now</span>
+        </div>
+        <p class="notif-msg">Daily Check-in is ready! +1 Point</p>
+    </div>
+    <button class="notif-close-btn" onclick="this.parentElement.style.display='none'">&times;</button>
+</div>
+    
 <body>
     
 <div class="sidebar-mask" id="sideMask" onclick="toggleDrawer(false)"></div>
@@ -917,26 +933,7 @@
             </div>
         </div>
     </div>
-    <div id="checkin-notification" class="notification-card animate__animated animate__fadeInDown">
-    <div class="notif-icon-wrap">
-        <img src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png" alt="Checkin">
-        <span class="s-badge">S</span>
-    </div>
-    <div class="notif-body-text" onclick="window.location.href='points.html'">
-        <div class="notif-top">
-            <span class="notif-name">OSHANCART • SHEIN</span>
-            <span class="notif-time">Now</span>
-        </div>
-        <p class="notif-msg">Daily Check-in is ready!</p>
-    </div>
-    <button style="background:none; border:none; font-size:22px; color:#ccc; cursor:pointer;" onclick="this.parentElement.style.display='none'">&times;</button>
-</div>
-
-<div id="daily-checkin-widget" class="checkin-float animate__animated animate__bounceInRight" onclick="window.location.href='points.html'">
-    <i class="fas fa-calendar-check" style="font-size: 20px; display: block;"></i>
-    <span style="font-size: 11px; font-weight: 800; display: block;">DAILY CHECK-IN</span>
-    <small style="font-size: 10px; opacity: 0.9;">+1 Point Ready</small>
-</div>
+    
 
     <header class="desktop-header">
         <div class="top-utility-bar">
@@ -976,26 +973,34 @@
                 <button class="search-btn-big" onclick="executeSearch()"><i class="fas fa-search"></i></button>
             </div>
 
-            <div class="action-icons">
-                <div class="nav-icon-group" onclick="location.href='edit-profile.html'">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Profile</span>
-                </div>
-                <div class="nav-icon-group" onclick="location.href='wishlist.html'">
-                    <i class="fas fa-heart"></i>
-                    <span>Wishlist</span>
-                </div>
-                <div class="nav-icon-group" onclick="location.href='cart.html'">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Cart</span>
-                    <span class="cart-badge" id="cartCountDesktop">0</span>
-                </div>
-                <div class="nav-icon-group" onclick="toggleDrawer(true)">
-                    <i class="fas fa-bars"></i>
-                    <span>Menu</span>
-                </div>
-            </div>
-        </div>
+           <div class="action-icons">
+    <div class="nav-icon-group" onclick="location.href='edit-profile.html'">
+        <i class="fas fa-user-circle"></i>
+        <span>Profile</span>
+    </div>
+
+    <div id="daily-checkin-widget" class="nav-icon-group" onclick="window.location.href='points.html'" style="color: var(--osh-orange); position: relative; cursor: pointer;">
+        <i class="fas fa-calendar-check"></i>
+        <span style="font-weight: 700;">Check-in</span>
+        <span style="position: absolute; top: 2px; right: 15px; width: 8px; height: 8px; background: red; border-radius: 50%; border: 2px solid white;"></span>
+    </div>
+
+    <div class="nav-icon-group" onclick="location.href='wishlist.html'">
+        <i class="fas fa-heart"></i>
+        <span>Wishlist</span>
+    </div>
+
+    <div class="nav-icon-group" onclick="location.href='cart.html'">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Cart</span>
+        <span class="cart-badge" id="cartCountDesktop">0</span>
+    </div>
+
+    <div class="nav-icon-group" onclick="toggleDrawer(true)">
+        <i class="fas fa-bars"></i>
+        <span>Menu</span>
+    </div>
+</div>
     </header>
 
 <header class="mobile-header">
