@@ -1081,86 +1081,60 @@ footer {
     transition: opacity 0.8s ease-in-out; /* රූපය මාරු වෙද්දී smooth වෙන්න */
         }
 
-        /* Slider Container */
+/* Slider එක හරියට මැදට ගන්න සහ පේන්න හදමු */
 .wow-slider-container {
-    flex: 1;
+    width: 100%;
+    max-width: 1200px; /* Desktop එකේදී ලස්සනට පේන්න */
+    margin: 20px auto;
     position: relative;
-    border-radius: 20px;
-    overflow: hidden; /* එලියට පේන එක නවත්වන්න */
+    border-radius: 15px;
+    overflow: hidden;
     height: 400px;
-    background: #eee;
+    background: #f0f0f0; /* Image එක load වෙනකම් පේන පාට */
 }
 
-/* Wrapper - මේක තමයි පත්තට move වෙන්නේ */
 .wow-slider-wrapper {
     display: flex;
-    width: 600%; /* slides 6ක් නිසා */
     height: 100%;
-    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Smooth sliding effect */
+    transition: transform 0.5s ease-in-out;
 }
 
 .wow-slide {
-    width: 16.666%; /* 100 / 6 */
-    position: relative;
+    min-width: 100%;
     height: 100%;
+    position: relative;
 }
 
 .wow-slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* image එක ඇද වෙන්නේ නැතුව පිරෙන්න */
+    object-fit: cover; /* Image එක ඇද නොවී පේන්න */
+}/* Slider එක හරියට මැදට ගන්න සහ පේන්න හදමු */
+.wow-slider-container {
+    width: 100%;
+    max-width: 1200px; /* Desktop එකේදී ලස්සනට පේන්න */
+    margin: 20px auto;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 400px;
+    background: #f0f0f0; /* Image එක load වෙනකම් පේන පාට */
 }
 
-.wow-caption {
-    position: absolute;
-    bottom: 40px;
-    left: 40px;
-    z-index: 10;
-    color: white;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
-
-.wow-caption h2 { font-size: 32px; font-weight: 800; margin: 0; }
-.wow-caption p { font-size: 18px; margin: 10px 0 20px 0; opacity: 0.9; }
-.wow-caption button {
-    padding: 12px 35px;
-    background: var(--osh-orange);
-    color: white;
-    border: none;
-    border-radius: 30px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-/* Dots */
-.wow-dots {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+.wow-slider-wrapper {
     display: flex;
-    gap: 10px;
-}
-.w-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.4);
-    transition: 0.3s;
-}
-.w-dot.active {
-    width: 25px;
-    background: white;
-    border-radius: 10px;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
 }
 
-/* Mobile එකේදී slider එකේ උස අඩු කරන්න */
-@media (max-width: 768px) {
-    
-    .wow-slider-container { height: 220px; border-radius: 15px; margin: 0 10px; }
-    .wow-caption h2 { font-size: 18px; }
-    .wow-caption p { font-size: 12px; }
-    .wow-caption { bottom: 20px; left: 20px; }
-    .wow-caption button { padding: 8px 20px; font-size: 12px; }
+.wow-slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.wow-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Image එක ඇද නොවී පේන්න */
 }
