@@ -358,4 +358,42 @@ body { top: 0px !important; }
     padding: 15px;
 }
 
+/* --- 1. මුලින්ම දෙකම හංගන්න (Default) --- */
+.desktop-header, .mobile-header {
+    display: none;
+}
 
+/* --- 2. Desktop View (Screen එක 769px වලට වඩා වැඩි නම්) --- */
+@media screen and (min-width: 769px) {
+    .desktop-header {
+        display: block !important; /* Desktop එක විතරක් පෙන්වන්න */
+    }
+    
+    /* Desktop එකේදී products පේළියට 4ක් හෝ 5ක් පෙන්වන්න */
+    .products-showcase {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+    }
+}
+
+/* --- 3. Mobile View (Screen එක 768px හෝ ඊට අඩු නම්) --- */
+@media screen and (max-width: 768px) {
+    .mobile-header {
+        display: block !important; /* Mobile එක විතරක් පෙන්වන්න */
+    }
+
+    /* Temu/SHEIN වගේ පේළියට products 2ක් පෙන්වන්න */
+    .products-showcase {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    /* Mobile එකේදී product image එකේ size එක */
+    .product-card img {
+        height: 160px;
+        object-fit: cover;
+    }
+}
