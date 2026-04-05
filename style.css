@@ -229,3 +229,46 @@ body { top: 0px !important; }
     align-items: center; box-shadow: 0 15px 35px rgba(0,0,0,0.1);
     z-index: 10005; border: 1px solid #f0f0f0;
 }
+
+/* Mobile Header Adjustments */
+@media (max-width: 768px) {
+    .mobile-header {
+        display: flex;
+        flex-direction: column; /* එක යට එක එන්න */
+        align-items: center;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .main-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .search-container {
+        width: 100%; /* Search bar එක full width වෙන්න */
+        margin-top: 5px;
+    }
+}
+
+.brand-logo img {
+    height: 35px !important; /* Logo එකේ size එක mobile එකට ගැලපෙන්න */
+    width: auto;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.products-showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Products ලස්සනට පේළියට හදයි */
+    gap: 15px;
+    padding: 15px;
+}
+
+
