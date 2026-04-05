@@ -171,6 +171,93 @@ body { top: 0px !important; }
     .menu-list { display: none; }
 }
 
+/* Mobile Styles (up to 768px) */
+@media (max-width: 768px) {
+    /* Desktop Header එක Mobile එකේදී හංගන්න */
+    .desktop-header {
+        display: none !important;
+    }
+
+    /* Mobile Header එක විතරක් පෙන්වන්න */
+    .mobile-header {
+        display: block !important;
+    }
+}
+
+/* Desktop Styles (769px and up) */
+@media (min-width: 769px) {
+    /* Mobile Header එක Desktop එකේදී හංගන්න */
+    .mobile-header {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Product Container එක පේළියට 2ක් එන Grid එකක් කරමු */
+    .osh-product-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* පේළියට Products 2යි */
+        gap: 10px !important; /* Products අතර පරතරය */
+        padding: 10px !important;
+    }
+
+    /* Product Card එක SHEIN ස්ටයිල් එකට හදමු */
+    .osh-card {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* පොඩි හෙවනැල්ලක් */
+        border: none !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Image එක කාඩ් එකට Fit කරමු */
+    .osh-card-img-wrap {
+        width: 100%;
+        height: 180px; /* Mobile එකට ගැලපෙන උසක් */
+        overflow: hidden;
+    }
+
+    .osh-card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Image එක ඇද වෙන්නේ නැතුව Fit වෙන්න */
+    }
+
+    /* Title, Price ටික ලස්සන කරමු */
+    .osh-card-content {
+        padding: 8px;
+    }
+
+    .osh-p-title {
+        font-size: 12px;
+        height: 32px; /* පේළි 2කට සීමා කරන්න */
+        line-height: 1.3;
+        color: #333;
+        margin-bottom: 4px;
+    }
+
+    .osh-p-price {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--osh-orange);
+    }
+
+    /* "Add to Cart" Button එක Temu වගේ හදමු */
+    .osh-card-content button {
+        width: 100%;
+        padding: 8px;
+        background: var(--osh-orange);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 8px;
+    }
+}
+
 /* Desktop එකේදී Bottom Nav එක හංගන්න */
 @media (min-width: 769px) {
     .premium-bottom-nav { display: none !important; }
