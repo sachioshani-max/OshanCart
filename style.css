@@ -412,3 +412,37 @@ body { top: 0px !important; }
         margin: 0 !important;
     }
 }
+
+/* Layout Fixes */
+* {
+    max-width: 100vw; /* Content එක Screen එකෙන් එලියට යාම වැලැක්වීමට */
+}
+
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Mobile Product Grid (2 Columns) */
+@media screen and (max-width: 768px) {
+    .osh-product-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+        padding: 10px !important;
+    }
+
+    /* Hero layout එකේ sidebar එක mobile එකේදී හංගන්න */
+    .category-rail {
+        display: none !important;
+    }
+
+    .hero-layout {
+        display: block !important; /* Flex අයින් කරන්න */
+    }
+
+    .wow-slider-container {
+        height: 200px !important; /* Slider එකේ උස mobile එකට ගැලපෙන්න */
+        margin-top: 10px;
+    }
+}
