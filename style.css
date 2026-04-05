@@ -446,3 +446,70 @@ body {
         margin-top: 10px;
     }
 }
+
+/* Product Grid එක පේළියට 6ක් (Desktop) සහ 2ක් (Mobile) පෙන්වීමට */
+.osh-product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+    gap: 20px !important;
+    padding: 20px 0 !important;
+    align-items: start !important; /* Cards ඇදීම වැළැක්වීමට */
+}
+
+/* Product Card එකේ පෙනුම */
+.osh-card {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: auto !important; /* උස auto කරන්න */
+    transition: 0.3s;
+}
+
+.osh-card-img-wrap {
+    width: 100%;
+    height: 200px; /* රූපය සඳහා ස්ථාවර උසක් */
+    overflow: hidden;
+}
+
+.osh-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* රූපය හරියටම fit වීමට */
+}
+
+.hero-layout {
+    display: grid !important;
+    grid-template-columns: 250px 1fr; /* Sidebar එකට 250px ඉතිරිය Slider එකට */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .hero-layout {
+        grid-template-columns: 1fr !important; /* Mobile එකේදී එක යට එක */
+    }
+    .category-rail {
+        display: none; /* Mobile එකේදී පැති මෙනුව හංගන්න */
+    }
+}
+
+.main-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 5%;
+    background: #fff;
+    gap: 20px;
+}
+
+.search-container {
+    flex-grow: 1; /* Search bar එකට මැද ඉඩ ලබා දීම */
+    max-width: 600px;
+    display: flex;
+    border: 2px solid var(--osh-orange);
+    border-radius: 8px;
+    overflow: hidden;
+}
