@@ -953,11 +953,7 @@
                 <i class="fas fa-shopping-bag"></i>
                 <h1>OshanCart</h1>
             </div>
-            <nav style="background: #000; padding: 10px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #222;">
-    <a href="index.html">
-        <img src="oshancart-logo.png" alt="OshanCart Logo" style="height: 50px; width: auto;">
-    </a>
-            </nav>
+           
             <div class="auth-buttons">
     <a href="signup.html" id="loginBtn" class="login-btn">Sign In / Register</a>
     
@@ -1003,27 +999,38 @@
 </div>
     </header>
 
-<header class="mobile-header">
-    <div style="display:flex; align-items:center; justify-content: space-between; padding: 10px 15px;">
-        <div style="display:flex; align-items:center; gap: 15px;">
-            <div class="menu-toggle-btn" onclick="toggleDrawer(true)" style="font-size: 22px; color: var(--osh-text-main); cursor: pointer;">
+<header class="mobile-header" style="background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding-bottom: 10px;">
+    <div style="display:flex; align-items:center; justify-content: space-between; padding: 12px 15px;">
+        
+        <div style="display:flex; align-items:center; gap: 12px;">
+            <div class="menu-toggle-btn" onclick="toggleDrawer(true)" style="font-size: 20px; color: #222; cursor: pointer;">
                 <i class="fas fa-bars"></i>
             </div>
             <div style="display: flex; align-items: center; cursor: pointer;" onclick="location.href='index.html'">
-                <img src="assets/oshancart-logo.png" alt="OshanCart Logo" style="height: 40px; width: auto;">
-                <span style="color:var(--osh-orange); font-size:22px; font-weight:800; margin-left: 8px;">OshanCart</span>
+                <img src="assets/oshancart-logo.png" alt="OshanCart Logo" style="height: 32px; width: auto;">
+                <span style="color:var(--osh-orange); font-size:18px; font-weight:800; margin-left: 5px; letter-spacing: -0.5px;">OshanCart</span>
             </div>
         </div>
         
-        <div style="display:flex; gap:20px; font-size:20px; color: var(--osh-text-main);">
-            <i class="fas fa-search" onclick="executeSearch('mobileSearchInput')"></i>
-            <i class="fas fa-shopping-cart" onclick="location.href='cart.html'"></i>
+        <div style="display:flex; align-items:center; gap:18px; font-size:19px; color: #222;">
+            
+            <div onclick="location.href='points.html'" style="color: var(--osh-orange); cursor: pointer; position: relative; display: flex; align-items: center;">
+                <i class="fas fa-calendar-check"></i>
+                <span style="position: absolute; top: -4px; right: -4px; width: 8px; height: 8px; background: #ff4757; border-radius: 50%; border: 1.5px solid #fff;"></span>
+            </div>
+
+            <i class="fas fa-search" onclick="document.getElementById('mobileSearchInput').focus()" style="cursor: pointer;"></i>
+            
+            <div onclick="location.href='cart.html'" style="position: relative; cursor: pointer; display: flex; align-items: center;">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCountMobile" style="position: absolute; top: -7px; right: -8px; background: #222; color: #fff; font-size: 9px; padding: 2px 5px; border-radius: 10px; font-weight: bold;">0</span>
+            </div>
         </div>
     </div>
 
-    <div style="background:#f4f4f4; border-radius:20px; display:flex; align-items:center; padding:8px 15px; margin: 0 15px 10px 15px;">
-        <i class="fas fa-search" style="color:#999;"></i>
-        <input type="text" id="mobileSearchInput" placeholder="Search OshanCart..." style="border:none; outline:none; background: transparent; margin-left:10px; width:100%;">
+    <div style="background:#f6f6f6; border-radius:25px; display:flex; align-items:center; padding:10px 18px; margin: 0 15px;">
+        <i class="fas fa-search" style="color:#999; font-size: 14px;"></i>
+        <input type="text" id="mobileSearchInput" placeholder="Search OshanCart..." style="border:none; outline:none; background: transparent; margin-left:10px; width:100%; font-size: 14px; color: #333;">
     </div>
 </header>
 
@@ -1035,9 +1042,7 @@
             <div class="rail-item" style="color:var(--osh-orange); font-weight:700;">Exclusive Deals <i class="fas fa-fire"></i></div>
         </aside>
 
-        <div class="slider-canvas">
-            <img src="https://ae01.alicdn.com/kf/S8f9038283307409292158866e40854d9I.jpg" class="slide-img" id="heroSlide" style="transition: 0.8s ease-in-out;">
-            
+        
             <div class="slide-caption animate__animated animate__fadeInUp">
                 <h2 id="slideTitle">GLOBAL TECH WEEK</h2>
                 <p id="slideSub">Up to 60% Off on Premium Electronics</p>
