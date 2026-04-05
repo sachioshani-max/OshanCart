@@ -397,3 +397,18 @@ body { top: 0px !important; }
         object-fit: cover;
     }
 }
+
+/* Mobile එකේදී Products පේළියට 2ක් පෙන්වීමට */
+@media screen and (max-width: 768px) {
+    .osh-product-grid, .products-showcase {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important; /* පේළියට හරියටම 2ක් */
+        gap: 10px !important;
+        padding: 10px !important;
+    }
+
+    .osh-card {
+        width: 100% !important; /* කාඩ් එකේ පළල grid එකට අනුව හැඩගැසීමට */
+        margin: 0 !important;
+    }
+}
