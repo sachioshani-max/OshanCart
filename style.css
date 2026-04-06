@@ -115,3 +115,51 @@ body {
 @media screen and (min-width: 769px) {
     .premium-bottom-nav { display: none !important; }
 }
+/* === SIDEBAR DRAWER STYLING === */
+.oshancart-drawer {
+    position: fixed;
+    top: 0;
+    left: -320px; /* පටන් ගන්නකොට මෙනූ එක වම් පැත්තේ හැංගිලා තියෙන්නේ */
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    z-index: 10001;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 5px 0 25px rgba(0,0,0,0.15);
+    overflow-y: auto;
+    display: block !important; /* HTML එකේ තියෙන පල්ලෙහාට පේන එක නතර කරයි */
+}
+
+/* මෙනූ එක Open වූ පසු */
+.oshancart-drawer.active {
+    left: 0;
+}
+
+/* මෙනූ එක පිටුපස ඇති අඳුරු පසුබිම (Mask) */
+.sidebar-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 10000;
+    display: none; /* සාමාන්‍ය වෙලාවට පෙන්නන්නේ නැහැ */
+    backdrop-filter: blur(3px);
+}
+
+/* Drawer එක ඇතුළේ ඇති අනෙකුත් Styling */
+.drawer-head { padding: 25px 20px; background: #f9f9f9; position: relative; border-bottom: 1px solid #eee; }
+.drawer-close { position: absolute; right: 15px; top: 15px; font-size: 24px; cursor: pointer; color: #666; }
+.drawer-section-label { padding: 15px 20px 5px; font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+.drawer-link { display: flex; align-items: center; padding: 12px 20px; text-decoration: none; color: #333; font-size: 14px; gap: 15px; transition: 0.2s; }
+.drawer-link:hover { background: #f0f0f0; color: var(--temu-orange); }
+.drawer-link i { width: 20px; font-size: 18px; color: #666; }
+
+/* Language Selector Grid */
+.lang-selector-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px 20px; }
+.lang-unit { text-align: center; font-size: 10px; padding: 8px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; }
+.lang-unit:hover { border-color: var(--temu-orange); }
+
+/* Logout Button */
+.logout-btn-full { width: 100%; padding: 12px; background: #fdeaea; color: #e74c3c; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
