@@ -259,3 +259,68 @@ body {
     }
 }
 
+/* AI Bot CSS - Professional Look */
+.ai-window {
+    position: fixed;
+    bottom: 100px;
+    right: 25px;
+    width: 350px;
+    height: 450px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    z-index: 10002;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+.ai-header {
+    background: #fb6433; /* Temu Orange */
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-chat-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background: #f9f9f9;
+}
+
+.ai-input-bar {
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+.ai-input-bar input {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 10px 15px;
+    outline: none;
+}
+
+.ai-send-btn {
+    background: #fb6433;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.msg { margin: 8px 0; padding: 10px 15px; border-radius: 15px; font-size: 14px; max-width: 80%; }
+.bot-msg { background: #eee; align-self: flex-start; border-bottom-left-radius: 2px; }
+.user-msg { background: #fb6433; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+
