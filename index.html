@@ -524,5 +524,41 @@ setInterval(() => {
     </div>
     </div>
     <script type="module" src="script.js"></script>
+    <div id="osh-ai-bot">
+    <div class="ai-window" id="aiWindow" style="display:none;">
+        <div class="ai-header">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div class="robot-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <div style="font-weight:700; font-size:15px;">Oshan AI Assistant</div>
+                    <div style="font-size:11px; opacity:0.8;"><i class="fas fa-circle" style="color:#00ff00; font-size:8px;"></i> AI Online</div>
+                </div>
+            </div>
+            <i class="fas fa-times" style="cursor:pointer; font-size: 20px;" onclick="toggleAI(false)"></i>
+        </div>
+
+        <div class="ai-chat-area" id="chatFlow">
+            <div class="msg bot-msg animate__animated animate__fadeIn">Hello! I am Oshan AI. How can I help you today? 😊</div>
+        </div>
+
+        <div id="typingIndicator" class="typing" style="display:none; padding: 10px 20px; font-size: 12px; color: #888;">
+            Oshan AI is thinking...
+        </div>
+
+        <div class="ai-input-bar">
+            <input type="text" id="aiQuery" placeholder="Ask anything..." onkeyup="if(event.key==='Enter') sendAIRequest()">
+            <button onclick="sendAIRequest()" class="ai-send-btn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="ai-launcher animate__animated animate__bounceIn" onclick="toggleAI(true)" id="launcherBtn">
+        <i class="fas fa-robot"></i>
+        <span class="online-dot"></span>
+    </div>
+</div>
 </body>
 </html>
