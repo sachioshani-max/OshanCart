@@ -202,3 +202,60 @@ body {
     #daily-checkin-toast { width: 90%; left: 5%; right: 5%; }
        }
 
+   /* Container එක පේළියට සකස් කිරීම */
+.nav-icons-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Icons අතර පරතරය */
+    justify-content: flex-end;
+}
+
+/* සෑම Icon Item එකක්ම සිරස් අතට පෙළගැස්වීම (Icon උඩ, Text යට) */
+.nav-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-size: 12px; /* Text එකේ ප්‍රමාණය */
+    transition: 0.2s;
+    position: relative;
+}
+
+.nav-icon-item i {
+    font-size: 20px; /* Icon එකේ ප්‍රමාණය */
+    margin-bottom: 4px;
+}
+
+.nav-icon-item:hover {
+    color: #fb6433; /* Temu Orange hover effect */
+}
+
+/* Cart Badge එක (රතු පාටින් icon එක උඩ පේන්න) */
+.cart-icon-wrapper {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #fb6433;
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 2px solid #fff;
+}
+
+/* Mobile එකේදී මෙනූ එකේ පෙනුම වෙනස් වීම වැළැක්වීමට */
+@media (max-width: 768px) {
+    .nav-icons-container {
+        gap: 12px;
+    }
+    .nav-icon-item span {
+        display: none; /* මොබයිල් එකේදී ඉඩ ඉතිරි කරගන්න අකුරු නැතිව icon විතරක් පෙන්විය හැක */
+    }
+}
+
