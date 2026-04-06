@@ -125,6 +125,45 @@ window.executeSearch = (inputId) => {
     if(val) window.location.href = `categories.html?search=${encodeURIComponent(val)}`;
 };
 
+// Oshan AI Logic
+window.toggleAI = (state) => {
+    const win = document.getElementById('aiWindow');
+    const btn = document.getElementById('launcherBtn');
+    if(state) {
+        win.style.display = 'flex';
+        btn.style.display = 'none';
+    } else {
+        win.style.display = 'none';
+        btn.style.display = 'flex';
+    }
+};
+
+window.sendAIRequest = () => {
+    const queryInput = document.getElementById('aiQuery');
+    const chatFlow = document.getElementById('chatFlow');
+    const typing = document.getElementById('typingIndicator');
+    const userText = queryInput.value.trim();
+
+    if(!userText) return;
+
+    // User Message
+    chatFlow.innerHTML += `<div class="msg user-msg">${userText}</div>`;
+    queryInput.value = "";
+    chatFlow.scrollTop = chatFlow.scrollHeight;
+
+    // Bot Response
+    typing.style.display = "block";
+    setTimeout(() => {
+        typing.style.display = "none";
+        let botText = "I'm still learning about " + userText + ". Can I help with orders?";
+        
+        if(userText.toLowerCase().includes("hi")) botText = "Hello Oshanian! How can I help you shop today?";
+        
+        chatFlow.innerHTML += `<div class="msg bot-msg">${botText}</div>`;
+        chatFlow.scrollTop = chatFlow.scrollHeight;
+    }, 1000);
+};
+
 // Start
 window.onload = () => {
     loadCoreProducts();
