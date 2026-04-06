@@ -217,27 +217,32 @@
                 <input type="text" id="globalSearch" class="search-input" placeholder="Search for products, brands and more...">
                 <button class="search-btn-big" onclick="executeSearch('globalSearch')"><i class="fas fa-search"></i></button>
             </div>
+<div class="header-right-actions">
+    <div class="nav-icons-container">
+        <a href="profile.html" class="nav-icon-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
 
-            <div class="action-icons">
-                <div class="nav-icon-group" onclick="location.href='edit-profile.html'">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Profile</span>
-                </div>
-                <div class="nav-icon-group" onclick="location.href='wishlist.html'">
-                    <i class="fas fa-heart"></i>
-                    <span>Wishlist</span>
-                </div>
-                <div class="nav-icon-group" onclick="location.href='cart.html'">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Cart</span>
-                    <span class="cart-badge" id="cartCountDesktop">0</span>
-                </div>
-                <div class="nav-icon-group" onclick="toggleDrawer(true)">
-                    <i class="fas fa-bars"></i>
-                    <span>Menu</span>
-                </div>
+        <a href="wishlist.html" class="nav-icon-item">
+            <i class="fas fa-heart"></i>
+            <span>Wishlist</span>
+        </a>
+
+        <a href="cart.html" class="nav-icon-item">
+            <div class="cart-icon-wrapper">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge">0</span>
             </div>
+            <span>Cart</span>
+        </a>
+
+        <div class="nav-icon-item" onclick="toggleDrawer(true)" style="cursor:pointer;">
+            <i class="fas fa-bars"></i>
+            <span>Menu</span>
         </div>
+    </div>
+</div>
     </header>
 
     <header class="mobile-header">
