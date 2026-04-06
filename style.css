@@ -324,3 +324,64 @@ body {
 .bot-msg { background: #eee; align-self: flex-start; border-bottom-left-radius: 2px; }
 .user-msg { background: #fb6433; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
 
+/* === GLOBAL THEME === */
+:root {
+    --temu-orange: #fb6433;
+    --shein-black: #222222;
+    --soft-gray: #f7f8fa;
+}
+
+/* === PROFESSIONAL DRAWER (SIDE MENU) === */
+.oshancart-drawer {
+    position: fixed; top: 0; left: -320px;
+    width: 310px; height: 100%;
+    background: #fff; z-index: 10001;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; flex-direction: column;
+    box-shadow: 15px 0 40px rgba(0,0,0,0.1);
+}
+.oshancart-drawer.active { left: 0; }
+
+.drawer-head {
+    padding: 40px 20px 20px; background: var(--soft-gray);
+    border-bottom: 1px solid #eee;
+}
+
+.drawer-section-label {
+    padding: 20px 20px 10px; font-size: 11px;
+    font-weight: 700; color: #999; text-transform: uppercase;
+}
+
+.drawer-link {
+    display: flex; align-items: center; padding: 14px 20px;
+    color: var(--shein-black); text-decoration: none; font-size: 15px;
+    transition: 0.2s; border-left: 4px solid transparent;
+}
+.drawer-link:hover {
+    background: #fff5f2; color: var(--temu-orange);
+    border-left-color: var(--temu-orange);
+}
+
+/* === PROFESSIONAL FOOTER (TEMU STYLE) === */
+.osh-footer {
+    background: #fff; border-top: 1px solid #eee;
+    padding: 50px 0 20px; margin-top: 50px;
+}
+.footer-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px; margin-bottom: 40px;
+}
+.footer-col h4 { font-size: 16px; margin-bottom: 20px; color: var(--shein-black); }
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col ul li { margin-bottom: 10px; }
+.footer-col ul li a { color: #666; text-decoration: none; font-size: 14px; }
+.footer-col ul li a:hover { color: var(--temu-orange); }
+
+.payment-methods img { height: 25px; margin-right: 10px; filter: grayscale(100%); transition: 0.3s; }
+.payment-methods img:hover { filter: grayscale(0%); }
+
+.bottom-copyright {
+    border-top: 1px solid #eee; padding-top: 20px;
+    text-align: center; font-size: 12px; color: #999;
+}
+
