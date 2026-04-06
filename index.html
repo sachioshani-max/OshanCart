@@ -100,241 +100,10 @@
     <button onclick="this.parentElement.style.display='none'" style="border:none; background:none; margin-left:15px; cursor:pointer;">&times;</button>
 </div>
 
-<div class="sidebar-mask" id="sideMask" onclick="toggleDrawer(false)" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9998;"></div>
-<div class="oshancart-drawer" id="mainDrawer" style="position:fixed; top:0; left:-300px; width:280px; height:100%; background:#fff; z-index:9999; transition:0.3s; overflow-y:auto; padding:20px; box-shadow: 2px 0 10px rgba(0,0,0,0.1);">
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:15px; margin-bottom:15px;">
-        <h2 style="margin:0; font-size:20px;">Menu</h2>
-        <i class="fas fa-times" onclick="toggleDrawer(false)" style="font-size:20px; cursor:pointer;"></i>
-    </div>
-    
-    <div style="display:flex; flex-direction:column; gap:15px;">
-        <a href="index.html" style="text-decoration:none; color:#333; font-weight:500;"><i class="fas fa-home" style="width:25px;"></i> Home</a>
-        <a href="edit-profile.html" style="text-decoration:none; color:#333; font-weight:500;"><i class="fas fa-user" style="width:25px;"></i> Personal Profile</a>
-        <a href="orders.html" style="text-decoration:none; color:#333; font-weight:500;"><i class="fas fa-box" style="width:25px;"></i> Order History</a>
-        <a href="wishlist.html" style="text-decoration:none; color:#333; font-weight:500;"><i class="fas fa-heart" style="width:25px;"></i> Saved Items</a>
-        <a href="wallet.html" style="text-decoration:none; color:#333; font-weight:500;"><i class="fas fa-wallet" style="width:25px;"></i> My Oshan Wallet</a>
-        <hr style="border:0; border-top:1px solid #eee;">
-        <a href="become-seller.html" style="text-decoration:none; color:var(--temu-orange); font-weight:700;"><i class="fas fa-store" style="width:25px;"></i> Become a Seller</a>
-        <a href="affiliate.html" style="text-decoration:none; color:#333; font-weight:500;"><i class="fas fa-handshake" style="width:25px;"></i> Affiliate Program</a>
-        <a href="referral.html" style="text-decoration:none; color:#333; font-weight:500;"><i class="fas fa-gift" style="width:25px;"></i> Referral Rewards</a>
-        <hr style="border:0; border-top:1px solid #eee;">
-        <a href="help.html" style="text-decoration:none; color:#333; font-weight:500;"><i class="fas fa-question-circle" style="width:25px;"></i> 24/7 Help Center</a>
-        <a href="contact.html" style="text-decoration:none; color:#333; font-weight:500;"><i class="fas fa-headset" style="width:25px;"></i> Contact Support</a>
-        <a href="privacy.html" style="text-decoration:none; color:#333; font-weight:500;"><i class="fas fa-shield-alt" style="width:25px;"></i> Data Privacy</a>
-        <button id="drawerLogoutBtn" onclick="handleLogout()" style="background:#ff4757; color:#fff; border:none; padding:10px; border-radius:5px; margin-top:10px; cursor:pointer; display:none;">Logout</button>
-    </div>
-</div>
 
-<header class="desktop-header" style="background:#fff; border-bottom:2px solid var(--temu-orange);">
-    <div style="background:#f5f5f5; padding:5px 5%; display:flex; justify-content:space-between; font-size:12px; color:#666;">
-        <div><a href="become-seller.html" style="color:inherit; text-decoration:none; margin-right:15px;">Sell on OshanCart</a> <a href="help.html" style="color:inherit; text-decoration:none;">Help & Support</a></div>
-        <div><span onclick="accessAdminZone()" style="cursor:pointer;"><i class="fas fa-user-shield"></i> Administration</span> | <span class="fi fi-lk"></span> Sri Lanka | LKR</div>
-    </div>
-    <div style="padding:15px 5%; display:flex; align-items:center; gap:30px;">
-        <div onclick="location.href='index.html'" style="cursor:pointer; display:flex; align-items:center; gap:10px;">
-            <i class="fas fa-shopping-bag" style="font-size:30px; color:var(--temu-orange);"></i>
-            <h1 style="margin:0; font-size:24px; color:#222; font-weight:800; letter-spacing:-1px;">OshanCart</h1>
-        </div>
-        <div style="flex-grow:1; display:flex;">
-            <input type="text" id="desktopSearch" placeholder="Search for products, brands..." style="width:100%; padding:12px 20px; border:2px solid var(--temu-orange); border-radius:30px 0 0 30px; outline:none; font-size:15px;">
-            <button onclick="executeSearch('desktopSearch')" style="background:var(--temu-orange); color:white; border:none; padding:0 30px; border-radius:0 30px 30px 0; cursor:pointer; font-size:18px;"><i class="fas fa-search"></i></button>
-        </div>
-        <div style="display:flex; gap:25px; align-items:center;">
-            <a href="signup.html" id="loginBtn" style="color:#333; text-decoration:none; font-weight:600;"><i class="fas fa-user"></i> Sign In</a>
-            <div id="checkinBtnDesktop" style="cursor:pointer; text-align:center; display:none;" onclick="location.href='points.html'"><i class="fas fa-calendar-check" style="font-size:20px; color:var(--temu-orange);"></i></div>
-            <div style="cursor:pointer; text-align:center;" onclick="location.href='cart.html'"><i class="fas fa-shopping-cart" style="font-size:24px;"></i></div>
-        </div>
-    </div>
-</header>
 
-<header class="mobile-header" style="background:#fff; padding:10px 15px; position:sticky; top:0; z-index:1000; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:none;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <div style="display:flex; align-items:center; gap:15px;">
-            <i class="fas fa-bars" onclick="toggleDrawer(true)" style="font-size:20px; color:var(--shein-black);"></i>
-            <span style="font-size:20px; font-weight:800; letter-spacing:-0.5px; color:var(--shein-black);">OshanCart</span>
-        </div>
-        <div style="display:flex; gap:15px; font-size:20px; color:var(--shein-black);">
-            <i class="fas fa-search" onclick="document.getElementById('mobileSearchInput').focus()"></i>
-            <i class="fas fa-shopping-bag" onclick="location.href='cart.html'"></i>
-        </div>
-    </div>
-    <div style="background:#f5f5f5; border-radius:20px; padding:8px 15px; display:flex; align-items:center;">
-        <i class="fas fa-search" style="color:#888; font-size:14px;"></i>
-        <input type="text" id="mobileSearchInput" placeholder="Shop by Category..." style="border:none; background:transparent; outline:none; width:100%; margin-left:10px; font-size:14px;">
-    </div>
-</header>
 
-<main class="container-wide">
-    <section class="hero-layout">
-        <aside class="category-rail" id="categoryRail">
-            <div style="font-weight:700; margin-bottom:15px; font-size:16px;">Categories</div>
-            <div style="display:flex; flex-direction:column; gap:12px; font-size:14px; color:#444;" id="categoryList">
-                </div>
-        </aside>
-
-        <div class="wow-slider-container">
-            <div id="sliderWrapper" style="display:flex; transition:transform 0.5s ease-in-out; height: 100%;">
-                <img src="https://ae01.alicdn.com/kf/S8f903828330740929215886e40854d9I.jpg" style="width:100%; object-fit:cover; flex-shrink:0;">
-                <img src="https://ae01.alicdn.com/kf/S7e0f8c2b5d4e4c9e8d4f1a2b3c4d5e6fG.jpg" style="width:100%; object-fit:cover; flex-shrink:0;">
-            </div>
-        </div>
-    </section>
-
-    <section style="margin-top: 30px;">
-        <h2 style="font-size: 20px; margin-bottom: 15px; padding-left: 5px;">Recommended For You</h2>
-        <div class="osh-product-grid" id="productContainer">
-            <div class="osh-card" style="background:#eaeaea; height:300px; animation: pulse 1.5s infinite;"></div>
-            <div class="osh-card" style="background:#eaeaea; height:300px; animation: pulse 1.5s infinite;"></div>
-            <div class="osh-card" style="background:#eaeaea; height:300px; animation: pulse 1.5s infinite;"></div>
-            <div class="osh-card" style="background:#eaeaea; height:300px; animation: pulse 1.5s infinite;"></div>
-        </div>
-    </section>
-</main>
-
-<nav class="premium-bottom-nav">
-    <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
-    <a href="categories.html"><i class="fas fa-th-large"></i> Category</a>
-    <a href="cart.html"><i class="fas fa-shopping-bag"></i> Cart</a>
-    <a href="wishlist.html"><i class="far fa-heart"></i> Saved</a>
-    <a href="edit-profile.html"><i class="far fa-user"></i> Me</a>
-</nav>
-
-<script type="module">
-    // 1. Firebase Modules Import
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    
-    // 2. Firebase Config (ඔබේ නිවැරදි Keys)
-    const firebaseConfig = {
-        apiKey: "AIzaSyDy430AP0t92QND_VdaoCkK0J23y2c5rkE",
-        authDomain: "oshancart.firebaseapp.com",
-        projectId: "oshancart",
-        storageBucket: "oshancart.appspot.com",
-        messagingSenderId: "686982543488",
-        appId: "1:686982543488:web:d74a83a3f53dbae3754e65"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-
-    // 3. EmailJS Config (ඔබේ නිවැරදි Keys)
-    const PUBLIC_KEY = "jfgAK0LaZ0w7RKAE8";
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init(PUBLIC_KEY);
-    }
-
-    // --- Auth & Check-in System ---
-    onAuthStateChanged(auth, async (user) => {
-        const loginBtn = document.getElementById('loginBtn');
-        const dLogoutBtn = document.getElementById('drawerLogoutBtn');
-        const checkinBtn = document.getElementById('checkinBtnDesktop');
-        
-        if (user) {
-            if(loginBtn) loginBtn.innerHTML = '<i class="fas fa-user-circle"></i> Profile';
-            if(loginBtn) loginBtn.href = 'edit-profile.html';
-            if(dLogoutBtn) dLogoutBtn.style.display = 'block';
-            if(checkinBtn) checkinBtn.style.display = 'block';
-        } else {
-            if(loginBtn) { loginBtn.innerHTML = '<i class="fas fa-user"></i> Sign In'; loginBtn.href = 'signup.html'; }
-            if(dLogoutBtn) dLogoutBtn.style.display = 'none';
-        }
-    });
-
-    window.handleLogout = () => {
-        signOut(auth).then(() => { alert("සාර්ථකව Logout විය!"); window.location.reload(); });
-    };
-
-    // --- Drawer Control ---
-    window.toggleDrawer = (state) => {
-        const drawer = document.getElementById('mainDrawer');
-        const mask = document.getElementById('sideMask');
-        if(state) {
-            mask.style.display = 'block';
-            drawer.style.left = '0';
-        } else {
-            drawer.style.left = '-300px';
-            mask.style.display = 'none';
-        }
-    };
-
-    // --- Product Loading (Temu/SHEIN Grid) ---
-    async function loadCoreProducts() {
-        const container = document.getElementById('productContainer');
-        if(!container) return;
-        
-        try {
-            const querySnapshot = await getDocs(collection(db, "products"));
-            container.innerHTML = ""; // Clear skeletons
-            
-            // Firebase එකේ Products නැත්නම් Demo 6ක් පෙන්නන්න
-            if(querySnapshot.empty) {
-                for(let i=0; i<6; i++) {
-                    container.innerHTML += createProductCard('demo'+i, {name: "Premium Product Item " + (i+1), price: "1999", image: "https://via.placeholder.com/300"});
-                }
-            } else {
-                querySnapshot.forEach((doc) => {
-                    container.innerHTML += createProductCard(doc.id, doc.data());
-                });
-            }
-        } catch(e) {
-            console.log("Error loading products:", e);
-        }
-    }
-
-    // Product Card Template
-    window.createProductCard = (id, p) => {
-        return `
-        <div class="osh-card animate__animated animate__fadeIn">
-            <div class="osh-card-img-wrap" onclick="window.location.href='product-details.html?id=${id}'">
-                <img src="${p.image || 'https://via.placeholder.com/300'}" class="osh-card-img" loading="lazy">
-            </div>
-            <div class="osh-card-content">
-                <div class="osh-p-title">${p.name}</div>
-                <div class="osh-p-price">Rs. ${p.price}</div>
-                <div style="font-size:10px; color:#ffb400; margin-top:5px;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span style="color:#999;">120+ sold</span></div>
-                <button onclick="addToCart('${id}', '${p.name}', ${p.price})" class="osh-add-btn">Add to Cart</button>
-            </div>
-        </div>`;
-    };
-
-    window.addToCart = (id, name, price) => alert(`${name} added to cart!`);
-    window.accessAdminZone = () => { if(prompt("Enter PIN:") === "Lakshan@2001") window.location.href="admin-dashboard.html"; };
-
-    // --- Startup Execution ---
-    window.onload = () => {
-        loadCoreProducts();
-
-        // Load Categories
-        const categories = ["Electronics ⚡", "Fashion 👗", "Home & Garden 🏠", "Jewelry 💍", "Ceylon Specials 🇱🇰", "Toys & Hobbies 🎯", "Automotive 🚗"];
-        const rail = document.getElementById('categoryList');
-        if(rail) rail.innerHTML = categories.map(cat => `<div style="cursor:pointer; padding:8px 0; border-bottom:1px solid #f0f0f0;" onclick="location.href='categories.html'">${cat}</div>`).join('');
-        
-        // Simple Slider Logic
-        let slideIndex = 0;
-        setInterval(() => {
-            const wrapper = document.getElementById('sliderWrapper');
-            slideIndex = slideIndex === 0 ? 1 : 0;
-            wrapper.style.transform = `translateX(-${slideIndex * 100}%)`;
-        }, 4000);
-    };
-</script>
-
-</body>
-</html>
-ඔබේ ප්‍රධාන ඉල්ලීම් වන:
-
-firebaseConfig සහ EmailJS අඩංගු කර ඇත.
-
-Menu එකේ (Drawer එකේ) ලින්ක් සියල්ල (edit-profile.html, orders.html, affiliate.html, help.html ආදී වශයෙන්) ඇතුළත් කර ඇත.
-
-Desktop එකට ලස්සන Temu Orange පෙනුම සහ Mobile එකට Bottom Navigation එකක් එක්ක SHEIN පෙනුම අන්තර්ගත කර ඇත.
-
-ඔබ මේ කේතය පරීක්ෂා කර බලන්න. ගැටලුවක් ඇත්නම් මට කියන්න! 😊
-</head>
-   
-<body>
+🙂
 
     <div id="daily-checkin-toast" class="notification-card animate__animated" style="display:none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10005;">
     <div class="notif-icon-wrap">
@@ -638,6 +407,14 @@ Desktop එකට ලස්සන Temu Orange පෙනුම සහ Mobile එ�
         <div class="ai-launcher" onclick="toggleAI(true)" id="launcherBtn">
             <i class="fas fa-robot"></i> </div>
     </div>
+    <nav class="premium-bottom-nav">
+    <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="categories.html"><i class="fas fa-th-large"></i> Category</a>
+    <a href="cart.html"><i class="fas fa-shopping-bag"></i> Cart</a>
+    <a href="wishlist.html"><i class="far fa-heart"></i> Saved</a>
+    <a href="edit-profile.html"><i class="far fa-user"></i> Me</a>
+</nav>
+
 
 <nav class="premium-bottom-nav">
     <div class="nav-container">
