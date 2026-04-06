@@ -178,8 +178,7 @@
 </a>
 <a href="privacy.html" class="drawer-link">
     <i class="fas fa-user-shield"></i> Privacy Policy
-</a>
-<a href="terms.html" class="drawer-link">
+</<a href="terms.html" class="drawer-link">
     <i class="fas fa-file-contract"></i> Terms & Conditions
 </a>
         <div style="padding:25px 20px;">
@@ -190,6 +189,10 @@
         </div>
     </div>
 </div>
+
+  <div class="sidebar-mask" id="sideMask" onclick="toggleDrawer(false)"></div>
+    <div class="oshancart-drawer" id="mainDrawer">
+        </div>
 
     <header class="desktop-header">
         <div class="top-utility-bar">
@@ -210,218 +213,87 @@
                 <h1>OshanCart</h1>
             </div>
            
-            <div class="auth-buttons">
-    <a href="signup.html" id="loginBtn" class="login-btn">Sign In / Register</a>
-    
-    <button id="logoutBtn" onclick="handleLogout()" class="login-btn" style="display:none; background-color: #e74c3c; border-color: #e74c3c;">Logout</button>
-            </div>
-
             <div class="search-container">
                 <input type="text" id="globalSearch" class="search-input" placeholder="Search for products, brands and more...">
-                <div class="search-tools">
-                    <i class="fas fa-microphone" title="Voice Search" onclick="initVoiceSearch()"></i>
-                    <i class="fas fa-camera" title="Image Search"></i>
-                </div>
-                <button class="search-btn-big" onclick="executeSearch()"><i class="fas fa-search"></i></button>
+                <button class="search-btn-big" onclick="executeSearch('globalSearch')"><i class="fas fa-search"></i></button>
             </div>
 
-           <div class="action-icons">
-    <div class="nav-icon-group" onclick="location.href='edit-profile.html'">
-        <i class="fas fa-user-circle"></i>
-        <span>Profile</span>
-    </div>
-
-    <div id="daily-checkin-widget" class="nav-icon-group" onclick="window.location.href='points.html'" style="color: var(--osh-orange); position: relative; cursor: pointer;">
-        <i class="fas fa-calendar-check"></i>
-        <span style="font-weight: 700;">Check-in</span>
-        <span style="position: absolute; top: 2px; right: 15px; width: 8px; height: 8px; background: red; border-radius: 50%; border: 2px solid white;"></span>
-    </div>
-
-    <div class="nav-icon-group" onclick="location.href='wishlist.html'">
-        <i class="fas fa-heart"></i>
-        <span>Wishlist</span>
-    </div>
-
-    <div class="nav-icon-group" onclick="location.href='cart.html'">
-        <i class="fas fa-shopping-cart"></i>
-        <span>Cart</span>
-        <span class="cart-badge" id="cartCountDesktop">0</span>
-    </div>
-
-    <div class="nav-icon-group" onclick="toggleDrawer(true)">
-        <i class="fas fa-bars"></i>
-        <span>Menu</span>
-    </div>
-</div>
+            <div class="action-icons">
+                <div class="nav-icon-group" onclick="location.href='edit-profile.html'">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Profile</span>
+                </div>
+                <div class="nav-icon-group" onclick="location.href='wishlist.html'">
+                    <i class="fas fa-heart"></i>
+                    <span>Wishlist</span>
+                </div>
+                <div class="nav-icon-group" onclick="location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                    <span class="cart-badge" id="cartCountDesktop">0</span>
+                </div>
+                <div class="nav-icon-group" onclick="toggleDrawer(true)">
+                    <i class="fas fa-bars"></i>
+                    <span>Menu</span>
+                </div>
+            </div>
+        </div>
     </header>
 
-<header class="mobile-header" style="background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding-bottom: 10px;">
-    <div style="display:flex; align-items:center; justify-content: space-between; padding: 12px 15px;">
-        
-        <div style="display:flex; align-items:center; gap: 12px;">
-            <div class="menu-toggle-btn" onclick="toggleDrawer(true)" style="font-size: 20px; color: #222; cursor: pointer;">
-                <i class="fas fa-bars"></i>
+    <header class="mobile-header">
+        <div style="display:flex; align-items:center; justify-content: space-between; padding: 12px 15px;">
+            <div style="display:flex; align-items:center; gap: 12px;">
+                <i class="fas fa-bars" onclick="toggleDrawer(true)" style="font-size: 20px;"></i>
+                <span style="color:var(--temu-orange); font-size:18px; font-weight:800;">OshanCart</span>
             </div>
-            <div style="display: flex; align-items: center; cursor: pointer;" onclick="location.href='index.html'">
-             
-                <span style="color:var(--osh-orange); font-size:18px; font-weight:800; margin-left: 5px; letter-spacing: -0.5px;">OshanCart</span>
+            <div style="display:flex; align-items:center; gap:18px; font-size:19px;">
+                <i class="fas fa-search" onclick="document.getElementById('mobileSearchInput').focus()"></i>
+                <div onclick="location.href='cart.html'" style="position: relative;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCountMobile" style="position: absolute; top: -7px; right: -8px; background: #222; color: #fff; font-size: 9px; padding: 2px 5px; border-radius: 10px;">0</span>
+                </div>
             </div>
         </div>
-        
-        <div style="display:flex; align-items:center; gap:18px; font-size:19px; color: #222;">
-            
-            <div onclick="location.href='points.html'" style="color: var(--osh-orange); cursor: pointer; position: relative; display: flex; align-items: center;">
-                <i class="fas fa-calendar-check"></i>
-                <span style="position: absolute; top: -4px; right: -4px; width: 8px; height: 8px; background: #ff4757; border-radius: 50%; border: 1.5px solid #fff;"></span>
-            </div>
-
-            <i class="fas fa-search" onclick="document.getElementById('mobileSearchInput').focus()" style="cursor: pointer;"></i>
-            
-            <div onclick="location.href='cart.html'" style="position: relative; cursor: pointer; display: flex; align-items: center;">
-                <i class="fas fa-shopping-cart"></i>
-                <span id="cartCountMobile" style="position: absolute; top: -7px; right: -8px; background: #222; color: #fff; font-size: 9px; padding: 2px 5px; border-radius: 10px; font-weight: bold;">0</span>
-            </div>
+        <div style="background:#f6f6f6; border-radius:25px; display:flex; align-items:center; padding:8px 18px; margin: 0 15px;">
+            <input type="text" id="mobileSearchInput" placeholder="Search OshanCart..." style="border:none; outline:none; background: transparent; width:100%; font-size: 14px;">
         </div>
-    </div>
+    </header>
 
-    <div style="background:#f6f6f6; border-radius:25px; display:flex; align-items:center; padding:10px 18px; margin: 0 15px;">
-        <i class="fas fa-search" style="color:#999; font-size: 14px;"></i>
-        <input type="text" id="mobileSearchInput" placeholder="Search OshanCart..." style="border:none; outline:none; background: transparent; margin-left:10px; width:100%; font-size: 14px; color: #333;">
-    </div>
-</header>
+    <main class="container-wide">
+        <section class="hero-layout">
+            <aside class="category-rail">
+                <div class="rail-header">ALL CATEGORIES</div>
+                <div id="categoryList"></div>
+            </aside>
 
-<main class="container-wide" style="padding-top: 10px;">
-    <section class="hero-layout" style="display: flex; gap: 20px; align-items: flex-start;">
-        <aside class="category-rail">
-            <div class="rail-header">ALL CATEGORIES</div>
-            <div id="categoryList"></div>
-            <div class="rail-item" style="color:var(--osh-orange); font-weight:700;">Exclusive Deals <i class="fas fa-fire"></i></div>
-        </aside>
-
-        <div class="wow-slider-container">
-            <div class="wow-slider-wrapper" id="sliderWrapper">
-                <div class="wow-slide">
-                    <img src="https://ae01.alicdn.com/kf/S8f903828330740929215886e40854d9I.jpg" alt="Tech Week">
-                    <div class="wow-caption">
-                        <h2>GLOBAL TECH WEEK</h2>
-                        <p>Up to 60% Off Premium Electronics</p>
-                        <button onclick="location.href='categories.html'">Shop Now</button>
-                    </div>
+            <div class="wow-slider-container">
+                <div class="wow-slider-wrapper" id="sliderWrapper">
+                    <div class="wow-slide"><img src="https://ae01.alicdn.com/kf/S8f903828330740929215886e40854d9I.jpg"></div>
+                    <div class="wow-slide"><img src="https://ae01.alicdn.com/kf/S7e0f8c2b5d4e4c9e8d4f1a2b3c4d5e6fG.jpg"></div>
                 </div>
-                <div class="wow-slide">
-                    <img src="https://ae01.alicdn.com/kf/S7e0f8c2b5d4e4c9e8d4f1a2b3c4d5e6fG.jpg" alt="New Arrivals">
-                    <div class="wow-caption">
-                        <h2>NEW ARRIVALS 2026</h2>
-                        <p>Explore the Latest Global Trends</p>
-                        <button>View Collection</button>
-                    </div>
+                <div class="wow-dots">
+                    <div class="w-dot active"></div><div class="w-dot"></div>
                 </div>
-                <div class="wow-slide">
-                    <img src="https://ae01.alicdn.com/kf/S6d5e4f3g2h1i0j9k8l7m6n5o4p3q2r1sT.jpg" alt="Price Drop">
-                    <div class="wow-caption">
-                        <h2>BIG PRICE DROP!</h2>
-                        <p>Lowest Prices for OshanCart Members</p>
-                        <button>Grab Deals</button>
-                    </div>
-                </div>
-                <div class="wow-slide">
-                    <img src="https://ae01.alicdn.com/kf/S5a4b3c2d1e0f9g8h7i6j5k4l3m2n1o0pU.jpg" alt="Tickets">
-                    <div class="wow-caption">
-                        <h2>EVENT TICKETS</h2>
-                        <p>Book Your Tickets with Special Offers</p>
-                        <button>Book Now</button>
-                    </div>
-                </div>
-                <div class="wow-slide">
-                    <img src="https://ae01.alicdn.com/kf/S4z3y2x1w0v9u8t7s6r5q4p3o2n1m0l9kV.jpg" alt="Gifts">
-                    <div class="wow-caption">
-                        <h2>SURPRISE GIFTS</h2>
-                        <p>Free Gift with Every Order Over Rs. 5000</p>
-                        <button>Details</button>
-                    </div>
-                </div>
-                <div class="wow-slide">
-                    <img src="https://ae01.alicdn.com/kf/S3e2d1c0b9a8f7g6h5i4j3k2l1m0n9o8pW.jpg" alt="Flash Sale">
-                    <div class="wow-caption">
-                        <h2>FLASH SALE</h2>
-                        <p>Ending in 02:00:00! Hurry Up!</p>
-                        <button style="background: #ff4757;">Buy Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="wow-dots">
-                <div class="w-dot active"></div>
-                <div class="w-dot"></div>
-                <div class="w-dot"></div>
-                <div class="w-dot"></div>
-                <div class="w-dot"></div>
-                <div class="w-dot"></div>
-            </div>
-        </div>
-    </section>
-</main>
-
-        <section class="products-showcase">
-            <div class="grid-header">
-                <h2>Recommended For You</h2>
-                <a href="#" style="color:var(--osh-orange); font-weight:600;">View All Items</a>
-            </div>
-
-            <div class="osh-product-grid" id="productContainer">
-                <div class="osh-card skeleton" style="height:300px;"></div>
-                <div class="osh-card skeleton" style="height:300px;"></div>
-                <div class="osh-card skeleton" style="height:300px;"></div>
-                <div class="osh-card skeleton" style="height:300px;"></div>
-                <div class="osh-card skeleton" style="height:300px;"></div>
-                <div class="osh-card skeleton" style="height:300px;"></div>
-                <div class="osh-card skeleton" style="height:300px;"></div>
-                <div class="osh-card skeleton" style="height:300px;"></div>
             </div>
         </section>
 
+        <section class="products-showcase">
+            <div class="osh-product-grid" id="productContainer">
+                </div>
+        </section>
     </main>
 
-<div id="osh-ai-bot">
-        <div class="ai-window" id="aiWindow">
-            <div class="ai-header">
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div class="robot-avatar">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div>
-                        <div style="font-weight:700; font-size:15px; letter-spacing: 0.5px;">Oshan AI Assistant</div>
-                        <div style="font-size:11px; opacity:0.8;"><i class="fas fa-circle" style="color:#00ff00; font-size:8px;"></i> AI Online</div>
-                    </div>
-                </div>
-                <i class="fas fa-times" style="cursor:pointer; font-size: 20px;" onclick="toggleAI(false)"></i>
-            </div>
-
-            <div class="ai-chat-area" id="chatFlow">
-                <div class="msg bot-msg">Hello! I am Oshan AI. How can you help today? 😊</div>
-                <div id="typingIndicator" class="typing">Oshan AI is thinking...</div>
-            </div>
-
-            <div class="ai-input-bar">
-                <input type="text" id="aiQuery" placeholder="Ask anything..." onkeyup="if(event.key==='Enter') sendAIRequest()">
-                <button onclick="sendAIRequest()" style="background:var(--osh-orange); color:white; border:none; width:45px; height:45px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: 0.3s;">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-
-        <div class="ai-launcher" onclick="toggleAI(true)" id="launcherBtn">
-            <i class="fas fa-robot"></i> </div>
+    <div class="ai-launcher" onclick="toggleAI(true)" id="launcherBtn" style="position:fixed; bottom:80px; right:20px; z-index:1001; background:var(--temu-orange); color:white; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(0,0,0,0.2); cursor:pointer;">
+        <i class="fas fa-robot"></i>
     </div>
-    
-    <nav class="premium-bottom-nav">
-    <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
-    <a href="categories.html"><i class="fas fa-th-large"></i> Category</a>
-    <a href="cart.html"><i class="fas fa-shopping-bag"></i> Cart</a>
-    <a href="wishlist.html"><i class="far fa-heart"></i> Saved</a>
-    <a href="edit-profile.html"><i class="far fa-user"></i> Me</a>
-</nav>
 
+    <nav class="premium-bottom-nav">
+        <a href="index.html" class="active"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="categories.html"><i class="fas fa-th-large"></i><span>Category</span></a>
+        <a href="cart.html"><i class="fas fa-shopping-bag"></i><span>Cart</span></a>
+        <a href="wishlist.html"><i class="far fa-heart"></i><span>Saved</span></a>
+        <a href="edit-profile.html"><i class="far fa-user"></i><span>Me</span></a>
+    </nav>
 
 
 
