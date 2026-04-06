@@ -178,3 +178,19 @@ window.onload = () => {
         }, 5000);
     }
 };
+
+// Logo එක Update කිරීම (Firebase එකෙන් අවශ්‍ය නම්)
+const updateLogo = (url) => {
+    document.querySelectorAll('.brand-logo img').forEach(img => {
+        img.src = url || 'oshancart-logo.png';
+    });
+};
+
+// EmailJS හරහා Welcome Email එකක් යැවීමට (Register වුණාම)
+const sendWelcomeEmail = (userEmail, userName) => {
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        to_name: userName,
+        to_email: userEmail,
+        message: "Welcome to OshanCart Global! Your premium shopping experience starts here."
+    });
+};
