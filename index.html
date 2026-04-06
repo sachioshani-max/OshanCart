@@ -94,12 +94,12 @@
     </style>
 </head>
 <body>
-<div id="daily-checkin-toast" class="notification-card animate__animated">
+
+  <div id="daily-checkin-toast" class="notification-card animate__animated animate__fadeInDown">
     <div class="notif-icon-wrap">
         <img src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png" alt="OshanCart">
         <span class="s-badge">O</span>
     </div>
-    
     <div class="notif-body-text" onclick="window.location.href='points.html'">
         <div class="notif-top">
             <span class="notif-name">OSHANCART • REWARDS</span>
@@ -107,9 +107,8 @@
         </div>
         <p class="notif-msg">Your Daily Check-in is ready! Claim your <b>+1 Point</b> today. 🎁</p>
     </div>
-    
-    <button class="notif-close-btn" onclick="event.stopPropagation(); document.getElementById('daily-checkin-toast').style.display='none'">&times;</button>
-</div>
+    <button class="notif-close-btn" onclick="event.stopPropagation(); document.getElementById('daily-checkin-toast').style.display='none'" style="background:none; border:none; font-size:20px; cursor:pointer; color:#ccc;">&times;</button>
+  </div>  
     
 <div class="sidebar-mask" id="sideMask" onclick="toggleDrawer(false)"></div>
 
