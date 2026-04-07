@@ -362,29 +362,105 @@ body {
     border-left-color: var(--temu-orange);
 }
 
-/* === PROFESSIONAL FOOTER (TEMU STYLE) === */
-.osh-footer {
-    background: #fff; border-top: 1px solid #eee;
-    padding: 50px 0 20px; margin-top: 50px;
+/* --- Global Professional Footer Styles --- */
+.osh-footer-global {
+    background: #fff;
+    border-top: 1px solid #eee;
+    color: #333;
+    font-family: 'Segoe UI', Roboto, sans-serif;
 }
-.footer-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px; margin-bottom: 40px;
+
+/* Benefits Bar */
+.footer-benefits {
+    background: #f7f7f7;
+    padding: 30px 0;
+    border-bottom: 1px solid #eee;
 }
-.footer-col h4 { font-size: 16px; margin-bottom: 20px; color: var(--shein-black); }
+
+.benefit-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.benefit-item i {
+    font-size: 28px;
+    color: #fb6433; /* Temu Orange */
+}
+
+.benefit-item strong { display: block; font-size: 14px; }
+.benefit-item p { font-size: 12px; color: #777; margin: 0; }
+
+/* Main Content */
+.footer-main-content { padding: 50px 0; }
+
+.footer-link-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px;
+}
+
+.footer-col h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #222;
+}
+
 .footer-col ul { list-style: none; padding: 0; }
-.footer-col ul li { margin-bottom: 10px; }
-.footer-col ul li a { color: #666; text-decoration: none; font-size: 14px; }
-.footer-col ul li a:hover { color: var(--temu-orange); }
-
-.payment-methods img { height: 25px; margin-right: 10px; filter: grayscale(100%); transition: 0.3s; }
-.payment-methods img:hover { filter: grayscale(0%); }
-
-.bottom-copyright {
-    border-top: 1px solid #eee; padding-top: 20px;
-    text-align: center; font-size: 12px; color: #999;
+.footer-col ul li { margin-bottom: 12px; }
+.footer-col ul li a {
+    text-decoration: none;
+    color: #666;
+    font-size: 13px;
+    transition: 0.2s;
 }
 
+.footer-col ul li a:hover { color: #fb6433; text-decoration: underline; }
+
+/* Payment Bar */
+.footer-bottom-bar {
+    padding: 25px 0;
+    border-top: 1px solid #eee;
+    background: #fff;
+}
+
+.bottom-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.payment-partners img {
+    height: 22px;
+    margin-right: 15px;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.payment-partners img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+.copyright-text { font-size: 12px; color: #999; }
+
+/* Mobile View */
+@media (max-width: 768px) {
+    .footer-link-grid { grid-template-columns: 1fr; gap: 30px; }
+    .footer-benefits { display: none; } /* Mobile එකේදී benefits සැඟවීම (App style) */
+    .bottom-flex { justify-content: center; text-align: center; }
+}
 /* --- GLOBAL HEADER THEME (Temu & SHEIN Style) --- */
 
 /* 1. උඩම තියෙන අළු පාට Utility Bar එක */
