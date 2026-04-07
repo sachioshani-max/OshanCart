@@ -385,3 +385,48 @@ body {
     text-align: center; font-size: 12px; color: #999;
 }
 
+/* Header එක උඩම තියෙන අළු පාට පටිය (Utility Bar) */
+.top-utility-bar {
+    background-color: #f7f7f7; /* ලා අළු පාට - Temu Style */
+    padding: 8px 5%;
+    display: flex;
+    justify-content: space-between; /* කොටස් දෙපැත්තට තල්ලු කරයි */
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    font-size: 12px;
+}
+
+/* ලින්ක් ටික පේළියට සකස් කිරීම */
+.top-links-group {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* ලින්ක් අතර පරතරය */
+}
+
+.top-link-item {
+    color: #666;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.top-link-item:hover {
+    color: #fb6433; /* Temu Orange hover එක */
+}
+
+/* 'Sell on OshanCart' වගේ ලින්ක් එකක් විශේෂයෙන් පෙන්වීමට */
+.highlight-link {
+    font-weight: 700;
+    color: #333;
+}
+
+/* Mobile එකේදී මේ Utility Bar එක සැඟවීමට (අවශ්‍ය නම්) */
+@media (max-width: 768px) {
+    .top-utility-bar {
+        display: none; 
+    }
+}
+
