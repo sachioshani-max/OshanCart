@@ -385,22 +385,24 @@ body {
     text-align: center; font-size: 12px; color: #999;
 }
 
-/* Header එක උඩම තියෙන අළු පාට පටිය (Utility Bar) */
+/* --- GLOBAL HEADER THEME (Temu & SHEIN Style) --- */
+
+/* 1. උඩම තියෙන අළු පාට Utility Bar එක */
 .top-utility-bar {
-    background-color: #f7f7f7; /* ලා අළු පාට - Temu Style */
+    background-color: #f7f7f7;
     padding: 8px 5%;
     display: flex;
-    justify-content: space-between; /* කොටස් දෙපැත්තට තල්ලු කරයි */
+    justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #eee;
     font-size: 12px;
 }
 
-/* ලින්ක් ටික පේළියට සකස් කිරීම */
+/* 2. Utility Bar එකේ ලින්ක් ගෘප් එක පේළියට තැබීම */
 .top-links-group {
     display: flex;
     align-items: center;
-    gap: 20px; /* ලින්ක් අතර පරතරය */
+    gap: 20px;
 }
 
 .top-link-item {
@@ -410,39 +412,67 @@ body {
     transition: 0.2s;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
 }
 
 .top-link-item:hover {
-    color: #fb6433; /* Temu Orange hover එක */
+    color: #fb6433; /* Temu Orange */
 }
 
-/* 'Sell on OshanCart' වගේ ලින්ක් එකක් විශේෂයෙන් පෙන්වීමට */
-.highlight-link {
-    font-weight: 700;
-    color: #333;
-}
-
-/* Mobile එකේදී මේ Utility Bar එක සැඟවීමට (අවශ්‍ය නම්) */
-@media (max-width: 768px) {
-    .top-utility-bar {
-        display: none; 
-    }
-}
-
-/* Header එක පේළියට සකස් කිරීම */
-.top-utility-bar, .main-nav, .header-actions {
+/* 3. Main Navigation සහ Header Actions එක පේළියට (Flex) සකස් කිරීම */
+/* මෙතනදී තමයි Profile, Wishlist, Cart ටික පේළියට එන්නේ */
+.main-nav, 
+.header-actions {
     display: flex !important;
     flex-direction: row !important;
     align-items: center;
     justify-content: space-between;
 }
 
+/* 4. එක අයිකන් එකක් (Item) ඇතුළත පෙනුම (Icon එකට යටින් Text එක) */
 .action-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-left: 20px;
     cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    font-size: 11px;
+}
+
+.action-item i {
+    font-size: 20px;
+    margin-bottom: 3px;
+    transition: 0.2s;
+}
+
+.action-item:hover {
+    color: #fb6433;
+}
+
+/* 5. විශේෂ ලින්ක් එකක් පෙන්වීමට (Sell on OshanCart) */
+.highlight-link {
+    font-weight: 700;
+    color: #333;
+}
+
+/* --- RESPONSIVE SETTINGS --- */
+
+/* Mobile එකේදී (768px ට වඩා අඩු විට) */
+@media (max-width: 768px) {
+    /* උඩම තියෙන අළු පාට පටිය මොබයිල් එකේදී ඉවත් කරයි (App එකක් වගේ පෙනීමට) */
+    .top-utility-bar {
+        display: none !important; 
+    }
+
+    /* මොබයිල් එකේදී අයිකන් අතර පරතරය අඩු කරයි */
+    .action-item {
+        margin-left: 12px;
+    }
+
+    .action-item span {
+        display: none; /* මොබයිල් එකේදී අකුරු හංගලා අයිකන් විතරක් පෙන්වයි */
+    }
 }
 
