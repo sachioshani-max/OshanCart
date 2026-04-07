@@ -430,3 +430,19 @@ body {
     }
 }
 
+/* Header එක පේළියට සකස් කිරීම */
+.top-utility-bar, .main-nav, .header-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
