@@ -210,24 +210,28 @@
         </div>
     </div>
 </div>
+<div class="sidebar-mask" id="sideMask" onclick="toggleDrawer(false)"></div>
 
-  <div class="sidebar-mask" id="sideMask" onclick="toggleDrawer(false)"></div>
-    <div class="oshancart-drawer" id="mainDrawer">
+<div class="oshancart-drawer" id="mainDrawer">
+    </div>
+
+<header class="desktop-header">
+    <div class="top-utility-bar">
+        <div class="top-links-group">
+            <a href="become-seller.html" class="top-link-item highlight-link">Sell on OshanCart</a>
+            <a href="help.html" class="top-link-item">Help & Support</a>
+            <span class="top-link-item" onclick="toggleTheme()"><i class="fas fa-adjust"></i> Appearance</span>
         </div>
-
-    <header class="desktop-header">
-        <div class="top-utility-bar">
-            <div class="top-links">
-                <a href="become-seller.html">Sell on OshanCart</a>
-                <a href="help.html">Help & Support</a>
-                <span onclick="toggleTheme()"><i class="fas fa-adjust"></i> Appearance</span>
-            </div>
-            <div class="top-links">
-                <span onclick="accessAdminZone()"><i class="fas fa-user-shield"></i> Administration</span>
-                <span id="marketDisplay"><span class="fi fi-lk"></span> Sri Lanka | LKR</span>
-            </div>
+        
+        <div class="top-links-group">
+            <span class="top-link-item" onclick="accessAdminZone()"><i class="fas fa-user-shield"></i> Administration</span>
+            <span id="marketDisplay" class="top-link-item">
+                <span class="fi fi-lk"></span> Sri Lanka | LKR
+            </span>
         </div>
-
+    </div>
+</header>
+    
         <div class="main-navbar">
             <div class="brand-logo" onclick="location.href='index.html'">
                 <i class="fas fa-shopping-bag"></i>
@@ -238,6 +242,7 @@
                 <input type="text" id="globalSearch" class="search-input" placeholder="Search for products, brands and more...">
                 <button class="search-btn-big" onclick="executeSearch('globalSearch')"><i class="fas fa-search"></i></button>
             </div>
+            
 <div class="header-right-actions">
     <div class="nav-icons-container">
         <a href="profile.html" class="nav-icon-item">
